@@ -1,5 +1,5 @@
 > [!WARNING]
-> This app is in dormant mode, and there are some known issue about the local collection. Hopefully will be maintained again in April/June.
+> This app is in dormant mode, and there are some known issues specifically about the local collection. Hopefully will be maintained again in April/June.
 
 <img src="./media/banner.png" align="center"></img>
 <h1 align="center"> [VNDB Lite] </h1>
