@@ -24,7 +24,7 @@ class AboutScreen extends ConsumerWidget {
       "urlDomain": "mailto:",
       "id": [
         // "daniel_cj@mail2tor.com", // Alternate
-        "dancj.undergrad568@passinbox.com", // Despite of how sketchy it is, it's actually legit.
+        "dcj.dandy800@passinbox.com",
       ],
       "icon": Icon(
         Icons.email,

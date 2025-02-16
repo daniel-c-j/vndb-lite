@@ -49,7 +49,7 @@ class _LocalNotificationManager {
 
   Future<void> askPermissions() async {
     if (Platform.isAndroid) {
-      instance
+      await instance
           .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
           .requestNotificationsPermission();
 
