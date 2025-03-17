@@ -1,4 +1,5 @@
 > [!WARNING]
+> This app may contain explicit content, so viewer discretion is strongly advised. 
 > This app is in dormant mode, and there are some known issues specifically about the local collection. Hopefully will be maintained again in April/June.
 
 <img src="./media/banner.png" align="center"></img>
