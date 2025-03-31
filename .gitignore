@@ -13,9 +13,11 @@ migrate_working_dir/
 TODO.txt
 ver.txt
 *drawio.png
-ic_stat_icon_app.zip
 Checklist.pdf
 *.psd
+*REMINDER.txt
+*.code-workspace
+*README_ALT.md
 
 # IntelliJ related
 *.iml
