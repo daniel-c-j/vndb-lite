@@ -44,7 +44,9 @@ It is a website that houses a large public database of Visual Novels, hence the 
 
 > Do read the disclaimer above first please.
 
-This app is built using <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white"></img> , and is still in development, and is heavily inspired by Tachiyomi (A digital comic reading app), someone from reddit which I forgot, and a picture I found from the internet which looks really cool! That picture gave me a lot of inspiration. I tried to make one like that, but I ended up having a lite version and a sleep apnea instead.
+Built with [**Flutter**](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white) 
+
+This app is still in development, and is heavily inspired by Tachiyomi (A digital comic reading app), someone from reddit which I forgot, and a picture I found from the internet which looks really cool! That picture gave me a lot of inspiration. I tried to make one like that, but I ended up having a lite version and a sleep apnea instead.
 
 <img src="./media/inspiration.png" width="350px" height = "250px"></img>
 
