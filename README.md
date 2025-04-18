@@ -19,7 +19,7 @@ This project, **VNDB Lite**, is not an official app advertised by the official [
 
 
 ## Community and support
-This is a very new project with a lot of potential to improve. If you'd like to help out, please give it a star 🌟 and share it with the others! You can also jump in and start contributing right away! Just fork the project and suggest any changes you'd like me to consider. That'll be very helpful for a junior self-taught developer like me.
+This is a very new project with a lot of potential to improve. If you'd like to help out, please give it a star 🌟 and share it with the others! You can also jump in and start contributing right away! Just fork the project and suggest any changes you'd like me to consider. That'll be very helpful for a small developer like me.
 
 And hey, I'm always open for donation!
 
@@ -61,7 +61,7 @@ Unfortunately and currently, I don't have any IOS device to neither build nor ev
 As the name stated: **Lite**, this app does not cover the entire feature you might found in the original website itself, though, some of the fundamentals are covered in this app.
 
 Here are the features:
-1. Up to 11 VNDB official themes
+1. Up to 11 VNDB official themes (though some of them sucks, I really am following the official theme, so don't blame me lol)
 
 2. Previews of VNs (Based on latest user collection, and Top-bys)
 <br>[![Previews](https://img.icons8.com/ios-filled/50/000000/video.png)](https://github.com/Daniel-C-J/vndb-lite/raw/refs/heads/master/media/feature/preview.mkv)
