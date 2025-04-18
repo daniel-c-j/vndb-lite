@@ -64,10 +64,10 @@ Here are the features:
 1. Up to 11 VNDB official themes
 
 2. Previews of VNs (Based on latest user collection, and Top-bys)
-<br>[![Previews](https://img.icons8.com/ios-filled/50/000000/video.png)](https://github.com/Daniel-C-J/vndb-lite/raw/refs/heads/alpha/media/feature/preview.mkv)
+<br>[![Previews](https://img.icons8.com/ios-filled/50/000000/video.png)](https://github.com/Daniel-C-J/vndb-lite/raw/refs/heads/master/media/feature/preview.mkv)
 
 3. Advanced search
-<br>[![Previews](https://img.icons8.com/ios-filled/50/000000/video.png)](https://github.com/Daniel-C-J/vndb-lite/raw/refs/heads/alpha/media/feature/adv_search.mkv)
+<br>[![Previews](https://img.icons8.com/ios-filled/50/000000/video.png)](https://github.com/Daniel-C-J/vndb-lite/raw/refs/heads/master/media/feature/adv_search.mkv)
 
 4.   Easy to save vn selection and multiselection
 <br><img src ="./media/feature/selection.png" width=150></img>
@@ -142,7 +142,23 @@ start . # To quickly opens file explorer to see for yourself the output.
 ```
 
 5. And you're done! Congrats 🎉!
-   
+
+
+## Usage   
+
+Well there's no real official documentation yet for this project, and it is as simple as managing your own library. So have fun, and experiment with it!
+
+<img src="./media/screenshots/Screenshot_01.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_02.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_03.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_04.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_05.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_06.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_07.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_08.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_09.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_10.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+  
    
 ## License
 [Apache-2.0](./LICENSE)
