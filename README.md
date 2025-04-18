@@ -64,10 +64,10 @@ Here are the features:
 1. Up to 11 VNDB official themes
 
 2. Previews of VNs (Based on latest user collection, and Top-bys)
-<br>[preview.webm](https://github.com/user-attachments/assets/d872e61b-fdc5-41b5-be53-15e920da87de)
+<br>[![Previews](https://img.icons8.com/ios-filled/50/000000/video.png)](./media/feature/preview.mkv)
 
 3. Advanced search
-<br>[adv_search.webm](https://github.com/user-attachments/assets/473b648c-650f-4928-bb3a-4bef78fd9b27)
+<br>[![Previews](https://img.icons8.com/ios-filled/50/000000/video.png)](./media/feature/adv_search.mkv)
 
 4.   Easy to save vn selection and multiselection
 <br><img src ="./media/feature/selection.png" width=150></img>
