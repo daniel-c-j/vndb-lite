@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
@@ -5,25 +7,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+
+import '../../constants/_constants.dart';
 
 part 'dio_factory.g.dart';
 
-const String applicationJson = "application/json";
-const String contentType = "content-type";
-const String authorization = "Authorization";
-const String accept = "accept";
-const int apiTimeOut = 60000;
-
-final Map<String, String> dioHeaders = {
-  contentType: applicationJson,
-  accept: applicationJson,
-};
-
+/// Dio with basic configurations.
 class DioFactory {
   Dio getDio() {
     final Dio dio = Dio();
 
+    // Certificate issue handler.
     dio.httpClientAdapter = IOHttpClientAdapter(
       createHttpClient: () {
         final HttpClient client = HttpClient(context: SecurityContext(withTrustedRoots: false));
@@ -33,14 +27,17 @@ class DioFactory {
     );
 
     dio.options = BaseOptions(
-      baseUrl: Default.BASE_URL,
-      headers: dioHeaders,
-      contentType: applicationJson,
-      receiveTimeout: const Duration(milliseconds: apiTimeOut),
-      sendTimeout: const Duration(milliseconds: apiTimeOut),
-      connectTimeout: const Duration(milliseconds: apiTimeOut),
+      headers: {
+        NetConsts.CONTENT_TYPE: NetConsts.APPLICATION_JSON,
+        NetConsts.ACCEPT: NetConsts.APPLICATION_JSON,
+      },
+      contentType: NetConsts.APPLICATION_JSON,
+      receiveTimeout: const Duration(milliseconds: NetConsts.API_TIMEOUT),
+      sendTimeout: const Duration(milliseconds: NetConsts.API_TIMEOUT),
+      connectTimeout: const Duration(milliseconds: NetConsts.API_TIMEOUT),
     );
 
+    // If not in release mode, log network requests with dio
     if (!kReleaseMode) {
       dio.interceptors.add(
         PrettyDioLogger(
@@ -56,6 +53,6 @@ class DioFactory {
 }
 
 @riverpod
-DioFactory dioFactory(Ref ref) {
-  return DioFactory();
+Dio dio(Ref ref) {
+  return DioFactory().getDio();
 }

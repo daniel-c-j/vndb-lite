@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/constants/network_constant.dart';
+import 'package:vndb_lite/src/constants/network_constants.dart';
 import 'package:vndb_lite/src/core/network/api_service.dart';
 import 'package:vndb_lite/src/features/search/domain/generic_vn_post.dart';
 
@@ -18,10 +18,7 @@ class RemoteVnRepo {
   Future<Response> fetchP1Data(String vnId, {CancelToken? cancelToken}) async {
     return await _apiService.post(
       endPoint: vnEndpoint,
-      data: GenericPost(
-        filters: ["id", "=", vnId],
-        fields: APIConstants.P1_FIELDS,
-      ).toMap(),
+      data: GenericPost(filters: ["id", "=", vnId], fields: NetConsts.P1_FIELDS).toMap(),
       cancelToken: cancelToken,
     );
   }
@@ -29,10 +26,7 @@ class RemoteVnRepo {
   Future<Response> fetchP2aData(String vnId, {CancelToken? cancelToken}) async {
     return await _apiService.post(
       endPoint: vnEndpoint,
-      data: GenericPost(
-        filters: ["id", "=", vnId],
-        fields: APIConstants.P2a_FIELDS,
-      ).toMap(),
+      data: GenericPost(filters: ["id", "=", vnId], fields: NetConsts.P2a_FIELDS).toMap(),
       cancelToken: cancelToken,
     );
   }
@@ -40,14 +34,15 @@ class RemoteVnRepo {
   Future<Response> fetchP2bData(String vnId, {CancelToken? cancelToken}) async {
     return await _apiService.post(
       endPoint: releaseEndpoint,
-      data: GenericPost(
-        filters: [
-          "vn",
-          "=",
-          ["id", "=", vnId]
-        ],
-        fields: APIConstants.P2b_FIELDS,
-      ).toMap(),
+      data:
+          GenericPost(
+            filters: [
+              "vn",
+              "=",
+              ["id", "=", vnId],
+            ],
+            fields: NetConsts.P2b_FIELDS,
+          ).toMap(),
       cancelToken: cancelToken,
     );
   }
@@ -55,10 +50,7 @@ class RemoteVnRepo {
   Future<Response> fetchP3Data(String vnId, {CancelToken? cancelToken}) async {
     return await _apiService.post(
       endPoint: vnEndpoint,
-      data: GenericPost(
-        filters: ["id", "=", vnId],
-        fields: APIConstants.P3_FIELDS,
-      ).toMap(),
+      data: GenericPost(filters: ["id", "=", vnId], fields: NetConsts.P3_FIELDS).toMap(),
       cancelToken: cancelToken,
     );
   }

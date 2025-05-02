@@ -6,11 +6,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.vndb_lite"
+    namespace = "com.vndblite.dcj"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -21,7 +22,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.vndb_lite"
+        applicationId = "com.vndblite.dcj"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -35,7 +36,6 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
 			
-			// Configurations
 			isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

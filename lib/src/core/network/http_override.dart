@@ -1,7 +1,9 @@
+// coverage:ignore-file
+
 import 'dart:io';
 
+/// Preventing connection issues.
 class MyHttpOverrides extends HttpOverrides {
-  // Preventing connection issues when initiating api calls.
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)

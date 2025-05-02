@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/constants/conf.dart';
-import 'package:vndb_lite/src/constants/local_storage_constants.dart';
-import 'package:vndb_lite/src/core/app/shared_prefs.dart';
+import 'package:vndb_lite/src/constants/local_db_constants.dart';
+import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/settings/domain/settings_data_conf.dart';
 
 part 'settings_data_state.g.dart';
@@ -10,9 +10,7 @@ part 'settings_data_state.g.dart';
 class SettingsDataState extends _$SettingsDataState {
   @override
   SettingsDataConf build() {
-    return SettingsDataConf(
-      autoUpdate: _autoUpdate,
-    );
+    return SettingsDataConf(autoUpdate: _autoUpdate);
   }
 
   // TODO Should talk to repo instead of directly?

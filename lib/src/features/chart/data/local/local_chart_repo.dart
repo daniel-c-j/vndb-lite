@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vndb_lite/src/constants/local_storage_constants.dart';
-import 'package:vndb_lite/src/core/app/shared_prefs.dart';
+import 'package:vndb_lite/src/constants/local_db_constants.dart';
+import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/chart/data/search_chart._data.dart';
 
 part 'local_chart_repo.g.dart';

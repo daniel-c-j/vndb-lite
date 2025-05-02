@@ -1,7 +1,7 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/core/app/shared_prefs.dart';
+import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/collection/application/collection_vn_service.dart';
 import 'package:vndb_lite/src/features/collection/data/local/local_collection_repo.dart';
 import 'package:vndb_lite/src/features/collection/domain/record.dart';

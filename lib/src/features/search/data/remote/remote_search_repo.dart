@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/constants/conf.dart';
-import 'package:vndb_lite/src/constants/network_constant.dart';
+import 'package:vndb_lite/src/constants/network_constants.dart';
 import 'package:vndb_lite/src/core/network/api_service.dart';
 import 'package:vndb_lite/src/features/search/data/search_repo_abstract.dart';
 import 'package:vndb_lite/src/features/search/domain/generic_vn_post.dart';
@@ -32,7 +32,7 @@ class RemoteSearchRepoImpl implements RemoteSearchRepo {
     required FilterData filterData,
   }) {
     return GenericPost(
-      fields: APIConstants.P1_FIELDS,
+      fields: NetConsts.P1_FIELDS,
       filters: filterData.toList(),
       sort: sortData.sort,
       reverse: sortData.reverse,
@@ -54,7 +54,11 @@ RemoteSearchRepoImpl remoteSearchRepo(Ref ref) {
 }
 
 @Riverpod(dependencies: [remoteSearchRepo])
-Future<Response> remoteSearchVn(Ref ref, GenericPost requestData, {CancelToken? cancelToken}) async {
+Future<Response> remoteSearchVn(
+  Ref ref,
+  GenericPost requestData, {
+  CancelToken? cancelToken,
+}) async {
   final remoteSearchRepo = ref.watch(remoteSearchRepoProvider);
   return await remoteSearchRepo.remoteSearchVn(requestData, cancelToken: cancelToken);
 }

@@ -9,7 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- None
+- None.
+
+## [2.0.0] - 2025-05-02
+
+### Changed
+
+- Minor code refactor.
+- Dependencies version.
+- Project structure.
+- Framework update.
 
 ## [1.2.0] - 2024-xx-xx
 

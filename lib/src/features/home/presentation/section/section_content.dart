@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/generic_failure_connection.dart';
 import 'package:vndb_lite/src/common_widgets/generic_local_empty_content.dart';
-import 'package:vndb_lite/src/constants/local_storage_constants.dart';
+import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/core/app/responsive.dart';
 import 'package:vndb_lite/src/features/home/application/home_preview_service.dart';
@@ -13,10 +13,7 @@ import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
 
 /// A simple horizontal-slide widget consisting a list of vn items.
 class HomeSectionContent extends ConsumerWidget {
-  const HomeSectionContent({
-    super.key,
-    required this.sectionData,
-  });
+  const HomeSectionContent({super.key, required this.sectionData});
 
   final HomePreviewSection sectionData;
 
@@ -60,18 +57,16 @@ class HomeSectionContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final previewData = ref.watch(getPreviewDataProvider(
-      cacheKey: _previewCacheKey,
-      sectionData: sectionData,
-    ));
+    final previewData = ref.watch(
+      getPreviewDataProvider(cacheKey: _previewCacheKey, sectionData: sectionData),
+    );
 
     return previewData.when(
       data: (rawData) {
         // Formatting rawData into a classified model.
-        final formattedPreviewDt = ref.watch(formatPreviewDataProvider(
-          rawData,
-          cacheKey: _previewCacheKey,
-        ));
+        final formattedPreviewDt = ref.watch(
+          formatPreviewDataProvider(rawData, cacheKey: _previewCacheKey),
+        );
 
         return formattedPreviewDt.when(
           data: (List<VnDataPhase01> data) {

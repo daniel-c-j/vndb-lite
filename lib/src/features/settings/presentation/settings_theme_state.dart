@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/constants/conf.dart';
-import 'package:vndb_lite/src/constants/local_storage_constants.dart';
-import 'package:vndb_lite/src/core/app/shared_prefs.dart';
+import 'package:vndb_lite/src/constants/local_db_constants.dart';
+import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/settings/domain/settings_theme.conf.dart';
 import 'package:vndb_lite/src/features/theme/data/theme_data.dart';
 
@@ -11,10 +11,7 @@ part 'settings_theme_state.g.dart';
 class SettingsThemeState extends _$SettingsThemeState {
   @override
   SettingsThemeConf build() {
-    return SettingsThemeConf(
-      appTheme: _appTheme,
-      fontSize: _fontSize,
-    );
+    return SettingsThemeConf(appTheme: _appTheme, fontSize: _fontSize);
   }
 
   // TODO Should talk to repo instead of directly?

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/core/app/responsive.dart';
-import 'package:vndb_lite/src/core/app/shared_prefs.dart';
+import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/base_dialog.dart';
@@ -15,9 +15,9 @@ import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
 class MultiSelectionBarActions extends ConsumerWidget {
   const MultiSelectionBarActions({super.key});
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _selectAll(WidgetRef ref, List<VnItemGrid> p1List) async {
     // Doesn't like working with empty list.
@@ -37,9 +37,9 @@ class MultiSelectionBarActions extends ConsumerWidget {
     ref.read(recordSelectedControllerProvider.notifier).record = selectedRecord;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _inverseSelect(WidgetRef ref, List<VnItemGrid> p1List) async {
     if (p1List.isEmpty) return;
@@ -64,9 +64,9 @@ class MultiSelectionBarActions extends ConsumerWidget {
     ref.read(recordSelectedControllerProvider.notifier).record = selectedRecord;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -76,9 +76,9 @@ class MultiSelectionBarActions extends ConsumerWidget {
     return Expanded(
       child: Row(
         children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Back button
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Back button
           Padding(
             padding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.02)),
             child: IconButton(
@@ -107,21 +107,21 @@ class MultiSelectionBarActions extends ConsumerWidget {
               ),
             ),
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Number count selected
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Number count selected
           ShadowText(
             '${recordSelected.length} selected',
             color: App.themeColor.tertiary,
             fontSize: responsiveUI.own(0.0525),
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          //
           const Spacer(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Select all
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Select all
           Padding(
             padding: EdgeInsets.only(right: responsiveUI.own(0.02)),
             child: IconButton(
@@ -129,7 +129,8 @@ class MultiSelectionBarActions extends ConsumerWidget {
               tooltip: 'Select all',
               onPressed: () {
                 // Get user current location in the collection tabs.
-                final tabsArrangement = ref.read(settingsGeneralStateProvider).collectionStatusTabArrangement;
+                final tabsArrangement =
+                    ref.read(settingsGeneralStateProvider).collectionStatusTabArrangement;
                 final statusBasedOnIndex = tabsArrangement[collectionTabController.index];
 
                 // For every vnData in the current status category, include them all.
@@ -142,9 +143,9 @@ class MultiSelectionBarActions extends ConsumerWidget {
             ),
           ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Inverse selection
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Inverse selection
           Padding(
             padding: EdgeInsets.only(right: responsiveUI.own(0.02)),
             child: IconButton(
@@ -152,7 +153,8 @@ class MultiSelectionBarActions extends ConsumerWidget {
               highlightColor: Colors.white.withOpacity(0.25),
               onPressed: () {
                 // Get user current location in the collection tabs.
-                final tabsArrangement = ref.read(settingsGeneralStateProvider).collectionStatusTabArrangement;
+                final tabsArrangement =
+                    ref.read(settingsGeneralStateProvider).collectionStatusTabArrangement;
                 final statusBasedOnIndex = tabsArrangement[collectionTabController.index];
 
                 // For every vnData in the current status category, inverse them.
@@ -163,11 +165,11 @@ class MultiSelectionBarActions extends ConsumerWidget {
               },
               icon: Icon(Icons.flip_to_back, color: App.themeColor.tertiary),
             ),
-          )
+          ),
         ],
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ),
     );
   }

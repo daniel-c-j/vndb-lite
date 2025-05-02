@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vndb_lite/src/constants/network_constant.dart';
-import 'package:vndb_lite/src/core/app/shared_prefs.dart';
+import 'package:vndb_lite/src/constants/network_constants.dart';
+import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/core/network/api_service.dart';
 import 'package:vndb_lite/src/features/home/domain/home_sections_model.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
@@ -17,11 +17,7 @@ part 'remote_home_repo.g.dart';
 // TODO repo should not depend onto another
 
 class RemoteHomeRepoImpl implements RemoteHomeRepo {
-  RemoteHomeRepoImpl(
-    this._apiService,
-    this._sharedPref,
-    this._localVnRepo,
-  );
+  RemoteHomeRepoImpl(this._apiService, this._sharedPref, this._localVnRepo);
 
   final ApiService _apiService;
   final SharedPreferences _sharedPref;
@@ -44,7 +40,7 @@ class RemoteHomeRepoImpl implements RemoteHomeRepo {
     return GenericPost(
       reverse: true,
       sort: sectionData.labelCode,
-      fields: APIConstants.P1_FIELDS,
+      fields: NetConsts.P1_FIELDS,
       filters: sectionData.filter?.toList(),
       results: sectionData.maxPreviewItem,
     );
@@ -74,7 +70,11 @@ RemoteHomeRepoImpl remoteHomeRepo(Ref ref) {
 }
 
 @Riverpod(dependencies: [remoteHomeRepo])
-Future<Response> fetchPreview(Ref ref, HomePreviewSection sectionData, {CancelToken? cancelToken}) async {
+Future<Response> fetchPreview(
+  Ref ref,
+  HomePreviewSection sectionData, {
+  CancelToken? cancelToken,
+}) async {
   final remoteHomeRepo = ref.watch(remoteHomeRepoProvider);
   return await remoteHomeRepo.fetchPreview(sectionData, cancelToken: cancelToken);
 }

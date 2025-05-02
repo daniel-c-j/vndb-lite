@@ -8,7 +8,6 @@ import 'package:vndb_lite/src/features/sort_filter/domain/sort_.dart';
 import 'package:vndb_lite/src/features/theme/data/theme_data.dart';
 
 class Default {
-  static const String BASE_URL = 'https://api.vndb.org';
   static const bool AUTO_UPDATE_CHECK_CONF = true;
   static final String THEME_CONF = ThemeCode.angel.name;
   static const bool SHOW_CHART_CONF = true;
@@ -19,7 +18,8 @@ class Default {
   static const int MAX_ITEM_PER_ROW_PORTRAIT_CONF = 2;
   static const int MAX_ITEM_PER_ROW_LANDSCAPE_CONF = 4;
   static final List<String> HOME_SECTION_ARRANGEMENT = HOME_SCREEN_SECTIONS.keys.toList();
-  static final List<String> COLLECTION_STATUS_TAB_ARRANGEMENT = COLLECTION_STATUS_DATA.keys.toList();
+  static final List<String> COLLECTION_STATUS_TAB_ARRANGEMENT =
+      COLLECTION_STATUS_DATA.keys.toList();
   static const int MAX_VN_SEARCH_RESULT = 24;
   static final FilterData LOCAL_FILTER_CONF = FilterData(
     search: "",
@@ -29,10 +29,7 @@ class Default {
     olang: [],
     platform: [],
   );
-  static final SortData LOCAL_SORT_CONF = SortData(
-    sort: SortableCode.title.name,
-    reverse: false,
-  );
+  static final SortData LOCAL_SORT_CONF = SortData(sort: SortableCode.title.name, reverse: false);
   static final FilterData REMOTE_FILTER_CONF = FilterData(
     search: "",
     andOr: "and",

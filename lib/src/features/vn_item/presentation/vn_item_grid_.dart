@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
 import 'package:vndb_lite/src/core/app/responsive.dart';
-import 'package:vndb_lite/src/core/app/shared_prefs.dart';
+import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/base_dialog.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
@@ -24,7 +24,12 @@ import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 import 'package:vndb_lite/src/util/debouncer.dart';
 
 class VnItemGrid extends ConsumerStatefulWidget {
-  const VnItemGrid({super.key, required this.p1, this.labelCode = 'title', this.isGridView = false});
+  const VnItemGrid({
+    super.key,
+    required this.p1,
+    this.labelCode = 'title',
+    this.isGridView = false,
+  });
 
   final VnDataPhase01 p1;
   final String labelCode;
@@ -330,7 +335,8 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
 
             // 人´∀｀) Thank You Very Much Father...
             if (_vnHasCover) {
-              ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl!).notifier).size = info.size.height;
+              ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl!).notifier).size =
+                  info.size.height;
             }
 
             // When Vn item disappear from screen, clear the cache, using slow debouncer to prevent images to
