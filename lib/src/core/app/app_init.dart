@@ -25,7 +25,7 @@ Future<void> initializeApp() async {
   usePathUrlStrategy();
 
   // Getting general app information.
-  await AppInfo.init();
+  await AppInfo.init(const PackageInfoWrapper());
 
   // Initializing local notification.
   await localNotification.init();
@@ -56,15 +56,8 @@ void _initializeErrorHandlers() {
       height: MediaQuery.sizeOf(NavigationService.currentContext).height,
       width: MediaQuery.sizeOf(NavigationService.currentContext).width,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          title: Text('An error occurred'),
-        ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Text(details.toString()),
-          ),
-        ),
+        appBar: AppBar(backgroundColor: Colors.red, title: Text('An error occurred')),
+        body: SingleChildScrollView(child: Center(child: Text(details.toString()))),
       ),
     );
   };

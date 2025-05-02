@@ -24,12 +24,7 @@ import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 import 'package:vndb_lite/src/util/debouncer.dart';
 
 class VnItemGrid extends ConsumerStatefulWidget {
-  const VnItemGrid({
-    super.key,
-    required this.p1,
-    this.labelCode = 'title',
-    this.isGridView = false,
-  });
+  const VnItemGrid({super.key, required this.p1, this.labelCode = 'title', this.isGridView = false});
 
   final VnDataPhase01 p1;
   final String labelCode;
@@ -75,9 +70,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void _configVnCoverVisibility() {
     // Checks whether vnData cover should be censored or not.
@@ -101,9 +96,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     return (widget.p1.image!.sexual ?? 0) >= 1 || (widget.p1.image!.violence ?? 0) >= 1;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void _clearCache(String url) async {
     ImageCache imageCache = PaintingBinding.instance.imageCache;
@@ -113,9 +108,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     await CachedNetworkImage.evictFromCache(url);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool get _widgetIsInvisible {
     if (!mounted) return false;
@@ -141,10 +136,12 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         imageUrl: (_vnHasCover && (!_imageCached || isVisible)) ? _vnCoverUrl : '',
         fit: BoxFit.cover,
         width: (widget.isGridView) ? double.infinity : null,
-        height: (widget.isGridView)
-            ? null // dynamic, but with bare minimum of 0.27
-            : responsiveUI.own(0.55),
+        height:
+            (widget.isGridView)
+                ? null // dynamic, but with bare minimum of 0.27
+                : responsiveUI.own(0.55),
         errorWidget: (context, url, error) => const GenericErrorImage(),
+        errorListener: null,
         placeholder: (context, str) => SizedBox(width: placeHolderSize, height: placeHolderSize),
         cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
         cacheKey: "PREVIEW-$_vnId",
@@ -155,9 +152,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _enterVnDetailScreen() async {
     if (!App.isInVnDetailScreen) {
@@ -171,9 +168,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _vnOnTap() async {
     if (_showVnDetailSummary) return;
@@ -201,9 +198,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     return;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _vnOnLongPress() async {
     if (_widgetIsInvisible && widget.isGridView) return;
@@ -226,9 +223,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     }
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -241,14 +238,14 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
       margin: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.017)),
       shadowColor: App.themeColor.secondary.withOpacity(0.8),
       child: InkWell(
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         onTap: () async => await _vnOnTap(),
         onLongPress: () async => await _vnOnLongPress(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         onHighlightChanged: (value) async {
           if (_widgetIsInvisible && widget.isGridView) return;
 
@@ -261,9 +258,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
             });
           }
         },
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         onDoubleTap: () {
           if (_widgetIsInvisible && widget.isGridView) return;
 
@@ -275,9 +272,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
           final coverCensor = ref.read(vnItemGridCoverCensorStateProvider(_vnId));
           ref.read(vnItemGridCoverCensorStateProvider(_vnId).notifier).censor = !coverCensor;
         },
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Vn cover image
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Vn cover image
         child: Stack(
           children: [
             Consumer(
@@ -287,35 +284,36 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
                 return _vnCover(isCensor: coverCensor);
               },
             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Vn informations widget
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // Vn informations widget
             Positioned(
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
               child: Container(
-                child: (_showVnDetailSummary)
-                    //
-                    ? VnItemGridDetailsSummary(
-                        p1: widget.p1,
-                        labelCode: widget.labelCode,
-                        toggleVnDetailSummary: () =>
-                            setState(() => _showVnDetailSummary = !_showVnDetailSummary),
-                      )
-                    //
-                    : VnItemGridDetails(
-                        p1: widget.p1,
-                        labelCode: widget.labelCode,
-                        toggleVnDetailSummary: () =>
-                            setState(() => _showVnDetailSummary = !_showVnDetailSummary),
-                      ),
+                child:
+                    (_showVnDetailSummary)
+                        //
+                        ? VnItemGridDetailsSummary(
+                          p1: widget.p1,
+                          labelCode: widget.labelCode,
+                          toggleVnDetailSummary:
+                              () => setState(() => _showVnDetailSummary = !_showVnDetailSummary),
+                        )
+                        //
+                        : VnItemGridDetails(
+                          p1: widget.p1,
+                          labelCode: widget.labelCode,
+                          toggleVnDetailSummary:
+                              () => setState(() => _showVnDetailSummary = !_showVnDetailSummary),
+                        ),
               ),
-            )
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+            ),
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            //
           ],
         ),
       ),
@@ -365,18 +363,17 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
 
           return (showWidget)
               ? vnItemGrid
-
               // Lightweight placeholder, which maintains the size
               : Consumer(
-                  builder: (context, ref, child) {
-                    final coverSize = ref.watch(vnItemGridCoverSizeStateProvider(_vnCoverUrl!));
+                builder: (context, ref, child) {
+                  final coverSize = ref.watch(vnItemGridCoverSizeStateProvider(_vnCoverUrl!));
 
-                    return SizedBox(
-                      height: (_vnHasCover) ? coverSize : responsiveUI.own(0.2),
-                      width: responsiveUI.own(0.1),
-                    );
-                  },
-                );
+                  return SizedBox(
+                    height: (_vnHasCover) ? coverSize : responsiveUI.own(0.2),
+                    width: responsiveUI.own(0.1),
+                  );
+                },
+              );
         },
       ),
     );
