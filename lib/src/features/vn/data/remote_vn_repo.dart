@@ -17,7 +17,7 @@ class RemoteVnRepo {
 
   Future<Response> fetchP1Data(String vnId, {CancelToken? cancelToken}) async {
     return await _apiService.post(
-      endPoint: vnEndpoint,
+      url: vnEndpoint,
       data: GenericPost(filters: ["id", "=", vnId], fields: NetConsts.P1_FIELDS).toMap(),
       cancelToken: cancelToken,
     );
@@ -25,7 +25,7 @@ class RemoteVnRepo {
 
   Future<Response> fetchP2aData(String vnId, {CancelToken? cancelToken}) async {
     return await _apiService.post(
-      endPoint: vnEndpoint,
+      url: vnEndpoint,
       data: GenericPost(filters: ["id", "=", vnId], fields: NetConsts.P2a_FIELDS).toMap(),
       cancelToken: cancelToken,
     );
@@ -33,7 +33,7 @@ class RemoteVnRepo {
 
   Future<Response> fetchP2bData(String vnId, {CancelToken? cancelToken}) async {
     return await _apiService.post(
-      endPoint: releaseEndpoint,
+      url: releaseEndpoint,
       data:
           GenericPost(
             filters: [
@@ -49,7 +49,7 @@ class RemoteVnRepo {
 
   Future<Response> fetchP3Data(String vnId, {CancelToken? cancelToken}) async {
     return await _apiService.post(
-      endPoint: vnEndpoint,
+      url: vnEndpoint,
       data: GenericPost(filters: ["id", "=", vnId], fields: NetConsts.P3_FIELDS).toMap(),
       cancelToken: cancelToken,
     );

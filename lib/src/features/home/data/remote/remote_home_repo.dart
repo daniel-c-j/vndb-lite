@@ -30,7 +30,7 @@ class RemoteHomeRepoImpl implements RemoteHomeRepo {
     final postData = _convertSectionDataToPostData(sectionData);
 
     return await _apiService.post(
-      endPoint: '/kana/vn',
+      url: '/kana/vn',
       data: postData.toMap(),
       cancelToken: cancelToken,
     );

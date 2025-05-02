@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/core/network/network_helper.dart';
+import 'package:vndb_lite/src/core/_core.dart';
 import 'package:vndb_lite/src/features/chart/data/local/local_chart_repo.dart';
 import 'package:vndb_lite/src/features/chart/data/remote/remote_chart_repo.dart';
 
@@ -11,7 +11,7 @@ part 'chart_service.g.dart';
 Future<void> getStatsChart(Ref ref) async {
   final localChartRepo = ref.watch(localChartRepoProvider);
   final remoteChartRepo = ref.watch(remoteChartRepoProvider);
-  final hasConnection = await ref.watch(networkInfoProvider).isConnected;
+  final hasConnection = ref.watch(connectivityNotifierProvider);
 
   // Downloads and update the latest data.
   if (hasConnection) {

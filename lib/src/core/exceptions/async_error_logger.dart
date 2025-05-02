@@ -17,7 +17,8 @@ class AsyncErrorLogger extends ProviderObserver {
     final errorLogger = container.read(errorLoggerProvider);
     final error = _findError(newValue);
 
-    errorLogger.log(error!.error, error.stackTrace);
+    if (error == null) return;
+    errorLogger.log(error.error, error.stackTrace);
   }
 
   AsyncError<dynamic>? _findError(Object? value) {

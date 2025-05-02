@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/core/_core.dart';
 import 'package:vndb_lite/src/core/app/responsive.dart';
-import 'package:vndb_lite/src/core/network/network_helper.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/settings/application/settings_service.dart';
@@ -28,8 +28,10 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500))
-      ..forward();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    )..forward();
 
     _offsetAnimation = _animationController
         .drive(CurveTween(curve: Curves.easeInOut))
@@ -42,18 +44,18 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _refreshApp({bool all = false, bool verbose = false}) async {
     await AppBarRefreshButton.tap(allMainScreen: all, verbose: verbose);
     if (mounted) setState(() {});
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _autoUpdateCheckSwitch() async {
     final autoUpdate = ref.read(settingsDataStateProvider).autoUpdate;
@@ -62,22 +64,18 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
     await _refreshApp();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _refreshVns() async {
     // TODO showDialog? Anything user friendly like the others below.
     if (ref.read(bottomProgressIndicatorProvider)) return;
 
     // Does not do any process whatsoever if there is no internet connection.
-    final hasConnection = await ref.read(networkInfoProvider).isConnected;
+    final hasConnection = ref.read(connectivityNotifierProvider);
     if (!hasConnection) {
-      feedbackSnackBar(
-        text: 'Refresh failed.',
-        iconColor: Colors.red,
-        icon: Icons.warning,
-      );
+      feedbackSnackBar(text: 'Refresh failed.', iconColor: Colors.red, icon: Icons.warning);
       return;
     }
 
@@ -86,22 +84,24 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
 
     try {
       // This will redownload all collected vn phase01 and phase02 data.
-      await ref.read(settingsServiceProvider).refresh(
-        onRefresh: (String title) {
-          feedbackSnackBar(
-            text: (title.length > 15) ? '${title.substring(0, 14)}... refreshed. ' : '$title refreshed. ',
+      await ref
+          .read(settingsServiceProvider)
+          .refresh(
+            onRefresh: (String title) {
+              feedbackSnackBar(
+                text:
+                    (title.length > 15)
+                        ? '${title.substring(0, 14)}... refreshed. '
+                        : '$title refreshed. ',
+              );
+            },
           );
-        },
-      );
 
       await Future.delayed(const Duration(milliseconds: 2000));
       feedbackSnackBar(text: 'Refreshed.', icon: Icons.refresh);
       //
     } catch (e) {
-      feedbackSnackBar(
-        text: 'Refresh failed.',
-        icon: Icons.error,
-      );
+      feedbackSnackBar(text: 'Refresh failed.', icon: Icons.error);
       //
     } finally {
       // Using emergency ref in case the widget disposed.
@@ -110,9 +110,9 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
     }
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _deleteVns() async {
     await showSettingsDialog(
@@ -128,7 +128,9 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
       ),
       yesOrNo: ref.read(bottomProgressIndicatorProvider) != true,
       yesButtonColor:
-          (ref.read(bottomProgressIndicatorProvider)) ? null : const Color.fromARGB(180, 255, 20, 0),
+          (ref.read(bottomProgressIndicatorProvider))
+              ? null
+              : const Color.fromARGB(180, 255, 20, 0),
       yesFunction: () async {
         // If turns out there's an ongoing process, then dont remove auth.
         if (ref.read(bottomProgressIndicatorProvider)) return;
@@ -150,9 +152,9 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _clearCache() async {
     await showSettingsDialog(
@@ -167,7 +169,9 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
       ),
       yesOrNo: ref.read(bottomProgressIndicatorProvider) != true,
       yesButtonColor:
-          (ref.read(bottomProgressIndicatorProvider)) ? null : const Color.fromARGB(180, 255, 20, 0),
+          (ref.read(bottomProgressIndicatorProvider))
+              ? null
+              : const Color.fromARGB(180, 255, 20, 0),
       yesFunction: () async {
         // If turns out there's an ongoing process, then dont remove auth.
         if (ref.read(bottomProgressIndicatorProvider)) return;
@@ -187,9 +191,9 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _removeAuth() async {
     await showSettingsDialog(
@@ -204,7 +208,9 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
       ),
       yesOrNo: ref.read(bottomProgressIndicatorProvider) != true,
       yesButtonColor:
-          (ref.read(bottomProgressIndicatorProvider)) ? null : const Color.fromARGB(180, 255, 20, 0),
+          (ref.read(bottomProgressIndicatorProvider))
+              ? null
+              : const Color.fromARGB(180, 255, 20, 0),
       yesFunction: () async {
         // If turns out there's an ongoing process, then dont remove auth.
         if (ref.read(bottomProgressIndicatorProvider)) return;
@@ -217,9 +223,9 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -239,9 +245,9 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
               CustomLabel(
                 useBorder: true,
                 borderRadius: 12,
@@ -262,14 +268,14 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                           App.themeColor.primary,
                         ),
                         blurRadius: 5,
-                      )
+                      ),
                     ],
                   ),
                 ],
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Refresh VNs
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Refresh VNs
               SizedBox(height: responsiveUI.own(0.03)),
               CustomLabel(
                 useBorder: true,
@@ -279,14 +285,12 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                 highlightColor: const Color.fromARGB(180, 240, 210, 50),
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: _refreshVns,
-                children: [
-                  ShadowText('Refresh all Visual Novel in collection'),
-                ],
+                children: [ShadowText('Refresh all Visual Novel in collection')],
               ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Delete VNs
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Delete VNs
               SizedBox(height: responsiveUI.own(0.03)),
               CustomLabel(
                 useBorder: true,
@@ -296,14 +300,12 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                 highlightColor: const Color.fromARGB(180, 240, 70, 50),
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: _deleteVns,
-                children: [
-                  ShadowText('Remove all Visual Novel in collection'),
-                ],
+                children: [ShadowText('Remove all Visual Novel in collection')],
               ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Clear caches
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Clear caches
               SizedBox(height: responsiveUI.own(0.03)),
               CustomLabel(
                 useBorder: true,
@@ -313,13 +315,11 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                 highlightColor: const Color.fromARGB(180, 240, 70, 50),
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: _clearCache,
-                children: [
-                  ShadowText('Reset all data'),
-                ],
+                children: [ShadowText('Reset all data')],
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Revoke Authentication
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Revoke Authentication
               if (userDidAuth) SizedBox(height: responsiveUI.own(0.03)),
               if (userDidAuth)
                 CustomLabel(
@@ -330,14 +330,12 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                   highlightColor: const Color.fromARGB(180, 240, 210, 50),
                   padding: EdgeInsets.all(responsiveUI.own(0.02)),
                   onTap: _removeAuth,
-                  children: [
-                    ShadowText('Revoke authentication (Logout)'),
-                  ],
+                  children: [ShadowText('Revoke authentication (Logout)')],
                 ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
             ],
           ),
         ),

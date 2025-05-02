@@ -13,7 +13,7 @@ class RemoteChartRepo {
   static const statsEndpoint = "/kana/stats";
 
   Future<Response> fetchStats({CancelToken? cancelToken}) async {
-    return await _apiService.get(endPoint: statsEndpoint);
+    return await _apiService.get(url: statsEndpoint);
   }
 }
 

@@ -28,7 +28,7 @@ class RemoteSyncRepo {
 
   Future<Response> authenticate(String token) async {
     return await _apiService.get(
-      endPoint: authEndpoint,
+      url: authEndpoint,
       options: Options(headers: {'Authorization': 'token $token'}),
     );
   }
@@ -41,7 +41,7 @@ class RemoteSyncRepo {
     for (String vnId in _collection.vnToBeRemovedWhenSync) {
       await Future.delayed(const Duration(milliseconds: 400), () async {
         await _apiService.delete(
-          endPoint: "/kana/ulist/$vnId",
+          url: "/kana/ulist/$vnId",
           options: Options(
             contentType: 'application/json',
             headers: {'Authorization': 'token $token'},
@@ -69,7 +69,7 @@ class RemoteSyncRepo {
   getLatestDataFromCloud(String userId) async {
     // Get the collections from the cloud.
     final Response requestToServer = await _apiService.post(
-      endPoint: "/kana/ulist",
+      url: "/kana/ulist",
       data: {
         "user": userId,
         "sort": SortableCode.added.name,
@@ -143,7 +143,7 @@ class RemoteSyncRepo {
   Future<void> delete(String vnId, {required String authToken}) async {
     return await Future.delayed(const Duration(milliseconds: 1200), () async {
       await _apiService.delete(
-        endPoint: "/kana/ulist/$vnId",
+        url: "/kana/ulist/$vnId",
         options: Options(
           contentType: 'application/json',
           headers: {'Authorization': 'token $authToken'},
@@ -165,7 +165,7 @@ class RemoteSyncRepo {
       // Despite how the method name is "patch", it still works logically as if posting
       // a new data related to the user, that is, posting new vnrecord related to the user.
       await _apiService.patch(
-        endPoint: "/kana/ulist/${localRecord.id}",
+        url: "/kana/ulist/${localRecord.id}",
         options: Options(
           contentType: 'application/json',
           headers: {'Authorization': 'token $authToken'},

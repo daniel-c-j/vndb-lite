@@ -1,7 +1,6 @@
 import 'package:flutter/scheduler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
-import 'package:vndb_lite/src/core/network/network_helper.dart';
+import 'package:vndb_lite/src/core/_core.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/collection/application/collection_vn_service.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
@@ -125,7 +124,7 @@ class CollectionContentController extends _$CollectionContentController {
 
   Future<void> _adaptingRawData(FilterData conf) async {
     final localCollectionRepo = ref.read(localCollectionRepoProvider);
-    final networkInfo = ref.read(networkInfoProvider);
+    final networkInfo = ref.read(connectivityNotifierProvider);
     final localVnRepo = ref.read(localVnRepoProvider);
 
     for (VnRecord vnRecord in await localCollectionRepo.getAllRecords()) {
@@ -144,7 +143,7 @@ class CollectionContentController extends _$CollectionContentController {
 
         await Future.delayed(const Duration(milliseconds: 1500));
         final valid = await ref.read(validateVnAndSaveToLocalProvider(vnId).future);
-        isConnected = await networkInfo.isConnected;
+        isConnected = networkInfo;
 
         // Skip the loop. Ignore the current record.
         if (!valid) {

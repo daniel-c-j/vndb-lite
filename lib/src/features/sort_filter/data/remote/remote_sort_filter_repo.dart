@@ -13,22 +13,16 @@ class RemoteSortFilterRepo {
 
   Future<Response> fetchDevelopers(String devName, {CancelToken? cancelToken}) async {
     return await _apiService.post(
-      endPoint: '/kana/producer',
-      data: GenericPost(
-        filters: ["search", "=", devName],
-        fields: "name",
-      ).toMap(),
+      url: '/kana/producer',
+      data: GenericPost(filters: ["search", "=", devName], fields: "name").toMap(),
       cancelToken: cancelToken,
     );
   }
 
   Future<Response> fetchTags(String tagName, {CancelToken? cancelToken}) async {
     return await _apiService.post(
-      endPoint: '/kana/tag',
-      data: GenericPost(
-        filters: ["search", "=", tagName],
-        fields: "name",
-      ).toMap(),
+      url: '/kana/tag',
+      data: GenericPost(filters: ["search", "=", tagName], fields: "name").toMap(),
       cancelToken: cancelToken,
     );
   }

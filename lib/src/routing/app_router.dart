@@ -14,7 +14,6 @@ import 'package:vndb_lite/src/features/sync/presentation/auth_screen.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/vn_detail_screen.dart';
 import 'package:vndb_lite/src/routing/not_found_screen.dart';
-import 'package:vndb_lite/src/routing/transition_route.dart';
 
 part 'app_router.g.dart';
 
@@ -27,7 +26,10 @@ enum AppRoute {
   auth,
   settings,
   about,
-  unknown,
+  unknown;
+
+  const AppRoute();
+  String get path => "/$name";
 }
 
 @Riverpod(keepAlive: true)
@@ -63,7 +65,7 @@ GoRouter goRouter(Ref ref) {
             navigatorKey: GlobalKey<NavigatorState>(debugLabel: AppRoute.search.name),
             routes: [
               GoRoute(
-                path: '/search',
+                path: AppRoute.search.path,
                 name: AppRoute.search.name,
                 builder: (context, state) {
                   return const SearchScreen();
@@ -75,7 +77,7 @@ GoRouter goRouter(Ref ref) {
             navigatorKey: GlobalKey<NavigatorState>(debugLabel: AppRoute.collection.name),
             routes: [
               GoRoute(
-                path: '/collection',
+                path: AppRoute.collection.path,
                 name: AppRoute.collection.name,
                 builder: (context, state) {
                   return const CollectionScreen();
@@ -87,7 +89,7 @@ GoRouter goRouter(Ref ref) {
             navigatorKey: GlobalKey<NavigatorState>(debugLabel: AppRoute.others.name),
             routes: [
               GoRoute(
-                path: '/others',
+                path: AppRoute.others.path,
                 name: AppRoute.others.name,
                 builder: (context, state) {
                   return const OthersScreen();
@@ -97,39 +99,36 @@ GoRouter goRouter(Ref ref) {
           ),
         ],
       ),
-      TransitionGoRoute(
+      GoRoute(
         path: '/:parent/details/:vnId',
         name: AppRoute.vnDetail.name,
-        pageBuilder: (context, state) {
+        builder: (context, state) {
           final p1 = state.extra as VnDataPhase01;
           return VnDetailScreen(p1: p1);
         },
       ),
-      TransitionGoRoute(
-        path: '/auth',
+      GoRoute(
+        path: AppRoute.auth.path,
         name: AppRoute.auth.name,
-        pageBuilder: (context, state) {
+        builder: (context, state) {
           return const AuthenticationScreen();
         },
       ),
-      TransitionGoRoute(
-        path: '/settings',
+      GoRoute(
+        path: AppRoute.settings.path,
         name: AppRoute.settings.name,
-        pageBuilder: (context, state) {
+        builder: (context, state) {
           return const SettingsScreen();
         },
       ),
-      TransitionGoRoute(
-        path: '/about',
+      GoRoute(
+        path: AppRoute.about.path,
         name: AppRoute.about.name,
-        pageBuilder: (context, state) {
+        builder: (context, state) {
           return const AboutScreen();
         },
       ),
     ],
-    errorBuilder: (context, state) {
-      // Placeholder
-      return const NotFoundScreen();
-    },
+    errorBuilder: (context, state) => const NotFoundScreen(),
   );
 }

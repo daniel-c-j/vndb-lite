@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/core/network/network_helper.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/collection/application/collection_vn_service.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
@@ -17,6 +16,8 @@ import 'package:vndb_lite/src/features/sync/data/remote/remote_sync_repo_helper.
 import 'package:vndb_lite/src/features/sync/domain/user_identity.dart';
 import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
+
+import '../../../core/_core.dart';
 
 part 'sync_service.g.dart';
 
@@ -31,7 +32,7 @@ class SyncService {
 
   Future<void> sync({required bool keepVns, required VoidCallback whenDownloadingAndSaving}) async {
     // Does not do any process whatsoever if there is no internet connection.
-    final hasConnection = await ref.read(networkInfoProvider).isConnected;
+    final hasConnection = ref.read(connectivityNotifierProvider);
     if (!hasConnection) return returnError(status: 0);
 
     // Checking whether user already authenticated or not.
@@ -40,11 +41,7 @@ class SyncService {
 
     // User friendly (should be) message.
     localNotification.showSyncNotification(status: 0);
-    snackbar(
-      'Synchronizing account...',
-      icon: Icons.sync,
-      iconColor: App.themeColor.tertiary,
-    );
+    snackbar('Synchronizing account...', icon: Icons.sync, iconColor: App.themeColor.tertiary);
 
     if (!await _isTokenValid(userIdentity)) return returnError(status: 1);
 
@@ -95,14 +92,11 @@ class SyncService {
     }
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
-  VnRecord _generateVnRecord(
-    VnRecord? localRecord,
-    Map<String, dynamic> cloudRecord,
-  ) {
+  VnRecord _generateVnRecord(VnRecord? localRecord, Map<String, dynamic> cloudRecord) {
     // Will use localRecord instead of cloud, making the procedure local data oriented
     return VnRecord(
       id: cloudRecord['id'],
@@ -111,13 +105,14 @@ class SyncService {
       vote: (localRecord != null) ? localRecord.vote : getVnCloudVote(cloudRecord),
       added: (localRecord != null) ? localRecord.added : getVnCloudDate('added', cloudRecord),
       started: (localRecord != null) ? localRecord.started : getVnCloudDate('started', cloudRecord),
-      finished: (localRecord != null) ? localRecord.finished : getVnCloudDate('finished', cloudRecord),
+      finished:
+          (localRecord != null) ? localRecord.finished : getVnCloudDate('finished', cloudRecord),
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> getDataPhases(
     List<VnRecord> localRecords,
@@ -127,12 +122,15 @@ class SyncService {
     final List<VnRecord> vnRecords = [];
 
     for (Map<String, dynamic> cloudRecord in cloudRecords) {
-      final VnRecord? localRecord = localRecords.firstWhereOrNull((record) => record.id == cloudRecord['id']);
+      final VnRecord? localRecord = localRecords.firstWhereOrNull(
+        (record) => record.id == cloudRecord['id'],
+      );
 
       // This eliminates strange status label that is not defined in the vn status label.
-      final List labels = cloudRecord['labels'].where((label) {
-        return COLLECTION_STATUS_DATA.keys.contains(label['label'].toString().toLowerCase());
-      }).toList();
+      final List labels =
+          cloudRecord['labels'].where((label) {
+            return COLLECTION_STATUS_DATA.keys.contains(label['label'].toString().toLowerCase());
+          }).toList();
 
       // Injecting label to cloudrecord's status to make it available to process.
       cloudRecord['status'] = labels[0]['label'];
@@ -152,11 +150,14 @@ class SyncService {
     return;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
-  Future<void> _downloadAndSaveData(List<VnRecord> vnRecords, VoidCallback whenDownloadingAndSaving) async {
+  Future<void> _downloadAndSaveData(
+    List<VnRecord> vnRecords,
+    VoidCallback whenDownloadingAndSaving,
+  ) async {
     final localVnRepo = ref.read(localVnRepoProvider);
     final collectionRepo = ref.read(localCollectionRepoProvider);
 
@@ -179,26 +180,19 @@ class SyncService {
         await collectionRepo.saveVnRecord(record);
       }
 
-      final title = (record.title.length >= 14) ? '${record.title.substring(0, 12)}...' : record.title;
+      final title =
+          (record.title.length >= 14) ? '${record.title.substring(0, 12)}...' : record.title;
       if (!localVnRepo.p1Exist(record.id) || !localVnRepo.p2Exist(record.id)) {
-        snackbar(
-          "Failed to sync $title",
-          icon: Icons.error,
-          iconColor: Colors.red,
-        );
+        snackbar("Failed to sync $title", icon: Icons.error, iconColor: Colors.red);
       } else {
-        snackbar(
-          "$title synced! ",
-          icon: Icons.check_circle,
-          iconColor: Colors.green,
-        );
+        snackbar("$title synced! ", icon: Icons.check_circle, iconColor: Colors.green);
       }
     }
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void returnError({int status = 0}) async {
     // TODO enhance this.
@@ -211,18 +205,10 @@ class SyncService {
         );
         //
       } else if (status == 1) {
-        snackbar(
-          'Bad Token Permissions',
-          icon: Icons.error,
-          iconColor: Colors.red,
-        );
+        snackbar('Bad Token Permissions', icon: Icons.error, iconColor: Colors.red);
         //
       } else {
-        snackbar(
-          'Error. Please try to re-authenticate.',
-          icon: Icons.error,
-          iconColor: Colors.red,
-        );
+        snackbar('Error. Please try to re-authenticate.', icon: Icons.error, iconColor: Colors.red);
       }
 
       // Shows statusbar notification error.
@@ -230,14 +216,15 @@ class SyncService {
     });
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<bool> _isTokenValid(UserIdentity userIdentity) async {
     try {
-      final response =
-          await ref.read(authScreenControllerProvider.notifier).authenticate(userIdentity.authToken);
+      final response = await ref
+          .read(authScreenControllerProvider.notifier)
+          .authenticate(userIdentity.authToken);
 
       if (response.data['permissions'].contains('listread') &&
           response.data['permissions'].contains('listwrite')) {
@@ -250,9 +237,9 @@ class SyncService {
     }
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void _successfullySynchronized(VoidCallback whenSuccess) {
     ref.read(localSyncRepoProvider).isUserSynchronized = true;
@@ -260,19 +247,15 @@ class SyncService {
     Future.delayed(const Duration(milliseconds: 3500), () {
       whenSuccess();
       localNotification.showSyncNotification(status: 1);
-      snackbar(
-        'Synchronization successful',
-        icon: Icons.sync,
-        iconColor: App.themeColor.tertiary,
-      );
+      snackbar('Synchronization successful', icon: Icons.sync, iconColor: App.themeColor.tertiary);
     });
 
     return;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 }
 
 @riverpod
