@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_controller.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
@@ -9,6 +9,8 @@ import 'package:vndb_lite/src/features/search/presentation/search_screen_control
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
+
+import '../../../../../util/context_shortcut.dart';
 
 class AppBarSearchButton extends ConsumerWidget {
   const AppBarSearchButton({super.key, this.additionalOnPress});
@@ -62,19 +64,20 @@ class AppBarSearchButton extends ConsumerWidget {
       },
       icon: Icon(
         Icons.search,
-        color: App.themeColor.tertiary,
+        color: kColor(context).tertiary,
         size: responsiveUI.standardIcon,
-        shadows: (_showIconHighlight)
-            ? [
-                Shadow(
-                  color: Color.alphaBlend(
-                    App.themeColor.tertiary.withOpacity(0.8),
-                    App.themeColor.secondary,
+        shadows:
+            (_showIconHighlight)
+                ? [
+                  Shadow(
+                    color: Color.alphaBlend(
+                      kColor(context).tertiary.withOpacity(0.8),
+                      kColor(context).secondary,
+                    ),
+                    blurRadius: 10,
                   ),
-                  blurRadius: 10,
-                )
-              ]
-            : null,
+                ]
+                : null,
       ),
     );
   }

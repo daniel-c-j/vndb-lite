@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_detail_summary_scroll_state.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
 import 'package:vndb_lite/src/util/debouncer.dart';
-import 'package:vndb_lite/src/util/unique_valuekey.dart';
 
 part 'search_result_controller.g.dart';
 
@@ -38,12 +37,7 @@ class SearchResultController extends _$SearchResultController {
 
   void fromP1(List<VnDataPhase01> p1List, String labelCode) {
     for (VnDataPhase01 p1 in p1List) {
-      state.add(VnItemGrid(
-        key: uidKeyOf(p1.id),
-        p1: p1,
-        isGridView: true,
-        labelCode: labelCode,
-      ));
+      state.add(VnItemGrid(key: UniqueKey(), p1: p1, isGridView: true, labelCode: labelCode));
     }
   }
 
@@ -58,9 +52,9 @@ class SearchResultController extends _$SearchResultController {
             ref.read(searchResultPageControllerProvider.notifier).increment();
             ref.read(searchResultNotifierProvider.notifier).ring();
 
-            await ref.read(searchScreenControllerProvider.notifier).searchWithCurrentConf(
-                  pageResult: ref.read(searchResultPageControllerProvider),
-                );
+            await ref
+                .read(searchScreenControllerProvider.notifier)
+                .searchWithCurrentConf(pageResult: ref.read(searchResultPageControllerProvider));
           });
         }
       }

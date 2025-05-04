@@ -3,6 +3,7 @@ import 'package:gradient_borders/gradient_borders.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class MultiSelectionIndicator extends ConsumerStatefulWidget {
   const MultiSelectionIndicator({super.key});
@@ -22,7 +23,8 @@ class _MultiSelectionIndicatorState extends ConsumerState<MultiSelectionIndicato
 
     _animationController = AnimationController(
       vsync: this,
-      duration: (mounted && isMultiSelection) ? Duration(milliseconds: 0) : Duration(milliseconds: 1200),
+      duration:
+          (mounted && isMultiSelection) ? Duration(milliseconds: 0) : Duration(milliseconds: 1200),
     )..forward();
   }
 
@@ -43,23 +45,21 @@ class _MultiSelectionIndicatorState extends ConsumerState<MultiSelectionIndicato
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              App.themeColor.primary.withOpacity(0.2),
-              App.themeColor.secondary.withOpacity(0.5),
+              kColor(context).primary.withOpacity(0.2),
+              kColor(context).secondary.withOpacity(0.5),
             ],
           ),
           boxShadow: const [
-            BoxShadow(
-              color: Color.fromARGB(50, 0, 0, 0),
-              spreadRadius: 2,
-              blurRadius: 6,
-            )
+            BoxShadow(color: Color.fromARGB(50, 0, 0, 0), spreadRadius: 2, blurRadius: 6),
           ],
           border: GradientBoxBorder(
-            gradient: RadialGradient(colors: [
-              App.themeColor.secondary.withOpacity(0.9),
-              App.themeColor.secondary.withOpacity(0.6),
-              App.themeColor.tertiary.withOpacity(0.4)
-            ]),
+            gradient: RadialGradient(
+              colors: [
+                kColor(context).secondary.withOpacity(0.9),
+                kColor(context).secondary.withOpacity(0.6),
+                kColor(context).tertiary.withOpacity(0.4),
+              ],
+            ),
             width: 2.5,
           ),
         ),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class FilterTabHeader extends ConsumerWidget {
   const FilterTabHeader({super.key, required this.tabController});
@@ -25,13 +26,13 @@ class FilterTabHeader extends ConsumerWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: App.themeColor.primary,
+                color: kColor(context).primary,
                 boxShadow: [
                   BoxShadow(
-                    color: App.themeColor.primary.withOpacity(0.7),
+                    color: kColor(context).primary.withOpacity(0.7),
                     offset: const Offset(0, 2),
                     blurRadius: 3,
-                  )
+                  ),
                 ],
               ),
               padding: EdgeInsets.symmetric(
@@ -39,9 +40,9 @@ class FilterTabHeader extends ConsumerWidget {
                 horizontal: responsiveUI.own(1),
               ),
             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Tabs header
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // Tabs header
             Center(
               child: TabBar(
                 dividerHeight: 0,
@@ -50,27 +51,16 @@ class FilterTabHeader extends ConsumerWidget {
                 controller: tabController,
                 tabAlignment: TabAlignment.center,
                 indicatorSize: TabBarIndicatorSize.tab,
-                indicatorPadding: EdgeInsets.symmetric(
-                  horizontal: responsiveUI.own(0.03),
-                ),
-                indicatorColor: App.themeColor.tertiary,
+                indicatorPadding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.03)),
+                indicatorColor: kColor(context).tertiary,
                 labelStyle: styleText(fontSize: responsiveUI.normalSize),
-                labelPadding: EdgeInsets.symmetric(
-                  horizontal: responsiveUI.own(0.1),
-                ),
-                tabs: [
-                  Tab(
-                    child: ShadowText('Sort'),
-                  ),
-                  Tab(
-                    child: ShadowText('Filter'),
-                  )
-                ],
+                labelPadding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.1)),
+                tabs: [Tab(child: ShadowText('Sort')), Tab(child: ShadowText('Filter'))],
               ),
             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            //
           ],
         ),
       ),

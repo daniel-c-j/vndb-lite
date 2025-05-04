@@ -13,18 +13,19 @@ String _$remoteSyncRepoHash() => r'3e07dbf1dcbe53a2e47638e191989ac6f819059e';
 final remoteSyncRepoProvider = AutoDisposeProvider<RemoteSyncRepo>.internal(
   remoteSyncRepo,
   name: r'remoteSyncRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$remoteSyncRepoHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$remoteSyncRepoHash,
   dependencies: <ProviderOrFamily>[
     apiServiceProvider,
-    localCollectionRepoProvider
+    localCollectionRepoProvider,
   ],
   allTransitiveDependencies: <ProviderOrFamily>{
     apiServiceProvider,
     ...?apiServiceProvider.allTransitiveDependencies,
     localCollectionRepoProvider,
-    ...?localCollectionRepoProvider.allTransitiveDependencies
+    ...?localCollectionRepoProvider.allTransitiveDependencies,
   },
 );
 
@@ -64,25 +65,19 @@ class AuthenticateFamily extends Family<AsyncValue<Response>> {
   const AuthenticateFamily();
 
   /// See also [authenticate].
-  AuthenticateProvider call(
-    String token,
-  ) {
-    return AuthenticateProvider(
-      token,
-    );
+  AuthenticateProvider call(String token) {
+    return AuthenticateProvider(token);
   }
 
   @override
   AuthenticateProvider getProviderOverride(
     covariant AuthenticateProvider provider,
   ) {
-    return call(
-      provider.token,
-    );
+    return call(provider.token);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteSyncRepoProvider
+    remoteSyncRepoProvider,
   ];
 
   @override
@@ -90,9 +85,9 @@ class AuthenticateFamily extends Family<AsyncValue<Response>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    remoteSyncRepoProvider,
-    ...?remoteSyncRepoProvider.allTransitiveDependencies
-  };
+        remoteSyncRepoProvider,
+        ...?remoteSyncRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -105,24 +100,20 @@ class AuthenticateFamily extends Family<AsyncValue<Response>> {
 /// See also [authenticate].
 class AuthenticateProvider extends AutoDisposeFutureProvider<Response> {
   /// See also [authenticate].
-  AuthenticateProvider(
-    String token,
-  ) : this._internal(
-          (ref) => authenticate(
-            ref as AuthenticateRef,
-            token,
-          ),
-          from: authenticateProvider,
-          name: r'authenticateProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$authenticateHash,
-          dependencies: AuthenticateFamily._dependencies,
-          allTransitiveDependencies:
-              AuthenticateFamily._allTransitiveDependencies,
-          token: token,
-        );
+  AuthenticateProvider(String token)
+    : this._internal(
+        (ref) => authenticate(ref as AuthenticateRef, token),
+        from: authenticateProvider,
+        name: r'authenticateProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$authenticateHash,
+        dependencies: AuthenticateFamily._dependencies,
+        allTransitiveDependencies:
+            AuthenticateFamily._allTransitiveDependencies,
+        token: token,
+      );
 
   AuthenticateProvider._internal(
     super._createNotifier, {
@@ -181,11 +172,13 @@ mixin AuthenticateRef on AutoDisposeFutureProviderRef<Response> {
 }
 
 class _AuthenticateProviderElement
-    extends AutoDisposeFutureProviderElement<Response> with AuthenticateRef {
+    extends AutoDisposeFutureProviderElement<Response>
+    with AuthenticateRef {
   _AuthenticateProviderElement(super.provider);
 
   @override
   String get token => (origin as AuthenticateProvider).token;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

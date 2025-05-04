@@ -12,12 +12,15 @@ String _$settingsGeneralStateHash() =>
 /// See also [SettingsGeneralState].
 @ProviderFor(SettingsGeneralState)
 final settingsGeneralStateProvider = AutoDisposeNotifierProvider<
-    SettingsGeneralState, SettingsGeneralConf>.internal(
+  SettingsGeneralState,
+  SettingsGeneralConf
+>.internal(
   SettingsGeneralState.new,
   name: r'settingsGeneralStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$settingsGeneralStateHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$settingsGeneralStateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

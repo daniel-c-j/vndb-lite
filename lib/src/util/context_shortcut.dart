@@ -40,12 +40,12 @@ ColorScheme kColor([BuildContext? ctx]) {
     return (ctx == null) ? Theme.of(altContext).colorScheme : Theme.of(ctx).colorScheme;
   } catch (e) {
     // Will go by default.
-    return ColorScheme.fromSeed(seedColor: PRIMARY_COLOR_L0);
+    return ColorScheme.fromSeed(seedColor: Colors.purpleAccent);
   }
 }
 
 /// Easily get theme [Textstyle].
-TextTheme kTextStyle(BuildContext context) => Theme.of(context).textTheme;
+TextTheme kTxtStyle(BuildContext context) => Theme.of(context).textTheme;
 
 /// Easily communicate with [ScaffoldMessenger]. Intended as a shortcut for
 /// ```dart

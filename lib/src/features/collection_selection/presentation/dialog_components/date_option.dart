@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/domain/vn_selection.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/collection_selection_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialog_components/footer_button_state.dart';
 import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class RecordDateOptions extends ConsumerStatefulWidget {
   const RecordDateOptions({super.key});
@@ -55,14 +56,14 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
   void _startDatePicker() async {
     final initialDate = ref.read(vnSelectionControllerProvider).started;
-    ref.read(vnSelectionControllerProvider.notifier).copyWith(
-          started: await getDatePicker(initialDate: initialDate),
-        );
+    ref
+        .read(vnSelectionControllerProvider.notifier)
+        .copyWith(started: await getDatePicker(initialDate: initialDate));
 
     setState(() {
       if (_incorrectStartDate) {
@@ -77,15 +78,15 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
     });
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void _finishDatePicker() async {
     final initialDate = ref.read(vnSelectionControllerProvider).finished;
-    ref.read(vnSelectionControllerProvider.notifier).copyWith(
-          finished: await getDatePicker(initialDate: initialDate),
-        );
+    ref
+        .read(vnSelectionControllerProvider.notifier)
+        .copyWith(finished: await getDatePicker(initialDate: initialDate));
 
     setState(() {
       if (_incorrectFinishDate) {
@@ -100,9 +101,9 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
     });
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   // Argument isError happen, since both finish date and start date relied on this function, and both
   // sends the same DateTime type without any way to differ between the two, so from the caller, it must
@@ -128,9 +129,9 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
     }
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void _tapNowDate(VnSelection selectionController) {
     _selectingDateTimeNow = !_selectingDateTimeNow;
@@ -139,16 +140,13 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
       _canConfirm = true;
       _errorStartDate = false;
       _errorFinishDate = false;
-      ref.read(vnSelectionControllerProvider.notifier).copyWith(
-            started: _now,
-            finished: _now,
-          );
+      ref.read(vnSelectionControllerProvider.notifier).copyWith(started: _now, finished: _now);
     }
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -160,9 +158,9 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Now date
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Now date
           InkWell(
             // behavior: HitTestBehavior.opaque,
             onTap: () {
@@ -183,11 +181,9 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
                       child: Checkbox(
                         splashRadius: 2,
                         value: _selectingDateTimeNow,
-                        checkColor: App.themeColor.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        fillColor: WidgetStatePropertyAll(App.themeColor.secondary),
+                        checkColor: kColor(context).primary,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                        fillColor: WidgetStatePropertyAll(kColor(context).secondary),
                         onChanged: (value) {
                           _tapNowDate(selectionController);
                           setState(() {});
@@ -200,10 +196,7 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
                     child: Wrap(
                       children: [
                         ShadowText('Now ('),
-                        ShadowText(
-                          _dtFormatter.format(_now),
-                          color: App.themeColor.secondary,
-                        ),
+                        ShadowText(_dtFormatter.format(_now), color: kColor(context).secondary),
                         ShadowText(')'),
                       ],
                     ),
@@ -214,11 +207,12 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
           ),
           SizedBox(height: responsiveUI.own(0.015)),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Started
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Started
           Opacity(
-            opacity: (_selectingDateTimeNow || buttonState == ConfirmButtonState.inprogress) ? 0.6 : 1,
+            opacity:
+                (_selectingDateTimeNow || buttonState == ConfirmButtonState.inprogress) ? 0.6 : 1,
             child: GestureDetector(
               onTap: (_selectingDateTimeNow) ? () {} : _startDatePicker,
               child: Wrap(
@@ -229,11 +223,11 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
                   Icon(
                     Icons.calendar_month,
                     size: responsiveUI.own(0.045),
-                    color: App.themeColor.secondary,
+                    color: kColor(context).secondary,
                   ),
                   ShadowText(
                     _dateOptionText(selectionController.started, _errorStartDate),
-                    color: (_errorStartDate) ? Colors.red : App.themeColor.secondary,
+                    color: (_errorStartDate) ? Colors.red : kColor(context).secondary,
                   ),
                 ],
               ),
@@ -241,11 +235,12 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
           ),
           SizedBox(height: responsiveUI.own(0.01)),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Finished
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Finished
           Opacity(
-            opacity: (_selectingDateTimeNow || buttonState == ConfirmButtonState.inprogress) ? 0.6 : 1,
+            opacity:
+                (_selectingDateTimeNow || buttonState == ConfirmButtonState.inprogress) ? 0.6 : 1,
             child: GestureDetector(
               onTap: (_selectingDateTimeNow) ? () {} : _finishDatePicker,
               child: Wrap(
@@ -256,20 +251,20 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
                   Icon(
                     Icons.calendar_month,
                     size: responsiveUI.own(0.045),
-                    color: App.themeColor.secondary,
+                    color: kColor(context).secondary,
                   ),
                   ShadowText(
                     _dateOptionText(selectionController.finished, _errorFinishDate),
-                    color: (_errorFinishDate) ? Colors.red : App.themeColor.secondary,
+                    color: (_errorFinishDate) ? Colors.red : kColor(context).secondary,
                   ),
                 ],
               ),
             ),
           ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          //
         ],
       ),
     );

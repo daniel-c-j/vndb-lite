@@ -13,17 +13,18 @@ String _$localSortFilterRepoHash() =>
 @ProviderFor(localSortFilterRepo)
 final localSortFilterRepoProvider =
     AutoDisposeProvider<LocalSortFilterRepo>.internal(
-  localSortFilterRepo,
-  name: r'localSortFilterRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$localSortFilterRepoHash,
-  dependencies: <ProviderOrFamily>[sharedPrefProvider],
-  allTransitiveDependencies: <ProviderOrFamily>{
-    sharedPrefProvider,
-    ...?sharedPrefProvider.allTransitiveDependencies
-  },
-);
+      localSortFilterRepo,
+      name: r'localSortFilterRepoProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$localSortFilterRepoHash,
+      dependencies: <ProviderOrFamily>[sharedPrefProvider],
+      allTransitiveDependencies: <ProviderOrFamily>{
+        sharedPrefProvider,
+        ...?sharedPrefProvider.allTransitiveDependencies,
+      },
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

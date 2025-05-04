@@ -4,11 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/remote/remote_sort_filter_repo.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/developers.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/search_filter_result_controller.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class SearchDev extends ConsumerStatefulWidget {
   const SearchDev({super.key});
@@ -32,9 +33,9 @@ class _SearchDevState extends ConsumerState<SearchDev> {
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _process(Developer dev) async {
     final filter = ref.read(tempRemoteFilterControllerProvider);
@@ -53,9 +54,9 @@ class _SearchDevState extends ConsumerState<SearchDev> {
     ref.read(tempRemoteFilterControllerProvider.notifier).copyWith(dev: filterDev);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _formatDevDataToWidget(var dev) {
     late final Developer developer;
@@ -67,25 +68,20 @@ class _SearchDevState extends ConsumerState<SearchDev> {
     }
 
     return Container(
-      margin: EdgeInsets.only(
-        top: responsiveUI.own(0.025),
-        right: responsiveUI.own(0.02),
-      ),
+      margin: EdgeInsets.only(top: responsiveUI.own(0.025), right: responsiveUI.own(0.02)),
       child: CustomLabel(
         useBorder: true,
         borderRadius: 10,
         isSelected: ref.watch(tempRemoteFilterControllerProvider).dev.contains(developer),
         onTap: () async => await _process(developer),
-        children: [
-          ShadowText(developer.name),
-        ],
+        children: [ShadowText(developer.name)],
       ),
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget get _emptyResult {
     return Padding(
@@ -97,10 +93,7 @@ class _SearchDevState extends ConsumerState<SearchDev> {
   Widget get _errorSearch {
     return Padding(
       padding: EdgeInsets.only(top: responsiveUI.own(0.02)),
-      child: ShadowText(
-        "There's an error, maybe try again later?",
-        color: Colors.red,
-      ),
+      child: ShadowText("There's an error, maybe try again later?", color: Colors.red),
     );
   }
 
@@ -110,25 +103,23 @@ class _SearchDevState extends ConsumerState<SearchDev> {
       child: SizedBox(
         height: responsiveUI.own(0.05),
         width: responsiveUI.own(0.05),
-        child: CircularProgressIndicator(
-          strokeWidth: responsiveUI.own(0.008),
-        ),
+        child: CircularProgressIndicator(strokeWidth: responsiveUI.own(0.008)),
       ),
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Selected dev options
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Selected dev options
         Padding(
           padding: EdgeInsets.only(top: responsiveUI.own(0.01)),
           child: Consumer(
@@ -138,7 +129,8 @@ class _SearchDevState extends ConsumerState<SearchDev> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (filter.dev.isNotEmpty) ShadowText('Selected:', fontSize: responsiveUI.own(0.0325)),
+                  if (filter.dev.isNotEmpty)
+                    ShadowText('Selected:', fontSize: responsiveUI.own(0.0325)),
                   Wrap(
                     children: [for (Developer vnDev in filter.dev) _formatDevDataToWidget(vnDev)],
                   ),
@@ -149,9 +141,9 @@ class _SearchDevState extends ConsumerState<SearchDev> {
         ),
         SizedBox(height: responsiveUI.own(0.025)),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Search input Widget
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Search input Widget
         Container(
           padding: EdgeInsets.only(left: responsiveUI.own(0.01)),
           height: responsiveUI.own(0.1),
@@ -166,37 +158,34 @@ class _SearchDevState extends ConsumerState<SearchDev> {
                     if (_textController.text.isEmpty) return;
                     ref.read(devSearchControllerProvider.notifier).state = _textController.text;
                   },
-                  cursorColor: App.themeColor.tertiary,
+                  cursorColor: kColor(context).tertiary,
                   style: styleText(fontSize: responsiveUI.own(0.036)),
                   decoration: InputDecoration(
                     hintText: 'Search...',
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         width: 1,
-                        color: App.themeColor.tertiary.withOpacity(0.7),
+                        color: kColor(context).tertiary.withOpacity(0.7),
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1.5,
-                        color: App.themeColor.secondary,
-                      ),
+                      borderSide: BorderSide(width: 1.5, color: kColor(context).secondary),
                     ),
-                    focusColor: App.themeColor.tertiary,
-                    fillColor: App.themeColor.tertiary,
+                    focusColor: kColor(context).tertiary,
+                    fillColor: kColor(context).tertiary,
                     hintStyle: styleText(
                       fontSize: responsiveUI.normalSize,
                       color: Color.alphaBlend(
-                        App.themeColor.tertiary.withOpacity(0.4),
-                        App.themeColor.secondary,
+                        kColor(context).tertiary.withOpacity(0.4),
+                        kColor(context).secondary,
                       ),
                     ),
                   ),
                 ),
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Search Widget Icon
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Search Widget Icon
               Tooltip(
                 message: 'Search',
                 child: IconButton(
@@ -206,47 +195,51 @@ class _SearchDevState extends ConsumerState<SearchDev> {
                   },
                   icon: Icon(
                     Icons.search,
-                    color: App.themeColor.tertiary,
+                    color: kColor(context).tertiary,
                     size: responsiveUI.own(0.05),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Search results widget
-        Consumer(builder: (context, ref, child) {
-          final searchDev = ref.watch(devSearchControllerProvider);
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Search results widget
+        Consumer(
+          builder: (context, ref, child) {
+            final searchDev = ref.watch(devSearchControllerProvider);
 
-          if (searchDev.isEmpty) {
-            return const SizedBox.shrink();
-          }
+            if (searchDev.isEmpty) {
+              return const SizedBox.shrink();
+            }
 
-          return ref.watch(fetchDevelopersProvider(searchDev)).when(
-            data: (response) {
-              final results = response.data['results'];
+            return ref
+                .watch(fetchDevelopersProvider(searchDev))
+                .when(
+                  data: (response) {
+                    final results = response.data['results'];
 
-              if (results.isEmpty) {
-                return _emptyResult;
-              }
+                    if (results.isEmpty) {
+                      return _emptyResult;
+                    }
 
-              return Wrap(
-                children: [
-                  for (Map<String, dynamic> vnDev in results) _formatDevDataToWidget(vnDev),
-                ],
-              );
-            },
-            error: (err, st) {
-              return _errorSearch;
-            },
-            loading: () {
-              return _loadingSearch;
-            },
-          );
-        }),
+                    return Wrap(
+                      children: [
+                        for (Map<String, dynamic> vnDev in results) _formatDevDataToWidget(vnDev),
+                      ],
+                    );
+                  },
+                  error: (err, st) {
+                    return _errorSearch;
+                  },
+                  loading: () {
+                    return _loadingSearch;
+                  },
+                );
+          },
+        ),
       ],
     );
   }

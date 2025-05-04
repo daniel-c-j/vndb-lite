@@ -2,12 +2,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/chart/application/chart_service.dart';
 import 'package:vndb_lite/src/features/chart/data/search_chart._data.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/chart/presentation/stat_chart_controller.dart';
+
+import '../../../util/context_shortcut.dart';
 
 class VNDBStatsChart extends ConsumerStatefulWidget {
   const VNDBStatsChart({super.key});
@@ -16,7 +18,8 @@ class VNDBStatsChart extends ConsumerStatefulWidget {
   ConsumerState<VNDBStatsChart> createState() => _VndbStatChartState();
 }
 
-class _VndbStatChartState extends ConsumerState<VNDBStatsChart> with SingleTickerProviderStateMixin {
+class _VndbStatChartState extends ConsumerState<VNDBStatsChart>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
 
   final double standardPieChartRadius = responsiveUI.own(0.09);
@@ -24,8 +27,10 @@ class _VndbStatChartState extends ConsumerState<VNDBStatsChart> with SingleTicke
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 800))
-      ..forward();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    )..forward();
 
     // Initialization of chart statistics value, depending on either local downloaded/hardcoded value, or
     // remote updated value.
@@ -46,7 +51,7 @@ class _VndbStatChartState extends ConsumerState<VNDBStatsChart> with SingleTicke
       gradient: LinearGradient(
         colors: [
           searchChartStatsData[valueType]!.color,
-          App.themeColor.secondary.withOpacity(0.6),
+          kColor(context).secondary.withOpacity(0.6),
         ],
       ),
       value: searchChartStatsData[valueType]!.data.toDouble(),
@@ -64,15 +69,12 @@ class _VndbStatChartState extends ConsumerState<VNDBStatsChart> with SingleTicke
             searchChartStatsData[valueType]!.data.toString(),
             fontWeight: FontWeight.bold,
             fontSize: responsiveUI.own(0.042),
-            color: App.themeColor.secondary,
+            color: kColor(context).secondary,
             shadows: [
               Shadow(
-                color: Color.alphaBlend(
-                  Colors.black,
-                  App.themeColor.primary,
-                ).withOpacity(0.5),
+                color: Color.alphaBlend(Colors.black, kColor(context).primary).withOpacity(0.5),
                 blurRadius: 4,
-              )
+              ),
             ],
             forceShadow: true,
           ),
@@ -128,14 +130,18 @@ class _VndbStatChartState extends ConsumerState<VNDBStatsChart> with SingleTicke
                     child: Container(
                       alignment: Alignment.center,
                       child: Transform.scale(
-                        scale: (MediaQuery.of(context).orientation == Orientation.landscape) ? 0.77 : 0.8,
+                        scale:
+                            (MediaQuery.of(context).orientation == Orientation.landscape)
+                                ? 0.77
+                                : 0.8,
                         child: PieChart(
                           PieChartData(
                             startDegreeOffset: chartDegree,
                             sectionsSpace: responsiveUI.own(0.01),
                             centerSpaceRadius: responsiveUI.own(0.2),
                             sections: [
-                              for (String statsCode in searchChartStatsData.keys) _pieData(statsCode),
+                              for (String statsCode in searchChartStatsData.keys)
+                                _pieData(statsCode),
                             ],
                           ),
                         ),

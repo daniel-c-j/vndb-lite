@@ -13,13 +13,14 @@ String _$localHomeRepoHash() => r'5c29abceceb5a17ad9fdfa698da41266ece1569e';
 final localHomeRepoProvider = AutoDisposeProvider<LocalHomeRepoImpl>.internal(
   localHomeRepo,
   name: r'localHomeRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$localHomeRepoHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$localHomeRepoHash,
   dependencies: <ProviderOrFamily>[sharedPrefProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
     sharedPrefProvider,
-    ...?sharedPrefProvider.allTransitiveDependencies
+    ...?sharedPrefProvider.allTransitiveDependencies,
   },
 );
 
@@ -64,24 +65,18 @@ class FetchCachedPreviewFamily extends Family<AsyncValue<List<String>>> {
     int maxPreviewItem, {
     required String cacheKey,
   }) {
-    return FetchCachedPreviewProvider(
-      maxPreviewItem,
-      cacheKey: cacheKey,
-    );
+    return FetchCachedPreviewProvider(maxPreviewItem, cacheKey: cacheKey);
   }
 
   @override
   FetchCachedPreviewProvider getProviderOverride(
     covariant FetchCachedPreviewProvider provider,
   ) {
-    return call(
-      provider.maxPreviewItem,
-      cacheKey: provider.cacheKey,
-    );
+    return call(provider.maxPreviewItem, cacheKey: provider.cacheKey);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    localHomeRepoProvider
+    localHomeRepoProvider,
   ];
 
   @override
@@ -89,9 +84,9 @@ class FetchCachedPreviewFamily extends Family<AsyncValue<List<String>>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    localHomeRepoProvider,
-    ...?localHomeRepoProvider.allTransitiveDependencies
-  };
+        localHomeRepoProvider,
+        ...?localHomeRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -105,27 +100,25 @@ class FetchCachedPreviewFamily extends Family<AsyncValue<List<String>>> {
 class FetchCachedPreviewProvider
     extends AutoDisposeFutureProvider<List<String>> {
   /// See also [fetchCachedPreview].
-  FetchCachedPreviewProvider(
-    int maxPreviewItem, {
-    required String cacheKey,
-  }) : this._internal(
-          (ref) => fetchCachedPreview(
-            ref as FetchCachedPreviewRef,
-            maxPreviewItem,
-            cacheKey: cacheKey,
-          ),
-          from: fetchCachedPreviewProvider,
-          name: r'fetchCachedPreviewProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$fetchCachedPreviewHash,
-          dependencies: FetchCachedPreviewFamily._dependencies,
-          allTransitiveDependencies:
-              FetchCachedPreviewFamily._allTransitiveDependencies,
-          maxPreviewItem: maxPreviewItem,
+  FetchCachedPreviewProvider(int maxPreviewItem, {required String cacheKey})
+    : this._internal(
+        (ref) => fetchCachedPreview(
+          ref as FetchCachedPreviewRef,
+          maxPreviewItem,
           cacheKey: cacheKey,
-        );
+        ),
+        from: fetchCachedPreviewProvider,
+        name: r'fetchCachedPreviewProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$fetchCachedPreviewHash,
+        dependencies: FetchCachedPreviewFamily._dependencies,
+        allTransitiveDependencies:
+            FetchCachedPreviewFamily._allTransitiveDependencies,
+        maxPreviewItem: maxPreviewItem,
+        cacheKey: cacheKey,
+      );
 
   FetchCachedPreviewProvider._internal(
     super._createNotifier, {
@@ -203,5 +196,6 @@ class _FetchCachedPreviewProviderElement
   @override
   String get cacheKey => (origin as FetchCachedPreviewProvider).cacheKey;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

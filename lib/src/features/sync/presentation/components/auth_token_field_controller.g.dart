@@ -13,14 +13,15 @@ String _$showAuthTokenFieldStateHash() =>
 @ProviderFor(ShowAuthTokenFieldState)
 final showAuthTokenFieldStateProvider =
     NotifierProvider<ShowAuthTokenFieldState, bool>.internal(
-  ShowAuthTokenFieldState.new,
-  name: r'showAuthTokenFieldStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$showAuthTokenFieldStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      ShowAuthTokenFieldState.new,
+      name: r'showAuthTokenFieldStateProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$showAuthTokenFieldStateHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$ShowAuthTokenFieldState = Notifier<bool>;
 String _$authTokenFieldControllerHash() =>
@@ -30,14 +31,15 @@ String _$authTokenFieldControllerHash() =>
 @ProviderFor(AuthTokenFieldController)
 final authTokenFieldControllerProvider =
     AutoDisposeNotifierProvider<AuthTokenFieldController, String>.internal(
-  AuthTokenFieldController.new,
-  name: r'authTokenFieldControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$authTokenFieldControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      AuthTokenFieldController.new,
+      name: r'authTokenFieldControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$authTokenFieldControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$AuthTokenFieldController = AutoDisposeNotifier<String>;
 String _$authTokenFieldServerErrorControllerHash() =>
@@ -47,14 +49,15 @@ String _$authTokenFieldServerErrorControllerHash() =>
 @ProviderFor(AuthTokenFieldServerErrorController)
 final authTokenFieldServerErrorControllerProvider =
     NotifierProvider<AuthTokenFieldServerErrorController, String>.internal(
-  AuthTokenFieldServerErrorController.new,
-  name: r'authTokenFieldServerErrorControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$authTokenFieldServerErrorControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      AuthTokenFieldServerErrorController.new,
+      name: r'authTokenFieldServerErrorControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$authTokenFieldServerErrorControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$AuthTokenFieldServerErrorController = Notifier<String>;
 // ignore_for_file: type=lint

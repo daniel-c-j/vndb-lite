@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 
 // TODO filter options lag.
 class FilterItem extends StatelessWidget {
-  const FilterItem({
-    super.key,
-    required this.title,
-    required this.isOpened,
-    required this.onTap,
-  });
+  const FilterItem({super.key, required this.title, required this.isOpened, required this.onTap});
 
   final String title;
   final bool isOpened;
@@ -24,7 +20,7 @@ class FilterItem extends StatelessWidget {
         onTap: onTap,
         child: ListTile(
           selected: true,
-          selectedTileColor: App.themeColor.secondary.withOpacity(0.3),
+          selectedTileColor: kColor(context).secondary.withOpacity(0.3),
           dense: true,
           contentPadding: EdgeInsets.symmetric(
             horizontal: responsiveUI.own(0.045),
@@ -33,7 +29,7 @@ class FilterItem extends StatelessWidget {
           title: ShadowText(title),
           trailing: Icon(
             (isOpened) ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-            color: App.themeColor.tertiary,
+            color: kColor(context).tertiary,
             size: responsiveUI.own(0.06),
           ),
         ),

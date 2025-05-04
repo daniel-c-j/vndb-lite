@@ -12,17 +12,18 @@ String _$remoteSearchRepoHash() => r'a6cc9b5e90cb5e64fbf41285802645b300b905cc';
 @ProviderFor(remoteSearchRepo)
 final remoteSearchRepoProvider =
     AutoDisposeProvider<RemoteSearchRepoImpl>.internal(
-  remoteSearchRepo,
-  name: r'remoteSearchRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$remoteSearchRepoHash,
-  dependencies: <ProviderOrFamily>[apiServiceProvider],
-  allTransitiveDependencies: <ProviderOrFamily>{
-    apiServiceProvider,
-    ...?apiServiceProvider.allTransitiveDependencies
-  },
-);
+      remoteSearchRepo,
+      name: r'remoteSearchRepoProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$remoteSearchRepoHash,
+      dependencies: <ProviderOrFamily>[apiServiceProvider],
+      allTransitiveDependencies: <ProviderOrFamily>{
+        apiServiceProvider,
+        ...?apiServiceProvider.allTransitiveDependencies,
+      },
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -64,24 +65,18 @@ class RemoteSearchVnFamily extends Family<AsyncValue<Response>> {
     GenericPost requestData, {
     CancelToken? cancelToken,
   }) {
-    return RemoteSearchVnProvider(
-      requestData,
-      cancelToken: cancelToken,
-    );
+    return RemoteSearchVnProvider(requestData, cancelToken: cancelToken);
   }
 
   @override
   RemoteSearchVnProvider getProviderOverride(
     covariant RemoteSearchVnProvider provider,
   ) {
-    return call(
-      provider.requestData,
-      cancelToken: provider.cancelToken,
-    );
+    return call(provider.requestData, cancelToken: provider.cancelToken);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteSearchRepoProvider
+    remoteSearchRepoProvider,
   ];
 
   @override
@@ -89,9 +84,9 @@ class RemoteSearchVnFamily extends Family<AsyncValue<Response>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    remoteSearchRepoProvider,
-    ...?remoteSearchRepoProvider.allTransitiveDependencies
-  };
+        remoteSearchRepoProvider,
+        ...?remoteSearchRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -104,27 +99,25 @@ class RemoteSearchVnFamily extends Family<AsyncValue<Response>> {
 /// See also [remoteSearchVn].
 class RemoteSearchVnProvider extends AutoDisposeFutureProvider<Response> {
   /// See also [remoteSearchVn].
-  RemoteSearchVnProvider(
-    GenericPost requestData, {
-    CancelToken? cancelToken,
-  }) : this._internal(
-          (ref) => remoteSearchVn(
-            ref as RemoteSearchVnRef,
-            requestData,
-            cancelToken: cancelToken,
-          ),
-          from: remoteSearchVnProvider,
-          name: r'remoteSearchVnProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$remoteSearchVnHash,
-          dependencies: RemoteSearchVnFamily._dependencies,
-          allTransitiveDependencies:
-              RemoteSearchVnFamily._allTransitiveDependencies,
-          requestData: requestData,
+  RemoteSearchVnProvider(GenericPost requestData, {CancelToken? cancelToken})
+    : this._internal(
+        (ref) => remoteSearchVn(
+          ref as RemoteSearchVnRef,
+          requestData,
           cancelToken: cancelToken,
-        );
+        ),
+        from: remoteSearchVnProvider,
+        name: r'remoteSearchVnProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$remoteSearchVnHash,
+        dependencies: RemoteSearchVnFamily._dependencies,
+        allTransitiveDependencies:
+            RemoteSearchVnFamily._allTransitiveDependencies,
+        requestData: requestData,
+        cancelToken: cancelToken,
+      );
 
   RemoteSearchVnProvider._internal(
     super._createNotifier, {
@@ -192,7 +185,8 @@ mixin RemoteSearchVnRef on AutoDisposeFutureProviderRef<Response> {
 }
 
 class _RemoteSearchVnProviderElement
-    extends AutoDisposeFutureProviderElement<Response> with RemoteSearchVnRef {
+    extends AutoDisposeFutureProviderElement<Response>
+    with RemoteSearchVnRef {
   _RemoteSearchVnProviderElement(super.provider);
 
   @override
@@ -201,5 +195,6 @@ class _RemoteSearchVnProviderElement
   CancelToken? get cancelToken =>
       (origin as RemoteSearchVnProvider).cancelToken;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

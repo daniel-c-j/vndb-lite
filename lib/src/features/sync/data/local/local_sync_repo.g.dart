@@ -13,13 +13,14 @@ String _$localSyncRepoHash() => r'29453a000e7245126b288388d9f4959a09675707';
 final localSyncRepoProvider = AutoDisposeProvider<LocalSyncRepo>.internal(
   localSyncRepo,
   name: r'localSyncRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$localSyncRepoHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$localSyncRepoHash,
   dependencies: <ProviderOrFamily>[sharedPrefProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
     sharedPrefProvider,
-    ...?sharedPrefProvider.allTransitiveDependencies
+    ...?sharedPrefProvider.allTransitiveDependencies,
   },
 );
 

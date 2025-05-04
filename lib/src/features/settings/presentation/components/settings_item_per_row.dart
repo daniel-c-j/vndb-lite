@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/settings/presentation/components/settings_listview_scroll_items.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class SettingsItemPerRow extends ConsumerStatefulWidget {
   const SettingsItemPerRow({
@@ -47,8 +48,8 @@ class _SettingsItemPerRowState extends ConsumerState<SettingsItemPerRow> {
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(
                     color: Color.alphaBlend(
-                      App.themeColor.secondary.withOpacity(0.4),
-                      App.themeColor.tertiary.withOpacity(0.6),
+                      kColor(context).secondary.withOpacity(0.4),
+                      kColor(context).tertiary.withOpacity(0.6),
                     ),
                     width: 1.5,
                   ),
@@ -57,16 +58,13 @@ class _SettingsItemPerRowState extends ConsumerState<SettingsItemPerRow> {
                   initialItemController: widget.initialPortraitValue - 2,
                   onSelectedItemChanged: widget.onSelectedItemChangedPortrait,
                   // Maximum 8.
-                  children: List.generate(
-                    7,
-                    (idx) {
-                      return ShadowText(
-                        (idx + 2).toString(),
-                        fontSize: responsiveUI.own(0.04),
-                        color: Colors.white,
-                      );
-                    },
-                  ),
+                  children: List.generate(7, (idx) {
+                    return ShadowText(
+                      (idx + 2).toString(),
+                      fontSize: responsiveUI.own(0.04),
+                      color: Colors.white,
+                    );
+                  }),
                 ),
               ),
             ],
@@ -82,8 +80,8 @@ class _SettingsItemPerRowState extends ConsumerState<SettingsItemPerRow> {
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(
                     color: Color.alphaBlend(
-                      App.themeColor.secondary.withOpacity(0.4),
-                      App.themeColor.tertiary.withOpacity(0.6),
+                      kColor(context).secondary.withOpacity(0.4),
+                      kColor(context).tertiary.withOpacity(0.6),
                     ),
                     width: 1.5,
                   ),

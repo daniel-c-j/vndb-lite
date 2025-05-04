@@ -13,14 +13,15 @@ String _$authScreenControllerHash() =>
 @ProviderFor(AuthScreenController)
 final authScreenControllerProvider =
     AutoDisposeNotifierProvider<AuthScreenController, UserIdentity?>.internal(
-  AuthScreenController.new,
-  name: r'authScreenControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$authScreenControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      AuthScreenController.new,
+      name: r'authScreenControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$authScreenControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$AuthScreenController = AutoDisposeNotifier<UserIdentity?>;
 // ignore_for_file: type=lint

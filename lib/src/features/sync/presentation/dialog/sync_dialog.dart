@@ -5,7 +5,7 @@ import 'package:vndb_lite/src/common_widgets/custom_dialog.dart';
 import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/home/data/local/local_home_repo.dart';
@@ -13,6 +13,7 @@ import 'package:vndb_lite/src/features/sync/application/sync_service.dart';
 import 'package:vndb_lite/src/features/sync/presentation/components/sync_snackbar.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 Future<void> showSyncDialog() async {
   return await showDialog(
@@ -30,9 +31,9 @@ Future<void> showSyncDialog() async {
               useContentPadding: true,
               content: Column(
                 children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Title & Content
+                  //
+                  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                  // Title & Content
                   ShadowText(
                     "Authentication Success!",
                     align: TextAlign.center,
@@ -51,16 +52,16 @@ Future<void> showSyncDialog() async {
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Yes
+                      //
+                      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      // Yes
                       CustomDialogButton(
                         text: (collection.isEmpty) ? "Yes" : "Keep, merge, and sync my VNs",
-                        textColor: App.themeColor.primary,
+                        textColor: kColor(context).primary,
                         textShadow: const [
                           Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
                         ],
-                        color: App.themeColor.tertiary,
+                        color: kColor(context).tertiary,
                         leading: Padding(
                           padding: EdgeInsets.only(right: responsiveUI.own(0.01)),
                           child: Icon(
@@ -75,7 +76,9 @@ Future<void> showSyncDialog() async {
                           ref_.read(bottomProgressIndicatorProvider.notifier).show = true;
 
                           try {
-                            await ref_.read(syncServiceProvider(snackbar: snackBarSyncStatus)).sync(
+                            await ref_
+                                .read(syncServiceProvider(snackbar: snackBarSyncStatus))
+                                .sync(
                                   keepVns: true,
                                   whenDownloadingAndSaving: () async {
                                     // Updates collection periodically.
@@ -94,17 +97,17 @@ Future<void> showSyncDialog() async {
                         },
                       ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// No
+                      //
+                      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      // No
                       if (collection.isNotEmpty)
                         CustomDialogButton(
                           text: "Delete them and sync my VNs",
-                          textColor: App.themeColor.primary,
+                          textColor: kColor(context).primary,
                           textShadow: const [
                             Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
                           ],
-                          color: App.themeColor.tertiary,
+                          color: kColor(context).tertiary,
                           leading: Padding(
                             padding: EdgeInsets.only(right: responsiveUI.own(0.01)),
                             child: Icon(
@@ -119,7 +122,9 @@ Future<void> showSyncDialog() async {
                             ref_.read(bottomProgressIndicatorProvider.notifier).show = true;
 
                             try {
-                              await ref_.read(syncServiceProvider(snackbar: snackBarSyncStatus)).sync(
+                              await ref_
+                                  .read(syncServiceProvider(snackbar: snackBarSyncStatus))
+                                  .sync(
                                     keepVns: false,
                                     whenDownloadingAndSaving: () async {
                                       // Updates collection periodically
@@ -138,9 +143,9 @@ Future<void> showSyncDialog() async {
                           },
                         ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Nah, later
+                      //
+                      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      // Nah, later
                       CustomDialogButton(
                         text: (collection.isEmpty) ? "Not now" : "Nah, I'll do it later",
                         color: Colors.transparent,
@@ -150,9 +155,9 @@ Future<void> showSyncDialog() async {
                         },
                       ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+                      //
+                      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      //
                     ],
                   ),
                 ],

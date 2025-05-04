@@ -13,14 +13,15 @@ String _$vnItemSummaryScrollStateHash() =>
 @ProviderFor(VnItemSummaryScrollState)
 final vnItemSummaryScrollStateProvider =
     AutoDisposeNotifierProvider<VnItemSummaryScrollState, bool>.internal(
-  VnItemSummaryScrollState.new,
-  name: r'vnItemSummaryScrollStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$vnItemSummaryScrollStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      VnItemSummaryScrollState.new,
+      name: r'vnItemSummaryScrollStateProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$vnItemSummaryScrollStateHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$VnItemSummaryScrollState = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint

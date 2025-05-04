@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/base_dialog.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class MultiSelectFab extends ConsumerWidget {
   const MultiSelectFab({super.key});
@@ -25,8 +26,8 @@ class MultiSelectFab extends ConsumerWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              App.themeColor.primary.withOpacity(0.8),
-              App.themeColor.primary.withOpacity(0.5),
+              kColor(context).primary.withOpacity(0.8),
+              kColor(context).primary.withOpacity(0.5),
             ],
           ),
           boxShadow: [
@@ -61,7 +62,7 @@ class MultiSelectFab extends ConsumerWidget {
               ref.invalidate(vnRecordControllerProvider(p1.id));
             }
           },
-          child: Icon(Icons.check, color: App.themeColor.tertiary),
+          child: Icon(Icons.check, color: kColor(context).tertiary),
         ),
       );
     }

@@ -13,14 +13,15 @@ String _$devSearchControllerHash() =>
 @ProviderFor(DevSearchController)
 final devSearchControllerProvider =
     AutoDisposeNotifierProvider<DevSearchController, String>.internal(
-  DevSearchController.new,
-  name: r'devSearchControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$devSearchControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      DevSearchController.new,
+      name: r'devSearchControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$devSearchControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$DevSearchController = AutoDisposeNotifier<String>;
 String _$tagSearchControllerHash() =>
@@ -30,14 +31,15 @@ String _$tagSearchControllerHash() =>
 @ProviderFor(TagSearchController)
 final tagSearchControllerProvider =
     AutoDisposeNotifierProvider<TagSearchController, String>.internal(
-  TagSearchController.new,
-  name: r'tagSearchControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$tagSearchControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      TagSearchController.new,
+      name: r'tagSearchControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$tagSearchControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$TagSearchController = AutoDisposeNotifier<String>;
 // ignore_for_file: type=lint

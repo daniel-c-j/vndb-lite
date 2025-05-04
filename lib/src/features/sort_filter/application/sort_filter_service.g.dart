@@ -12,14 +12,15 @@ String _$sortFilterServiceHash() => r'e0a83d37d4c045ccff8f80ad6212658b908658b4';
 @ProviderFor(sortFilterService)
 final sortFilterServiceProvider =
     AutoDisposeProvider<SortFilterService>.internal(
-  sortFilterService,
-  name: r'sortFilterServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$sortFilterServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      sortFilterService,
+      name: r'sortFilterServiceProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$sortFilterServiceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

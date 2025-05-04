@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_detail_summary_scroll_state.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
@@ -11,6 +11,7 @@ import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_detail_summary_x_button.dart';
 import 'package:vndb_lite/src/util/language_code_formatting.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VnItemGridDetailsSummary extends ConsumerStatefulWidget {
   const VnItemGridDetailsSummary({
@@ -38,8 +39,10 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300))
-      ..forward();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    )..forward();
 
     _offsetAnimation = _animationController
         .drive(CurveTween(curve: Curves.easeInOut))
@@ -52,9 +55,9 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void _setUserScrollingInSummary() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -62,9 +65,9 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
     });
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   String get _vnLength {
     if (widget.p1.length == 1) return 'Very Short';
@@ -75,9 +78,9 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
     return 'Unknown';
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget detailSummary({
     required IconData icon,
@@ -91,26 +94,22 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
       alignment: WrapAlignment.start,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        Icon(
-          icon,
-          size: responsiveUI.own(0.038),
-          color: App.themeColor.secondary,
-        ),
+        Icon(icon, size: responsiveUI.own(0.038), color: kColor(context).secondary),
         ShadowText(title),
         (content is String)
             ? ShadowText(
-                content,
-                fontWeight: (useHighlight) ? FontWeight.bold : null,
-                color: (useHighlight) ? App.themeColor.secondary : null,
-              )
+              content,
+              fontWeight: (useHighlight) ? FontWeight.bold : null,
+              color: (useHighlight) ? kColor(context).secondary : null,
+            )
             : content,
       ],
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -130,24 +129,24 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: App.themeColor.primary.withOpacity(0.6),
+                      color: kColor(context).primary.withOpacity(0.6),
                       spreadRadius: 10,
                       blurRadius: 20,
-                    )
+                    ),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Title
+                    //
+                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    // Title
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: App.themeColor.secondary.withOpacity(0.6),
+                            color: kColor(context).secondary.withOpacity(0.6),
                             offset: const Offset(0, -15),
                             spreadRadius: 25,
                             blurRadius: 35,
@@ -155,10 +154,7 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
                         ],
                       ),
                       child: SingleChildScrollView(
-                        child: ShadowText(
-                          widget.p1.title,
-                          fontSize: responsiveUI.own(0.0385),
-                        ),
+                        child: ShadowText(widget.p1.title, fontSize: responsiveUI.own(0.0385)),
                       ),
                     ),
                     Expanded(
@@ -168,7 +164,9 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
                           children: [
                             Consumer(
                               builder: (context, ref, child) {
-                                final vnRecord = ref.watch(vnRecordControllerProvider(widget.p1.id));
+                                final vnRecord = ref.watch(
+                                  vnRecordControllerProvider(widget.p1.id),
+                                );
 
                                 if (vnRecord == null) {
                                   return const SizedBox.shrink();
@@ -177,18 +175,18 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Status (if in collection)
+                                    //
+                                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    // Status (if in collection)
                                     detailSummary(
                                       icon: Icons.library_books,
                                       title: ' Status: ',
                                       content: toBeginningOfSentenceCase<String>(vnRecord.status),
                                       useHighlight: true,
                                     ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Voted
+                                    //
+                                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    // Voted
                                     detailSummary(
                                       icon: Icons.electric_bolt_sharp,
                                       title: ' Voted: ',
@@ -199,9 +197,9 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
                                 );
                               },
                             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Origin
+                            //
+                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            // Origin
                             detailSummary(
                               icon: Icons.public,
                               title: ' Origin: ',
@@ -216,44 +214,42 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
                                 ),
                               ),
                             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Rating
+                            //
+                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            // Rating
                             detailSummary(
                               icon: Icons.star,
                               title: ' Rating: ',
                               content: (widget.p1.rating! / 10).toStringAsFixed(2),
                             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Vote
+                            //
+                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            // Vote
                             detailSummary(
                               icon: Icons.electric_bolt_sharp,
                               title: ' Vote: ',
                               content: '${widget.p1.votecount}',
                             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Length
+                            //
+                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            // Length
                             detailSummary(
                               icon: Icons.timelapse,
                               title: ' Length: ',
                               content: _vnLength,
                             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Release date
+                            //
+                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            // Release date
                             detailSummary(
                               icon: Icons.calendar_month,
                               title: ' Release Date: ',
                               content: '${widget.p1.released}',
                             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Description
-                            ShadowText(
-                              '\nDescription: \n${widget.p1.description ?? '--'}',
-                            ),
+                            //
+                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            // Description
+                            ShadowText('\nDescription: \n${widget.p1.description ?? '--'}'),
                           ],
                         ),
                       ),
@@ -261,17 +257,17 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
                   ],
                 ),
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// X button indicator
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // X button indicator
               VnItemDetailSummaryXButton(
                 vnId: widget.p1.id,
                 toggleVnDetailSummary: widget.toggleVnDetailSummary,
                 animationController: _animationController,
-              )
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+              ),
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
             ],
           ),
         ),

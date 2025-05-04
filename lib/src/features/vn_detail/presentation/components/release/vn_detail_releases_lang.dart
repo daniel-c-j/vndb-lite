@@ -2,25 +2,22 @@ import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/others/languages.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/language_code_formatting.dart';
 
 class VnDetailReleasesLang extends StatelessWidget {
-  const VnDetailReleasesLang({
-    super.key,
-    required this.p1,
-    required this.p2,
-  });
+  const VnDetailReleasesLang({super.key, required this.p1, required this.p2});
 
   final VnDataPhase01 p1;
   final VnDataPhase02 p2;
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<Widget> get _flagWidgets async {
     final List<Widget> languageData = [];
@@ -36,15 +33,12 @@ class VnDetailReleasesLang extends StatelessWidget {
       languageData.add(_flagLangCode(language, txt: '(Machine Translation)'));
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: languageData,
-    );
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: languageData);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _flagLangCode(String langCode, {String txt = ''}) {
     //
@@ -61,9 +55,7 @@ class VnDetailReleasesLang extends StatelessWidget {
             fit: BoxFit.fill,
             borderRadius: 3,
           ),
-          ShadowText(
-            '  ${LanguageLocal.getDisplayLanguage(langCode)!['name']} $txt',
-          ),
+          ShadowText('  ${LanguageLocal.getDisplayLanguage(langCode)!['name']} $txt'),
         ],
       ),
     );
@@ -74,11 +66,7 @@ class VnDetailReleasesLang extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ShadowText(
-          'Languages',
-          fontSize: responsiveUI.own(0.045),
-          fontWeight: FontWeight.bold,
-        ),
+        ShadowText('Languages', fontSize: responsiveUI.own(0.045), fontWeight: FontWeight.bold),
         SizedBox(height: responsiveUI.own(0.01)),
         Wrap(
           children: [
@@ -87,15 +75,12 @@ class VnDetailReleasesLang extends StatelessWidget {
               ' (Origin)',
               fontWeight: FontWeight.bold,
               fontSize: responsiveUI.normalSize,
-              color: App.themeColor.secondary,
+              color: kColor(context).secondary,
               shadows: [
                 Shadow(
-                  color: Color.alphaBlend(
-                    Colors.black.withOpacity(0.5),
-                    App.themeColor.primary,
-                  ),
+                  color: Color.alphaBlend(Colors.black.withOpacity(0.5), kColor(context).primary),
                   blurRadius: 15,
-                )
+                ),
               ],
             ),
           ],

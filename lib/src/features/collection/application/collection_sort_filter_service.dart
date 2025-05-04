@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/constants/conf.dart';
@@ -8,7 +9,6 @@ import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/sort_.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
-import 'package:vndb_lite/src/util/unique_valuekey.dart';
 
 part 'collection_sort_filter_service.g.dart';
 
@@ -54,15 +54,21 @@ class CollectionSortFilterService {
           "dataToBeSearched": _getDataForSearchQuery(filter.search, adaptedVnData),
         };
 
-        final bool canContinue = await _canVnPassFilters(filter, filterService, searchFilter, adaptedVnData);
-        if (canContinue) await _addToVnWidgetList(adaptedVnData, statusName: statusName, sort: sort);
+        final bool canContinue = await _canVnPassFilters(
+          filter,
+          filterService,
+          searchFilter,
+          adaptedVnData,
+        );
+        if (canContinue)
+          await _addToVnWidgetList(adaptedVnData, statusName: statusName, sort: sort);
       }
     }
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool isUsingFilter(FilterData conf) {
     // Checks whether the current filter is not the same as the default one or
@@ -82,9 +88,9 @@ class CollectionSortFilterService {
     return [];
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool _isSearchingForAll(String? searchQuery) {
     return searchQuery == " " || searchQuery == null || searchQuery.isEmpty;
@@ -106,9 +112,9 @@ class CollectionSortFilterService {
     return "${vnData['title']} ${vnData['aliases']}";
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
   Future<bool> _canVnPassFilters(
     FilterData filter,
     LocalFilterService service,
@@ -146,30 +152,35 @@ class CollectionSortFilterService {
     return false;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _addToVnWidgetList(
     Map<String, dynamic> adaptedVnData, {
     required String statusName,
     required SortData sort,
   }) async {
-    ref.read(collectionContentControllerProvider.notifier).add(statusCode: statusName, data: [
-      VnItemGrid(
-        key: uidKeyOf(adaptedVnData['id']),
-        p1: VnDataPhase01.fromMap(adaptedVnData),
-        labelCode: sort.sort,
-        isGridView: true,
-      ),
-    ]);
+    ref
+        .read(collectionContentControllerProvider.notifier)
+        .add(
+          statusCode: statusName,
+          data: [
+            VnItemGrid(
+              key: UniqueKey(),
+              p1: VnDataPhase01.fromMap(adaptedVnData),
+              labelCode: sort.sort,
+              isGridView: true,
+            ),
+          ],
+        );
 
     return;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 }
 
 @riverpod

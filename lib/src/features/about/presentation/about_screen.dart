@@ -1,16 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_background.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/constants/app_info.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
-import 'package:vndb_lite/src/features/settings/presentation/settings_theme_state.dart';
-import 'package:vndb_lite/src/features/theme/data/theme_data.dart';
-import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/util/balanced_safearea.dart';
+
+import '../../../common_widgets/custom_button.dart';
+import '../../../util/context_shortcut.dart';
+import '../../theme/theme_data_provider.dart';
 
 class AboutScreen extends ConsumerWidget {
   const AboutScreen({super.key});
@@ -26,35 +27,27 @@ class AboutScreen extends ConsumerWidget {
         // "daniel_cj@mail2tor.com", // Alternate
         "dcj.dandy800@passinbox.com",
       ],
-      "icon": Icon(
-        Icons.email,
-        size: responsiveUI.own(0.05),
-        color: App.themeColor.tertiary,
-      )
+      "icon": Icon(Icons.email, size: responsiveUI.own(0.05), color: kColor().tertiary),
     },
     "github": {
       "urlDomain": "https://github.com/",
-      "id": [
-        "Daniel-C-J",
-      ],
+      "id": ["Daniel-C-J"],
       "icon": Image.asset(
         'assets/images/contact/github.png',
         fit: BoxFit.cover,
         width: responsiveUI.own(0.05),
-        color: App.themeColor.tertiary,
+        color: kColor().tertiary,
       ),
     },
     "ko-fi": {
       "urlDomain": "https://ko-fi.com/",
-      "id": [
-        "danielcj",
-      ],
+      "id": ["danielcj"],
       "icon": Image.asset(
         'assets/images/contact/ko-fi.webp',
         fit: BoxFit.cover,
         width: responsiveUI.own(0.05),
       ),
-    }
+    },
   };
 
   String get _passions {
@@ -89,23 +82,19 @@ class AboutScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeCode = ref.watch(settingsThemeStateProvider).appTheme;
-    final theme = THEME_DATA[themeCode]!;
+    final theme = ref.watch(appThemeStateProvider);
 
     return Stack(
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
-        GenericBackground(
-          imagePath: theme.backgroundImgPath,
-          useGradientOverlay: true,
-        ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
+        GenericBackground(imagePath: theme.backgroundImgPath, useGradientOverlay: true),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         Scaffold(
-          backgroundColor: App.themeColor.primary.withOpacity(0.3),
+          backgroundColor: kColor(context).primary.withOpacity(0.3),
           body: Stack(
             children: [
               SingleChildScrollView(
@@ -116,9 +105,9 @@ class AboutScreen extends ConsumerWidget {
                 ),
                 child: Column(
                   children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// App icon
+                    //
+                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    // App icon
                     Tooltip(
                       message: 'Christiane Friedrich from Majikoi Series ♥',
                       margin: EdgeInsets.only(top: responsiveUI.own(0.12)),
@@ -132,44 +121,29 @@ class AboutScreen extends ConsumerWidget {
                         height: responsiveUI.own(0.25),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: App.themeColor.secondary.withOpacity(0.4),
+                            color: kColor(context).secondary.withOpacity(0.4),
                             width: 2.5,
                           ),
                           borderRadius: BorderRadius.circular(60),
                         ),
-                        child: Image.asset(
-                          'assets/images/icon/app_icon.png',
-                          fit: BoxFit.cover,
-                        ),
+                        child: Image.asset('assets/images/icon/app_icon.png', fit: BoxFit.cover),
                       ),
                     ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+                    //
+                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    //
                     ShadowText(
                       AppInfo.TITLE,
                       fontSize: responsiveUI.own(0.05),
                       fontWeight: FontWeight.bold,
                       align: TextAlign.center,
                     ),
-                    ShadowText(
-                      'ver ${AppInfo.CURRENT_VERSION}',
-                      align: TextAlign.center,
-                    ),
-                    ShadowText(
-                      AppInfo.DESCRIPTION,
-                      align: TextAlign.center,
-                    ),
-                    Divider(
-                      indent: responsiveUI.own(0.1),
-                      endIndent: responsiveUI.own(0.1),
-                    ),
+                    ShadowText('ver ${AppInfo.CURRENT_VERSION}', align: TextAlign.center),
+                    ShadowText(AppInfo.DESCRIPTION, align: TextAlign.center),
+                    Divider(indent: responsiveUI.own(0.1), endIndent: responsiveUI.own(0.1)),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: responsiveUI.own(0.02)),
-                      child: ShadowText(
-                        'About',
-                        fontSize: responsiveUI.catgTitle,
-                      ),
+                      child: ShadowText('About', fontSize: responsiveUI.catgTitle),
                     ),
                     ShadowText(
                       "Hi there, Daniel CJ here. I am the developer of this app, ${AppInfo.TITLE}. "
@@ -186,23 +160,17 @@ class AboutScreen extends ConsumerWidget {
                       "more cool features, don't hesitate to contact me!",
                       align: TextAlign.center,
                     ),
-                    Divider(
-                      indent: responsiveUI.own(0.1),
-                      endIndent: responsiveUI.own(0.1),
-                    ),
+                    Divider(indent: responsiveUI.own(0.1), endIndent: responsiveUI.own(0.1)),
                     Container(
                       margin: EdgeInsets.only(
                         top: responsiveUI.own(0.02),
                         bottom: responsiveUI.own(0.02),
                       ),
-                      child: ShadowText(
-                        'Contact',
-                        fontSize: responsiveUI.catgTitle,
-                      ),
+                      child: ShadowText('Contact', fontSize: responsiveUI.catgTitle),
                     ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Contact
+                    //
+                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    // Contact
                     ShadowText(
                       'Project? Job offer? ... Or generous enough to donate me :)? '
                       'Here are ways to reach me:',
@@ -219,43 +187,48 @@ class AboutScreen extends ConsumerWidget {
                           for (String url in contacts[contactType]["id"])
                             _getContactWidget(
                               urlLink: _getUrlDomain(contactType, url),
-                              contents: [
-                                contacts[contactType]["icon"],
-                                ShadowText('  $url'),
-                              ],
-                            )
+                              contents: [contacts[contactType]["icon"], ShadowText('  $url')],
+                            ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Back button
-              Container(
-                padding: EdgeInsets.symmetric(
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Back button
+              CustomButton(
+                msg: 'Back',
+                onTap: context.pop,
+                margin: EdgeInsets.symmetric(
                   horizontal: responsiveUI.own(0.05),
                   vertical: responsiveUI.own(0.11),
                 ),
-                child: CustomButton(
-                  content: ShadowText('Back'),
-                  icon: Icons.arrow_back_ios,
-                  iconSize: responsiveUI.own(0.04),
-                  onTap: Navigator.of(context).pop,
-                  size: EdgeInsets.symmetric(
-                    vertical: responsiveUI.own(0.02),
-                    horizontal: responsiveUI.own(0.035),
-                  ),
-                  gradientColor: [
-                    App.themeColor.primary.withOpacity(0.85),
-                    App.themeColor.secondary.withOpacity(0.65),
+                padding: EdgeInsets.symmetric(
+                  vertical: responsiveUI.own(0.02),
+                  horizontal: responsiveUI.own(0.035),
+                ),
+                buttonColor: Colors.transparent,
+                gradientColor: [
+                  kColor(context).primary.withOpacity(0.85),
+                  kColor(context).secondary.withOpacity(0.65),
+                ],
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.arrow_back_ios,
+                      color: kColor(context).tertiary,
+                      size: responsiveUI.own(0.04),
+                    ),
+                    const ShadowText('Back'),
                   ],
                 ),
               ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
             ],
           ),
         ),

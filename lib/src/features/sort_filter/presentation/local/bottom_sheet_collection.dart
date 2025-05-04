@@ -2,9 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/filter_vn_collection.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/sort_vn_collection.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/components/tab_header.dart';
 
 class BottomSheetCollection extends ConsumerStatefulWidget {
@@ -16,7 +17,8 @@ class BottomSheetCollection extends ConsumerStatefulWidget {
   }
 }
 
-class _BottomSheetCollectionState extends ConsumerState<BottomSheetCollection> with TickerProviderStateMixin {
+class _BottomSheetCollectionState extends ConsumerState<BottomSheetCollection>
+    with TickerProviderStateMixin {
   late final TabController _tabController;
 
   @override
@@ -31,9 +33,9 @@ class _BottomSheetCollectionState extends ConsumerState<BottomSheetCollection> w
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,9 @@ class _BottomSheetCollectionState extends ConsumerState<BottomSheetCollection> w
             end: Alignment.bottomRight,
             begin: Alignment.topLeft,
             colors: [
-              App.themeColor.primary.withOpacity(0.8),
-              App.themeColor.primary.withOpacity(0.8),
-              (App.themeColor.tertiary == Colors.black)
+              kColor(context).primary.withOpacity(0.8),
+              kColor(context).primary.withOpacity(0.8),
+              (kColor(context).tertiary == Colors.black)
                   ? const Color.fromARGB(180, 240, 230, 230)
                   : const Color.fromARGB(180, 40, 40, 40),
             ],
@@ -63,24 +65,24 @@ class _BottomSheetCollectionState extends ConsumerState<BottomSheetCollection> w
             SingleChildScrollView(
               child: Column(
                 children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Tab header
+                  //
+                  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                  // Tab header
                   FilterTabHeader(tabController: _tabController),
                   ContentSizeTabBarView(
                     controller: _tabController,
                     children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Sort
+                      //
+                      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      // Sort
                       Padding(
                         padding: EdgeInsets.only(bottom: responsiveUI.own(0.06)),
                         child: const SortVnCollection(),
                       ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Filter
+                      //
+                      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                      // Filter
                       Padding(
                         padding: EdgeInsets.only(
                           top: responsiveUI.own(0.05),
@@ -89,13 +91,13 @@ class _BottomSheetCollectionState extends ConsumerState<BottomSheetCollection> w
                         child: const FilterVnCollection(),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            //
           ],
         ),
       ),

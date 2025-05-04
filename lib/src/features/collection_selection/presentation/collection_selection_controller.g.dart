@@ -13,14 +13,15 @@ String _$vnSelectionControllerHash() =>
 @ProviderFor(VnSelectionController)
 final vnSelectionControllerProvider =
     NotifierProvider<VnSelectionController, VnSelection>.internal(
-  VnSelectionController.new,
-  name: r'vnSelectionControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$vnSelectionControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      VnSelectionController.new,
+      name: r'vnSelectionControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$vnSelectionControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$VnSelectionController = Notifier<VnSelection>;
 // ignore_for_file: type=lint

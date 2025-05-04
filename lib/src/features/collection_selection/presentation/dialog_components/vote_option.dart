@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/data/vote_data.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialog_components/footer_button_state.dart';
 import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class RecordVoteOption extends ConsumerWidget {
   RecordVoteOption({super.key, required this.onChanged, required this.voteValue});
@@ -26,10 +27,7 @@ class RecordVoteOption extends ConsumerWidget {
         if (voteRange == -1) continue;
 
         dropdownMenuItemWidgets.add(
-          DropdownMenuItem(
-            value: voteRange,
-            child: ShadowText(VOTE_DATA[voteRange]!),
-          ),
+          DropdownMenuItem(value: voteRange, child: ShadowText(VOTE_DATA[voteRange]!)),
         );
       }
     }
@@ -53,7 +51,7 @@ class RecordVoteOption extends ConsumerWidget {
                 ShadowText('Vote ('),
                 ShadowText(
                   (voteValue == -1) ? '~' : '$voteValue',
-                  color: App.themeColor.secondary,
+                  color: kColor(context).secondary,
                 ),
                 ShadowText(')'),
               ],
@@ -64,15 +62,15 @@ class RecordVoteOption extends ConsumerWidget {
               width: responsiveUI.own(0.27),
               padding: EdgeInsets.only(left: responsiveUI.own(0.02)),
               decoration: BoxDecoration(
-                border: Border.all(color: App.themeColor.tertiary.withOpacity(0.4)),
+                border: Border.all(color: kColor(context).tertiary.withOpacity(0.4)),
                 borderRadius: BorderRadius.circular(12),
                 gradient: LinearGradient(
                   colors: [
-                    App.themeColor.secondary.withOpacity(0.4),
-                    App.themeColor.secondary.withOpacity(0.2),
-                    App.themeColor.primary.withOpacity(0.2),
-                    App.themeColor.primary.withOpacity(0.2),
-                    App.themeColor.primary.withOpacity(0.4),
+                    kColor(context).secondary.withOpacity(0.4),
+                    kColor(context).secondary.withOpacity(0.2),
+                    kColor(context).primary.withOpacity(0.2),
+                    kColor(context).primary.withOpacity(0.2),
+                    kColor(context).primary.withOpacity(0.4),
                   ],
                   end: Alignment.bottomLeft,
                   begin: Alignment.topRight,
@@ -82,10 +80,7 @@ class RecordVoteOption extends ConsumerWidget {
             iconStyleData: IconStyleData(
               icon: Padding(
                 padding: EdgeInsets.only(right: responsiveUI.own(0.02)),
-                child: Icon(
-                  Icons.arrow_drop_down,
-                  color: App.themeColor.tertiary,
-                ),
+                child: Icon(Icons.arrow_drop_down, color: kColor(context).tertiary),
               ),
             ),
             dropdownStyleData: DropdownStyleData(
@@ -98,27 +93,22 @@ class RecordVoteOption extends ConsumerWidget {
                   end: Alignment.bottomRight,
                   colors: [
                     Color.alphaBlend(
-                      (App.themeColor.tertiary == Colors.white)
+                      (kColor(context).tertiary == Colors.white)
                           ? Colors.black.withOpacity(0.3)
                           : Colors.white.withOpacity(0.3),
-                      App.themeColor.primary.withOpacity(0.8),
+                      kColor(context).primary.withOpacity(0.8),
                     ),
-                    App.themeColor.primary,
+                    kColor(context).primary,
                   ],
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.6),
-                    blurRadius: 3,
-                  )
-                ],
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.6), blurRadius: 3)],
               ),
               offset: const Offset(-20, 0),
               scrollbarTheme: ScrollbarThemeData(
                 radius: const Radius.circular(40),
                 thickness: const WidgetStatePropertyAll(5),
                 thumbVisibility: const WidgetStatePropertyAll(true),
-                thumbColor: WidgetStatePropertyAll(App.themeColor.secondary),
+                thumbColor: WidgetStatePropertyAll(kColor(context).secondary),
               ),
             ),
           ),

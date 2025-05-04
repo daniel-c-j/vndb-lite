@@ -13,14 +13,15 @@ String _$vnDetailScreenshotStateHash() =>
 @ProviderFor(VnDetailScreenshotState)
 final vnDetailScreenshotStateProvider =
     AutoDisposeNotifierProvider<VnDetailScreenshotState, bool>.internal(
-  VnDetailScreenshotState.new,
-  name: r'vnDetailScreenshotStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$vnDetailScreenshotStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      VnDetailScreenshotState.new,
+      name: r'vnDetailScreenshotStateProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$vnDetailScreenshotStateHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$VnDetailScreenshotState = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint

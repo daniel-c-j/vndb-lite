@@ -4,19 +4,16 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/masonry_grid.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
 import 'package:vndb_lite/src/features/vn/domain/others.dart';
 import 'package:vndb_lite/src/features/vn/domain/p3.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
-import 'package:vndb_lite/src/util/unique_valuekey.dart';
 
 class VnDetailRelationsRelation extends ConsumerStatefulWidget {
-  const VnDetailRelationsRelation({
-    super.key,
-    required this.p3,
-  });
+  const VnDetailRelationsRelation({super.key, required this.p3});
 
   final VnDataPhase03 p3;
 
@@ -27,17 +24,17 @@ class VnDetailRelationsRelation extends ConsumerStatefulWidget {
 class _VnDetailRelationsRelationState extends ConsumerState<VnDetailRelationsRelation> {
   bool _onlyOfficial = true;
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool get _isThereRelation {
     return widget.p3.relations != null || widget.p3.relations!.isNotEmpty;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<List<Widget>> get _relationsList async {
     if (!_isThereRelation) return [];
@@ -53,21 +50,16 @@ class _VnDetailRelationsRelationState extends ConsumerState<VnDetailRelationsRel
       if (p1 == null) continue;
 
       relationWidget.add(
-        VnItemGrid(
-          key: uidKeyOf(relation.id!),
-          p1: p1,
-          labelCode: relation.relation!,
-          isGridView: true,
-        ),
+        VnItemGrid(key: UniqueKey(), p1: p1, labelCode: relation.relation!, isGridView: true),
       );
     }
 
     return relationWidget;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Sorting utilities
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  // Sorting utilities
 
   bool _isOfficial(VnRelation relation) {
     return relation.relation_official ?? false;
@@ -81,9 +73,9 @@ class _VnDetailRelationsRelationState extends ConsumerState<VnDetailRelationsRel
     return false;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   List<VnRelation> get _arrangedRelations {
     final List<VnRelation> lowPriorityRelations = [];
@@ -106,39 +98,27 @@ class _VnDetailRelationsRelationState extends ConsumerState<VnDetailRelationsRel
     return [...highPriorityRelations, ...lowPriorityRelations];
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
-  Widget _relationOfficialSwitchButton({
-    required Color color,
-    required String title,
-  }) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: responsiveUI.own(0.01),
-      ),
-      child: Opacity(
-        opacity: (_onlyOfficial) ? 1 : 0.7,
-        child: CustomButton(
-          onTap: () {
-            setState(() {
-              _onlyOfficial = !_onlyOfficial;
-            });
-          },
-          size: EdgeInsets.symmetric(
-            horizontal: responsiveUI.own(0.025),
-          ),
-          color: (_onlyOfficial) ? color : Colors.grey,
-          content: ShadowText(title),
-        ),
-      ),
+  Widget _relationOfficialSwitchButton({required Color color, required String title}) {
+    return CustomButton(
+      margin: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.01)),
+      onTap: () {
+        setState(() {
+          _onlyOfficial = !_onlyOfficial;
+        });
+      },
+      padding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.025)),
+      buttonColor: (_onlyOfficial) ? color : Colors.grey,
+      child: ShadowText(title),
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +136,7 @@ class _VnDetailRelationsRelationState extends ConsumerState<VnDetailRelationsRel
           children: [
             ShadowText('Relation: '),
             _relationOfficialSwitchButton(
-              color: App.themeColor.secondary.withOpacity(0.7),
+              color: kColor(context).secondary.withOpacity(0.7),
               title: "Official-only",
             ),
           ],
@@ -168,9 +148,7 @@ class _VnDetailRelationsRelationState extends ConsumerState<VnDetailRelationsRel
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Padding(
                 padding: EdgeInsets.all(responsiveUI.own(0.1)),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                child: const Center(child: CircularProgressIndicator()),
               );
             }
 
@@ -181,9 +159,10 @@ class _VnDetailRelationsRelationState extends ConsumerState<VnDetailRelationsRel
               crossAxisAlignment: CrossAxisAlignment.center,
               staggered: true,
               mainAxisSpacing: responsiveUI.own(0.03),
-              column: (MediaQuery.of(context).orientation == Orientation.portrait)
-                  ? settings.maxItemPerRowPortrait
-                  : settings.maxItemPerRowLandscape,
+              column:
+                  (MediaQuery.of(context).orientation == Orientation.portrait)
+                      ? settings.maxItemPerRowPortrait
+                      : settings.maxItemPerRowLandscape,
               children: relations,
             );
           },

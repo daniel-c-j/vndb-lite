@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/platform_code_data.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VnDetailReleasesPlatform extends StatelessWidget {
-  const VnDetailReleasesPlatform({
-    super.key,
-    required this.p2,
-  });
+  const VnDetailReleasesPlatform({super.key, required this.p2});
 
   final VnDataPhase02 p2;
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<Widget> get _platformWidgets async {
     final List<Widget> platforms = [];
@@ -34,10 +32,7 @@ class VnDetailReleasesPlatform extends StatelessWidget {
 
       platforms.add(
         Container(
-          margin: EdgeInsets.only(
-            right: responsiveUI.own(0.025),
-            bottom: responsiveUI.own(0.025),
-          ),
+          margin: EdgeInsets.only(right: responsiveUI.own(0.025), bottom: responsiveUI.own(0.025)),
           child: CustomLabel(
             useBorder: false,
             padding: EdgeInsets.only(
@@ -55,7 +50,7 @@ class VnDetailReleasesPlatform extends StatelessWidget {
                 ),
                 child: Image.asset(
                   imagePath,
-                  color: (isPlatformIconPlain(platformCode)) ? App.themeColor.tertiary : null,
+                  color: (isPlatformIconPlain(platformCode)) ? kColor().tertiary : null,
                   height: responsiveUI.own(0.05),
                   width: responsiveUI.own(0.05),
                 ),
@@ -70,9 +65,9 @@ class VnDetailReleasesPlatform extends StatelessWidget {
     return await _getFinalPlatformWidget(platforms, hasOthers);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<Widget> _getFinalPlatformWidget(List<Widget> platforms, bool hasOthers) async {
     if (platforms.isEmpty) {
@@ -83,37 +78,25 @@ class VnDetailReleasesPlatform extends StatelessWidget {
       // Adds at the end of the list.
       platforms.add(
         Container(
-          margin: EdgeInsets.only(
-            right: responsiveUI.own(0.025),
-            bottom: responsiveUI.own(0.025),
-          ),
-          child: CustomLabel(
-            useBorder: false,
-            children: [ShadowText('Others...')],
-          ),
+          margin: EdgeInsets.only(right: responsiveUI.own(0.025), bottom: responsiveUI.own(0.025)),
+          child: CustomLabel(useBorder: false, children: [ShadowText('Others...')]),
         ),
       );
     }
 
-    return Wrap(
-      children: platforms,
-    );
+    return Wrap(children: platforms);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ShadowText(
-          'Platforms',
-          fontSize: responsiveUI.own(0.045),
-          fontWeight: FontWeight.bold,
-        ),
+        ShadowText('Platforms', fontSize: responsiveUI.own(0.045), fontWeight: FontWeight.bold),
         SizedBox(height: responsiveUI.own(0.01)),
         FutureBuilder(
           future: _platformWidgets,

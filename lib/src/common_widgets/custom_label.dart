@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
+
+import '../util/context_shortcut.dart';
 
 class CustomLabel extends ConsumerWidget {
   const CustomLabel({
@@ -32,55 +33,30 @@ class CustomLabel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return InkWell(
-      child: Container(
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius),
-          color: (isSelected) ? bgColor ?? App.themeColor.primary : Colors.transparent,
-          border: (useBorder)
-              ? Border.all(
-                  width: 2,
-                  color: (isSelected)
-                      ? borderColor ?? App.themeColor.secondary.withOpacity(0.6)
-                      : borderColor ?? App.themeColor.primary,
-                )
-              : null,
-          boxShadow: (isSelected)
-              ? shadowColor ??
-                  const [
-                    BoxShadow(
-                      offset: Offset(0, 2),
-                      blurRadius: 5,
-                      color: Color.fromARGB(90, 0, 0, 0),
-                    )
-                  ]
-              : null,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(borderRadius - 2), // Minus the parent's border width
-            splashColor: highlightColor,
-            highlightColor: highlightColor,
-            onTap: onTap ?? () {},
-            child: Container(
-              padding: padding ??
-                  EdgeInsets.symmetric(
-                    vertical: responsiveUI.own(0.01),
-                    horizontal: responsiveUI.own(0.025),
-                  ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(borderRadius),
-              ),
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: children,
-              ),
-            ),
+    return CustomButton(
+      onTap: onTap ?? () {},
+      borderRadius: BorderRadius.circular(borderRadius),
+      buttonColor: (isSelected) ? bgColor ?? kColor(context).primary : Colors.transparent,
+      isOutlined: useBorder,
+      borderWidth: (useBorder) ? 2 : 0,
+      elevation: (isSelected) ? 2 : 0,
+      highlightColor: highlightColor,
+      padding:
+          padding ??
+          EdgeInsets.symmetric(
+            vertical: responsiveUI.own(0.01),
+            horizontal: responsiveUI.own(0.025),
           ),
-        ),
+      borderColor:
+          (useBorder)
+              ? (isSelected)
+                  ? borderColor ?? kColor(context).secondary.withOpacity(0.6)
+                  : borderColor ?? kColor(context).primary
+              : null,
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: children,
       ),
     );
   }

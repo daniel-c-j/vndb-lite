@@ -9,7 +9,7 @@ import 'package:vndb_lite/src/features/theme/data/theme_data.dart';
 
 class Default {
   static const bool AUTO_UPDATE_CHECK_CONF = true;
-  static final String THEME_CONF = ThemeCode.angel.name;
+  static const ThemeCode THEME_CONF = ThemeCode.agl;
   static const bool SHOW_CHART_CONF = true;
   static const bool COVER_CENSOR_CONF = true;
   static const double FONT_SIZE_CONF = 0.035;

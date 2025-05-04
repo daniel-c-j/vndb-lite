@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
-import 'package:vndb_lite/src/features/settings/presentation/settings_theme_state.dart';
-import 'package:vndb_lite/src/features/theme/data/theme_data.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
+
+import '../core/_core.dart';
 
 class ShadowText extends ConsumerWidget {
   const ShadowText(
@@ -27,8 +27,7 @@ class ShadowText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeCode = ref.watch(settingsThemeStateProvider).appTheme;
-    final themeColor = THEME_DATA[themeCode]!.colorScheme;
+    final themeColor = kColor(context);
 
     return Text(
       text,
@@ -53,7 +52,7 @@ TextStyle styleText({
   List<Shadow>? shadows,
   bool forceShadow = false,
 }) {
-  final themeColor = App.themeColor;
+  final themeColor = kColor(NavigationService.currentContext);
   List<Shadow>? textShadows = shadows ?? const [Shadow(color: Colors.black, blurRadius: 5)];
 
   if (themeColor.tertiary != Colors.white && !forceShadow) {

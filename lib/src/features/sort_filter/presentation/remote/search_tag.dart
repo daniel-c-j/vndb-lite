@@ -4,11 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/remote/remote_sort_filter_repo.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/search_filter_result_controller.dart';
 import 'package:vndb_lite/src/features/vn/domain/others.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class SearchTag extends ConsumerStatefulWidget {
   const SearchTag({super.key});
@@ -32,9 +33,9 @@ class _SearchTagState extends ConsumerState<SearchTag> {
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _process(VnTag tag) async {
     final filter = ref.read(tempRemoteFilterControllerProvider);
@@ -49,12 +50,14 @@ class _SearchTagState extends ConsumerState<SearchTag> {
     }
 
     // Updating the data
-    ref.read(tempRemoteFilterControllerProvider.notifier).importFilterData(filter.copyWith(tag: filterTag));
+    ref
+        .read(tempRemoteFilterControllerProvider.notifier)
+        .importFilterData(filter.copyWith(tag: filterTag));
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _formatTagDataToWidget(var tag) {
     late final VnTag vnTag;
@@ -66,25 +69,20 @@ class _SearchTagState extends ConsumerState<SearchTag> {
     }
 
     return Container(
-      margin: EdgeInsets.only(
-        top: responsiveUI.own(0.025),
-        right: responsiveUI.own(0.02),
-      ),
+      margin: EdgeInsets.only(top: responsiveUI.own(0.025), right: responsiveUI.own(0.02)),
       child: CustomLabel(
         useBorder: true,
         borderRadius: 10,
         isSelected: ref.watch(tempRemoteFilterControllerProvider).tag.contains(vnTag),
         onTap: () async => await _process(vnTag),
-        children: [
-          ShadowText(vnTag.name!),
-        ],
+        children: [ShadowText(vnTag.name!)],
       ),
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget get _emptyResult {
     return Padding(
@@ -96,10 +94,7 @@ class _SearchTagState extends ConsumerState<SearchTag> {
   Widget get _errorSearch {
     return Padding(
       padding: EdgeInsets.only(top: responsiveUI.own(0.02)),
-      child: ShadowText(
-        "There's an error, maybe try again later?",
-        color: Colors.red,
-      ),
+      child: ShadowText("There's an error, maybe try again later?", color: Colors.red),
     );
   }
 
@@ -109,16 +104,14 @@ class _SearchTagState extends ConsumerState<SearchTag> {
       child: SizedBox(
         height: responsiveUI.own(0.05),
         width: responsiveUI.own(0.05),
-        child: CircularProgressIndicator(
-          strokeWidth: responsiveUI.own(0.008),
-        ),
+        child: CircularProgressIndicator(strokeWidth: responsiveUI.own(0.008)),
       ),
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +119,9 @@ class _SearchTagState extends ConsumerState<SearchTag> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Selected tag options
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Selected tag options
         Padding(
           padding: EdgeInsets.only(top: responsiveUI.own(0.01)),
           child: Consumer(
@@ -138,10 +131,9 @@ class _SearchTagState extends ConsumerState<SearchTag> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (filter.tag.isNotEmpty) ShadowText('Selected:', fontSize: responsiveUI.own(0.0325)),
-                  Wrap(
-                    children: [for (VnTag vnTag in filter.tag) _formatTagDataToWidget(vnTag)],
-                  ),
+                  if (filter.tag.isNotEmpty)
+                    ShadowText('Selected:', fontSize: responsiveUI.own(0.0325)),
+                  Wrap(children: [for (VnTag vnTag in filter.tag) _formatTagDataToWidget(vnTag)]),
                 ],
               );
             },
@@ -149,9 +141,9 @@ class _SearchTagState extends ConsumerState<SearchTag> {
         ),
         SizedBox(height: responsiveUI.own(0.025)),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Search input Widget
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Search input Widget
         Container(
           padding: EdgeInsets.only(left: responsiveUI.own(0.01)),
           height: responsiveUI.own(0.1),
@@ -166,37 +158,34 @@ class _SearchTagState extends ConsumerState<SearchTag> {
                     if (_textController.text.isEmpty) return;
                     ref.read(tagSearchControllerProvider.notifier).state = _textController.text;
                   },
-                  cursorColor: App.themeColor.tertiary,
+                  cursorColor: kColor(context).tertiary,
                   style: styleText(fontSize: responsiveUI.own(0.036)),
                   decoration: InputDecoration(
                     hintText: 'Search...',
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         width: 1,
-                        color: App.themeColor.tertiary.withOpacity(0.7),
+                        color: kColor(context).tertiary.withOpacity(0.7),
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1.5,
-                        color: App.themeColor.secondary,
-                      ),
+                      borderSide: BorderSide(width: 1.5, color: kColor(context).secondary),
                     ),
-                    focusColor: App.themeColor.tertiary,
-                    fillColor: App.themeColor.tertiary,
+                    focusColor: kColor(context).tertiary,
+                    fillColor: kColor(context).tertiary,
                     hintStyle: styleText(
                       fontSize: responsiveUI.normalSize,
                       color: Color.alphaBlend(
-                        App.themeColor.tertiary.withOpacity(0.4),
-                        App.themeColor.secondary,
+                        kColor(context).tertiary.withOpacity(0.4),
+                        kColor(context).secondary,
                       ),
                     ),
                   ),
                 ),
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Search Widget Icon
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Search Widget Icon
               Tooltip(
                 message: 'Search',
                 child: IconButton(
@@ -206,47 +195,51 @@ class _SearchTagState extends ConsumerState<SearchTag> {
                   },
                   icon: Icon(
                     Icons.search,
-                    color: App.themeColor.tertiary,
+                    color: kColor(context).tertiary,
                     size: responsiveUI.own(0.05),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Search results widget
-        Consumer(builder: (context, ref, child) {
-          final searchDev = ref.watch(tagSearchControllerProvider);
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Search results widget
+        Consumer(
+          builder: (context, ref, child) {
+            final searchDev = ref.watch(tagSearchControllerProvider);
 
-          if (searchDev.isEmpty) {
-            return const SizedBox.shrink();
-          }
+            if (searchDev.isEmpty) {
+              return const SizedBox.shrink();
+            }
 
-          return ref.watch(fetchTagsProvider(searchDev)).when(
-            data: (response) {
-              final results = response.data['results'];
+            return ref
+                .watch(fetchTagsProvider(searchDev))
+                .when(
+                  data: (response) {
+                    final results = response.data['results'];
 
-              if (results.isEmpty) {
-                return _emptyResult;
-              }
+                    if (results.isEmpty) {
+                      return _emptyResult;
+                    }
 
-              return Wrap(
-                children: [
-                  for (Map<String, dynamic> vnTag in results) _formatTagDataToWidget(vnTag),
-                ],
-              );
-            },
-            error: (err, st) {
-              return _errorSearch;
-            },
-            loading: () {
-              return _loadingSearch;
-            },
-          );
-        }),
+                    return Wrap(
+                      children: [
+                        for (Map<String, dynamic> vnTag in results) _formatTagDataToWidget(vnTag),
+                      ],
+                    );
+                  },
+                  error: (err, st) {
+                    return _errorSearch;
+                  },
+                  loading: () {
+                    return _loadingSearch;
+                  },
+                );
+          },
+        ),
       ],
     );
   }

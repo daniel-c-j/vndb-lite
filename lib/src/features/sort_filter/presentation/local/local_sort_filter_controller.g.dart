@@ -13,14 +13,15 @@ String _$localFilterControllerHash() =>
 @ProviderFor(LocalFilterController)
 final localFilterControllerProvider =
     AutoDisposeNotifierProvider<LocalFilterController, FilterData>.internal(
-  LocalFilterController.new,
-  name: r'localFilterControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$localFilterControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      LocalFilterController.new,
+      name: r'localFilterControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$localFilterControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$LocalFilterController = AutoDisposeNotifier<FilterData>;
 String _$localSortControllerHash() =>
@@ -30,14 +31,15 @@ String _$localSortControllerHash() =>
 @ProviderFor(LocalSortController)
 final localSortControllerProvider =
     AutoDisposeNotifierProvider<LocalSortController, SortData>.internal(
-  LocalSortController.new,
-  name: r'localSortControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$localSortControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      LocalSortController.new,
+      name: r'localSortControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$localSortControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$LocalSortController = AutoDisposeNotifier<SortData>;
 // ignore_for_file: type=lint

@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 
 class GenericErrorImage extends StatelessWidget {
-  const GenericErrorImage({
-    super.key,
-  });
+  const GenericErrorImage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-        top: responsiveUI.own(0.02),
-        bottom: responsiveUI.own(0.11),
-      ),
+      padding: EdgeInsets.only(top: responsiveUI.own(0.02), bottom: responsiveUI.own(0.11)),
       margin: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.05)),
       alignment: Alignment.center,
       child: SizedBox(

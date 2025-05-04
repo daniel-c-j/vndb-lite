@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_confirm_button_state.dart';
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_token_field_controller.dart';
 import 'package:vndb_lite/src/features/sync/presentation/dialog/sync_dialog.dart';
 import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class AuthConfirmButton extends ConsumerStatefulWidget {
   const AuthConfirmButton({super.key});
@@ -17,15 +18,18 @@ class AuthConfirmButton extends ConsumerStatefulWidget {
   ConsumerState<AuthConfirmButton> createState() => _AuthConfirmButtonState();
 }
 
-class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton> with SingleTickerProviderStateMixin {
+class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation<Offset> _offsetAnimation;
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 2400))
-      ..forward();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2400),
+    )..forward();
 
     _offsetAnimation = _animationController
         .drive(CurveTween(curve: Curves.ease))
@@ -38,9 +42,9 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton> with Sing
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _onTap(String token) async {
     ref.read(authConfirmButtonStateProvider.notifier).state = ConfirmButtonState.inprogress;
@@ -52,7 +56,9 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton> with Sing
       if (response.data['permissions'].contains('listread') &&
           response.data['permissions'].contains('listwrite')) {
         ref.invalidate(authScreenControllerProvider);
-        ref.read(authScreenControllerProvider.notifier).userIdentityFromResponse(response.data, token);
+        ref
+            .read(authScreenControllerProvider.notifier)
+            .userIdentityFromResponse(response.data, token);
         ref.read(authConfirmButtonStateProvider.notifier).state = ConfirmButtonState.normal;
 
         ref.read(showAuthTokenFieldStateProvider.notifier).show = false;
@@ -85,9 +91,9 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton> with Sing
     }
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -100,9 +106,9 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton> with Sing
       opacity: (buttonState == ConfirmButtonState.disabled) ? 0.4 : 1,
       child: CustomDialogButton(
         text: (userSuccessfullyAuthed) ? "Change" : "Confirm",
-        textColor: App.themeColor.primary,
+        textColor: kColor(context).primary,
         textShadow: const [Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1)],
-        color: App.themeColor.tertiary,
+        color: kColor(context).tertiary,
         padding: EdgeInsets.symmetric(
           horizontal: responsiveUI.own(0.045),
           vertical: responsiveUI.own(0.02),
@@ -112,13 +118,14 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton> with Sing
             await _onTap(tokenFieldValue);
           }
         },
-        additionalWidget: (buttonState == ConfirmButtonState.inprogress)
-            ? SizedBox(
-                width: responsiveUI.own(0.05),
-                height: responsiveUI.own(0.05),
-                child: const Center(child: CircularProgressIndicator()),
-              )
-            : null,
+        additionalWidget:
+            (buttonState == ConfirmButtonState.inprogress)
+                ? SizedBox(
+                  width: responsiveUI.own(0.05),
+                  height: responsiveUI.own(0.05),
+                  child: const Center(child: CircularProgressIndicator()),
+                )
+                : null,
       ),
     );
 
@@ -128,10 +135,7 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton> with Sing
 
     // If user is authenticated and show auth field is true.
     if (userSuccessfullyAuthed && showAuthField) {
-      return SlideTransition(
-        position: _offsetAnimation,
-        child: button,
-      );
+      return SlideTransition(position: _offsetAnimation, child: button);
     }
 
     return button;

@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
@@ -10,6 +10,7 @@ import 'package:vndb_lite/src/features/settings/presentation/components/settings
 import 'package:vndb_lite/src/features/settings/presentation/components/settings_listview_scroll_items.dart';
 import 'package:vndb_lite/src/features/settings/presentation/dialog/settings_dialog.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/app.dart';
 
@@ -20,15 +21,18 @@ class SettingsGeneral extends ConsumerStatefulWidget {
   ConsumerState<SettingsGeneral> createState() => _SettingsGeneralState();
 }
 
-class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTickerProviderStateMixin {
+class _SettingsGeneralState extends ConsumerState<SettingsGeneral>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation<Offset> _offsetAnimation;
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500))
-      ..forward();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    )..forward();
 
     _offsetAnimation = _animationController
         .drive(CurveTween(curve: Curves.easeInOut))
@@ -41,18 +45,18 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _refreshApp() async {
     await AppBarRefreshButton.tap();
     if (mounted) setState(() {});
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _censorCoverSwitch() async {
     final showCoverCensor = ref.read(settingsGeneralStateProvider).showCoverCensor;
@@ -61,9 +65,9 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
     await _refreshApp();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _getDragAndDropItem({required String key, required String title}) {
     // Need to be given an exact length so it can be measured easily,
@@ -73,31 +77,29 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
       height: responsiveUI.own(0.13),
       child: ListTile(
         dense: true,
-        tileColor: App.themeColor.secondary.withOpacity(0.7),
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: responsiveUI.own(0.045),
-        ),
+        tileColor: kColor(context).secondary.withOpacity(0.7),
+        contentPadding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.045)),
         trailing: Icon(
           Icons.format_list_bulleted,
           size: responsiveUI.own(0.05),
-          color: App.themeColor.tertiary.withAlpha(180),
+          color: kColor(context).tertiary.withAlpha(180),
         ),
         title: ShadowText(title),
       ),
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   String _getSectionTitle(String key) {
     return HOME_SCREEN_SECTIONS[key]!.title;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _arrangeHome() async {
     final homeArrangement = ref.read(settingsGeneralStateProvider).homeSectionsArrangement;
@@ -134,12 +136,13 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _arrangeCollectionTab() async {
-    final collectionStatusArrangement = ref.read(settingsGeneralStateProvider).collectionStatusTabArrangement;
+    final collectionStatusArrangement =
+        ref.read(settingsGeneralStateProvider).collectionStatusTabArrangement;
 
     await showSettingsDialog(
       title: 'Re-arrange Tab Collection',
@@ -153,7 +156,8 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
       },
       content: Container(
         width: double.maxFinite,
-        height: collectionStatusArrangement.length * responsiveUI.own(0.13) + responsiveUI.own(0.035),
+        height:
+            collectionStatusArrangement.length * responsiveUI.own(0.13) + responsiveUI.own(0.035),
         padding: EdgeInsets.only(top: responsiveUI.own(0.03)),
         child: ReorderableListView.builder(
           shrinkWrap: true,
@@ -176,9 +180,9 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _previewItemCount() async {
     int maxPreviewItem = ref.read(settingsGeneralStateProvider).maxPreviewItem;
@@ -204,8 +208,8 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
               color: Color.alphaBlend(
-                App.themeColor.secondary.withOpacity(0.4),
-                App.themeColor.tertiary.withOpacity(0.6),
+                kColor(context).secondary.withOpacity(0.4),
+                kColor(context).tertiary.withOpacity(0.6),
               ),
               width: 1.5,
             ),
@@ -231,18 +235,18 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _chartSwitch() async {
     final showChart = ref.read(settingsGeneralStateProvider).showChart;
     ref.read(settingsGeneralStateProvider.notifier).showChart = !showChart;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _vnItemsPerRow() async {
     int valueIdxPortrait = ref.read(settingsGeneralStateProvider).maxItemPerRowPortrait;
@@ -273,9 +277,9 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -291,14 +295,14 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Censor
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Censor
               CustomLabel(
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: () async => await _censorCoverSwitch(),
                 children: [
@@ -311,55 +315,51 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
                       Shadow(
                         color: Color.alphaBlend(
                           Colors.black.withOpacity(0.5),
-                          App.themeColor.primary,
+                          kColor(context).primary,
                         ),
                         blurRadius: 5,
-                      )
+                      ),
                     ],
                   ),
                 ],
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Arrange Home
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Arrange Home
               SizedBox(height: responsiveUI.own(0.03)),
               CustomLabel(
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: () async => await _arrangeHome(),
-                children: [
-                  ShadowText('Arrange home screen previews'),
-                ],
+                children: [ShadowText('Arrange home screen previews')],
               ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Arrange Tab
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Arrange Tab
               SizedBox(height: responsiveUI.own(0.03)),
               CustomLabel(
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: () async => await _arrangeCollectionTab(),
-                children: [
-                  ShadowText('Arrange collection status tabs'),
-                ],
+                children: [ShadowText('Arrange collection status tabs')],
               ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Preview item count
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Preview item count
               SizedBox(height: responsiveUI.own(0.03)),
               CustomLabel(
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: () async => await _previewItemCount(),
                 children: [
@@ -367,19 +367,19 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
                   ShadowText(
                     // Because index starts at 0, and 0 is not valid
                     (settings.maxPreviewItem != 20) ? '${settings.maxPreviewItem}' : 'Default (20)',
-                    color: App.themeColor.tertiary.withAlpha(180),
+                    color: kColor(context).tertiary.withAlpha(180),
                   ),
                 ],
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Show PieChart
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Show PieChart
               SizedBox(height: responsiveUI.own(0.03)),
               CustomLabel(
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: () async => await _chartSwitch(),
                 children: [
@@ -392,24 +392,24 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
                       Shadow(
                         color: Color.alphaBlend(
                           Colors.black.withOpacity(0.5),
-                          App.themeColor.primary,
+                          kColor(context).primary,
                         ),
                         blurRadius: 5,
-                      )
+                      ),
                     ],
                   ),
                 ],
               ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Vn Items per row
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Vn Items per row
               SizedBox(height: responsiveUI.own(0.03)),
               CustomLabel(
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: () async => await _vnItemsPerRow(),
                 children: [
@@ -417,14 +417,14 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral> with SingleTi
                   ShadowText(
                     'Potrait: ${(settings.maxItemPerRowPortrait == 2) ? 'Default (2)' : settings.maxItemPerRowPortrait} | '
                     'Landscape: ${(settings.maxItemPerRowLandscape == 4) ? 'Default (4)' : settings.maxItemPerRowLandscape}',
-                    color: App.themeColor.tertiary.withAlpha(180),
+                    color: kColor(context).tertiary.withAlpha(180),
                   ),
                 ],
               ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
             ],
           ),
         ),

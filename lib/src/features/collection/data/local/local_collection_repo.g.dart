@@ -13,19 +13,23 @@ String _$localCollectionRepoHash() =>
 @ProviderFor(localCollectionRepo)
 final localCollectionRepoProvider =
     AutoDisposeProvider<LocalCollectionRepo>.internal(
-  localCollectionRepo,
-  name: r'localCollectionRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$localCollectionRepoHash,
-  dependencies: <ProviderOrFamily>[sharedPrefProvider, localHomeRepoProvider],
-  allTransitiveDependencies: <ProviderOrFamily>{
-    sharedPrefProvider,
-    ...?sharedPrefProvider.allTransitiveDependencies,
-    localHomeRepoProvider,
-    ...?localHomeRepoProvider.allTransitiveDependencies
-  },
-);
+      localCollectionRepo,
+      name: r'localCollectionRepoProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$localCollectionRepoHash,
+      dependencies: <ProviderOrFamily>[
+        sharedPrefProvider,
+        localHomeRepoProvider,
+      ],
+      allTransitiveDependencies: <ProviderOrFamily>{
+        sharedPrefProvider,
+        ...?sharedPrefProvider.allTransitiveDependencies,
+        localHomeRepoProvider,
+        ...?localHomeRepoProvider.allTransitiveDependencies,
+      },
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

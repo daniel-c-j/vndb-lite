@@ -16,10 +16,10 @@ class GenericBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          color: Colors.black,
+        SizedBox(
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height,
+          child: const DecoratedBox(decoration: BoxDecoration(color: Colors.black)),
         ),
         if (imagePath == null && imageWidget != null) imageWidget!,
         if (imagePath != null && imageWidget == null)
@@ -31,17 +31,16 @@ class GenericBackground extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         if (useGradientOverlay)
-          Container(
+          SizedBox(
             width: MediaQuery.sizeOf(context).width,
             height: MediaQuery.sizeOf(context).height,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Color.fromARGB(70, 240, 230, 230),
-                  Color.fromARGB(150, 40, 40, 40),
-                ],
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Color.fromARGB(70, 240, 230, 230), Color.fromARGB(150, 40, 40, 40)],
+                ),
               ),
             ),
           ),

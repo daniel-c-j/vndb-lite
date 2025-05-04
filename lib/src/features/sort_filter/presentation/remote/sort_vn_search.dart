@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/components/sort_item.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class SortVnSearch extends ConsumerWidget {
   const SortVnSearch({super.key});
@@ -25,44 +26,44 @@ class SortVnSearch extends ConsumerWidget {
                 // Searchrank or None sort should not support reverse whatsoever, so just
                 // go with the default reverse value, that is, false. (below)
                 if (sortCode != SortableCode.searchrank.name) {
-                  ref.read(tempRemoteSortControllerProvider.notifier).copyWith(
-                        reverse: !(sort.reverse ?? false),
-                      );
+                  ref
+                      .read(tempRemoteSortControllerProvider.notifier)
+                      .copyWith(reverse: !(sort.reverse ?? false));
                 }
                 //
               } else {
                 //
-                ref.read(tempRemoteSortControllerProvider.notifier).copyWith(
-                      reverse: false,
-                      sort: sortCode,
-                    );
+                ref
+                    .read(tempRemoteSortControllerProvider.notifier)
+                    .copyWith(reverse: false, sort: sortCode);
               }
             },
-            customIconLeading: (sortCode == SortableCode.searchrank.name) ? Icons.do_not_disturb : null,
-            customTitleWidget: (sortCode == SortableCode.searchrank.name)
-                ? Tooltip(
-                    message: "Please don't empty/set an empty space query when using None sort, "
-                        "otherwise it will return an error.",
-                    child: Padding(
-                      padding: EdgeInsets.only(top: responsiveUI.own(0.005), left: responsiveUI.own(0.015)),
-                      child: Icon(
-                        Icons.info_outline,
-                        size: responsiveUI.own(0.045),
-                        color: Color.alphaBlend(
-                          Colors.black.withOpacity(0.2),
-                          App.themeColor.secondary,
+            customIconLeading:
+                (sortCode == SortableCode.searchrank.name) ? Icons.do_not_disturb : null,
+            customTitleWidget:
+                (sortCode == SortableCode.searchrank.name)
+                    ? Tooltip(
+                      message:
+                          "Please don't empty/set an empty space query when using None sort, "
+                          "otherwise it will return an error.",
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: responsiveUI.own(0.005),
+                          left: responsiveUI.own(0.015),
                         ),
-                        shadows: [
-                          BoxShadow(
-                            blurRadius: 2,
-                            color: App.themeColor.primary,
-                          )
-                        ],
+                        child: Icon(
+                          Icons.info_outline,
+                          size: responsiveUI.own(0.045),
+                          color: Color.alphaBlend(
+                            Colors.black.withOpacity(0.2),
+                            kColor(context).secondary,
+                          ),
+                          shadows: [BoxShadow(blurRadius: 2, color: kColor(context).primary)],
+                        ),
                       ),
-                    ),
-                  )
-                : null,
-          )
+                    )
+                    : null,
+          ),
       ],
     );
   }

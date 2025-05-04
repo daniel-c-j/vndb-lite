@@ -13,13 +13,14 @@ String _$localChartRepoHash() => r'9ff82a04c91a101862281936d2d64e245da1a68d';
 final localChartRepoProvider = AutoDisposeProvider<LocalChartRepo>.internal(
   localChartRepo,
   name: r'localChartRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$localChartRepoHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$localChartRepoHash,
   dependencies: <ProviderOrFamily>[sharedPrefProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
     sharedPrefProvider,
-    ...?sharedPrefProvider.allTransitiveDependencies
+    ...?sharedPrefProvider.allTransitiveDependencies,
   },
 );
 

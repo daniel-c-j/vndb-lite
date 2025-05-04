@@ -33,9 +33,7 @@ class _SystemHash {
 abstract class _$VnRecordController extends BuildlessNotifier<VnRecord?> {
   late final String vnId;
 
-  VnRecord? build(
-    String vnId,
-  );
+  VnRecord? build(String vnId);
 }
 
 /// See also [VnRecordController].
@@ -48,21 +46,15 @@ class VnRecordControllerFamily extends Family<VnRecord?> {
   const VnRecordControllerFamily();
 
   /// See also [VnRecordController].
-  VnRecordControllerProvider call(
-    String vnId,
-  ) {
-    return VnRecordControllerProvider(
-      vnId,
-    );
+  VnRecordControllerProvider call(String vnId) {
+    return VnRecordControllerProvider(vnId);
   }
 
   @override
   VnRecordControllerProvider getProviderOverride(
     covariant VnRecordControllerProvider provider,
   ) {
-    return call(
-      provider.vnId,
-    );
+    return call(provider.vnId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -84,21 +76,20 @@ class VnRecordControllerFamily extends Family<VnRecord?> {
 class VnRecordControllerProvider
     extends NotifierProviderImpl<VnRecordController, VnRecord?> {
   /// See also [VnRecordController].
-  VnRecordControllerProvider(
-    String vnId,
-  ) : this._internal(
-          () => VnRecordController()..vnId = vnId,
-          from: vnRecordControllerProvider,
-          name: r'vnRecordControllerProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$vnRecordControllerHash,
-          dependencies: VnRecordControllerFamily._dependencies,
-          allTransitiveDependencies:
-              VnRecordControllerFamily._allTransitiveDependencies,
-          vnId: vnId,
-        );
+  VnRecordControllerProvider(String vnId)
+    : this._internal(
+        () => VnRecordController()..vnId = vnId,
+        from: vnRecordControllerProvider,
+        name: r'vnRecordControllerProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$vnRecordControllerHash,
+        dependencies: VnRecordControllerFamily._dependencies,
+        allTransitiveDependencies:
+            VnRecordControllerFamily._allTransitiveDependencies,
+        vnId: vnId,
+      );
 
   VnRecordControllerProvider._internal(
     super._createNotifier, {
@@ -113,12 +104,8 @@ class VnRecordControllerProvider
   final String vnId;
 
   @override
-  VnRecord? runNotifierBuild(
-    covariant VnRecordController notifier,
-  ) {
-    return notifier.build(
-      vnId,
-    );
+  VnRecord? runNotifierBuild(covariant VnRecordController notifier) {
+    return notifier.build(vnId);
   }
 
   @override
@@ -171,5 +158,6 @@ class _VnRecordControllerProviderElement
   @override
   String get vnId => (origin as VnRecordControllerProvider).vnId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

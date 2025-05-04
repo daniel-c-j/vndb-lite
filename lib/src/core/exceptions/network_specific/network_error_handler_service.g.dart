@@ -12,14 +12,15 @@ String _$netErrorHandlerHash() => r'64aa4826e1c6d23cb37d975ff3442c05ed9327dc';
 @ProviderFor(netErrorHandler)
 final netErrorHandlerProvider =
     AutoDisposeProvider<NetworkErrorHandlerService>.internal(
-  netErrorHandler,
-  name: r'netErrorHandlerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$netErrorHandlerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      netErrorHandler,
+      name: r'netErrorHandlerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$netErrorHandlerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

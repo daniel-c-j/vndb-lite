@@ -5,7 +5,7 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/application/collection_selection_service.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
@@ -18,42 +18,31 @@ import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VnSelectionDialogFooter extends ConsumerWidget {
   const VnSelectionDialogFooter({super.key, required this.data});
 
   final List<VnDataPhase01> data;
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
-  void _showSnackbar({
-    Color? color,
-    required String text,
-    required IconData icon,
-  }) {
+  void _showSnackbar({Color? color, required String text, required IconData icon}) {
     GenericSnackBar(
       content: [
-        Icon(
-          icon,
-          size: responsiveUI.snackbarIcon,
-          color: color ?? App.themeColor.tertiary,
-        ),
+        Icon(icon, size: responsiveUI.snackbarIcon, color: color ?? kColor().tertiary),
         SizedBox(width: responsiveUI.own(0.015)),
-        Flexible(
-            child: ShadowText(
-          text,
-          fontSize: responsiveUI.snackbarTxt,
-        )),
+        Flexible(child: ShadowText(text, fontSize: responsiveUI.snackbarTxt)),
       ],
       duration: const Duration(seconds: 4),
     ).show();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void _notifyCollectionPreview() {
     ref_.invalidate(homePreviewServiceProvider);
@@ -70,9 +59,9 @@ class VnSelectionDialogFooter extends ConsumerWidget {
     });
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -85,9 +74,9 @@ class VnSelectionDialogFooter extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Cancel button
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Cancel button
         CustomDialogButton(
           text: 'Cancel',
           color: Colors.transparent,
@@ -106,9 +95,9 @@ class VnSelectionDialogFooter extends ConsumerWidget {
           },
         ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Remove button
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Remove button
         if (!selection.isVnNew && buttonState == ConfirmButtonState.normal)
           CustomDialogButton(
             text: 'Remove',
@@ -152,18 +141,16 @@ class VnSelectionDialogFooter extends ConsumerWidget {
               });
             },
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Confirm button
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Confirm button
         Opacity(
           opacity: (buttonState == ConfirmButtonState.normal) ? 1 : 0.6,
           child: CustomDialogButton(
             text: 'Confirm',
-            color: App.themeColor.tertiary,
-            textColor: App.themeColor.primary,
-            textShadow: const [
-              Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
-            ],
+            color: kColor(context).tertiary,
+            textColor: kColor(context).primary,
+            textShadow: const [Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1)],
             onPressed: () async {
               if (buttonState == ConfirmButtonState.inprogress) return;
 
@@ -204,16 +191,10 @@ class VnSelectionDialogFooter extends ConsumerWidget {
                     Navigator.of(context).pop();
 
                     if (selection.isMultiselection || !selection.isVnNew) {
-                      return _showSnackbar(
-                        text: 'Updated.',
-                        icon: Icons.update,
-                      );
+                      return _showSnackbar(text: 'Updated.', icon: Icons.update);
                     }
 
-                    _showSnackbar(
-                      text: 'Added to library.',
-                      icon: Icons.library_add_check,
-                    );
+                    _showSnackbar(text: 'Added to library.', icon: Icons.library_add_check);
                   },
                   // ignore: provider_parameters
                   whenErr: (err, st) {
@@ -230,18 +211,19 @@ class VnSelectionDialogFooter extends ConsumerWidget {
                 ),
               );
             },
-            additionalWidget: (buttonState == ConfirmButtonState.inprogress)
-                ? SizedBox(
-                    width: responsiveUI.own(0.05),
-                    height: responsiveUI.own(0.05),
-                    child: const Center(child: CircularProgressIndicator()),
-                  )
-                : null,
+            additionalWidget:
+                (buttonState == ConfirmButtonState.inprogress)
+                    ? SizedBox(
+                      width: responsiveUI.own(0.05),
+                      height: responsiveUI.own(0.05),
+                      child: const Center(child: CircularProgressIndicator()),
+                    )
+                    : null,
           ),
         ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ],
     );
   }

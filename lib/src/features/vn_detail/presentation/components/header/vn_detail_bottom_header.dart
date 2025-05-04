@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/format_minutes.dart';
 
 class VnDetailsBottomHeader extends ConsumerWidget {
-  const VnDetailsBottomHeader({
-    super.key,
-    required this.p1,
-    required this.p2,
-  });
+  const VnDetailsBottomHeader({super.key, required this.p1, required this.p2});
 
   final VnDataPhase01 p1;
   final VnDataPhase02 p2;
@@ -22,32 +19,22 @@ class VnDetailsBottomHeader extends ConsumerWidget {
       width: 2,
       height: responsiveUI.own(0.1),
       alignment: Alignment.center,
-      color: App.themeColor.tertiary.withOpacity(0.8),
+      color: kColor().tertiary.withOpacity(0.8),
     );
   }
 
   Widget _getRatingIcons(double thisVnRating) {
     if (thisVnRating == 0) {
-      return Icon(
-        Icons.star_outline,
-        size: responsiveUI.own(0.05),
-        color: App.themeColor.secondary,
-      );
+      return Icon(Icons.star_outline, size: responsiveUI.own(0.05), color: kColor().secondary);
     }
 
     // Rating value : Number of stars
-    const Map<int, int> ratingStar = {
-      9: 5,
-      7: 4,
-      5: 3,
-      3: 2,
-      1: 1,
-    };
+    const Map<int, int> ratingStar = {9: 5, 7: 4, 5: 3, 3: 2, 1: 1};
 
     final Widget starIcon = Icon(
       Icons.star,
       size: responsiveUI.own(0.05),
-      color: App.themeColor.secondary,
+      color: kColor().secondary,
       shadows: [_shadow],
     );
 
@@ -62,12 +49,12 @@ class VnDetailsBottomHeader extends ConsumerWidget {
 
   Shadow get _shadow {
     // Reversing the color.
-    // final base = (App.themeColor.tertiary == Colors.white) ? Colors.black : Colors.white;
+    // final base = (kColor(context).tertiary == Colors.white) ? Colors.black : Colors.white;
 
     return Shadow(
       color: Color.alphaBlend(
-        App.themeColor.tertiary.withOpacity(0.8),
-        App.themeColor.primary,
+        kColor().tertiary.withOpacity(0.8),
+        kColor().primary,
       ).withOpacity(0.4),
       blurRadius: 10,
     );
@@ -80,9 +67,9 @@ class VnDetailsBottomHeader extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Vote
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Vote
           Flexible(
             child: Column(
               children: [
@@ -94,17 +81,17 @@ class VnDetailsBottomHeader extends ConsumerWidget {
                     Icon(
                       Icons.electric_bolt_sharp,
                       size: responsiveUI.own(0.045),
-                      color: App.themeColor.secondary,
+                      color: kColor(context).secondary,
                       shadows: [_shadow],
                     ),
                     Text(
                       " ${p1.votecount}",
                       style: TextStyle(
                         fontSize: responsiveUI.catgTitle,
-                        color: App.themeColor.secondary,
+                        color: kColor(context).secondary,
                         shadows: [_shadow],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -112,9 +99,9 @@ class VnDetailsBottomHeader extends ConsumerWidget {
           ),
           _separator,
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Rating
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Rating
           Flexible(
             child: Column(
               children: [
@@ -132,11 +119,11 @@ class VnDetailsBottomHeader extends ConsumerWidget {
                         "(${(p1.rating! / 10).toStringAsFixed(2)})",
                         style: TextStyle(
                           fontSize: responsiveUI.own(0.035),
-                          color: App.themeColor.secondary,
+                          color: kColor(context).secondary,
                           shadows: [_shadow],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -144,9 +131,9 @@ class VnDetailsBottomHeader extends ConsumerWidget {
           ),
           _separator,
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Length
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Length
           Flexible(
             child: Column(
               children: [
@@ -158,7 +145,7 @@ class VnDetailsBottomHeader extends ConsumerWidget {
                       child: Icon(
                         Icons.timelapse,
                         size: responsiveUI.own(0.04),
-                        color: App.themeColor.secondary,
+                        color: kColor(context).secondary,
                         shadows: [_shadow],
                       ),
                     ),
@@ -166,18 +153,18 @@ class VnDetailsBottomHeader extends ConsumerWidget {
                       ' ${getVnLength(p2.length_minutes)}',
                       style: TextStyle(
                         fontSize: responsiveUI.own(0.038),
-                        color: App.themeColor.secondary,
+                        color: kColor(context).secondary,
                         shadows: [_shadow],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
             ),
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          //
         ],
       ),
     );

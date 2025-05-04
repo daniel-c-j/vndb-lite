@@ -18,7 +18,7 @@ final localVnRepoProvider = AutoDisposeProvider<LocalVnRepo>.internal(
   dependencies: <ProviderOrFamily>[sharedPrefProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
     sharedPrefProvider,
-    ...?sharedPrefProvider.allTransitiveDependencies
+    ...?sharedPrefProvider.allTransitiveDependencies,
   },
 );
 
@@ -58,25 +58,17 @@ class GetP1Family extends Family<AsyncValue<VnDataPhase01?>> {
   const GetP1Family();
 
   /// See also [getP1].
-  GetP1Provider call(
-    String vnId,
-  ) {
-    return GetP1Provider(
-      vnId,
-    );
+  GetP1Provider call(String vnId) {
+    return GetP1Provider(vnId);
   }
 
   @override
-  GetP1Provider getProviderOverride(
-    covariant GetP1Provider provider,
-  ) {
-    return call(
-      provider.vnId,
-    );
+  GetP1Provider getProviderOverride(covariant GetP1Provider provider) {
+    return call(provider.vnId);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    localVnRepoProvider
+    localVnRepoProvider,
   ];
 
   @override
@@ -84,9 +76,9 @@ class GetP1Family extends Family<AsyncValue<VnDataPhase01?>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    localVnRepoProvider,
-    ...?localVnRepoProvider.allTransitiveDependencies
-  };
+        localVnRepoProvider,
+        ...?localVnRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -99,23 +91,17 @@ class GetP1Family extends Family<AsyncValue<VnDataPhase01?>> {
 /// See also [getP1].
 class GetP1Provider extends AutoDisposeFutureProvider<VnDataPhase01?> {
   /// See also [getP1].
-  GetP1Provider(
-    String vnId,
-  ) : this._internal(
-          (ref) => getP1(
-            ref as GetP1Ref,
-            vnId,
-          ),
-          from: getP1Provider,
-          name: r'getP1Provider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getP1Hash,
-          dependencies: GetP1Family._dependencies,
-          allTransitiveDependencies: GetP1Family._allTransitiveDependencies,
-          vnId: vnId,
-        );
+  GetP1Provider(String vnId)
+    : this._internal(
+        (ref) => getP1(ref as GetP1Ref, vnId),
+        from: getP1Provider,
+        name: r'getP1Provider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product') ? null : _$getP1Hash,
+        dependencies: GetP1Family._dependencies,
+        allTransitiveDependencies: GetP1Family._allTransitiveDependencies,
+        vnId: vnId,
+      );
 
   GetP1Provider._internal(
     super._createNotifier, {
@@ -174,7 +160,8 @@ mixin GetP1Ref on AutoDisposeFutureProviderRef<VnDataPhase01?> {
 }
 
 class _GetP1ProviderElement
-    extends AutoDisposeFutureProviderElement<VnDataPhase01?> with GetP1Ref {
+    extends AutoDisposeFutureProviderElement<VnDataPhase01?>
+    with GetP1Ref {
   _GetP1ProviderElement(super.provider);
 
   @override
@@ -193,25 +180,17 @@ class GetP2Family extends Family<AsyncValue<VnDataPhase02?>> {
   const GetP2Family();
 
   /// See also [getP2].
-  GetP2Provider call(
-    String vnId,
-  ) {
-    return GetP2Provider(
-      vnId,
-    );
+  GetP2Provider call(String vnId) {
+    return GetP2Provider(vnId);
   }
 
   @override
-  GetP2Provider getProviderOverride(
-    covariant GetP2Provider provider,
-  ) {
-    return call(
-      provider.vnId,
-    );
+  GetP2Provider getProviderOverride(covariant GetP2Provider provider) {
+    return call(provider.vnId);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    localVnRepoProvider
+    localVnRepoProvider,
   ];
 
   @override
@@ -219,9 +198,9 @@ class GetP2Family extends Family<AsyncValue<VnDataPhase02?>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    localVnRepoProvider,
-    ...?localVnRepoProvider.allTransitiveDependencies
-  };
+        localVnRepoProvider,
+        ...?localVnRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -234,23 +213,17 @@ class GetP2Family extends Family<AsyncValue<VnDataPhase02?>> {
 /// See also [getP2].
 class GetP2Provider extends AutoDisposeFutureProvider<VnDataPhase02?> {
   /// See also [getP2].
-  GetP2Provider(
-    String vnId,
-  ) : this._internal(
-          (ref) => getP2(
-            ref as GetP2Ref,
-            vnId,
-          ),
-          from: getP2Provider,
-          name: r'getP2Provider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getP2Hash,
-          dependencies: GetP2Family._dependencies,
-          allTransitiveDependencies: GetP2Family._allTransitiveDependencies,
-          vnId: vnId,
-        );
+  GetP2Provider(String vnId)
+    : this._internal(
+        (ref) => getP2(ref as GetP2Ref, vnId),
+        from: getP2Provider,
+        name: r'getP2Provider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product') ? null : _$getP2Hash,
+        dependencies: GetP2Family._dependencies,
+        allTransitiveDependencies: GetP2Family._allTransitiveDependencies,
+        vnId: vnId,
+      );
 
   GetP2Provider._internal(
     super._createNotifier, {
@@ -309,7 +282,8 @@ mixin GetP2Ref on AutoDisposeFutureProviderRef<VnDataPhase02?> {
 }
 
 class _GetP2ProviderElement
-    extends AutoDisposeFutureProviderElement<VnDataPhase02?> with GetP2Ref {
+    extends AutoDisposeFutureProviderElement<VnDataPhase02?>
+    with GetP2Ref {
   _GetP2ProviderElement(super.provider);
 
   @override
@@ -328,25 +302,17 @@ class GetP3Family extends Family<AsyncValue<VnDataPhase03?>> {
   const GetP3Family();
 
   /// See also [getP3].
-  GetP3Provider call(
-    String vnId,
-  ) {
-    return GetP3Provider(
-      vnId,
-    );
+  GetP3Provider call(String vnId) {
+    return GetP3Provider(vnId);
   }
 
   @override
-  GetP3Provider getProviderOverride(
-    covariant GetP3Provider provider,
-  ) {
-    return call(
-      provider.vnId,
-    );
+  GetP3Provider getProviderOverride(covariant GetP3Provider provider) {
+    return call(provider.vnId);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    localVnRepoProvider
+    localVnRepoProvider,
   ];
 
   @override
@@ -354,9 +320,9 @@ class GetP3Family extends Family<AsyncValue<VnDataPhase03?>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    localVnRepoProvider,
-    ...?localVnRepoProvider.allTransitiveDependencies
-  };
+        localVnRepoProvider,
+        ...?localVnRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -369,23 +335,17 @@ class GetP3Family extends Family<AsyncValue<VnDataPhase03?>> {
 /// See also [getP3].
 class GetP3Provider extends AutoDisposeFutureProvider<VnDataPhase03?> {
   /// See also [getP3].
-  GetP3Provider(
-    String vnId,
-  ) : this._internal(
-          (ref) => getP3(
-            ref as GetP3Ref,
-            vnId,
-          ),
-          from: getP3Provider,
-          name: r'getP3Provider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getP3Hash,
-          dependencies: GetP3Family._dependencies,
-          allTransitiveDependencies: GetP3Family._allTransitiveDependencies,
-          vnId: vnId,
-        );
+  GetP3Provider(String vnId)
+    : this._internal(
+        (ref) => getP3(ref as GetP3Ref, vnId),
+        from: getP3Provider,
+        name: r'getP3Provider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product') ? null : _$getP3Hash,
+        dependencies: GetP3Family._dependencies,
+        allTransitiveDependencies: GetP3Family._allTransitiveDependencies,
+        vnId: vnId,
+      );
 
   GetP3Provider._internal(
     super._createNotifier, {
@@ -444,11 +404,13 @@ mixin GetP3Ref on AutoDisposeFutureProviderRef<VnDataPhase03?> {
 }
 
 class _GetP3ProviderElement
-    extends AutoDisposeFutureProviderElement<VnDataPhase03?> with GetP3Ref {
+    extends AutoDisposeFutureProviderElement<VnDataPhase03?>
+    with GetP3Ref {
   _GetP3ProviderElement(super.provider);
 
   @override
   String get vnId => (origin as GetP3Provider).vnId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

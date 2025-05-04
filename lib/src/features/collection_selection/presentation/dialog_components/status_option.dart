@@ -2,10 +2,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialog_components/footer_button_state.dart';
 import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class RecordStatusOption extends ConsumerWidget {
   const RecordStatusOption({
@@ -40,9 +41,10 @@ class RecordStatusOption extends ConsumerWidget {
           onTap();
         },
         child: Opacity(
-          opacity: (isMultiselection || buttonState == ConfirmButtonState.inprogress)
-              ? 0.8
-              : (selectedIcon == statusCode)
+          opacity:
+              (isMultiselection || buttonState == ConfirmButtonState.inprogress)
+                  ? 0.8
+                  : (selectedIcon == statusCode)
                   ? 1
                   : 0.6,
           child: Container(
@@ -51,16 +53,14 @@ class RecordStatusOption extends ConsumerWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  App.themeColor.primary,
-                  App.themeColor.primary.withOpacity(0.5),
-                ],
+                colors: [kColor(context).primary, kColor(context).primary.withOpacity(0.5)],
               ),
               border: Border.all(
                 width: responsiveUI.own(0.005),
-                color: (selectedIcon == statusCode || isMultiselection)
-                    ? statusOption.color
-                    : const Color.fromARGB(50, 0, 0, 0),
+                color:
+                    (selectedIcon == statusCode || isMultiselection)
+                        ? statusOption.color
+                        : const Color.fromARGB(50, 0, 0, 0),
               ),
             ),
             padding: EdgeInsets.all(responsiveUI.own(0.01)),
@@ -71,9 +71,10 @@ class RecordStatusOption extends ConsumerWidget {
                   color: Colors.black,
                   width: responsiveUI.own(0.068),
                   height: responsiveUI.own(0.08),
-                  opacity: (selectedIcon == statusCode || selectedIcon.toLowerCase() == 'mixed')
-                      ? const AlwaysStoppedAnimation(0.4)
-                      : const AlwaysStoppedAnimation(0),
+                  opacity:
+                      (selectedIcon == statusCode || selectedIcon.toLowerCase() == 'mixed')
+                          ? const AlwaysStoppedAnimation(0.4)
+                          : const AlwaysStoppedAnimation(0),
                 ),
                 ClipRect(
                   child: BackdropFilter(

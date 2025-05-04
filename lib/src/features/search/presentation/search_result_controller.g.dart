@@ -13,31 +13,33 @@ String _$searchResultPageControllerHash() =>
 @ProviderFor(SearchResultPageController)
 final searchResultPageControllerProvider =
     NotifierProvider<SearchResultPageController, int>.internal(
-  SearchResultPageController.new,
-  name: r'searchResultPageControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$searchResultPageControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      SearchResultPageController.new,
+      name: r'searchResultPageControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$searchResultPageControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$SearchResultPageController = Notifier<int>;
 String _$searchResultControllerHash() =>
-    r'7990e9007bd75e1fcb89dcc7e584d9b94637e64d';
+    r'60fca21d561f4a3bdea61b010abb143303c9af52';
 
 /// See also [SearchResultController].
 @ProviderFor(SearchResultController)
 final searchResultControllerProvider =
     NotifierProvider<SearchResultController, List<VnItemGrid>>.internal(
-  SearchResultController.new,
-  name: r'searchResultControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$searchResultControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      SearchResultController.new,
+      name: r'searchResultControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$searchResultControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$SearchResultController = Notifier<List<VnItemGrid>>;
 // ignore_for_file: type=lint

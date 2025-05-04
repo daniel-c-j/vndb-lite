@@ -32,9 +32,7 @@ class _SystemHash {
 abstract class _$VnDetailFabState extends BuildlessAutoDisposeNotifier<bool> {
   late final String vnId;
 
-  bool build(
-    String vnId,
-  );
+  bool build(String vnId);
 }
 
 /// See also [VnDetailFabState].
@@ -47,21 +45,15 @@ class VnDetailFabStateFamily extends Family<bool> {
   const VnDetailFabStateFamily();
 
   /// See also [VnDetailFabState].
-  VnDetailFabStateProvider call(
-    String vnId,
-  ) {
-    return VnDetailFabStateProvider(
-      vnId,
-    );
+  VnDetailFabStateProvider call(String vnId) {
+    return VnDetailFabStateProvider(vnId);
   }
 
   @override
   VnDetailFabStateProvider getProviderOverride(
     covariant VnDetailFabStateProvider provider,
   ) {
-    return call(
-      provider.vnId,
-    );
+    return call(provider.vnId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -83,21 +75,20 @@ class VnDetailFabStateFamily extends Family<bool> {
 class VnDetailFabStateProvider
     extends AutoDisposeNotifierProviderImpl<VnDetailFabState, bool> {
   /// See also [VnDetailFabState].
-  VnDetailFabStateProvider(
-    String vnId,
-  ) : this._internal(
-          () => VnDetailFabState()..vnId = vnId,
-          from: vnDetailFabStateProvider,
-          name: r'vnDetailFabStateProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$vnDetailFabStateHash,
-          dependencies: VnDetailFabStateFamily._dependencies,
-          allTransitiveDependencies:
-              VnDetailFabStateFamily._allTransitiveDependencies,
-          vnId: vnId,
-        );
+  VnDetailFabStateProvider(String vnId)
+    : this._internal(
+        () => VnDetailFabState()..vnId = vnId,
+        from: vnDetailFabStateProvider,
+        name: r'vnDetailFabStateProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$vnDetailFabStateHash,
+        dependencies: VnDetailFabStateFamily._dependencies,
+        allTransitiveDependencies:
+            VnDetailFabStateFamily._allTransitiveDependencies,
+        vnId: vnId,
+      );
 
   VnDetailFabStateProvider._internal(
     super._createNotifier, {
@@ -112,12 +103,8 @@ class VnDetailFabStateProvider
   final String vnId;
 
   @override
-  bool runNotifierBuild(
-    covariant VnDetailFabState notifier,
-  ) {
-    return notifier.build(
-      vnId,
-    );
+  bool runNotifierBuild(covariant VnDetailFabState notifier) {
+    return notifier.build(vnId);
   }
 
   @override
@@ -170,5 +157,6 @@ class _VnDetailFabStateProviderElement
   @override
   String get vnId => (origin as VnDetailFabStateProvider).vnId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -142,7 +142,8 @@ dev_dependencies:
   riverpod_lint: ^2.6.2
 
   # For hive noSQL db.
-  hive_ce_generator: ^1.8.1
+  # TODO
+  # hive_ce_generator: ^1.8.1
 
   # For testing.
   mocktail: ^1.0.4

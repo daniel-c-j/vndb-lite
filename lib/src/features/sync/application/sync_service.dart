@@ -16,6 +16,7 @@ import 'package:vndb_lite/src/features/sync/data/remote/remote_sync_repo_helper.
 import 'package:vndb_lite/src/features/sync/domain/user_identity.dart';
 import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 import '../../../core/_core.dart';
 
@@ -41,7 +42,7 @@ class SyncService {
 
     // User friendly (should be) message.
     localNotification.showSyncNotification(status: 0);
-    snackbar('Synchronizing account...', icon: Icons.sync, iconColor: App.themeColor.tertiary);
+    snackbar('Synchronizing account...', icon: Icons.sync, iconColor: kColor().tertiary);
 
     if (!await _isTokenValid(userIdentity)) return returnError(status: 1);
 
@@ -247,7 +248,7 @@ class SyncService {
     Future.delayed(const Duration(milliseconds: 3500), () {
       whenSuccess();
       localNotification.showSyncNotification(status: 1);
-      snackbar('Synchronization successful', icon: Icons.sync, iconColor: App.themeColor.tertiary);
+      snackbar('Synchronization successful', icon: Icons.sync, iconColor: kColor().tertiary);
     });
 
     return;

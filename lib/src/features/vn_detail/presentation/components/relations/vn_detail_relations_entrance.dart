@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/generic_error.dart';
 import 'package:vndb_lite/src/common_widgets/generic_failure_connection.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
 import 'package:vndb_lite/src/features/vn_detail/application/vn_detail_relations._service.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/relations/vn_detail_relations_content.dart';
@@ -13,9 +13,9 @@ class VnDetailsContentRelationsEntrance extends ConsumerWidget {
 
   final String vnId;
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget get _loading {
     return Padding(
@@ -37,9 +37,9 @@ class VnDetailsContentRelationsEntrance extends ConsumerWidget {
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,7 +48,9 @@ class VnDetailsContentRelationsEntrance extends ConsumerWidget {
     if (localVnRepo.p3Exist(vnId)) {
       // GenericSnackBar.hide();
 
-      return ref.watch(getP3Provider(vnId)).when(
+      return ref
+          .watch(getP3Provider(vnId))
+          .when(
             data: (data) {
               final p3 = data;
               return VnDetailsContentRelations(p3: p3!);
@@ -59,16 +61,20 @@ class VnDetailsContentRelationsEntrance extends ConsumerWidget {
             loading: () => _loading,
           );
     }
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+    //
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //
 
     // This provider will download phase03 and save it to the local repo, but does not
     // return any data (void).
-    return ref.watch(fetchAndSaveP3DataProvider(vnId)).when(
+    return ref
+        .watch(fetchAndSaveP3DataProvider(vnId))
+        .when(
           data: (_) {
             // Get the local downloaded data.
-            return ref.watch(getP3Provider(vnId)).when(
+            return ref
+                .watch(getP3Provider(vnId))
+                .when(
                   data: (data) {
                     final p3 = data;
 

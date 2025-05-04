@@ -4,7 +4,7 @@ import 'package:vndb_lite/src/common_widgets/generic_error.dart';
 import 'package:vndb_lite/src/common_widgets/generic_failure_connection.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/application/collection_selection_remote_service.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
@@ -15,18 +15,19 @@ class VnDetailsEntrance extends ConsumerWidget {
 
   final VnDataPhase01 p1;
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget get _loading {
     final context = NavigationService.currentContext;
 
     return Center(
       child: SizedBox(
-        height: (MediaQuery.of(context).orientation == Orientation.landscape)
-            ? responsiveUI.own(0.5)
-            : responsiveUI.own(1),
+        height:
+            (MediaQuery.of(context).orientation == Orientation.landscape)
+                ? responsiveUI.own(0.5)
+                : responsiveUI.own(1),
         width: responsiveUI.own(0.1),
         child: const Center(child: CircularProgressIndicator()),
       ),
@@ -44,9 +45,9 @@ class VnDetailsEntrance extends ConsumerWidget {
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,7 +56,9 @@ class VnDetailsEntrance extends ConsumerWidget {
     if (localVnRepo.p2Exist(p1.id)) {
       // GenericSnackBar.hide();
 
-      return ref.watch(getP2Provider(p1.id)).when(
+      return ref
+          .watch(getP2Provider(p1.id))
+          .when(
             data: (data) {
               final p2 = data;
 
@@ -71,16 +74,20 @@ class VnDetailsEntrance extends ConsumerWidget {
           );
     }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+    //
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //
 
     // This provider will download phase02 and save it to the local repo, but does not
     // return any data (void).
-    return ref.watch(fetchAndSaveP2DataProvider(p1.id)).when(
+    return ref
+        .watch(fetchAndSaveP2DataProvider(p1.id))
+        .when(
           data: (_) {
             // Get the local downloaded data.
-            return ref.watch(getP2Provider(p1.id)).when(
+            return ref
+                .watch(getP2Provider(p1.id))
+                .when(
                   data: (data) {
                     final p2 = data;
 

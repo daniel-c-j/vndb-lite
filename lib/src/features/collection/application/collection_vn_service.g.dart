@@ -40,26 +40,20 @@ class ValidateVnAndSaveToLocalFamily extends Family<AsyncValue<bool>> {
   const ValidateVnAndSaveToLocalFamily();
 
   /// See also [validateVnAndSaveToLocal].
-  ValidateVnAndSaveToLocalProvider call(
-    String vnId,
-  ) {
-    return ValidateVnAndSaveToLocalProvider(
-      vnId,
-    );
+  ValidateVnAndSaveToLocalProvider call(String vnId) {
+    return ValidateVnAndSaveToLocalProvider(vnId);
   }
 
   @override
   ValidateVnAndSaveToLocalProvider getProviderOverride(
     covariant ValidateVnAndSaveToLocalProvider provider,
   ) {
-    return call(
-      provider.vnId,
-    );
+    return call(provider.vnId);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
     remoteVnRepoProvider,
-    localVnRepoProvider
+    localVnRepoProvider,
   ];
 
   @override
@@ -67,11 +61,11 @@ class ValidateVnAndSaveToLocalFamily extends Family<AsyncValue<bool>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    remoteVnRepoProvider,
-    ...?remoteVnRepoProvider.allTransitiveDependencies,
-    localVnRepoProvider,
-    ...?localVnRepoProvider.allTransitiveDependencies
-  };
+        remoteVnRepoProvider,
+        ...?remoteVnRepoProvider.allTransitiveDependencies,
+        localVnRepoProvider,
+        ...?localVnRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -84,24 +78,21 @@ class ValidateVnAndSaveToLocalFamily extends Family<AsyncValue<bool>> {
 /// See also [validateVnAndSaveToLocal].
 class ValidateVnAndSaveToLocalProvider extends AutoDisposeFutureProvider<bool> {
   /// See also [validateVnAndSaveToLocal].
-  ValidateVnAndSaveToLocalProvider(
-    String vnId,
-  ) : this._internal(
-          (ref) => validateVnAndSaveToLocal(
-            ref as ValidateVnAndSaveToLocalRef,
-            vnId,
-          ),
-          from: validateVnAndSaveToLocalProvider,
-          name: r'validateVnAndSaveToLocalProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$validateVnAndSaveToLocalHash,
-          dependencies: ValidateVnAndSaveToLocalFamily._dependencies,
-          allTransitiveDependencies:
-              ValidateVnAndSaveToLocalFamily._allTransitiveDependencies,
-          vnId: vnId,
-        );
+  ValidateVnAndSaveToLocalProvider(String vnId)
+    : this._internal(
+        (ref) =>
+            validateVnAndSaveToLocal(ref as ValidateVnAndSaveToLocalRef, vnId),
+        from: validateVnAndSaveToLocalProvider,
+        name: r'validateVnAndSaveToLocalProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$validateVnAndSaveToLocalHash,
+        dependencies: ValidateVnAndSaveToLocalFamily._dependencies,
+        allTransitiveDependencies:
+            ValidateVnAndSaveToLocalFamily._allTransitiveDependencies,
+        vnId: vnId,
+      );
 
   ValidateVnAndSaveToLocalProvider._internal(
     super._createNotifier, {
@@ -167,5 +158,6 @@ class _ValidateVnAndSaveToLocalProviderElement
   @override
   String get vnId => (origin as ValidateVnAndSaveToLocalProvider).vnId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

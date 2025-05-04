@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
+
+import '../../../util/context_shortcut.dart';
 
 class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget {
   const CollectionAppbarTabs({super.key});
@@ -32,7 +34,7 @@ class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget
           right: responsiveUI.own(0.02),
         ),
         indicatorSize: TabBarIndicatorSize.tab,
-        indicatorColor: App.themeColor.tertiary,
+        indicatorColor: kColor(context).tertiary,
         labelStyle: const TextStyle(fontWeight: FontWeight.w500),
         tabs: [
           for (String statusCode in statusArrangement)

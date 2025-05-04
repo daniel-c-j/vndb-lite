@@ -13,14 +13,15 @@ String _$showSearchTextFieldHash() =>
 @ProviderFor(ShowSearchTextField)
 final showSearchTextFieldProvider =
     AutoDisposeNotifierProvider<ShowSearchTextField, bool>.internal(
-  ShowSearchTextField.new,
-  name: r'showSearchTextFieldProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$showSearchTextFieldHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      ShowSearchTextField.new,
+      name: r'showSearchTextFieldProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$showSearchTextFieldHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$ShowSearchTextField = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint

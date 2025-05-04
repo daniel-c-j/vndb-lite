@@ -13,14 +13,15 @@ String _$searchResultNotifierHash() =>
 @ProviderFor(SearchResultNotifier)
 final searchResultNotifierProvider =
     NotifierProvider<SearchResultNotifier, bool>.internal(
-  SearchResultNotifier.new,
-  name: r'searchResultNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$searchResultNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      SearchResultNotifier.new,
+      name: r'searchResultNotifierProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$searchResultNotifierHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$SearchResultNotifier = Notifier<bool>;
 String _$searchScreenControllerHash() =>
@@ -30,14 +31,15 @@ String _$searchScreenControllerHash() =>
 @ProviderFor(SearchScreenController)
 final searchScreenControllerProvider =
     NotifierProvider<SearchScreenController, List<Widget>>.internal(
-  SearchScreenController.new,
-  name: r'searchScreenControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$searchScreenControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      SearchScreenController.new,
+      name: r'searchScreenControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$searchScreenControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$SearchScreenController = Notifier<List<Widget>>;
 // ignore_for_file: type=lint

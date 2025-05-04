@@ -13,14 +13,15 @@ String _$appliedRemoteFilterControllerHash() =>
 @ProviderFor(AppliedRemoteFilterController)
 final appliedRemoteFilterControllerProvider =
     NotifierProvider<AppliedRemoteFilterController, FilterData>.internal(
-  AppliedRemoteFilterController.new,
-  name: r'appliedRemoteFilterControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$appliedRemoteFilterControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      AppliedRemoteFilterController.new,
+      name: r'appliedRemoteFilterControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$appliedRemoteFilterControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$AppliedRemoteFilterController = Notifier<FilterData>;
 String _$appliedRemoteSortControllerHash() =>
@@ -30,14 +31,15 @@ String _$appliedRemoteSortControllerHash() =>
 @ProviderFor(AppliedRemoteSortController)
 final appliedRemoteSortControllerProvider =
     NotifierProvider<AppliedRemoteSortController, SortData>.internal(
-  AppliedRemoteSortController.new,
-  name: r'appliedRemoteSortControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$appliedRemoteSortControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      AppliedRemoteSortController.new,
+      name: r'appliedRemoteSortControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$appliedRemoteSortControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$AppliedRemoteSortController = Notifier<SortData>;
 String _$tempRemoteFilterControllerHash() =>
@@ -47,14 +49,15 @@ String _$tempRemoteFilterControllerHash() =>
 @ProviderFor(TempRemoteFilterController)
 final tempRemoteFilterControllerProvider =
     NotifierProvider<TempRemoteFilterController, FilterData>.internal(
-  TempRemoteFilterController.new,
-  name: r'tempRemoteFilterControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$tempRemoteFilterControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      TempRemoteFilterController.new,
+      name: r'tempRemoteFilterControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$tempRemoteFilterControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$TempRemoteFilterController = Notifier<FilterData>;
 String _$tempRemoteSortControllerHash() =>
@@ -64,14 +67,15 @@ String _$tempRemoteSortControllerHash() =>
 @ProviderFor(TempRemoteSortController)
 final tempRemoteSortControllerProvider =
     NotifierProvider<TempRemoteSortController, SortData>.internal(
-  TempRemoteSortController.new,
-  name: r'tempRemoteSortControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$tempRemoteSortControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      TempRemoteSortController.new,
+      name: r'tempRemoteSortControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$tempRemoteSortControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$TempRemoteSortController = Notifier<SortData>;
 // ignore_for_file: type=lint

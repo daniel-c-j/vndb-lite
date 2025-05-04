@@ -6,25 +6,26 @@ part of 'chart_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getStatsChartHash() => r'20a372f37e3110da61973ef05a49924cdcd648d9';
+String _$getStatsChartHash() => r'876d56d10c8e02531e899795779cff7c57597980';
 
 /// See also [getStatsChart].
 @ProviderFor(getStatsChart)
 final getStatsChartProvider = AutoDisposeFutureProvider<void>.internal(
   getStatsChart,
   name: r'getStatsChartProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$getStatsChartHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$getStatsChartHash,
   dependencies: <ProviderOrFamily>[
     localChartRepoProvider,
-    remoteChartRepoProvider
+    remoteChartRepoProvider,
   ],
   allTransitiveDependencies: <ProviderOrFamily>{
     localChartRepoProvider,
     ...?localChartRepoProvider.allTransitiveDependencies,
     remoteChartRepoProvider,
-    ...?remoteChartRepoProvider.allTransitiveDependencies
+    ...?remoteChartRepoProvider.allTransitiveDependencies,
   },
 );
 

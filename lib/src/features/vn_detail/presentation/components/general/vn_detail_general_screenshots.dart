@@ -7,12 +7,13 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/vn/domain/others.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/general/vn_detail_screenshots_state.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/widget_zoom/widget_zoom.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VnDetailGeneralScreenshots extends StatefulWidget {
   const VnDetailGeneralScreenshots({super.key, required this.p2});
@@ -44,9 +45,9 @@ class _VnDetailGeneralScreenshotsState extends State<VnDetailGeneralScreenshots>
     return screenshotsUrl;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _screenshotContentButton({
     required bool contentLevelExplicit,
@@ -54,15 +55,14 @@ class _VnDetailGeneralScreenshotsState extends State<VnDetailGeneralScreenshots>
     required String title,
   }) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: responsiveUI.own(0.01),
-      ),
+      padding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.01)),
       child: Opacity(
-        opacity: (contentLevelExplicit)
-            ? (_screenshotsContentExplicit)
-                ? 1
-                : 0.7
-            : (!_screenshotsContentExplicit)
+        opacity:
+            (contentLevelExplicit)
+                ? (_screenshotsContentExplicit)
+                    ? 1
+                    : 0.7
+                : (!_screenshotsContentExplicit)
                 ? 1
                 : 0.7,
         child: CustomButton(
@@ -71,25 +71,24 @@ class _VnDetailGeneralScreenshotsState extends State<VnDetailGeneralScreenshots>
               _screenshotsContentExplicit = (contentLevelExplicit) ? true : false;
             });
           },
-          size: EdgeInsets.symmetric(
-            horizontal: responsiveUI.own(0.025),
-          ),
-          color: (contentLevelExplicit)
-              ? (_screenshotsContentExplicit)
-                  ? color
-                  : Colors.grey
-              : (!_screenshotsContentExplicit)
+          padding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.025)),
+          buttonColor:
+              (contentLevelExplicit)
+                  ? (_screenshotsContentExplicit)
+                      ? color
+                      : Colors.grey
+                  : (!_screenshotsContentExplicit)
                   ? color
                   : Colors.grey,
-          content: ShadowText(title),
+          child: ShadowText(title),
         ),
       ),
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -98,76 +97,87 @@ class _VnDetailGeneralScreenshotsState extends State<VnDetailGeneralScreenshots>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         Wrap(
           children: [
             ShadowText('Content level: '),
-            _screenshotContentButton(contentLevelExplicit: false, color: Colors.green, title: 'Safe'),
-            _screenshotContentButton(contentLevelExplicit: true, color: Colors.red, title: 'Explicit'),
+            _screenshotContentButton(
+              contentLevelExplicit: false,
+              color: Colors.green,
+              title: 'Safe',
+            ),
+            _screenshotContentButton(
+              contentLevelExplicit: true,
+              color: Colors.red,
+              title: 'Explicit',
+            ),
           ],
         ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Screenshot image swipe
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Screenshot image swipe
         SizedBox(height: responsiveUI.own(0.03)),
         (screenshotsUrl.isEmpty)
             ? ShadowText('--')
             : Container(
-                alignment: Alignment.center,
-                width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).width * 0.55,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Swiper(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: screenshotsUrl.length,
-                    axisDirection: AxisDirection.right,
-                    pagination: SwiperPagination(
-                      alignment: Alignment.bottomCenter,
-                      builder: DotSwiperPaginationBuilder(
-                        color: const Color.fromARGB(140, 160, 160, 160),
-                        activeColor: App.themeColor.secondary,
-                        activeSize: 14,
-                        size: 8,
-                      ),
+              alignment: Alignment.center,
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).width * 0.55,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Swiper(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: screenshotsUrl.length,
+                  axisDirection: AxisDirection.right,
+                  pagination: SwiperPagination(
+                    alignment: Alignment.bottomCenter,
+                    builder: DotSwiperPaginationBuilder(
+                      color: const Color.fromARGB(140, 160, 160, 160),
+                      activeColor: kColor(context).secondary,
+                      activeSize: 14,
+                      size: 8,
                     ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return WidgetZoom(
-                        onTap: () {
-                          SchedulerBinding.instance.addPostFrameCallback((_) {
-                            ref_.read(vnDetailScreenshotStateProvider.notifier).click = true;
-                          });
-                        },
-                        onExit: () {
-                          SchedulerBinding.instance.addPostFrameCallback((_) {
-                            ref_.read(vnDetailScreenshotStateProvider.notifier).click = false;
-                          });
-                        },
-                        heroAnimationTag: 'vnScreenshots$index',
-                        zoomWidget: Consumer(
-                          builder: (context, ref, child) {
-                            final imgClicked = ref.watch(vnDetailScreenshotStateProvider);
-
-                            return CachedNetworkImage(
-                              imageUrl: screenshotsUrl[index],
-                              filterQuality: FilterQuality.high,
-                              fit: (imgClicked) ? null : BoxFit.cover,
-                              height: (imgClicked) ? responsiveUI.own(0.9) : responsiveUI.own(0.6),
-                              placeholder: (context, str) =>
-                                  SizedBox(width: responsiveUI.own(0.4), height: responsiveUI.own(0.2)),
-                              errorWidget: (context, url, error) => const GenericErrorImage(),
-                              maxHeightDiskCache: (MediaQuery.sizeOf(context).height * 1.75).toInt(),
-                              maxWidthDiskCache: (MediaQuery.sizeOf(context).width * 1.75).toInt(),
-                            );
-                          },
-                        ),
-                      );
-                    },
                   ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return WidgetZoom(
+                      onTap: () {
+                        SchedulerBinding.instance.addPostFrameCallback((_) {
+                          ref_.read(vnDetailScreenshotStateProvider.notifier).click = true;
+                        });
+                      },
+                      onExit: () {
+                        SchedulerBinding.instance.addPostFrameCallback((_) {
+                          ref_.read(vnDetailScreenshotStateProvider.notifier).click = false;
+                        });
+                      },
+                      heroAnimationTag: 'vnScreenshots$index',
+                      zoomWidget: Consumer(
+                        builder: (context, ref, child) {
+                          final imgClicked = ref.watch(vnDetailScreenshotStateProvider);
+
+                          return CachedNetworkImage(
+                            imageUrl: screenshotsUrl[index],
+                            filterQuality: FilterQuality.high,
+                            fit: (imgClicked) ? null : BoxFit.cover,
+                            height: (imgClicked) ? responsiveUI.own(0.9) : responsiveUI.own(0.6),
+                            placeholder:
+                                (context, str) => SizedBox(
+                                  width: responsiveUI.own(0.4),
+                                  height: responsiveUI.own(0.2),
+                                ),
+                            errorWidget: (context, url, error) => const GenericErrorImage(),
+                            maxHeightDiskCache: (MediaQuery.sizeOf(context).height * 1.75).toInt(),
+                            maxWidthDiskCache: (MediaQuery.sizeOf(context).width * 1.75).toInt(),
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
               ),
+            ),
       ],
     );
   }

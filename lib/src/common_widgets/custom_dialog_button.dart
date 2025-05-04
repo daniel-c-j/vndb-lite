@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
+
+import '../util/context_shortcut.dart';
 
 class CustomDialogButton extends StatelessWidget {
   const CustomDialogButton({
@@ -29,44 +31,32 @@ class CustomDialogButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(responsiveUI.own(0.01)),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          color: color,
-        ),
-        child: Material(
-          borderRadius: BorderRadius.circular(24),
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(24),
-            onTap: onPressed,
-            child: Container(
-              padding: padding ??
-                  EdgeInsets.symmetric(
-                    vertical: responsiveUI.own(0.025),
-                    horizontal: responsiveUI.own(0.04),
-                  ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  leading ?? const SizedBox.shrink(),
-                  additionalWidget ??
-                      ShadowText(
-                        text,
-                        color: textColor,
-                        fontSize: responsiveUI.normalSize,
-                        shadows: (textColor == Colors.white || textColor == null) ? textShadow : [],
-                        forceShadow: textColor == App.themeColor.tertiary,
-                      ),
-                ],
-              ),
-            ),
+    return CustomButton(
+      margin: EdgeInsets.all(responsiveUI.own(0.01)),
+      padding:
+          padding ??
+          EdgeInsets.symmetric(
+            vertical: responsiveUI.own(0.025),
+            horizontal: responsiveUI.own(0.04),
           ),
-        ),
+      borderRadius: BorderRadius.circular(24),
+      buttonColor: color,
+      onTap: onPressed,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          leading ?? const SizedBox.shrink(),
+          additionalWidget ??
+              ShadowText(
+                text,
+                color: textColor,
+                fontSize: responsiveUI.normalSize,
+                shadows: (textColor == Colors.white || textColor == null) ? textShadow : [],
+                forceShadow: textColor == kColor(context).tertiary,
+              ),
+        ],
       ),
     );
   }

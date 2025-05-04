@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/base_dialog.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
@@ -20,6 +20,7 @@ import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/v
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_grid_details_summary.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/check_media_cache.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 import 'package:vndb_lite/src/util/debouncer.dart';
 
@@ -239,9 +240,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     final Widget vnItemGrid = Card(
       elevation: 8,
       clipBehavior: Clip.hardEdge,
-      color: App.themeColor.secondary.withOpacity(0.5),
+      color: kColor(context).secondary.withOpacity(0.5),
       margin: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.017)),
-      shadowColor: App.themeColor.secondary.withOpacity(0.8),
+      shadowColor: kColor(context).secondary.withOpacity(0.8),
       child: InkWell(
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -62,8 +62,13 @@ class _MasonryGridState extends State<MasonryGrid> {
 
     try {
       final renderColumn = List<RenderBox?>.generate(
-          columnKey.length, (i) => columnKey[i].currentContext?.findRenderObject() as RenderBox?);
-      final columnHeight = List<double>.generate(renderColumn.length, (i) => renderColumn[i]!.size.height);
+        columnKey.length,
+        (i) => columnKey[i].currentContext?.findRenderObject() as RenderBox?,
+      );
+      final columnHeight = List<double>.generate(
+        renderColumn.length,
+        (i) => renderColumn[i]!.size.height,
+      );
 
       columnHeight.asMap().forEach((i, item) {
         if (columnHeight[i] < columnHeight[smallestColumnId]) {
@@ -122,34 +127,33 @@ class _MasonryGridState extends State<MasonryGrid> {
   Widget build(BuildContext context) {
     renderChildren();
 
-    final column = widget.crossAxisSpacing == 0
-        ? List.generate(
-            widget.column,
-            (i) => Expanded(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children:
+          widget.crossAxisSpacing == 0
+              ? List.generate(
+                widget.column,
+                (i) => Expanded(
                   child: Column(
                     key: columnKey[i],
                     crossAxisAlignment: widget.crossAxisAlignment,
                     children: columnItem[i],
                   ),
-                ))
-        : List.generate(
-            widget.column + (widget.column - 1),
-            (i) => i.isEven
-                ? Expanded(
-                    child: Column(
-                      key: columnKey[(i / 2).floor()],
-                      crossAxisAlignment: widget.crossAxisAlignment,
-                      children: columnItem[(i / 2).floor()],
-                    ),
-                  )
-                : SizedBox(
-                    width: widget.crossAxisSpacing,
-                  ),
-          );
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: column,
+                ),
+              )
+              : List.generate(
+                widget.column + (widget.column - 1),
+                (i) =>
+                    i.isEven
+                        ? Expanded(
+                          child: Column(
+                            key: columnKey[(i / 2).floor()],
+                            crossAxisAlignment: widget.crossAxisAlignment,
+                            children: columnItem[(i / 2).floor()],
+                          ),
+                        )
+                        : SizedBox(width: widget.crossAxisSpacing),
+              ),
     );
   }
 }

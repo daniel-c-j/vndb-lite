@@ -54,10 +54,7 @@ GoRouter goRouter(Ref ref) {
               GoRoute(
                 path: '/',
                 name: AppRoute.home.name,
-                builder: (context, state) {
-                  // TODO use pageBuilder with NoTranstitionPage() instead?
-                  return const HomeScreen();
-                },
+                builder: (context, state) => const HomeScreen(),
               ),
             ],
           ),

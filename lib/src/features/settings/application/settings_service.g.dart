@@ -13,9 +13,10 @@ String _$settingsServiceHash() => r'baf34b05236fcf0cbf01fd0b3fbadb69195b3e70';
 final settingsServiceProvider = AutoDisposeProvider<SettingsService>.internal(
   settingsService,
   name: r'settingsServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$settingsServiceHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$settingsServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

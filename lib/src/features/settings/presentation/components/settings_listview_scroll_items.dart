@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 
 class ListviewScrollItem extends StatefulWidget {
   const ListviewScrollItem({

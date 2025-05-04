@@ -13,13 +13,14 @@ String _$remoteChartRepoHash() => r'129c063f4e1cccca32059b19eedb06c322e38a29';
 final remoteChartRepoProvider = AutoDisposeProvider<RemoteChartRepo>.internal(
   remoteChartRepo,
   name: r'remoteChartRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$remoteChartRepoHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$remoteChartRepoHash,
   dependencies: <ProviderOrFamily>[apiServiceProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
     apiServiceProvider,
-    ...?apiServiceProvider.allTransitiveDependencies
+    ...?apiServiceProvider.allTransitiveDependencies,
   },
 );
 

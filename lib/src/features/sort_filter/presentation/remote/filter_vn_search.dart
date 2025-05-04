@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/devstatus_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/filterable_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/languages_data.dart';
@@ -17,6 +16,9 @@ import 'package:vndb_lite/src/features/sort_filter/presentation/components/list_
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/search_dev.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/search_tag.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
+
+import '../../../../common_widgets/custom_button.dart';
 
 // (*_ _)人 forgive me for using globals.
 bool _showLangOptions = false;
@@ -53,9 +55,9 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
     setState(() {});
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -72,70 +74,70 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: responsiveUI.own(0.042),
-          ),
+          padding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.042)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ShadowText('Visual Novel'),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// And/Or
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.02)),
-                child: Material(
-                  color: Colors.transparent,
+              const ShadowText('Visual Novel'),
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // And/Or
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.02)),
+                child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Wrap(
-                      children: [
-                        CustomButton(
-                          content: ShadowText("Must"),
-                          radius: 0,
-                          color: (filter.andOr == "and")
-                              ? App.themeColor.secondary.withOpacity(0.8)
-                              : App.themeColor.secondary.withOpacity(0.45),
-                          size: EdgeInsets.symmetric(
-                            horizontal: responsiveUI.own(0.03),
-                            vertical: responsiveUI.own(0.005),
-                          ),
-                          useButtonShadow: (filter.andOr == "and"),
-                          onTap: () {
-                            ref.read(tempRemoteFilterControllerProvider.notifier).copyWith(andOr: "and");
-                          },
+                  child: Wrap(
+                    children: [
+                      CustomButton(
+                        borderRadius: BorderRadius.zero,
+                        buttonColor:
+                            (filter.andOr == "and")
+                                ? kColor(context).secondary.withOpacity(0.8)
+                                : kColor(context).secondary.withOpacity(0.45),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: responsiveUI.own(0.03),
+                          vertical: responsiveUI.own(0.005),
                         ),
-                        CustomButton(
-                          content: ShadowText("May"),
-                          radius: 0,
-                          color: (filter.andOr == "or")
-                              ? App.themeColor.secondary.withOpacity(0.8)
-                              : App.themeColor.secondary.withOpacity(0.45),
-                          size: EdgeInsets.symmetric(
-                            horizontal: responsiveUI.own(0.03),
-                            vertical: responsiveUI.own(0.005),
-                          ),
-                          useButtonShadow: (filter.andOr == "or"),
-                          onTap: () {
-                            ref.read(tempRemoteFilterControllerProvider.notifier).copyWith(andOr: "or");
-                          },
-                        )
-                      ],
-                    ),
+                        elevation: (filter.andOr == "and") ? 4 : 0,
+                        onTap: () {
+                          ref
+                              .read(tempRemoteFilterControllerProvider.notifier)
+                              .copyWith(andOr: "and");
+                        },
+                        child: const ShadowText("Must"),
+                      ),
+                      CustomButton(
+                        borderRadius: BorderRadius.zero,
+                        buttonColor:
+                            (filter.andOr == "or")
+                                ? kColor(context).secondary.withOpacity(0.8)
+                                : kColor(context).secondary.withOpacity(0.45),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: responsiveUI.own(0.03),
+                          vertical: responsiveUI.own(0.005),
+                        ),
+                        elevation: (filter.andOr == "or") ? 4 : 0,
+                        onTap: () {
+                          ref
+                              .read(tempRemoteFilterControllerProvider.notifier)
+                              .copyWith(andOr: "or");
+                        },
+                        child: const ShadowText("May"),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              ShadowText('have the following: '),
+              const ShadowText('have the following: '),
             ],
           ),
         ),
         SizedBox(height: responsiveUI.own(0.04)),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Languages
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Languages
         FilterItem(
           title: 'Available Languages ',
           isOpened: _showLangOptions,
@@ -155,10 +157,10 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
               ],
             ),
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Developer
 
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Developer
         FilterItem(
           title: 'Developer ',
           isOpened: _showDevOptions,
@@ -170,9 +172,9 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
             // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
             child: TransitionListContent(contentList: [SearchDev()]),
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Development Status
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Development Status
         FilterItem(
           title: 'Development Status ',
           isOpened: _showDevStatOptions,
@@ -189,13 +191,13 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
                     GenerateDevRecordStatusOptions(
                       status: status,
                       func: () async => await _process(FilterableData.devstatus.name, status),
-                    )
+                    ),
               ],
             ),
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Origin language
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Origin language
         FilterItem(
           title: 'Origin ',
           isOpened: _showOriginOptions,
@@ -212,13 +214,13 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
                     languageCode: langCode,
                     identifier: 'originLang',
                     func: () async => await _process(FilterableData.olang.name, langCode),
-                  )
+                  ),
               ],
             ),
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Platforms
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Platforms
         FilterItem(
           title: 'Platforms ',
           isOpened: _showPlatformOptions,
@@ -234,13 +236,13 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
                     platformCode: platfCode,
                     platformName: PLATFORM_DATA[platfCode]!,
                     func: () async => await _process(FilterableData.platform.name, platfCode),
-                  )
+                  ),
               ],
             ),
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Tags
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Tags
         FilterItem(
           title: 'Tags ',
           isOpened: _showTagOptions,
@@ -252,9 +254,9 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
             // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
             child: TransitionListContent(contentList: [SearchTag()]),
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ],
     );
   }

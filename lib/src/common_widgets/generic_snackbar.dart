@@ -3,15 +3,14 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/navigation_rail_menu.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 
+import '../util/context_shortcut.dart';
+
 class GenericSnackBar {
-  const GenericSnackBar({
-    required this.content,
-    this.duration,
-  });
+  const GenericSnackBar({required this.content, this.duration});
 
   final List<Widget> content;
   final Duration? duration;
@@ -36,14 +35,12 @@ class GenericSnackBar {
       behavior: SnackBarBehavior.floating,
       closeIconColor: Colors.transparent,
       backgroundColor: Colors.transparent,
-      duration: duration ??
-          const Duration(
-            seconds: snackBarDurationInMilliseconds,
-          ),
+      duration: duration ?? const Duration(seconds: snackBarDurationInMilliseconds),
       content: Padding(
-        padding: (MediaQuery.of(context).orientation == Orientation.portrait || !App.isInMainTab)
-            ? EdgeInsets.zero
-            : EdgeInsets.only(left: TabsSideNavbar.widthSideNav),
+        padding:
+            (MediaQuery.of(context).orientation == Orientation.portrait || !App.isInMainTab)
+                ? EdgeInsets.zero
+                : EdgeInsets.only(left: TabsSideNavbar.widthSideNav),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -77,25 +74,27 @@ class GenericSnackBar {
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15),
                       ),
-                      gradient: (isEmpty || isInMultiselection)
-                          ? null
-                          : LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                App.themeColor.primary.withAlpha(120),
-                                App.themeColor.primary.withAlpha(200),
+                      gradient:
+                          (isEmpty || isInMultiselection)
+                              ? null
+                              : LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  kColor(context).primary.withAlpha(120),
+                                  kColor(context).primary.withAlpha(200),
+                                ],
+                              ),
+                      boxShadow:
+                          (isEmpty || isInMultiselection)
+                              ? null
+                              : const [
+                                BoxShadow(
+                                  color: Color.fromARGB(100, 0, 0, 0),
+                                  spreadRadius: 2,
+                                  blurRadius: 6,
+                                ),
                               ],
-                            ),
-                      boxShadow: (isEmpty || isInMultiselection)
-                          ? null
-                          : const [
-                              BoxShadow(
-                                color: Color.fromARGB(100, 0, 0, 0),
-                                spreadRadius: 2,
-                                blurRadius: 6,
-                              )
-                            ],
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -119,11 +118,8 @@ class GenericSnackBar {
       ScaffoldMessenger.of(context).clearSnackBars();
     }
 
-    return ScaffoldMessenger.of(context).showSnackBar(
-      buildSnackBar(
-        children: content,
-        duration: duration,
-      ),
-    );
+    return ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(buildSnackBar(children: content, duration: duration));
   }
 }

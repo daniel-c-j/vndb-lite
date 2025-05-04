@@ -4,7 +4,7 @@ import 'package:vndb_lite/src/common_widgets/generic_failure_connection.dart';
 import 'package:vndb_lite/src/common_widgets/generic_local_empty_content.dart';
 import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/home/application/home_preview_service.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
@@ -45,13 +45,11 @@ class HomeSectionContent extends ConsumerWidget {
 
   Widget get _error {
     // Exclusive for collection/local content.
-    if (_isCollection) {
-      return GenericLocalEmptyWidget();
-    }
+    if (_isCollection) return GenericLocalEmptyWidget();
 
     return SizedBox(
       width: MediaQuery.sizeOf(NavigationService.currentContext).width * 0.9,
-      child: GenericFailureConnection(),
+      child: const GenericFailureConnection(),
     );
   }
 
@@ -71,26 +69,23 @@ class HomeSectionContent extends ConsumerWidget {
         return formattedPreviewDt.when(
           data: (List<VnDataPhase01> data) {
             final formattedP1Data = data;
-
-            if (formattedP1Data.isEmpty) {
-              return GenericLocalEmptyWidget();
-            }
+            if (formattedP1Data.isEmpty) return const GenericLocalEmptyWidget();
 
             return ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: SizedBox(
                 height: _sectionContentHeight,
-                child: ListView(
+                child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  children: [
-                    for (VnDataPhase01 p1 in formattedP1Data)
-                      VnItemGrid(
-                        key: UniqueKey(),
-                        p1: p1,
-                        isGridView: false,
-                        labelCode: sectionData.labelCode!,
-                      ),
-                  ],
+                  itemCount: formattedP1Data.length,
+                  itemBuilder: (_, idx) {
+                    return VnItemGrid(
+                      key: UniqueKey(),
+                      p1: formattedP1Data[idx],
+                      isGridView: false,
+                      labelCode: sectionData.labelCode!,
+                    );
+                  },
                 ),
               ),
             );
@@ -101,9 +96,7 @@ class HomeSectionContent extends ConsumerWidget {
             debugPrint('${error.toString()}\n${st.toString()}');
             return _error;
           },
-          loading: () {
-            return _loading;
-          },
+          loading: () => _loading,
         );
       },
       error: (error, st) {
@@ -112,9 +105,7 @@ class HomeSectionContent extends ConsumerWidget {
         debugPrint('${error.toString()}\n${st.toString()}');
         return _error;
       },
-      loading: () {
-        return _loading;
-      },
+      loading: () => _loading,
     );
   }
 }

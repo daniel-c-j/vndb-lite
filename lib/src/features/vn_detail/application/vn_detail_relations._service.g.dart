@@ -40,26 +40,20 @@ class FetchAndSaveP3DataFamily extends Family<AsyncValue<void>> {
   const FetchAndSaveP3DataFamily();
 
   /// See also [fetchAndSaveP3Data].
-  FetchAndSaveP3DataProvider call(
-    String vnId,
-  ) {
-    return FetchAndSaveP3DataProvider(
-      vnId,
-    );
+  FetchAndSaveP3DataProvider call(String vnId) {
+    return FetchAndSaveP3DataProvider(vnId);
   }
 
   @override
   FetchAndSaveP3DataProvider getProviderOverride(
     covariant FetchAndSaveP3DataProvider provider,
   ) {
-    return call(
-      provider.vnId,
-    );
+    return call(provider.vnId);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
     remoteVnRepoProvider,
-    localVnRepoProvider
+    localVnRepoProvider,
   ];
 
   @override
@@ -67,11 +61,11 @@ class FetchAndSaveP3DataFamily extends Family<AsyncValue<void>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    remoteVnRepoProvider,
-    ...?remoteVnRepoProvider.allTransitiveDependencies,
-    localVnRepoProvider,
-    ...?localVnRepoProvider.allTransitiveDependencies
-  };
+        remoteVnRepoProvider,
+        ...?remoteVnRepoProvider.allTransitiveDependencies,
+        localVnRepoProvider,
+        ...?localVnRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -84,24 +78,20 @@ class FetchAndSaveP3DataFamily extends Family<AsyncValue<void>> {
 /// See also [fetchAndSaveP3Data].
 class FetchAndSaveP3DataProvider extends AutoDisposeFutureProvider<void> {
   /// See also [fetchAndSaveP3Data].
-  FetchAndSaveP3DataProvider(
-    String vnId,
-  ) : this._internal(
-          (ref) => fetchAndSaveP3Data(
-            ref as FetchAndSaveP3DataRef,
-            vnId,
-          ),
-          from: fetchAndSaveP3DataProvider,
-          name: r'fetchAndSaveP3DataProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$fetchAndSaveP3DataHash,
-          dependencies: FetchAndSaveP3DataFamily._dependencies,
-          allTransitiveDependencies:
-              FetchAndSaveP3DataFamily._allTransitiveDependencies,
-          vnId: vnId,
-        );
+  FetchAndSaveP3DataProvider(String vnId)
+    : this._internal(
+        (ref) => fetchAndSaveP3Data(ref as FetchAndSaveP3DataRef, vnId),
+        from: fetchAndSaveP3DataProvider,
+        name: r'fetchAndSaveP3DataProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$fetchAndSaveP3DataHash,
+        dependencies: FetchAndSaveP3DataFamily._dependencies,
+        allTransitiveDependencies:
+            FetchAndSaveP3DataFamily._allTransitiveDependencies,
+        vnId: vnId,
+      );
 
   FetchAndSaveP3DataProvider._internal(
     super._createNotifier, {
@@ -160,11 +150,13 @@ mixin FetchAndSaveP3DataRef on AutoDisposeFutureProviderRef<void> {
 }
 
 class _FetchAndSaveP3DataProviderElement
-    extends AutoDisposeFutureProviderElement<void> with FetchAndSaveP3DataRef {
+    extends AutoDisposeFutureProviderElement<void>
+    with FetchAndSaveP3DataRef {
   _FetchAndSaveP3DataProviderElement(super.provider);
 
   @override
   String get vnId => (origin as FetchAndSaveP3DataProvider).vnId;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

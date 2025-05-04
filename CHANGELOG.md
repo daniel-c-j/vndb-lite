@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Lite theme.
+
 ### Changed
 
-- None.
+- App theme configuration.
+- Buttons.
 
 ## [2.0.0] - 2025-05-02
 

@@ -13,14 +13,15 @@ String _$homePreviewServiceHash() =>
 @ProviderFor(homePreviewService)
 final homePreviewServiceProvider =
     AutoDisposeProvider<HomePreviewService>.internal(
-  homePreviewService,
-  name: r'homePreviewServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$homePreviewServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      homePreviewService,
+      name: r'homePreviewServiceProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$homePreviewServiceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -82,7 +83,7 @@ class GetPreviewDataFamily extends Family<AsyncValue<dynamic>> {
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    homePreviewServiceProvider
+    homePreviewServiceProvider,
   ];
 
   @override
@@ -90,9 +91,9 @@ class GetPreviewDataFamily extends Family<AsyncValue<dynamic>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    homePreviewServiceProvider,
-    ...?homePreviewServiceProvider.allTransitiveDependencies
-  };
+        homePreviewServiceProvider,
+        ...?homePreviewServiceProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -110,25 +111,25 @@ class GetPreviewDataProvider extends AutoDisposeFutureProvider<dynamic> {
     required String cacheKey,
     CancelToken? cancelToken,
   }) : this._internal(
-          (ref) => getPreviewData(
-            ref as GetPreviewDataRef,
-            sectionData: sectionData,
-            cacheKey: cacheKey,
-            cancelToken: cancelToken,
-          ),
-          from: getPreviewDataProvider,
-          name: r'getPreviewDataProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$getPreviewDataHash,
-          dependencies: GetPreviewDataFamily._dependencies,
-          allTransitiveDependencies:
-              GetPreviewDataFamily._allTransitiveDependencies,
-          sectionData: sectionData,
-          cacheKey: cacheKey,
-          cancelToken: cancelToken,
-        );
+         (ref) => getPreviewData(
+           ref as GetPreviewDataRef,
+           sectionData: sectionData,
+           cacheKey: cacheKey,
+           cancelToken: cancelToken,
+         ),
+         from: getPreviewDataProvider,
+         name: r'getPreviewDataProvider',
+         debugGetCreateSourceHash:
+             const bool.fromEnvironment('dart.vm.product')
+                 ? null
+                 : _$getPreviewDataHash,
+         dependencies: GetPreviewDataFamily._dependencies,
+         allTransitiveDependencies:
+             GetPreviewDataFamily._allTransitiveDependencies,
+         sectionData: sectionData,
+         cacheKey: cacheKey,
+         cancelToken: cancelToken,
+       );
 
   GetPreviewDataProvider._internal(
     super._createNotifier, {
@@ -204,7 +205,8 @@ mixin GetPreviewDataRef on AutoDisposeFutureProviderRef<dynamic> {
 }
 
 class _GetPreviewDataProviderElement
-    extends AutoDisposeFutureProviderElement<dynamic> with GetPreviewDataRef {
+    extends AutoDisposeFutureProviderElement<dynamic>
+    with GetPreviewDataRef {
   _GetPreviewDataProviderElement(super.provider);
 
   @override
@@ -229,28 +231,19 @@ class FormatPreviewDataFamily extends Family<AsyncValue<List<VnDataPhase01>>> {
   const FormatPreviewDataFamily();
 
   /// See also [formatPreviewData].
-  FormatPreviewDataProvider call(
-    dynamic rawData, {
-    required String cacheKey,
-  }) {
-    return FormatPreviewDataProvider(
-      rawData,
-      cacheKey: cacheKey,
-    );
+  FormatPreviewDataProvider call(dynamic rawData, {required String cacheKey}) {
+    return FormatPreviewDataProvider(rawData, cacheKey: cacheKey);
   }
 
   @override
   FormatPreviewDataProvider getProviderOverride(
     covariant FormatPreviewDataProvider provider,
   ) {
-    return call(
-      provider.rawData,
-      cacheKey: provider.cacheKey,
-    );
+    return call(provider.rawData, cacheKey: provider.cacheKey);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    homePreviewServiceProvider
+    homePreviewServiceProvider,
   ];
 
   @override
@@ -258,9 +251,9 @@ class FormatPreviewDataFamily extends Family<AsyncValue<List<VnDataPhase01>>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    homePreviewServiceProvider,
-    ...?homePreviewServiceProvider.allTransitiveDependencies
-  };
+        homePreviewServiceProvider,
+        ...?homePreviewServiceProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -274,27 +267,25 @@ class FormatPreviewDataFamily extends Family<AsyncValue<List<VnDataPhase01>>> {
 class FormatPreviewDataProvider
     extends AutoDisposeFutureProvider<List<VnDataPhase01>> {
   /// See also [formatPreviewData].
-  FormatPreviewDataProvider(
-    dynamic rawData, {
-    required String cacheKey,
-  }) : this._internal(
-          (ref) => formatPreviewData(
-            ref as FormatPreviewDataRef,
-            rawData,
-            cacheKey: cacheKey,
-          ),
-          from: formatPreviewDataProvider,
-          name: r'formatPreviewDataProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$formatPreviewDataHash,
-          dependencies: FormatPreviewDataFamily._dependencies,
-          allTransitiveDependencies:
-              FormatPreviewDataFamily._allTransitiveDependencies,
-          rawData: rawData,
+  FormatPreviewDataProvider(dynamic rawData, {required String cacheKey})
+    : this._internal(
+        (ref) => formatPreviewData(
+          ref as FormatPreviewDataRef,
+          rawData,
           cacheKey: cacheKey,
-        );
+        ),
+        from: formatPreviewDataProvider,
+        name: r'formatPreviewDataProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$formatPreviewDataHash,
+        dependencies: FormatPreviewDataFamily._dependencies,
+        allTransitiveDependencies:
+            FormatPreviewDataFamily._allTransitiveDependencies,
+        rawData: rawData,
+        cacheKey: cacheKey,
+      );
 
   FormatPreviewDataProvider._internal(
     super._createNotifier, {
@@ -313,7 +304,7 @@ class FormatPreviewDataProvider
   @override
   Override overrideWith(
     FutureOr<List<VnDataPhase01>> Function(FormatPreviewDataRef provider)
-        create,
+    create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -373,5 +364,6 @@ class _FormatPreviewDataProviderElement
   @override
   String get cacheKey => (origin as FormatPreviewDataProvider).cacheKey;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

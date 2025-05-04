@@ -13,14 +13,15 @@ String _$vnSelectionServiceHash() =>
 @ProviderFor(vnSelectionService)
 final vnSelectionServiceProvider =
     AutoDisposeProvider<VnSelectionService>.internal(
-  vnSelectionService,
-  name: r'vnSelectionServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$vnSelectionServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      vnSelectionService,
+      name: r'vnSelectionServiceProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$vnSelectionServiceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -91,7 +92,7 @@ class ConfirmSelectionFamily extends Family<AsyncValue<void>> {
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    vnSelectionServiceProvider
+    vnSelectionServiceProvider,
   ];
 
   @override
@@ -99,9 +100,9 @@ class ConfirmSelectionFamily extends Family<AsyncValue<void>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    vnSelectionServiceProvider,
-    ...?vnSelectionServiceProvider.allTransitiveDependencies
-  };
+        vnSelectionServiceProvider,
+        ...?vnSelectionServiceProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -122,31 +123,31 @@ class ConfirmSelectionProvider extends AutoDisposeFutureProvider<void> {
     required dynamic Function(Object, StackTrace) whenErr,
     required void Function(String) saveRefresh,
   }) : this._internal(
-          (ref) => confirmSelection(
-            ref as ConfirmSelectionRef,
-            p1List: p1List,
-            vnRecords: vnRecords,
-            selection: selection,
-            whenSuccess: whenSuccess,
-            whenErr: whenErr,
-            saveRefresh: saveRefresh,
-          ),
-          from: confirmSelectionProvider,
-          name: r'confirmSelectionProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$confirmSelectionHash,
-          dependencies: ConfirmSelectionFamily._dependencies,
-          allTransitiveDependencies:
-              ConfirmSelectionFamily._allTransitiveDependencies,
-          p1List: p1List,
-          vnRecords: vnRecords,
-          selection: selection,
-          whenSuccess: whenSuccess,
-          whenErr: whenErr,
-          saveRefresh: saveRefresh,
-        );
+         (ref) => confirmSelection(
+           ref as ConfirmSelectionRef,
+           p1List: p1List,
+           vnRecords: vnRecords,
+           selection: selection,
+           whenSuccess: whenSuccess,
+           whenErr: whenErr,
+           saveRefresh: saveRefresh,
+         ),
+         from: confirmSelectionProvider,
+         name: r'confirmSelectionProvider',
+         debugGetCreateSourceHash:
+             const bool.fromEnvironment('dart.vm.product')
+                 ? null
+                 : _$confirmSelectionHash,
+         dependencies: ConfirmSelectionFamily._dependencies,
+         allTransitiveDependencies:
+             ConfirmSelectionFamily._allTransitiveDependencies,
+         p1List: p1List,
+         vnRecords: vnRecords,
+         selection: selection,
+         whenSuccess: whenSuccess,
+         whenErr: whenErr,
+         saveRefresh: saveRefresh,
+       );
 
   ConfirmSelectionProvider._internal(
     super._createNotifier, {
@@ -246,7 +247,8 @@ mixin ConfirmSelectionRef on AutoDisposeFutureProviderRef<void> {
 }
 
 class _ConfirmSelectionProviderElement
-    extends AutoDisposeFutureProviderElement<void> with ConfirmSelectionRef {
+    extends AutoDisposeFutureProviderElement<void>
+    with ConfirmSelectionRef {
   _ConfirmSelectionProviderElement(super.provider);
 
   @override
@@ -303,7 +305,7 @@ class RemoveSelectionFamily extends Family<AsyncValue<void>> {
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    vnSelectionServiceProvider
+    vnSelectionServiceProvider,
   ];
 
   @override
@@ -311,9 +313,9 @@ class RemoveSelectionFamily extends Family<AsyncValue<void>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    vnSelectionServiceProvider,
-    ...?vnSelectionServiceProvider.allTransitiveDependencies
-  };
+        vnSelectionServiceProvider,
+        ...?vnSelectionServiceProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -331,25 +333,25 @@ class RemoveSelectionProvider extends AutoDisposeFutureProvider<void> {
     required void Function() whenSuccess,
     required void Function(String) removeRefresh,
   }) : this._internal(
-          (ref) => removeSelection(
-            ref as RemoveSelectionRef,
-            vnRecords,
-            whenSuccess: whenSuccess,
-            removeRefresh: removeRefresh,
-          ),
-          from: removeSelectionProvider,
-          name: r'removeSelectionProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$removeSelectionHash,
-          dependencies: RemoveSelectionFamily._dependencies,
-          allTransitiveDependencies:
-              RemoveSelectionFamily._allTransitiveDependencies,
-          vnRecords: vnRecords,
-          whenSuccess: whenSuccess,
-          removeRefresh: removeRefresh,
-        );
+         (ref) => removeSelection(
+           ref as RemoveSelectionRef,
+           vnRecords,
+           whenSuccess: whenSuccess,
+           removeRefresh: removeRefresh,
+         ),
+         from: removeSelectionProvider,
+         name: r'removeSelectionProvider',
+         debugGetCreateSourceHash:
+             const bool.fromEnvironment('dart.vm.product')
+                 ? null
+                 : _$removeSelectionHash,
+         dependencies: RemoveSelectionFamily._dependencies,
+         allTransitiveDependencies:
+             RemoveSelectionFamily._allTransitiveDependencies,
+         vnRecords: vnRecords,
+         whenSuccess: whenSuccess,
+         removeRefresh: removeRefresh,
+       );
 
   RemoveSelectionProvider._internal(
     super._createNotifier, {
@@ -425,7 +427,8 @@ mixin RemoveSelectionRef on AutoDisposeFutureProviderRef<void> {
 }
 
 class _RemoveSelectionProviderElement
-    extends AutoDisposeFutureProviderElement<void> with RemoveSelectionRef {
+    extends AutoDisposeFutureProviderElement<void>
+    with RemoveSelectionRef {
   _RemoveSelectionProviderElement(super.provider);
 
   @override
@@ -438,5 +441,6 @@ class _RemoveSelectionProviderElement
   void Function(String) get removeRefresh =>
       (origin as RemoveSelectionProvider).removeRefresh;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -12,12 +12,15 @@ String _$authConfirmButtonStateHash() =>
 /// See also [AuthConfirmButtonState].
 @ProviderFor(AuthConfirmButtonState)
 final authConfirmButtonStateProvider = AutoDisposeNotifierProvider<
-    AuthConfirmButtonState, ConfirmButtonState>.internal(
+  AuthConfirmButtonState,
+  ConfirmButtonState
+>.internal(
   AuthConfirmButtonState.new,
   name: r'authConfirmButtonStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$authConfirmButtonStateHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$authConfirmButtonStateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

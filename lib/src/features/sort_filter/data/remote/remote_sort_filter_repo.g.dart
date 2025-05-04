@@ -13,17 +13,18 @@ String _$remoteSortFilterRepoHash() =>
 @ProviderFor(remoteSortFilterRepo)
 final remoteSortFilterRepoProvider =
     AutoDisposeProvider<RemoteSortFilterRepo>.internal(
-  remoteSortFilterRepo,
-  name: r'remoteSortFilterRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$remoteSortFilterRepoHash,
-  dependencies: <ProviderOrFamily>[apiServiceProvider],
-  allTransitiveDependencies: <ProviderOrFamily>{
-    apiServiceProvider,
-    ...?apiServiceProvider.allTransitiveDependencies
-  },
-);
+      remoteSortFilterRepo,
+      name: r'remoteSortFilterRepoProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$remoteSortFilterRepoHash,
+      dependencies: <ProviderOrFamily>[apiServiceProvider],
+      allTransitiveDependencies: <ProviderOrFamily>{
+        apiServiceProvider,
+        ...?apiServiceProvider.allTransitiveDependencies,
+      },
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -61,28 +62,19 @@ class FetchDevelopersFamily extends Family<AsyncValue<Response>> {
   const FetchDevelopersFamily();
 
   /// See also [fetchDevelopers].
-  FetchDevelopersProvider call(
-    String devName, {
-    CancelToken? cancelToken,
-  }) {
-    return FetchDevelopersProvider(
-      devName,
-      cancelToken: cancelToken,
-    );
+  FetchDevelopersProvider call(String devName, {CancelToken? cancelToken}) {
+    return FetchDevelopersProvider(devName, cancelToken: cancelToken);
   }
 
   @override
   FetchDevelopersProvider getProviderOverride(
     covariant FetchDevelopersProvider provider,
   ) {
-    return call(
-      provider.devName,
-      cancelToken: provider.cancelToken,
-    );
+    return call(provider.devName, cancelToken: provider.cancelToken);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteSortFilterRepoProvider
+    remoteSortFilterRepoProvider,
   ];
 
   @override
@@ -90,9 +82,9 @@ class FetchDevelopersFamily extends Family<AsyncValue<Response>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    remoteSortFilterRepoProvider,
-    ...?remoteSortFilterRepoProvider.allTransitiveDependencies
-  };
+        remoteSortFilterRepoProvider,
+        ...?remoteSortFilterRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -105,27 +97,25 @@ class FetchDevelopersFamily extends Family<AsyncValue<Response>> {
 /// See also [fetchDevelopers].
 class FetchDevelopersProvider extends AutoDisposeFutureProvider<Response> {
   /// See also [fetchDevelopers].
-  FetchDevelopersProvider(
-    String devName, {
-    CancelToken? cancelToken,
-  }) : this._internal(
-          (ref) => fetchDevelopers(
-            ref as FetchDevelopersRef,
-            devName,
-            cancelToken: cancelToken,
-          ),
-          from: fetchDevelopersProvider,
-          name: r'fetchDevelopersProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$fetchDevelopersHash,
-          dependencies: FetchDevelopersFamily._dependencies,
-          allTransitiveDependencies:
-              FetchDevelopersFamily._allTransitiveDependencies,
-          devName: devName,
+  FetchDevelopersProvider(String devName, {CancelToken? cancelToken})
+    : this._internal(
+        (ref) => fetchDevelopers(
+          ref as FetchDevelopersRef,
+          devName,
           cancelToken: cancelToken,
-        );
+        ),
+        from: fetchDevelopersProvider,
+        name: r'fetchDevelopersProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$fetchDevelopersHash,
+        dependencies: FetchDevelopersFamily._dependencies,
+        allTransitiveDependencies:
+            FetchDevelopersFamily._allTransitiveDependencies,
+        devName: devName,
+        cancelToken: cancelToken,
+      );
 
   FetchDevelopersProvider._internal(
     super._createNotifier, {
@@ -193,7 +183,8 @@ mixin FetchDevelopersRef on AutoDisposeFutureProviderRef<Response> {
 }
 
 class _FetchDevelopersProviderElement
-    extends AutoDisposeFutureProviderElement<Response> with FetchDevelopersRef {
+    extends AutoDisposeFutureProviderElement<Response>
+    with FetchDevelopersRef {
   _FetchDevelopersProviderElement(super.provider);
 
   @override
@@ -215,28 +206,17 @@ class FetchTagsFamily extends Family<AsyncValue<Response>> {
   const FetchTagsFamily();
 
   /// See also [fetchTags].
-  FetchTagsProvider call(
-    String tagName, {
-    CancelToken? cancelToken,
-  }) {
-    return FetchTagsProvider(
-      tagName,
-      cancelToken: cancelToken,
-    );
+  FetchTagsProvider call(String tagName, {CancelToken? cancelToken}) {
+    return FetchTagsProvider(tagName, cancelToken: cancelToken);
   }
 
   @override
-  FetchTagsProvider getProviderOverride(
-    covariant FetchTagsProvider provider,
-  ) {
-    return call(
-      provider.tagName,
-      cancelToken: provider.cancelToken,
-    );
+  FetchTagsProvider getProviderOverride(covariant FetchTagsProvider provider) {
+    return call(provider.tagName, cancelToken: provider.cancelToken);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteSortFilterRepoProvider
+    remoteSortFilterRepoProvider,
   ];
 
   @override
@@ -244,9 +224,9 @@ class FetchTagsFamily extends Family<AsyncValue<Response>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    remoteSortFilterRepoProvider,
-    ...?remoteSortFilterRepoProvider.allTransitiveDependencies
-  };
+        remoteSortFilterRepoProvider,
+        ...?remoteSortFilterRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -259,26 +239,21 @@ class FetchTagsFamily extends Family<AsyncValue<Response>> {
 /// See also [fetchTags].
 class FetchTagsProvider extends AutoDisposeFutureProvider<Response> {
   /// See also [fetchTags].
-  FetchTagsProvider(
-    String tagName, {
-    CancelToken? cancelToken,
-  }) : this._internal(
-          (ref) => fetchTags(
-            ref as FetchTagsRef,
-            tagName,
-            cancelToken: cancelToken,
-          ),
-          from: fetchTagsProvider,
-          name: r'fetchTagsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$fetchTagsHash,
-          dependencies: FetchTagsFamily._dependencies,
-          allTransitiveDependencies: FetchTagsFamily._allTransitiveDependencies,
-          tagName: tagName,
-          cancelToken: cancelToken,
-        );
+  FetchTagsProvider(String tagName, {CancelToken? cancelToken})
+    : this._internal(
+        (ref) =>
+            fetchTags(ref as FetchTagsRef, tagName, cancelToken: cancelToken),
+        from: fetchTagsProvider,
+        name: r'fetchTagsProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$fetchTagsHash,
+        dependencies: FetchTagsFamily._dependencies,
+        allTransitiveDependencies: FetchTagsFamily._allTransitiveDependencies,
+        tagName: tagName,
+        cancelToken: cancelToken,
+      );
 
   FetchTagsProvider._internal(
     super._createNotifier, {
@@ -346,7 +321,8 @@ mixin FetchTagsRef on AutoDisposeFutureProviderRef<Response> {
 }
 
 class _FetchTagsProviderElement
-    extends AutoDisposeFutureProviderElement<Response> with FetchTagsRef {
+    extends AutoDisposeFutureProviderElement<Response>
+    with FetchTagsRef {
   _FetchTagsProviderElement(super.provider);
 
   @override
@@ -354,5 +330,6 @@ class _FetchTagsProviderElement
   @override
   CancelToken? get cancelToken => (origin as FetchTagsProvider).cancelToken;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

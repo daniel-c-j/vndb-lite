@@ -13,18 +13,19 @@ String _$collectionSortFilterServiceHash() =>
 @ProviderFor(collectionSortFilterService)
 final collectionSortFilterServiceProvider =
     AutoDisposeProvider<CollectionSortFilterService>.internal(
-  collectionSortFilterService,
-  name: r'collectionSortFilterServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$collectionSortFilterServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      collectionSortFilterService,
+      name: r'collectionSortFilterServiceProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$collectionSortFilterServiceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef CollectionSortFilterServiceRef
-    = AutoDisposeProviderRef<CollectionSortFilterService>;
+typedef CollectionSortFilterServiceRef =
+    AutoDisposeProviderRef<CollectionSortFilterService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

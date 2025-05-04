@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/base_dialog.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/fab/vn_detail_fab_state.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
 
 class VnDetailFab extends ConsumerWidget {
-  const VnDetailFab({
-    super.key,
-    required this.p1,
-  });
+  const VnDetailFab({super.key, required this.p1});
 
   final VnDataPhase01 p1;
 
@@ -32,8 +30,8 @@ class VnDetailFab extends ConsumerWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              App.themeColor.primary.withOpacity(0.8),
-              App.themeColor.primary.withOpacity(0.5),
+              kColor(context).primary.withOpacity(0.8),
+              kColor(context).primary.withOpacity(0.5),
             ],
           ),
           boxShadow: [
@@ -57,7 +55,7 @@ class VnDetailFab extends ConsumerWidget {
           },
           child: Icon(
             (recordExist) ? Icons.library_add_check : Icons.library_add,
-            color: App.themeColor.tertiary,
+            color: kColor(context).tertiary,
           ),
         ),
       );

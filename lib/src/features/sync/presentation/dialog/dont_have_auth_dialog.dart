@@ -1,12 +1,13 @@
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/util/widget_zoom/widget_zoom.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class DontHaveAuthTokenDialog extends ConsumerWidget {
   const DontHaveAuthTokenDialog({super.key});
@@ -20,9 +21,9 @@ class DontHaveAuthTokenDialog extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// X button
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // X button
         Container(
           alignment: Alignment.topCenter,
           child: InkWell(
@@ -32,16 +33,13 @@ class DontHaveAuthTokenDialog extends ConsumerWidget {
             },
             child: Transform.scale(
               scale: 0.8,
-              child: Icon(
-                Icons.remove_circle_outline,
-                color: App.themeColor.tertiary,
-              ),
+              child: Icon(Icons.remove_circle_outline, color: kColor(context).tertiary),
             ),
           ),
         ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Text informational
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Text informational
         ShadowText(
           "Unfortunately, this app does not have a feature of in-app login nor VNDB account creation yet. "
           "If you wish for your VNs to be stored in the cloud (VNDB.org), then: \n\n"
@@ -49,18 +47,16 @@ class DontHaveAuthTokenDialog extends ConsumerWidget {
           "1) If you don't have an account yet, click the create a new account button.",
           align: TextAlign.center,
         ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Create account button
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Create account button
         Padding(
           padding: EdgeInsets.symmetric(vertical: responsiveUI.own(0.03)),
           child: CustomDialogButton(
             text: "Create account",
-            textColor: App.themeColor.primary,
-            textShadow: const [
-              Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
-            ],
-            color: App.themeColor.tertiary,
+            textColor: kColor(context).primary,
+            textShadow: const [Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1)],
+            color: kColor(context).tertiary,
             padding: EdgeInsets.symmetric(
               horizontal: responsiveUI.own(0.035),
               vertical: responsiveUI.own(0.02),
@@ -69,17 +65,17 @@ class DontHaveAuthTokenDialog extends ConsumerWidget {
           ),
         ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// next step text
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // next step text
         ShadowText(
           "2) If you already have an account, please follow the instructions below to get your "
           "authentication token after you've login in the website.",
           align: TextAlign.center,
         ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Tutorial image
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Tutorial image
         Container(
           padding: EdgeInsets.symmetric(vertical: responsiveUI.own(0.03)),
           height: responsiveUI.own(0.4),
@@ -95,7 +91,7 @@ class DontHaveAuthTokenDialog extends ConsumerWidget {
                 alignment: Alignment.bottomCenter,
                 builder: DotSwiperPaginationBuilder(
                   size: 8,
-                  activeColor: App.themeColor.secondary,
+                  activeColor: kColor(context).secondary,
                   color: const Color.fromARGB(140, 160, 160, 160),
                 ),
               ),
@@ -103,25 +99,20 @@ class DontHaveAuthTokenDialog extends ConsumerWidget {
                 return Center(
                   child: WidgetZoom(
                     heroAnimationTag: 'guide',
-                    zoomWidget: Image.asset(
-                      '$guidePartialPath${index + 1}.png',
-                    ),
+                    zoomWidget: Image.asset('$guidePartialPath${index + 1}.png'),
                   ),
                 );
               },
             ),
           ),
         ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Bottom text
-        ShadowText(
-          "Thank you for your understanding ^^",
-          align: TextAlign.center,
-        ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Bottom text
+        ShadowText("Thank you for your understanding ^^", align: TextAlign.center),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ],
     );
   }

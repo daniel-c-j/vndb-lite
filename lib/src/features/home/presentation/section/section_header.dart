@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/home/domain/home_sections_model.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
@@ -12,13 +12,11 @@ import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
 
 class HomeSectionHeader extends ConsumerWidget {
-  const HomeSectionHeader({
-    super.key,
-    required this.sectionData,
-  });
+  const HomeSectionHeader({super.key, required this.sectionData});
 
   final HomePreviewSection sectionData;
 
@@ -26,11 +24,16 @@ class HomeSectionHeader extends ConsumerWidget {
     return sectionData.title.toLowerCase().contains('collection');
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
-  void seeMore(WidgetRef ref, {bool isCollection = false, String? sortBy, FilterData? filter}) async {
+  void seeMore(
+    WidgetRef ref, {
+    bool isCollection = false,
+    String? sortBy,
+    FilterData? filter,
+  }) async {
     if (isCollection) {
       NavigationService.currentContext.goNamed(AppRoute.collection.name);
       return;
@@ -55,9 +58,9 @@ class HomeSectionHeader extends ConsumerWidget {
     NavigationService.currentContext.goNamed(AppRoute.search.name);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _authedCollectionTitleOf(String username) {
     return Column(
@@ -67,17 +70,14 @@ class HomeSectionHeader extends ConsumerWidget {
           children: [
             ShadowText(
               username,
-              color: App.themeColor.secondary.withAlpha(200),
+              color: kColor().secondary.withAlpha(200),
               fontSize: responsiveUI.own(0.046),
               fontWeight: FontWeight.bold,
               shadows: [
                 Shadow(
-                  color: Color.alphaBlend(
-                    Colors.black.withOpacity(0.5),
-                    App.themeColor.primary,
-                  ),
+                  color: Color.alphaBlend(Colors.black.withOpacity(0.5), kColor().primary),
                   blurRadius: 8,
-                )
+                ),
               ],
             ),
             ShadowText("'s", fontSize: responsiveUI.own(0.046)),
@@ -86,16 +86,16 @@ class HomeSectionHeader extends ConsumerWidget {
         ShadowText(
           "Latest Collection",
           fontSize: responsiveUI.catgTitle,
-          color: App.themeColor.tertiary,
-          shadows: [Shadow(color: App.themeColor.secondary, blurRadius: 5)],
+          color: kColor().tertiary,
+          shadows: [Shadow(color: kColor().secondary, blurRadius: 5)],
         ),
       ],
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -103,20 +103,21 @@ class HomeSectionHeader extends ConsumerWidget {
     final userDidAuth = uId != null;
 
     return Padding(
-      padding: (userDidAuth && _titleIsCollection)
-          ? EdgeInsets.only(bottom: responsiveUI.own(0.025), top: responsiveUI.own(0.025))
-          : EdgeInsets.zero,
+      padding:
+          (userDidAuth && _titleIsCollection)
+              ? EdgeInsets.only(bottom: responsiveUI.own(0.025), top: responsiveUI.own(0.025))
+              : EdgeInsets.zero,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           (userDidAuth && _titleIsCollection)
               ? _authedCollectionTitleOf(uId.username)
               : ShadowText(
-                  sectionData.title,
-                  fontSize: responsiveUI.catgTitle,
-                  color: App.themeColor.tertiary,
-                  shadows: [Shadow(color: App.themeColor.secondary, blurRadius: 5)],
-                ),
+                sectionData.title,
+                fontSize: responsiveUI.catgTitle,
+                color: kColor(context).tertiary,
+                shadows: [Shadow(color: kColor(context).secondary, blurRadius: 5)],
+              ),
           TextButton(
             onPressed: () {
               seeMore(
@@ -131,11 +132,11 @@ class HomeSectionHeader extends ConsumerWidget {
               style: TextStyle(
                 fontSize: responsiveUI.normalSize,
                 decoration: TextDecoration.underline,
-                color: App.themeColor.secondary,
-                decorationColor: App.themeColor.secondary,
+                color: kColor(context).secondary,
+                decorationColor: kColor(context).secondary,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

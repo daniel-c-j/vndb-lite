@@ -13,14 +13,15 @@ String _$dialogDismissedStateHash() =>
 @ProviderFor(DialogDismissedState)
 final dialogDismissedStateProvider =
     NotifierProvider<DialogDismissedState, bool>.internal(
-  DialogDismissedState.new,
-  name: r'dialogDismissedStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$dialogDismissedStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      DialogDismissedState.new,
+      name: r'dialogDismissedStateProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$dialogDismissedStateHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$DialogDismissedState = Notifier<bool>;
 // ignore_for_file: type=lint

@@ -13,14 +13,15 @@ String _$localFilterServiceHash() =>
 @ProviderFor(localFilterService)
 final localFilterServiceProvider =
     AutoDisposeProvider<LocalFilterService>.internal(
-  localFilterService,
-  name: r'localFilterServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$localFilterServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      localFilterService,
+      name: r'localFilterServiceProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$localFilterServiceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

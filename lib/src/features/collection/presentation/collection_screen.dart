@@ -1,5 +1,5 @@
 import 'package:flutter/scheduler.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content.dart';
@@ -9,12 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/util/balanced_safearea.dart';
-import 'package:vndb_lite/src/util/unique_valuekey.dart';
 
 class CollectionScreen extends ConsumerStatefulWidget {
-  const CollectionScreen({
-    super.key,
-  });
+  const CollectionScreen({super.key});
 
   @override
   ConsumerState<CollectionScreen> createState() => _CollectionScreenState();
@@ -44,10 +41,7 @@ class _CollectionScreenState extends ConsumerState<CollectionScreen> {
     final statusArrangement = settings.collectionStatusTabArrangement;
 
     return Padding(
-      padding: EdgeInsets.only(
-        top: responsiveUI.own(0.04),
-        right: measureSafeAreaOf(0),
-      ),
+      padding: EdgeInsets.only(top: responsiveUI.own(0.04), right: measureSafeAreaOf(0)),
       child: ContentSizeTabBarView(
         controller: collectionTabController,
         children: [
@@ -61,12 +55,9 @@ class _CollectionScreenState extends ConsumerState<CollectionScreen> {
                   _forceUpdateUI();
                 }
 
-                return CollectionContent(
-                  key: uidKeyOf(statusName),
-                  content: vnItemGrids[statusName] ?? [],
-                );
+                return CollectionContent(key: UniqueKey(), content: vnItemGrids[statusName] ?? []);
               },
-            )
+            ),
         ],
       ),
     );

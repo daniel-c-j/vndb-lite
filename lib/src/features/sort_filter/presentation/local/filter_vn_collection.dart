@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/devstatus_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/filterable_data.dart';
@@ -16,6 +15,7 @@ import 'package:vndb_lite/src/features/sort_filter/presentation/components/gener
 import 'package:vndb_lite/src/features/sort_filter/presentation/components/generate_platform_options.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/components/list_content_animation.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/debouncer.dart';
 
 // (*_ _)人 forgive me for using globals.
@@ -34,9 +34,9 @@ class FilterVnCollection extends ConsumerStatefulWidget {
 class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
   final _debouncer = Debouncer(delay: Duration(milliseconds: 700));
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _refresh() async {
     _debouncer.call(() async {
@@ -44,9 +44,9 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
     });
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _process(String filterName, var filterCode) async {
     final Map<String, dynamic> mappedFilter = ref.read(localFilterControllerProvider).toMap();
@@ -62,13 +62,15 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
     }
 
     // Updating the data
-    ref.read(localFilterControllerProvider.notifier).importFilterData(FilterData.fromMap(mappedFilter));
+    ref
+        .read(localFilterControllerProvider.notifier)
+        .importFilterData(FilterData.fromMap(mappedFilter));
     await _refresh();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _minageToFilter(int age) async {
     // Resetting the value if tapping the same button value.
@@ -83,9 +85,9 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
     await _refresh();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _resetFilter() async {
     ref.read(localFilterControllerProvider.notifier).reset();
@@ -93,9 +95,9 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
     return;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -111,86 +113,86 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Reset button
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Reset button
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
+            CustomButton(
+              msg: 'Reset all filters',
+              onTap: _resetFilter,
               margin: EdgeInsets.only(left: responsiveUI.own(0.05)),
-              alignment: Alignment.topLeft,
-              child: Tooltip(
-                message: 'Reset all filters',
-                child: CustomButton(
-                  content: ShadowText(' Reset '),
-                  icon: Icons.refresh,
-                  size: EdgeInsets.all(responsiveUI.own(0.018)),
-                  gradientColor: [
-                    App.themeColor.primary.withOpacity(0.85),
-                    App.themeColor.secondary.withOpacity(0.65),
-                  ],
-                  onTap: _resetFilter,
-                ),
+              padding: EdgeInsets.all(responsiveUI.own(0.018)),
+              buttonColor: kColor(context).secondary.withAlpha(180),
+              elevation: 2.5,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.refresh,
+                    color: kColor(context).tertiary,
+                    size: responsiveUI.own(0.05),
+                  ),
+                  const ShadowText(' Reset '),
+                ],
               ),
             ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// All-ages | Adult
-            Container(
-              alignment: Alignment.topRight,
-              margin: EdgeInsets.only(right: responsiveUI.own(0.06)),
-              child: Material(
-                elevation: 2.5,
-                color: Colors.transparent,
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // All-ages | Adult
+            Padding(
+              padding: EdgeInsets.only(right: responsiveUI.own(0.06)),
+              child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                surfaceTintColor: Colors.transparent,
-                shadowColor: Colors.black.withOpacity(0.7),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Wrap(
-                    children: [
-                      CustomButton(
-                        content: ShadowText(" All-ages", fontSize: responsiveUI.own(0.03)),
-                        tooltipMsg: "Only show VNs that has a minimum age below 18",
-                        color: (filter.minage == 17)
-                            ? const Color.fromARGB(255, 110, 200, 15)
-                            : const Color.fromARGB(100, 110, 200, 15),
-                        useButtonShadow: (filter.minage == 17),
-                        radius: 0,
-                        size: EdgeInsets.symmetric(
-                          horizontal: responsiveUI.own(0.02),
-                          vertical: responsiveUI.own(0.007),
-                        ),
-                        onTap: () async {
-                          await _minageToFilter(17);
-                        },
+                child: Wrap(
+                  children: [
+                    CustomButton(
+                      msg: "Only show VNs that has a minimum age below 18",
+                      onTap: () async {
+                        await _minageToFilter(17);
+                      },
+                      padding: EdgeInsets.symmetric(
+                        horizontal: responsiveUI.own(0.02),
+                        vertical: responsiveUI.own(0.007),
                       ),
-                      CustomButton(
-                        content: ShadowText("Adult-only ", fontSize: responsiveUI.own(0.03)),
-                        tooltipMsg: "Only show VNs that has a minimum age of 18 and above",
-                        color: (filter.minage == 18) ? Colors.red : Colors.red.withOpacity(0.45),
-                        useButtonShadow: (filter.minage == 18),
-                        radius: 0,
-                        size: EdgeInsets.symmetric(
-                          horizontal: responsiveUI.own(0.02),
-                          vertical: responsiveUI.own(0.007),
-                        ),
-                        onTap: () async {
-                          await _minageToFilter(18);
-                        },
+                      borderRadius: BorderRadius.zero,
+                      buttonColor:
+                          (filter.minage == 17)
+                              ? const Color.fromARGB(255, 110, 200, 15)
+                              : const Color.fromARGB(100, 110, 200, 15),
+
+                      elevation: (filter.minage == 17) ? 4 : 0,
+                      child: ShadowText(" All-ages", fontSize: responsiveUI.own(0.03)),
+                    ),
+                    CustomButton(
+                      msg: "Only show VNs that has a minimum age of 18 and above",
+                      onTap: () async {
+                        await _minageToFilter(18);
+                      },
+                      padding: EdgeInsets.symmetric(
+                        horizontal: responsiveUI.own(0.02),
+                        vertical: responsiveUI.own(0.007),
                       ),
-                    ],
-                  ),
+                      borderRadius: BorderRadius.zero,
+                      buttonColor:
+                          (filter.minage == 18)
+                              ? const Color.fromARGB(255, 200, 15, 33)
+                              : const Color.fromARGB(99, 200, 15, 49),
+
+                      elevation: (filter.minage == 18) ? 4 : 0,
+                      child: ShadowText("Adult-only ", fontSize: responsiveUI.own(0.03)),
+                    ),
+                  ],
                 ),
               ),
             ),
           ],
         ),
         SizedBox(height: responsiveUI.own(0.04)),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Language
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Language
         FilterItem(
           title: 'Available Languages ',
           isOpened: _showLangOptions,
@@ -206,14 +208,14 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
                     languageCode: langCode,
                     identifier: 'availLang',
                     func: () async => await _process(FilterableData.lang.name, langCode),
-                  )
+                  ),
               ],
             ),
           ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Development Status
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Development Status
         FilterItem(
           title: 'Development Status ',
           isOpened: _showdevStatOptions,
@@ -228,14 +230,14 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
                   GenerateDevRecordStatusOptions(
                     status: status,
                     func: () async => await _process(FilterableData.devstatus.name, status),
-                  )
+                  ),
               ],
             ),
           ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Language Origin
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Language Origin
         FilterItem(
           title: 'Origin ',
           isOpened: _showOriginOptions,
@@ -251,14 +253,14 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
                     languageCode: langCode,
                     identifier: 'originLang',
                     func: () async => await _process(FilterableData.olang.name, langCode),
-                  )
+                  ),
               ],
             ),
           ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Platform
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Platform
         FilterItem(
           title: 'Platforms ',
           isOpened: _showPlatformOptions,
@@ -274,13 +276,13 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
                     platformCode: platfCode,
                     platformName: PLATFORM_DATA[platfCode]!,
                     func: () async => await _process(FilterableData.platform.name, platfCode),
-                  )
+                  ),
               ],
             ),
-          )
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+          ),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ],
     );
   }

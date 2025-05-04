@@ -18,7 +18,7 @@ final remoteVnRepoProvider = AutoDisposeProvider<RemoteVnRepo>.internal(
   dependencies: <ProviderOrFamily>[apiServiceProvider],
   allTransitiveDependencies: <ProviderOrFamily>{
     apiServiceProvider,
-    ...?apiServiceProvider.allTransitiveDependencies
+    ...?apiServiceProvider.allTransitiveDependencies,
   },
 );
 

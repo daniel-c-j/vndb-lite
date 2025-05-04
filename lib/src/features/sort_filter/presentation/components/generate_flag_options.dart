@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/others/languages.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
@@ -44,10 +44,7 @@ class GenerateFlagOptions extends ConsumerWidget {
     final isSelected = selectedLanguages.contains(languageCode);
 
     return Container(
-      margin: EdgeInsets.only(
-        top: responsiveUI.own(0.025),
-        right: responsiveUI.own(0.02),
-      ),
+      margin: EdgeInsets.only(top: responsiveUI.own(0.025), right: responsiveUI.own(0.02)),
       child: CustomLabel(
         useBorder: true,
         borderRadius: 10,
@@ -63,9 +60,7 @@ class GenerateFlagOptions extends ConsumerWidget {
             fit: BoxFit.fill,
             borderRadius: 3,
           ),
-          ShadowText(
-            '  ${LanguageLocal.getDisplayLanguage(languageCode)!['name']}',
-          ),
+          ShadowText('  ${LanguageLocal.getDisplayLanguage(languageCode)!['name']}'),
         ],
       ),
     );

@@ -7,20 +7,21 @@ part of 'settings_theme_state.dart';
 // **************************************************************************
 
 String _$settingsThemeStateHash() =>
-    r'5b486e79c275a2e8c1723f2fcc230e600e127424';
+    r'2e9a5f6a0a4853f69c7ea51d5b5a790533290b0d';
 
 /// See also [SettingsThemeState].
 @ProviderFor(SettingsThemeState)
 final settingsThemeStateProvider =
     AutoDisposeNotifierProvider<SettingsThemeState, SettingsThemeConf>.internal(
-  SettingsThemeState.new,
-  name: r'settingsThemeStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$settingsThemeStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      SettingsThemeState.new,
+      name: r'settingsThemeStateProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$settingsThemeStateHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$SettingsThemeState = AutoDisposeNotifier<SettingsThemeConf>;
 // ignore_for_file: type=lint

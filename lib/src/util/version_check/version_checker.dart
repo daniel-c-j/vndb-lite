@@ -8,8 +8,9 @@ import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/constants/app_info.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/core/network/dio_factory.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VersionChecker {
   static final Version currentVersion = Version.parse(AppInfo.CURRENT_VERSION);
@@ -66,36 +67,31 @@ class VersionChecker {
                 fontWeight: FontWeight.bold,
                 fontSize: responsiveUI.catgTitle,
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
               SizedBox(height: responsiveUI.own(0.01)),
-              ShadowText(
-                "There is a new improved version of this app.",
-                align: TextAlign.center,
-              ),
+              ShadowText("There is a new improved version of this app.", align: TextAlign.center),
               SizedBox(height: responsiveUI.own(0.01)),
               ShadowText(
                 "Make sure you synchronize all of your current collection to the cloud before updating the app "
                 "if you still want to keep your data. Thank you for your attention! :D",
                 align: TextAlign.center,
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
               SizedBox(height: responsiveUI.own(0.02)),
               CustomDialogButton(
                 text: "Take me to the download page",
-                textColor: App.themeColor.primary,
-                textShadow: const [
-                  Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
-                ],
-                color: App.themeColor.tertiary,
+                textColor: kColor(context).primary,
+                textShadow: const [Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1)],
+                color: kColor(context).tertiary,
                 leading: Padding(
                   padding: EdgeInsets.only(right: responsiveUI.own(0.01)),
                   child: Icon(
                     Icons.system_update_alt,
-                    color: App.themeColor.primary,
+                    color: kColor(context).primary,
                     size: responsiveUI.own(0.05),
                   ),
                 ),
@@ -104,9 +100,9 @@ class VersionChecker {
                   await launchUrl(url);
                 },
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
             ],
           ),
         );

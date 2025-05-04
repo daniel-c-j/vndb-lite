@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/app.dart';
+
+import '../util/context_shortcut.dart';
 
 class GenericDivider extends StatelessWidget {
-  const GenericDivider({
-    super.key,
-    this.width = 1,
-    this.height = double.infinity,
-    this.color,
-  });
+  const GenericDivider({super.key, this.width = 1, this.height = double.infinity, this.color});
 
   final double width;
   final double height;
@@ -15,14 +11,16 @@ class GenericDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
-      decoration: BoxDecoration(
-        color: (color ?? App.themeColor.tertiary).withOpacity(0.1),
-        boxShadow: [
-          BoxShadow(color: (color ?? App.themeColor.tertiary).withOpacity(0.8), blurRadius: 5),
-        ],
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: (color ?? kColor(context).tertiary).withOpacity(0.1),
+          boxShadow: [
+            BoxShadow(color: (color ?? kColor(context).tertiary).withOpacity(0.8), blurRadius: 5),
+          ],
+        ),
       ),
     );
   }

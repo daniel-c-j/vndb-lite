@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/sort_.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class SortItemTile extends ConsumerWidget {
   const SortItemTile({
@@ -47,21 +48,15 @@ class SortItemTile extends ConsumerWidget {
             vertical: responsiveUI.own(0.005),
           ),
           leading: Icon(
-            customIconLeading ?? ((isSelected && isReverse) ? Icons.arrow_downward : Icons.arrow_upward),
-            color: (isSelected)
-                ? Color.alphaBlend(
-                    Colors.black.withOpacity(0.2),
-                    App.themeColor.secondary,
-                  )
-                : Colors.transparent,
+            customIconLeading ??
+                ((isSelected && isReverse) ? Icons.arrow_downward : Icons.arrow_upward),
+            color:
+                (isSelected)
+                    ? Color.alphaBlend(Colors.black.withOpacity(0.2), kColor(context).secondary)
+                    : Colors.transparent,
             size: responsiveUI.own(0.05),
           ),
-          title: Wrap(
-            children: [
-              ShadowText(title),
-              customTitleWidget ?? const SizedBox.shrink(),
-            ],
-          ),
+          title: Wrap(children: [ShadowText(title), customTitleWidget ?? const SizedBox.shrink()]),
         ),
       ),
     );

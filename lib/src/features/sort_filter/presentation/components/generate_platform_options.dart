@@ -2,11 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/platform_code_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class GeneratePlatformOptions extends ConsumerWidget {
   const GeneratePlatformOptions({
@@ -34,10 +35,7 @@ class GeneratePlatformOptions extends ConsumerWidget {
     final bool isSelected = selectedPlatforms.contains(platformCode);
 
     return Container(
-      margin: EdgeInsets.only(
-        top: responsiveUI.own(0.025),
-        right: responsiveUI.own(0.02),
-      ),
+      margin: EdgeInsets.only(top: responsiveUI.own(0.025), right: responsiveUI.own(0.02)),
       child: CustomLabel(
         useBorder: true,
         borderRadius: 10,
@@ -54,7 +52,7 @@ class GeneratePlatformOptions extends ConsumerWidget {
             ),
             child: Image.asset(
               imagePath,
-              color: (isPlatformIconPlain(platformCode)) ? App.themeColor.tertiary : null,
+              color: (isPlatformIconPlain(platformCode)) ? kColor(context).tertiary : null,
               height: responsiveUI.own(0.05),
               width: responsiveUI.own(0.05),
             ),

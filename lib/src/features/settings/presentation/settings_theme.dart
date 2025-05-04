@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/constants/conf.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/settings/presentation/components/settings_list_theme_selection.dart';
 import 'package:vndb_lite/src/features/settings/presentation/dialog/settings_dialog.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_theme_state.dart';
 import 'package:vndb_lite/src/features/theme/data/theme_data.dart';
 import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/features/theme/theme_data_provider.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class SettingsTheme extends ConsumerStatefulWidget {
   const SettingsTheme({super.key});
@@ -25,8 +27,10 @@ class _SettingsDataState extends ConsumerState<SettingsTheme> with SingleTickerP
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500))
-      ..forward();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    )..forward();
 
     _offsetAnimation = _animationController
         .drive(CurveTween(curve: Curves.easeInOut))
@@ -39,17 +43,17 @@ class _SettingsDataState extends ConsumerState<SettingsTheme> with SingleTickerP
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _refreshApp() async {
     await AppBarRefreshButton.tap();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _changeTheme() async {
     await showSettingsDialog(
@@ -58,9 +62,9 @@ class _SettingsDataState extends ConsumerState<SettingsTheme> with SingleTickerP
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _changeFontSize() async {
     double tempFontSize = ref.read(settingsThemeStateProvider).fontSize;
@@ -105,14 +109,14 @@ class _SettingsDataState extends ConsumerState<SettingsTheme> with SingleTickerP
                   onChanged: (val) {
                     setState(() => tempFontSize = val);
                   },
-                  thumbColor: App.themeColor.secondary,
+                  thumbColor: kColor(context).secondary,
                   activeColor: Color.alphaBlend(
-                    App.themeColor.tertiary.withOpacity(0.4),
-                    App.themeColor.primary,
+                    kColor(context).tertiary.withOpacity(0.4),
+                    kColor(context).primary,
                   ),
                   label: _getUserFriendlyFontSize(tempFontSize),
                 ),
-              )
+              ),
             ],
           );
         },
@@ -120,9 +124,9 @@ class _SettingsDataState extends ConsumerState<SettingsTheme> with SingleTickerP
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   String _getUserFriendlyFontSize(double fontSize) {
     if (fontSize <= -0.006) return "Tiny";
@@ -133,9 +137,9 @@ class _SettingsDataState extends ConsumerState<SettingsTheme> with SingleTickerP
     return "Bigger";
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -151,15 +155,14 @@ class _SettingsDataState extends ConsumerState<SettingsTheme> with SingleTickerP
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Font Size
-
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Font Size
               CustomLabel(
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: () async => await _changeFontSize(),
                 children: [
@@ -167,35 +170,35 @@ class _SettingsDataState extends ConsumerState<SettingsTheme> with SingleTickerP
                   ShadowText(
                     _getUserFriendlyFontSize(settings.fontSize),
                     fontSize: responsiveUI.normalSize,
-                    color: App.themeColor.tertiary.withAlpha(180),
+                    color: kColor(context).tertiary.withAlpha(180),
                   ),
                 ],
               ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Change theme
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Change theme
               SizedBox(height: responsiveUI.own(0.03)),
               CustomLabel(
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: () async => await _changeTheme(),
                 children: [
                   ShadowText('Theme: '),
                   ShadowText(
-                    THEME_DATA[settings.appTheme]!.themeName,
+                    ref.watch(appThemeStateProvider).themeName,
                     fontWeight: FontWeight.bold,
                     fontSize: responsiveUI.normalSize,
-                    color: App.themeColor.secondary,
+                    color: kColor(context).secondary,
                   ),
                 ],
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
             ],
           ),
         ),

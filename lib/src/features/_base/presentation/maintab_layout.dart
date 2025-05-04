@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/common_widgets/generic_background.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/navigation_rail_menu.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/tabs_sliver_appbar.dart';
@@ -18,6 +18,8 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/tabs_bottom_navbar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/util/version_check/version_checker.dart';
+
+import '../../theme/theme_data_provider.dart';
 
 // Intentionally made global to be easily accessing the value throughout the entire
 // widget tree for specific and crucial use cases.
@@ -62,9 +64,9 @@ class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProvid
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void _showVersionCheckSnackbar({required bool success}) {
     GenericSnackBar(
@@ -84,9 +86,9 @@ class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProvid
     ).show();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void _goToBranch(int index) {
     widget.navigationShell.goBranch(
@@ -107,32 +109,29 @@ class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProvid
     return false;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
-    final themeCode = ref.watch(settingsThemeStateProvider).appTheme;
-    final theme = THEME_DATA[themeCode]!;
+    final theme = ref.watch(appThemeStateProvider);
 
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     return Stack(
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
-        GenericBackground(
-          imagePath: theme.backgroundImgPath,
-        ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
+        GenericBackground(imagePath: theme.backgroundImgPath),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         Scaffold(
           extendBody: true,
           extendBodyBehindAppBar: (App.isInCollectionScreen) ? false : true,
-          backgroundColor: theme.colorScheme.primary.withOpacity(0.3),
+          backgroundColor: theme.primary.withOpacity(0.3),
           body: Row(
             children: [
               // Exclusive landscape mode only
@@ -149,29 +148,23 @@ class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProvid
                     controller: _scrollController,
                     headerSliverBuilder: (context, innerBoxIsScrolled) {
                       // Do not set to constant.
-                      return <Widget>[
-                        TabAppBar(),
-                      ];
+                      return <Widget>[TabAppBar()];
                     },
-                    body: MainScaffoldBody(
-                      navigationShell: widget.navigationShell,
-                    ),
+                    body: MainScaffoldBody(navigationShell: widget.navigationShell),
                   ),
                 ),
               ),
             ],
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Exclusive portrait mode only
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Exclusive portrait mode only
           bottomNavigationBar: Consumer(
             builder: (context, ref, child) {
               final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
 
               // Disappear when in multiselection mode.
-              if (isInMultiSelection) {
-                return const SizedBox.shrink();
-              }
+              if (isInMultiSelection) return const SizedBox.shrink();
 
               return TabsBottomNavbar(
                 onlyProgressIndicator: isLandscape,
@@ -182,9 +175,9 @@ class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProvid
             },
           ),
         ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ],
     );
   }

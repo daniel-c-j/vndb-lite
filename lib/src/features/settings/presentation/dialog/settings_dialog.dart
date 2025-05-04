@@ -4,7 +4,8 @@ import 'package:vndb_lite/src/common_widgets/custom_dialog.dart';
 import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 Future<void> showSettingsDialog({
   required String title,
@@ -21,9 +22,9 @@ Future<void> showSettingsDialog({
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Title
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // Title
             Container(
               padding: EdgeInsets.only(
                 top: responsiveUI.own(0.05),
@@ -31,21 +32,18 @@ Future<void> showSettingsDialog({
                 right: responsiveUI.own(0.05),
               ),
               alignment: Alignment.centerLeft,
-              child: ShadowText(
-                title,
-                fontSize: responsiveUI.catgTitle,
-              ),
+              child: ShadowText(title, fontSize: responsiveUI.catgTitle),
             ),
             if (content != null) SizedBox(height: responsiveUI.own(0.01)),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Real Content
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // Real Content
             content ?? const SizedBox.shrink(),
             SizedBox(height: responsiveUI.own(0.04)),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Buttons
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // Buttons
             Container(
               padding: EdgeInsets.only(
                 right: responsiveUI.own(0.05),
@@ -55,36 +53,38 @@ Future<void> showSettingsDialog({
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Confirm button
+                  //
+                  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                  // Confirm button
                   if (yesOrNo)
                     CustomDialogButton(
                       text: "Confirm",
-                      textColor: (yesButtonColor != null) ? App.themeColor.tertiary : App.themeColor.primary,
-                      color: yesButtonColor ?? App.themeColor.tertiary,
+                      textColor:
+                          (yesButtonColor != null)
+                              ? kColor(context).tertiary
+                              : kColor(context).primary,
+                      color: yesButtonColor ?? kColor(context).tertiary,
                       onPressed: () {
                         yesFunction!();
                         Navigator.of(context).pop();
                       },
                     ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Cancel
-
+                  //
+                  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                  // Cancel
                   CustomDialogButton(
                     text: "Cancel",
                     color: Colors.transparent,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+                  //
+                  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                  //
                 ],
               ),
-            )
+            ),
           ],
         ),
       );

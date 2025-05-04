@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
@@ -11,6 +11,7 @@ import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class MultiSelectionBarActions extends ConsumerWidget {
   const MultiSelectionBarActions({super.key});
@@ -102,7 +103,7 @@ class MultiSelectionBarActions extends ConsumerWidget {
                 child: Icon(
                   Icons.arrow_back_ios,
                   size: responsiveUI.own(0.045),
-                  color: App.themeColor.tertiary,
+                  color: kColor(context).tertiary,
                 ),
               ),
             ),
@@ -112,7 +113,7 @@ class MultiSelectionBarActions extends ConsumerWidget {
           // Number count selected
           ShadowText(
             '${recordSelected.length} selected',
-            color: App.themeColor.tertiary,
+            color: kColor(context).tertiary,
             fontSize: responsiveUI.own(0.0525),
           ),
           //
@@ -139,7 +140,7 @@ class MultiSelectionBarActions extends ConsumerWidget {
 
                 sharedPref.reload();
               },
-              icon: Icon(Icons.select_all, color: App.themeColor.tertiary),
+              icon: Icon(Icons.select_all, color: kColor(context).tertiary),
             ),
           ),
 
@@ -163,7 +164,7 @@ class MultiSelectionBarActions extends ConsumerWidget {
 
                 sharedPref.reload();
               },
-              icon: Icon(Icons.flip_to_back, color: App.themeColor.tertiary),
+              icon: Icon(Icons.flip_to_back, color: kColor(context).tertiary),
             ),
           ),
         ],

@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/vn/domain/p3.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VnDetailRelationsExtlinks extends StatefulWidget {
-  const VnDetailRelationsExtlinks({
-    super.key,
-    required this.p3,
-  });
+  const VnDetailRelationsExtlinks({super.key, required this.p3});
 
   final VnDataPhase03 p3;
 
@@ -66,15 +64,12 @@ class _VnDetailRelationsExtlinksState extends State<VnDetailRelationsExtlinks> {
             (_showMoreLinks) ? 'Show Less' : 'Show More',
             fontWeight: FontWeight.bold,
             fontSize: responsiveUI.normalSize,
-            color: App.themeColor.secondary,
+            color: kColor(context).secondary,
             shadows: [
               Shadow(
-                color: Color.alphaBlend(
-                  Colors.black.withOpacity(0.5),
-                  App.themeColor.primary,
-                ),
+                color: Color.alphaBlend(Colors.black.withOpacity(0.5), kColor(context).primary),
                 blurRadius: 15,
-              )
+              ),
             ],
           ),
         ),
@@ -106,10 +101,7 @@ class _VnDetailRelationsExtlinksState extends State<VnDetailRelationsExtlinks> {
               return ShadowText('Something went wrong.', color: Colors.red);
             }
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: snapshot.data,
-            );
+            return Column(crossAxisAlignment: CrossAxisAlignment.start, children: snapshot.data);
           },
         ),
       ],

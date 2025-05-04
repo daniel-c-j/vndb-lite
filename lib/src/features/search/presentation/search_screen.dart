@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/generic_failure_connection.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/chart/presentation/stat_chart.dart';
 import 'package:vndb_lite/src/features/search/data/remote/remote_search_repo.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_result.dart';
@@ -51,11 +51,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     });
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// These functions exists because of how the searchScreenController state value, is only
-// returning FutureBuilder<dynamic>, not what the FutureBuilder itself returns.
-// Thus placeholders, and something like that need to be synthetically injected to the state.
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  // These functions exists because of how the searchScreenController state value, is only
+  // returning FutureBuilder<dynamic>, not what the FutureBuilder itself returns.
+  // Thus placeholders, and something like that need to be synthetically injected to the state.
 
   void _readyToRefetch() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -90,9 +90,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     });
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _initiateSearch(int pageResult) {
     final sortData = ref.read(appliedRemoteSortControllerProvider);
@@ -114,9 +114,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
           // Show loading widget
           return SizedBox(
-            height: (pageResult > 1)
-                ? MediaQuery.sizeOf(context).height * 0.2 // Appending existing result
-                : MediaQuery.sizeOf(context).height * 0.65, // First-time result
+            height:
+                (pageResult > 1)
+                    ? MediaQuery.sizeOf(context).height *
+                        0.2 // Appending existing result
+                    : MediaQuery.sizeOf(context).height * 0.65, // First-time result
             child: const Center(child: CircularProgressIndicator()),
           );
         }
@@ -128,7 +130,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
           // Configured in ApiService class for a scenario when no internet connection,
           // the exception type goes with connectionTimeout.
-          if ((snapshot.error as DioException).type == DioExceptionType.connectionTimeout && pageResult > 1) {
+          if ((snapshot.error as DioException).type == DioExceptionType.connectionTimeout &&
+              pageResult > 1) {
             return const SizedBox.shrink();
           }
 
@@ -138,9 +141,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
           // TODO better network error UI?
           return SizedBox(
-            height: (pageResult > 1)
-                ? MediaQuery.sizeOf(context).height * 0.2 // Appending existing result
-                : MediaQuery.sizeOf(context).height * 0.65, // First-time result
+            height:
+                (pageResult > 1)
+                    ? MediaQuery.sizeOf(context).height *
+                        0.2 // Appending existing result
+                    : MediaQuery.sizeOf(context).height * 0.65, // First-time result
             child: const GenericFailureConnection(),
           );
         }
@@ -156,9 +161,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           return Center(
             child: Padding(
               padding: EdgeInsets.all(responsiveUI.own(0.1)),
-              child: ShadowText(
-                "No further results ;)",
-              ),
+              child: ShadowText("No further results ;)"),
             ),
           );
         }
@@ -166,7 +169,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         // Communicate with searchResultController that will present the widgets item from
         // formatting the raw response into the classified model then to the widgets.
         final labelCode =
-            (requestData.sort! == SortableCode.searchrank.name) ? SortableCode.title.name : requestData.sort!;
+            (requestData.sort! == SortableCode.searchrank.name)
+                ? SortableCode.title.name
+                : requestData.sort!;
         final p1 = remoteRepo.p1FromResponse(result);
 
         // Append the result to the controller, and should update UI.
@@ -183,9 +188,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {

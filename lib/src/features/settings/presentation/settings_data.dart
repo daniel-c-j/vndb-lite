@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/core/_core.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/settings/application/settings_service.dart';
@@ -12,6 +12,7 @@ import 'package:vndb_lite/src/features/settings/presentation/dialog/settings_dia
 import 'package:vndb_lite/src/features/settings/presentation/settings_data_state.dart';
 import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';
 import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 
 class SettingsData extends ConsumerStatefulWidget {
@@ -252,7 +253,7 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: () async => await _autoUpdateCheckSwitch(),
                 children: [
@@ -265,7 +266,7 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                       Shadow(
                         color: Color.alphaBlend(
                           Colors.black.withOpacity(0.5),
-                          App.themeColor.primary,
+                          kColor(context).primary,
                         ),
                         blurRadius: 5,
                       ),
@@ -281,7 +282,7 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 highlightColor: const Color.fromARGB(180, 240, 210, 50),
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: _refreshVns,
@@ -296,7 +297,7 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 highlightColor: const Color.fromARGB(180, 240, 70, 50),
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: _deleteVns,
@@ -311,7 +312,7 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                 useBorder: true,
                 borderRadius: 12,
                 isSelected: false,
-                borderColor: App.themeColor.secondary,
+                borderColor: kColor(context).secondary,
                 highlightColor: const Color.fromARGB(180, 240, 70, 50),
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: _clearCache,
@@ -326,7 +327,7 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                   useBorder: true,
                   borderRadius: 12,
                   isSelected: false,
-                  borderColor: App.themeColor.secondary,
+                  borderColor: kColor(context).secondary,
                   highlightColor: const Color.fromARGB(180, 240, 210, 50),
                   padding: EdgeInsets.all(responsiveUI.own(0.02)),
                   onTap: _removeAuth,

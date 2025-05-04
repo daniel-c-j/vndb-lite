@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
@@ -23,6 +23,9 @@ import 'package:vndb_lite/src/features/sync/presentation/components/auth_confirm
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_token_field_controller.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
+
+import '../../../../../core/_core.dart';
+import '../../../../../util/context_shortcut.dart';
 
 class AppBarRefreshButton extends ConsumerWidget {
   const AppBarRefreshButton({super.key});
@@ -102,14 +105,11 @@ class AppBarRefreshButton extends ConsumerWidget {
       content: [
         Icon(
           Icons.refresh,
-          color: App.themeColor.tertiary,
+          color: kColor(NavigationService.currentContext).tertiary,
           size: responsiveUI.snackbarIcon,
         ),
         SizedBox(width: responsiveUI.own(0.015)),
-        ShadowText(
-          'Refreshing...',
-          fontSize: responsiveUI.snackbarTxt,
-        ),
+        ShadowText('Refreshing...', fontSize: responsiveUI.snackbarTxt),
       ],
     ).show();
   }
@@ -142,11 +142,7 @@ class AppBarRefreshButton extends ConsumerWidget {
             });
           }
         },
-        icon: Icon(
-          Icons.refresh,
-          color: App.themeColor.tertiary,
-          size: responsiveUI.standardIcon,
-        ),
+        icon: Icon(Icons.refresh, color: kColor(context).tertiary, size: responsiveUI.standardIcon),
       ),
     );
   }

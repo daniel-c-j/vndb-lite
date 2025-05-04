@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/masonry_grid.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_result_controller.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
@@ -42,9 +42,10 @@ class _SearchResultState extends ConsumerState<SearchResult> {
         staggered: true,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSpacing: responsiveUI.own(0.03),
-        column: (MediaQuery.of(context).orientation == Orientation.portrait)
-            ? settings.maxItemPerRowPortrait
-            : settings.maxItemPerRowLandscape,
+        column:
+            (MediaQuery.of(context).orientation == Orientation.portrait)
+                ? settings.maxItemPerRowPortrait
+                : settings.maxItemPerRowLandscape,
         children: searchResult,
       ),
     );

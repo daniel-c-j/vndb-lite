@@ -15,14 +15,15 @@ String _$connectivityNotifierHash() =>
 @ProviderFor(ConnectivityNotifier)
 final connectivityNotifierProvider =
     NotifierProvider<ConnectivityNotifier, bool>.internal(
-  ConnectivityNotifier.new,
-  name: r'connectivityNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$connectivityNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      ConnectivityNotifier.new,
+      name: r'connectivityNotifierProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$connectivityNotifierHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$ConnectivityNotifier = Notifier<bool>;
 // ignore_for_file: type=lint

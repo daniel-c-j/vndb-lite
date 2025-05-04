@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_background.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/application/collection_selection_remote_service.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/fab/vn_detail_fab.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/fab/vn_detail_fab_state.dart';
@@ -17,6 +17,7 @@ import 'package:vndb_lite/src/features/vn_detail/presentation/components/vn_deta
 import 'package:vndb_lite/src/features/vn_detail/presentation/vn_detail_entrance.dart';
 import 'package:vndb_lite/src/util/balanced_safearea.dart';
 import 'package:vndb_lite/src/util/check_media_cache.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 
 class VnDetailScreen extends ConsumerStatefulWidget {
@@ -30,7 +31,8 @@ class VnDetailScreen extends ConsumerStatefulWidget {
   }
 }
 
-class _VnDetailScreenState extends ConsumerState<VnDetailScreen> with SingleTickerProviderStateMixin {
+class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final String _vnId;
 
@@ -42,8 +44,10 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen> with SingleTick
     _vnId = widget.p1.id;
 
     // Animation for background image.
-    _animationController = AnimationController(duration: const Duration(milliseconds: 600), vsync: this)
-      ..forward();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    )..forward();
 
     // Checks whether vn image already cached or not.
     didMediaCache(widget.p1.id).then((value) {
@@ -57,10 +61,10 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen> with SingleTick
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
-// TODO remove this all in controller?
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
+  // TODO remove this all in controller?
   bool get _vnHasCover {
     return widget.p1.image != null && widget.p1.image!.url != null;
   }
@@ -81,9 +85,9 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen> with SingleTick
     return (widget.p1.image!.sexual ?? 0) >= 1 || (widget.p1.image!.violence ?? 0) >= 1;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
@@ -101,9 +105,9 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen> with SingleTick
     ref.invalidate(localVnRepoProvider);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _imgCover({required bool isCensor}) {
     return Container(
@@ -112,7 +116,9 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen> with SingleTick
         imageUrl: (_vnHasCover && !_imageCached) ? widget.p1.image!.url! : '',
         fit: BoxFit.cover,
         width: MediaQuery.sizeOf(context).width,
-        placeholder: (context, str) => SizedBox(width: responsiveUI.own(0.25), height: responsiveUI.own(0.4)),
+        placeholder:
+            (context, str) =>
+                SizedBox(width: responsiveUI.own(0.25), height: responsiveUI.own(0.4)),
         errorWidget: (context, url, error) => const GenericErrorImage(),
         cacheKey: "BG-${widget.p1.id}",
         cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
@@ -124,9 +130,9 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen> with SingleTick
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -147,9 +153,7 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen> with SingleTick
                     Color.fromARGB(70, 0, 0, 0),
                     Colors.transparent,
                   ],
-                ).createShader(
-                  Rect.fromLTRB(0, 0, rect.width, rect.height),
-                );
+                ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
               },
               child: _imgCover(isCensor: _coverNeedCensor),
             ),
@@ -159,21 +163,21 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen> with SingleTick
         Scaffold(
           extendBody: true,
           extendBodyBehindAppBar: true,
-          backgroundColor: App.themeColor.primary.withOpacity(0.3),
+          backgroundColor: kColor(context).primary.withOpacity(0.3),
           body: NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool inBoxScrolled) {
               return [VnDetailAppbar(vnId: _vnId)];
             },
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Double scaffold to prevent snackbar ui conflicting with floating action button
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // Double scaffold to prevent snackbar ui conflicting with floating action button
             body: Scaffold(
               backgroundColor: Colors.transparent,
               floatingActionButton: VnDetailFab(p1: widget.p1),
               body: RefreshIndicator(
                 onRefresh: _onRefresh,
-                color: App.themeColor.tertiary,
-                backgroundColor: App.themeColor.primary.withOpacity(0.75),
+                color: kColor(context).tertiary,
+                backgroundColor: kColor(context).primary.withOpacity(0.75),
                 displacement: responsiveUI.own(0.02),
                 child: SingleChildScrollView(
                   padding: EdgeInsets.only(
@@ -188,9 +192,9 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen> with SingleTick
             ),
           ),
         ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ],
     );
   }

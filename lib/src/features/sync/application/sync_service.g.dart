@@ -40,22 +40,21 @@ class SyncServiceFamily extends Family<SyncService> {
 
   /// See also [syncService].
   SyncServiceProvider call({
-    required void Function(String,
-            {required IconData icon, required Color iconColor})
-        snackbar,
+    required void Function(
+      String, {
+      required IconData icon,
+      required Color iconColor,
+    })
+    snackbar,
   }) {
-    return SyncServiceProvider(
-      snackbar: snackbar,
-    );
+    return SyncServiceProvider(snackbar: snackbar);
   }
 
   @override
   SyncServiceProvider getProviderOverride(
     covariant SyncServiceProvider provider,
   ) {
-    return call(
-      snackbar: provider.snackbar,
-    );
+    return call(snackbar: provider.snackbar);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -77,25 +76,25 @@ class SyncServiceFamily extends Family<SyncService> {
 class SyncServiceProvider extends AutoDisposeProvider<SyncService> {
   /// See also [syncService].
   SyncServiceProvider({
-    required void Function(String,
-            {required IconData icon, required Color iconColor})
-        snackbar,
+    required void Function(
+      String, {
+      required IconData icon,
+      required Color iconColor,
+    })
+    snackbar,
   }) : this._internal(
-          (ref) => syncService(
-            ref as SyncServiceRef,
-            snackbar: snackbar,
-          ),
-          from: syncServiceProvider,
-          name: r'syncServiceProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$syncServiceHash,
-          dependencies: SyncServiceFamily._dependencies,
-          allTransitiveDependencies:
-              SyncServiceFamily._allTransitiveDependencies,
-          snackbar: snackbar,
-        );
+         (ref) => syncService(ref as SyncServiceRef, snackbar: snackbar),
+         from: syncServiceProvider,
+         name: r'syncServiceProvider',
+         debugGetCreateSourceHash:
+             const bool.fromEnvironment('dart.vm.product')
+                 ? null
+                 : _$syncServiceHash,
+         dependencies: SyncServiceFamily._dependencies,
+         allTransitiveDependencies:
+             SyncServiceFamily._allTransitiveDependencies,
+         snackbar: snackbar,
+       );
 
   SyncServiceProvider._internal(
     super._createNotifier, {
@@ -107,13 +106,15 @@ class SyncServiceProvider extends AutoDisposeProvider<SyncService> {
     required this.snackbar,
   }) : super.internal();
 
-  final void Function(String,
-      {required IconData icon, required Color iconColor}) snackbar;
+  final void Function(
+    String, {
+    required IconData icon,
+    required Color iconColor,
+  })
+  snackbar;
 
   @override
-  Override overrideWith(
-    SyncService Function(SyncServiceRef provider) create,
-  ) {
+  Override overrideWith(SyncService Function(SyncServiceRef provider) create) {
     return ProviderOverride(
       origin: this,
       override: SyncServiceProvider._internal(
@@ -152,16 +153,18 @@ class SyncServiceProvider extends AutoDisposeProvider<SyncService> {
 mixin SyncServiceRef on AutoDisposeProviderRef<SyncService> {
   /// The parameter `snackbar` of this provider.
   void Function(String, {required IconData icon, required Color iconColor})
-      get snackbar;
+  get snackbar;
 }
 
 class _SyncServiceProviderElement
-    extends AutoDisposeProviderElement<SyncService> with SyncServiceRef {
+    extends AutoDisposeProviderElement<SyncService>
+    with SyncServiceRef {
   _SyncServiceProviderElement(super.provider);
 
   @override
   void Function(String, {required IconData icon, required Color iconColor})
-      get snackbar => (origin as SyncServiceProvider).snackbar;
+  get snackbar => (origin as SyncServiceProvider).snackbar;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

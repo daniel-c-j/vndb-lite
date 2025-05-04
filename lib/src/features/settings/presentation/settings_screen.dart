@@ -3,13 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_background.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_theme_state.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_data.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_theme.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general.dart';
-import 'package:vndb_lite/src/features/theme/data/theme_data.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/balanced_safearea.dart';
+
+import '../../theme/theme_data_provider.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -25,21 +27,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeCode = ref.watch(settingsThemeStateProvider).appTheme;
-    final theme = THEME_DATA[themeCode]!;
+    final theme = ref.watch(appThemeStateProvider);
 
     return Stack(
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
-        GenericBackground(
-          imagePath: theme.backgroundImgPath,
-          useGradientOverlay: true,
-        ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
+        GenericBackground(imagePath: theme.backgroundImgPath, useGradientOverlay: true),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         Scaffold(
           extendBody: true,
           extendBodyBehindAppBar: false,
@@ -53,8 +51,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    App.themeColor.primary.withAlpha(250),
-                    App.themeColor.primary.withAlpha(150),
+                    kColor(context).primary.withAlpha(250),
+                    kColor(context).primary.withAlpha(150),
                   ],
                 ),
               ),
@@ -63,21 +61,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: Icon(
-                Icons.arrow_back_ios_new,
-                size: responsiveUI.own(0.055),
-              ),
-              color: App.themeColor.tertiary,
+              icon: Icon(Icons.arrow_back_ios_new, size: responsiveUI.own(0.055)),
+              color: kColor(context).tertiary,
             ),
-            title: ShadowText(
-              'Settings',
-              fontSize: responsiveUI.own(0.0525),
-            ),
+            title: ShadowText('Settings', fontSize: responsiveUI.own(0.0525)),
           ),
-          backgroundColor: App.themeColor.primary.withOpacity(0.25),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Body
+          backgroundColor: kColor(context).primary.withOpacity(0.25),
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Body
           body: SingleChildScrollView(
             padding: EdgeInsets.only(
               left: measureSafeAreaOf(0),
@@ -87,18 +79,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Data list
+                //
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                // Data list
                 InkWell(
                   onTap: () {
                     setState(() => _showDataList = !_showDataList);
                   },
                   child: ListTile(
-                    tileColor: App.themeColor.primary.withAlpha(50),
+                    tileColor: kColor(context).primary.withAlpha(50),
                     leading: Icon(
                       Icons.library_books,
-                      color: App.themeColor.secondary,
+                      color: kColor(context).secondary,
                       size: responsiveUI.own(0.06),
                     ),
                     title: ShadowText('Data'),
@@ -109,24 +101,24 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     dense: true,
                     trailing: Icon(
                       (!_showDataList) ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
-                      color: App.themeColor.secondary,
+                      color: kColor(context).secondary,
                       size: responsiveUI.standardIcon,
                     ),
                   ),
                 ),
                 if (_showDataList) const SettingsData(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Theme
+                //
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                // Theme
                 InkWell(
                   onTap: () {
                     setState(() => _showThemeList = !_showThemeList);
                   },
                   child: ListTile(
-                    tileColor: App.themeColor.primary.withAlpha(50),
+                    tileColor: kColor(context).primary.withAlpha(50),
                     leading: Icon(
                       Icons.settings_input_composite,
-                      color: App.themeColor.secondary,
+                      color: kColor(context).secondary,
                       size: responsiveUI.own(0.06),
                     ),
                     title: ShadowText('Theme'),
@@ -137,24 +129,24 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     dense: true,
                     trailing: Icon(
                       (!_showThemeList) ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
-                      color: App.themeColor.secondary,
+                      color: kColor(context).secondary,
                       size: responsiveUI.standardIcon,
                     ),
                   ),
                 ),
                 if (_showThemeList) const SettingsTheme(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// General
+                //
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                // General
                 InkWell(
                   onTap: () {
                     setState(() => _showVnPreviewList = !_showVnPreviewList);
                   },
                   child: ListTile(
-                    tileColor: App.themeColor.primary.withAlpha(50),
+                    tileColor: kColor(context).primary.withAlpha(50),
                     leading: Icon(
                       Icons.amp_stories,
-                      color: App.themeColor.secondary,
+                      color: kColor(context).secondary,
                       size: responsiveUI.own(0.06),
                     ),
                     title: ShadowText('General'),
@@ -165,19 +157,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     dense: true,
                     trailing: Icon(
                       (!_showVnPreviewList) ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
-                      color: App.themeColor.secondary,
+                      color: kColor(context).secondary,
                       size: responsiveUI.standardIcon,
                     ),
                   ),
                 ),
                 if (_showVnPreviewList) const SettingsGeneral(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+                //
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                //
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }

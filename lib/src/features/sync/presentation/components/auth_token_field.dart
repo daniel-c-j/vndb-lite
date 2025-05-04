@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
@@ -10,6 +10,7 @@ import 'package:vndb_lite/src/features/sync/presentation/components/auth_confirm
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_token_field_controller.dart';
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_token_validator.dart';
 import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class AuthenticationField extends ConsumerStatefulWidget {
   const AuthenticationField({super.key});
@@ -42,9 +43,9 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
     super.dispose();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool _tokenIsValid(String token) {
     return AuthTokenValidator().isValid(token);
@@ -61,9 +62,9 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
     return null;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void _validate(String? token) {
     if (!mounted) return;
@@ -87,9 +88,9 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
     ref.read(authTokenFieldControllerProvider.notifier).value = token ?? "";
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -100,16 +101,11 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(color: App.themeColor.tertiary.withOpacity(0.4), blurRadius: 3),
-        ],
+        boxShadow: [BoxShadow(color: kColor(context).tertiary.withOpacity(0.4), blurRadius: 3)],
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            App.themeColor.primary.withAlpha(220),
-            App.themeColor.primary.withAlpha(140),
-          ],
+          colors: [kColor(context).primary.withAlpha(220), kColor(context).primary.withAlpha(140)],
         ),
       ),
       child: Material(
@@ -117,12 +113,13 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: (showAuthField)
-              ? null
-              : () {
-                  // Show both authField and confirm button.
-                  ref.read(showAuthTokenFieldStateProvider.notifier).show = true;
-                },
+          onTap:
+              (showAuthField)
+                  ? null
+                  : () {
+                    // Show both authField and confirm button.
+                    ref.read(showAuthTokenFieldStateProvider.notifier).show = true;
+                  },
           child: Container(
             width: MediaQuery.sizeOf(context).width * (0.75),
             padding: EdgeInsets.only(
@@ -131,73 +128,76 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
               left: responsiveUI.own(0.045),
             ),
             // This logic is connected with the initState of this class above.
-            child: (!showAuthField && uId != null)
-                ? Padding(
-                    padding: EdgeInsets.only(bottom: responsiveUI.own(0.035)),
-                    child: Wrap(
-                      children: [
-                        ShadowText("Hey there "),
-                        ShadowText(uId.username, color: App.themeColor.secondary),
-                        ShadowText(". "),
-                        ShadowText("Tap me to change your token :D"),
-                      ],
-                    ),
-                  )
-
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Text input
-                : ValueListenableBuilder(
-                    valueListenable: _authFieldController,
-                    builder: (context, TextEditingValue value, __) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          // If there's an error, reduce the padding, to serve the error text better, if not
-                          // just put the usual padding as the others.
-                          bottom: (_errorText != null) ? responsiveUI.own(0.02) : responsiveUI.own(0.045),
-                        ),
-                        child: TextFormField(
-                          autofocus: false,
-                          enableSuggestions: false,
-                          controller: _authFieldController,
-                          autovalidateMode: AutovalidateMode.always,
-                          // Cannot edit when in progress.
-                          enabled: (buttonState != ConfirmButtonState.inprogress),
-                          style: styleText(fontSize: responsiveUI.normalSize),
-                          cursorColor: App.themeColor.tertiary,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            focusColor: Colors.white,
-                            hintText: 'Authentication Token*',
-                            hintStyle: styleText(
-                              fontSize: responsiveUI.normalSize,
-                              color: App.themeColor.secondary.withAlpha(180),
-                            ),
-                            contentPadding: EdgeInsets.all(responsiveUI.own(0.01)),
-                            errorText: _errorText,
-                            errorMaxLines: 10,
-                            errorStyle: styleText(
-                              fontSize: responsiveUI.own(0.03),
-                              color: Colors.red,
-                            ),
-                            icon: Icon(
-                              Icons.key,
-                              color: (_errorText != null) ? Colors.red : App.themeColor.tertiary,
-                              size: responsiveUI.own(0.06),
-                            ),
+            child:
+                (!showAuthField && uId != null)
+                    ? Padding(
+                      padding: EdgeInsets.only(bottom: responsiveUI.own(0.035)),
+                      child: Wrap(
+                        children: [
+                          ShadowText("Hey there "),
+                          ShadowText(uId.username, color: kColor(context).secondary),
+                          ShadowText(". "),
+                          ShadowText("Tap me to change your token :D"),
+                        ],
+                      ),
+                    )
+                    //
+                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    // Text input
+                    : ValueListenableBuilder(
+                      valueListenable: _authFieldController,
+                      builder: (context, TextEditingValue value, __) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            // If there's an error, reduce the padding, to serve the error text better, if not
+                            // just put the usual padding as the others.
+                            bottom:
+                                (_errorText != null)
+                                    ? responsiveUI.own(0.02)
+                                    : responsiveUI.own(0.045),
                           ),
-                          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-                          validator: (token) {
-                            SchedulerBinding.instance.addPostFrameCallback((_) {
-                              _validate(token);
-                            });
+                          child: TextFormField(
+                            autofocus: false,
+                            enableSuggestions: false,
+                            controller: _authFieldController,
+                            autovalidateMode: AutovalidateMode.always,
+                            // Cannot edit when in progress.
+                            enabled: (buttonState != ConfirmButtonState.inprogress),
+                            style: styleText(fontSize: responsiveUI.normalSize),
+                            cursorColor: kColor(context).tertiary,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              focusColor: Colors.white,
+                              hintText: 'Authentication Token*',
+                              hintStyle: styleText(
+                                fontSize: responsiveUI.normalSize,
+                                color: kColor(context).secondary.withAlpha(180),
+                              ),
+                              contentPadding: EdgeInsets.all(responsiveUI.own(0.01)),
+                              errorText: _errorText,
+                              errorMaxLines: 10,
+                              errorStyle: styleText(
+                                fontSize: responsiveUI.own(0.03),
+                                color: Colors.red,
+                              ),
+                              icon: Icon(
+                                Icons.key,
+                                color: (_errorText != null) ? Colors.red : kColor(context).tertiary,
+                                size: responsiveUI.own(0.06),
+                              ),
+                            ),
+                            inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+                            validator: (token) {
+                              SchedulerBinding.instance.addPostFrameCallback((_) {
+                                _validate(token);
+                              });
 
-                            return;
-                          },
-                        ),
-                      );
-                    },
-                  ),
+                              return;
+                            },
+                          ),
+                        );
+                      },
+                    ),
           ),
         ),
       ),

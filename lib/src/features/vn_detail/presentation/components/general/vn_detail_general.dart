@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/general/vn_detail_general_screenshots.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/general/vn_detail_general_tags.dart';
 
+import 'package:vndb_lite/src/util/context_shortcut.dart';
+
 class VnDetailsContentGeneral extends StatelessWidget {
-  const VnDetailsContentGeneral({
-    super.key,
-    required this.p1,
-    required this.p2,
-  });
+  const VnDetailsContentGeneral({super.key, required this.p1, required this.p2});
 
   final VnDataPhase01 p1;
   final VnDataPhase02 p2;
@@ -26,47 +24,33 @@ class VnDetailsContentGeneral extends StatelessWidget {
     return '${minage[0]}';
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Aliases
-        ShadowText(
-          'Aliases',
-          fontSize: responsiveUI.own(0.045),
-          fontWeight: FontWeight.bold,
-        ),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Aliases
+        ShadowText('Aliases', fontSize: responsiveUI.own(0.045), fontWeight: FontWeight.bold),
         SizedBox(height: responsiveUI.own(0.01)),
-        ShadowText(
-          (p2.aliases!.isEmpty) ? '--' : p2.aliases!.join(' | '),
-        ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Age
+        ShadowText((p2.aliases!.isEmpty) ? '--' : p2.aliases!.join(' | ')),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Age
         SizedBox(height: responsiveUI.own(0.05)),
-        ShadowText(
-          'Age',
-          fontSize: responsiveUI.own(0.045),
-          fontWeight: FontWeight.bold,
-        ),
+        ShadowText('Age', fontSize: responsiveUI.own(0.045), fontWeight: FontWeight.bold),
         SizedBox(height: responsiveUI.own(0.01)),
         ShadowText('Minimum age: $_minimumAge'),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Description
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Description
         SizedBox(height: responsiveUI.own(0.05)),
-        ShadowText(
-          'Description',
-          fontSize: responsiveUI.own(0.045),
-          fontWeight: FontWeight.bold,
-        ),
+        ShadowText('Description', fontSize: responsiveUI.own(0.045), fontWeight: FontWeight.bold),
         SizedBox(height: responsiveUI.own(0.01)),
         ReadMoreText(
           p1.description ?? '--',
@@ -77,56 +61,42 @@ class VnDetailsContentGeneral extends StatelessWidget {
           moreStyle: styleText(
             fontWeight: FontWeight.bold,
             fontSize: responsiveUI.normalSize,
-            color: App.themeColor.secondary,
+            color: kColor(context).secondary,
             shadows: [
               Shadow(
-                color: Color.alphaBlend(
-                  Colors.black.withOpacity(0.5),
-                  App.themeColor.primary,
-                ),
+                color: Color.alphaBlend(Colors.black.withOpacity(0.5), kColor(context).primary),
                 blurRadius: 15,
-              )
+              ),
             ],
           ),
           lessStyle: styleText(
             fontWeight: FontWeight.bold,
             fontSize: responsiveUI.normalSize,
-            color: App.themeColor.secondary,
+            color: kColor(context).secondary,
             shadows: [
               Shadow(
-                color: Color.alphaBlend(
-                  Colors.black.withOpacity(0.5),
-                  App.themeColor.primary,
-                ),
+                color: Color.alphaBlend(Colors.black.withOpacity(0.5), kColor(context).primary),
                 blurRadius: 15,
-              )
+              ),
             ],
           ),
           style: styleText(fontSize: responsiveUI.normalSize),
         ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Tags
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Tags
         SizedBox(height: responsiveUI.own(0.05)),
-        ShadowText(
-          'Tags',
-          fontSize: responsiveUI.own(0.045),
-          fontWeight: FontWeight.bold,
-        ),
+        ShadowText('Tags', fontSize: responsiveUI.own(0.045), fontWeight: FontWeight.bold),
         VnDetailGeneralTags(p2: p2),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Screenshots
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Screenshots
         SizedBox(height: responsiveUI.own(0.05)),
-        ShadowText(
-          'Screenshots',
-          fontSize: responsiveUI.own(0.045),
-          fontWeight: FontWeight.bold,
-        ),
+        ShadowText('Screenshots', fontSize: responsiveUI.own(0.045), fontWeight: FontWeight.bold),
         VnDetailGeneralScreenshots(p2: p2),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ],
     );
   }

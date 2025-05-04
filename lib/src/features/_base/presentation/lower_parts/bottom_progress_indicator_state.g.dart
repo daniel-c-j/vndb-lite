@@ -13,14 +13,15 @@ String _$bottomProgressIndicatorHash() =>
 @ProviderFor(BottomProgressIndicator)
 final bottomProgressIndicatorProvider =
     AutoDisposeNotifierProvider<BottomProgressIndicator, bool>.internal(
-  BottomProgressIndicator.new,
-  name: r'bottomProgressIndicatorProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$bottomProgressIndicatorHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      BottomProgressIndicator.new,
+      name: r'bottomProgressIndicatorProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$bottomProgressIndicatorHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$BottomProgressIndicator = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint

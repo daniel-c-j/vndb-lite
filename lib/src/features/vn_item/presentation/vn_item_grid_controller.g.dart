@@ -33,9 +33,7 @@ class _SystemHash {
 abstract class _$VnItemGridCoverCensorState extends BuildlessNotifier<bool> {
   late final String vnId;
 
-  bool build(
-    String vnId,
-  );
+  bool build(String vnId);
 }
 
 /// See also [VnItemGridCoverCensorState].
@@ -48,21 +46,15 @@ class VnItemGridCoverCensorStateFamily extends Family<bool> {
   const VnItemGridCoverCensorStateFamily();
 
   /// See also [VnItemGridCoverCensorState].
-  VnItemGridCoverCensorStateProvider call(
-    String vnId,
-  ) {
-    return VnItemGridCoverCensorStateProvider(
-      vnId,
-    );
+  VnItemGridCoverCensorStateProvider call(String vnId) {
+    return VnItemGridCoverCensorStateProvider(vnId);
   }
 
   @override
   VnItemGridCoverCensorStateProvider getProviderOverride(
     covariant VnItemGridCoverCensorStateProvider provider,
   ) {
-    return call(
-      provider.vnId,
-    );
+    return call(provider.vnId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -84,21 +76,20 @@ class VnItemGridCoverCensorStateFamily extends Family<bool> {
 class VnItemGridCoverCensorStateProvider
     extends NotifierProviderImpl<VnItemGridCoverCensorState, bool> {
   /// See also [VnItemGridCoverCensorState].
-  VnItemGridCoverCensorStateProvider(
-    String vnId,
-  ) : this._internal(
-          () => VnItemGridCoverCensorState()..vnId = vnId,
-          from: vnItemGridCoverCensorStateProvider,
-          name: r'vnItemGridCoverCensorStateProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$vnItemGridCoverCensorStateHash,
-          dependencies: VnItemGridCoverCensorStateFamily._dependencies,
-          allTransitiveDependencies:
-              VnItemGridCoverCensorStateFamily._allTransitiveDependencies,
-          vnId: vnId,
-        );
+  VnItemGridCoverCensorStateProvider(String vnId)
+    : this._internal(
+        () => VnItemGridCoverCensorState()..vnId = vnId,
+        from: vnItemGridCoverCensorStateProvider,
+        name: r'vnItemGridCoverCensorStateProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$vnItemGridCoverCensorStateHash,
+        dependencies: VnItemGridCoverCensorStateFamily._dependencies,
+        allTransitiveDependencies:
+            VnItemGridCoverCensorStateFamily._allTransitiveDependencies,
+        vnId: vnId,
+      );
 
   VnItemGridCoverCensorStateProvider._internal(
     super._createNotifier, {
@@ -113,12 +104,8 @@ class VnItemGridCoverCensorStateProvider
   final String vnId;
 
   @override
-  bool runNotifierBuild(
-    covariant VnItemGridCoverCensorState notifier,
-  ) {
-    return notifier.build(
-      vnId,
-    );
+  bool runNotifierBuild(covariant VnItemGridCoverCensorState notifier) {
+    return notifier.build(vnId);
   }
 
   @override
@@ -178,9 +165,7 @@ String _$vnItemGridCoverSizeStateHash() =>
 abstract class _$VnItemGridCoverSizeState extends BuildlessNotifier<double> {
   late final String vnUrl;
 
-  double build(
-    String vnUrl,
-  );
+  double build(String vnUrl);
 }
 
 /// See also [VnItemGridCoverSizeState].
@@ -193,21 +178,15 @@ class VnItemGridCoverSizeStateFamily extends Family<double> {
   const VnItemGridCoverSizeStateFamily();
 
   /// See also [VnItemGridCoverSizeState].
-  VnItemGridCoverSizeStateProvider call(
-    String vnUrl,
-  ) {
-    return VnItemGridCoverSizeStateProvider(
-      vnUrl,
-    );
+  VnItemGridCoverSizeStateProvider call(String vnUrl) {
+    return VnItemGridCoverSizeStateProvider(vnUrl);
   }
 
   @override
   VnItemGridCoverSizeStateProvider getProviderOverride(
     covariant VnItemGridCoverSizeStateProvider provider,
   ) {
-    return call(
-      provider.vnUrl,
-    );
+    return call(provider.vnUrl);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -229,21 +208,20 @@ class VnItemGridCoverSizeStateFamily extends Family<double> {
 class VnItemGridCoverSizeStateProvider
     extends NotifierProviderImpl<VnItemGridCoverSizeState, double> {
   /// See also [VnItemGridCoverSizeState].
-  VnItemGridCoverSizeStateProvider(
-    String vnUrl,
-  ) : this._internal(
-          () => VnItemGridCoverSizeState()..vnUrl = vnUrl,
-          from: vnItemGridCoverSizeStateProvider,
-          name: r'vnItemGridCoverSizeStateProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$vnItemGridCoverSizeStateHash,
-          dependencies: VnItemGridCoverSizeStateFamily._dependencies,
-          allTransitiveDependencies:
-              VnItemGridCoverSizeStateFamily._allTransitiveDependencies,
-          vnUrl: vnUrl,
-        );
+  VnItemGridCoverSizeStateProvider(String vnUrl)
+    : this._internal(
+        () => VnItemGridCoverSizeState()..vnUrl = vnUrl,
+        from: vnItemGridCoverSizeStateProvider,
+        name: r'vnItemGridCoverSizeStateProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$vnItemGridCoverSizeStateHash,
+        dependencies: VnItemGridCoverSizeStateFamily._dependencies,
+        allTransitiveDependencies:
+            VnItemGridCoverSizeStateFamily._allTransitiveDependencies,
+        vnUrl: vnUrl,
+      );
 
   VnItemGridCoverSizeStateProvider._internal(
     super._createNotifier, {
@@ -258,12 +236,8 @@ class VnItemGridCoverSizeStateProvider
   final String vnUrl;
 
   @override
-  double runNotifierBuild(
-    covariant VnItemGridCoverSizeState notifier,
-  ) {
-    return notifier.build(
-      vnUrl,
-    );
+  double runNotifierBuild(covariant VnItemGridCoverSizeState notifier) {
+    return notifier.build(vnUrl);
   }
 
   @override
@@ -323,9 +297,7 @@ String _$vnItemGridWidgetStateHash() =>
 abstract class _$VnItemGridWidgetState extends BuildlessNotifier<bool> {
   late final String vnId;
 
-  bool build(
-    String vnId,
-  );
+  bool build(String vnId);
 }
 
 /// See also [VnItemGridWidgetState].
@@ -338,21 +310,15 @@ class VnItemGridWidgetStateFamily extends Family<bool> {
   const VnItemGridWidgetStateFamily();
 
   /// See also [VnItemGridWidgetState].
-  VnItemGridWidgetStateProvider call(
-    String vnId,
-  ) {
-    return VnItemGridWidgetStateProvider(
-      vnId,
-    );
+  VnItemGridWidgetStateProvider call(String vnId) {
+    return VnItemGridWidgetStateProvider(vnId);
   }
 
   @override
   VnItemGridWidgetStateProvider getProviderOverride(
     covariant VnItemGridWidgetStateProvider provider,
   ) {
-    return call(
-      provider.vnId,
-    );
+    return call(provider.vnId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -374,21 +340,20 @@ class VnItemGridWidgetStateFamily extends Family<bool> {
 class VnItemGridWidgetStateProvider
     extends NotifierProviderImpl<VnItemGridWidgetState, bool> {
   /// See also [VnItemGridWidgetState].
-  VnItemGridWidgetStateProvider(
-    String vnId,
-  ) : this._internal(
-          () => VnItemGridWidgetState()..vnId = vnId,
-          from: vnItemGridWidgetStateProvider,
-          name: r'vnItemGridWidgetStateProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$vnItemGridWidgetStateHash,
-          dependencies: VnItemGridWidgetStateFamily._dependencies,
-          allTransitiveDependencies:
-              VnItemGridWidgetStateFamily._allTransitiveDependencies,
-          vnId: vnId,
-        );
+  VnItemGridWidgetStateProvider(String vnId)
+    : this._internal(
+        () => VnItemGridWidgetState()..vnId = vnId,
+        from: vnItemGridWidgetStateProvider,
+        name: r'vnItemGridWidgetStateProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$vnItemGridWidgetStateHash,
+        dependencies: VnItemGridWidgetStateFamily._dependencies,
+        allTransitiveDependencies:
+            VnItemGridWidgetStateFamily._allTransitiveDependencies,
+        vnId: vnId,
+      );
 
   VnItemGridWidgetStateProvider._internal(
     super._createNotifier, {
@@ -403,12 +368,8 @@ class VnItemGridWidgetStateProvider
   final String vnId;
 
   @override
-  bool runNotifierBuild(
-    covariant VnItemGridWidgetState notifier,
-  ) {
-    return notifier.build(
-      vnId,
-    );
+  bool runNotifierBuild(covariant VnItemGridWidgetState notifier) {
+    return notifier.build(vnId);
   }
 
   @override
@@ -468,12 +429,15 @@ String _$vnItemGridAlmostLongPressedStateHash() =>
 /// See also [VnItemGridAlmostLongPressedState].
 @ProviderFor(VnItemGridAlmostLongPressedState)
 final vnItemGridAlmostLongPressedStateProvider = AutoDisposeNotifierProvider<
-    VnItemGridAlmostLongPressedState, String>.internal(
+  VnItemGridAlmostLongPressedState,
+  String
+>.internal(
   VnItemGridAlmostLongPressedState.new,
   name: r'vnItemGridAlmostLongPressedStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$vnItemGridAlmostLongPressedStateHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$vnItemGridAlmostLongPressedStateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

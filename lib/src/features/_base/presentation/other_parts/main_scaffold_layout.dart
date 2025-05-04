@@ -6,7 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/double_back_to_close.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/fab/multi_select_fab.dart';
@@ -14,11 +14,10 @@ import 'package:vndb_lite/src/features/collection_selection/presentation/multise
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/util/balanced_safearea.dart';
 
+import '../../../../util/context_shortcut.dart';
+
 class MainScaffoldBody extends ConsumerStatefulWidget {
-  const MainScaffoldBody({
-    super.key,
-    required this.navigationShell,
-  });
+  const MainScaffoldBody({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
@@ -55,23 +54,16 @@ class _MainScaffoldBodyState extends ConsumerState<MainScaffoldBody> {
     GenericSnackBar(
       duration: const Duration(milliseconds: 2500),
       content: [
-        Icon(
-          Icons.refresh,
-          color: App.themeColor.tertiary,
-          size: responsiveUI.snackbarIcon,
-        ),
+        Icon(Icons.refresh, color: kColor(context).tertiary, size: responsiveUI.snackbarIcon),
         SizedBox(width: responsiveUI.own(0.015)),
-        ShadowText(
-          'Refreshing...',
-          fontSize: responsiveUI.snackbarTxt,
-        ),
+        ShadowText('Refreshing...', fontSize: responsiveUI.snackbarTxt),
       ],
     ).show();
   }
 
   @override
   Widget build(BuildContext context) {
-    final scrollBarColor = App.themeColor.secondary.withOpacity(0.9);
+    final scrollBarColor = kColor(context).secondary.withOpacity(0.9);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -87,17 +79,15 @@ class _MainScaffoldBodyState extends ConsumerState<MainScaffoldBody> {
             thumbColor: (_showScrollbar) ? scrollBarColor : Colors.transparent,
             child: SmartRefresher(
               controller: _refreshController,
-              physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics(),
-              ),
+              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
               header: CupertinoSliverRefreshControl(
                 refreshIndicatorExtent: responsiveUI.own(0.2),
                 refreshTriggerPullDistance: responsiveUI.own(0.22),
                 builder: (_, __, ___, ____, refreshIndicatorExtent) {
                   return LinearProgressIndicator(
                     minHeight: responsiveUI.own(0.012),
-                    color: App.themeColor.primary,
-                    backgroundColor: App.themeColor.secondary,
+                    color: kColor(context).primary,
+                    backgroundColor: kColor(context).secondary,
                   );
                 },
                 onRefresh: () async {
@@ -106,9 +96,7 @@ class _MainScaffoldBodyState extends ConsumerState<MainScaffoldBody> {
                 },
               ),
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  bottom: responsiveUI.own(0.2),
-                ),
+                padding: EdgeInsets.only(bottom: responsiveUI.own(0.2)),
                 // The real content
                 child: widget.navigationShell,
                 //

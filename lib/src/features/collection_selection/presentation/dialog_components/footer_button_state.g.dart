@@ -12,12 +12,15 @@ String _$vnConfirmButtonStateHash() =>
 /// See also [VnConfirmButtonState].
 @ProviderFor(VnConfirmButtonState)
 final vnConfirmButtonStateProvider = AutoDisposeNotifierProvider<
-    VnConfirmButtonState, ConfirmButtonState>.internal(
+  VnConfirmButtonState,
+  ConfirmButtonState
+>.internal(
   VnConfirmButtonState.new,
   name: r'vnConfirmButtonStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$vnConfirmButtonStateHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$vnConfirmButtonStateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

@@ -1,14 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/app.dart';
+
+import '../util/context_shortcut.dart';
 
 class CustomDialog extends ConsumerWidget {
-  const CustomDialog({
-    super.key,
-    required this.content,
-    required this.useContentPadding,
-  });
+  const CustomDialog({super.key, required this.content, required this.useContentPadding});
 
   final Widget content;
   final bool useContentPadding;
@@ -21,17 +18,14 @@ class CustomDialog extends ConsumerWidget {
       elevation: 8,
       scrollable: true,
       clipBehavior: Clip.hardEdge,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-      ),
-      // Inner layer constraints
-      contentPadding: (useContentPadding) ? EdgeInsets.all(responsiveUI.own(0.045)) : EdgeInsets.zero,
-      backgroundColor: App.themeColor.primary.withOpacity(0.8),
-      // Outer layer constraints
-      content: Container(
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.sizeOf(context).height * .8,
-        ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(borderRadius))),
+      // * Inner layer constraints
+      contentPadding:
+          (useContentPadding) ? EdgeInsets.all(responsiveUI.own(0.045)) : EdgeInsets.zero,
+      backgroundColor: kColor(context).primary.withOpacity(0.8),
+      // * Outer layer constraints
+      content: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).height * .8),
         child: content,
       ),
     );

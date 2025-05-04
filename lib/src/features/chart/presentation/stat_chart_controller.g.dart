@@ -13,14 +13,15 @@ String _$searchChartSpinControllerHash() =>
 @ProviderFor(SearchChartSpinController)
 final searchChartSpinControllerProvider =
     AutoDisposeNotifierProvider<SearchChartSpinController, double>.internal(
-  SearchChartSpinController.new,
-  name: r'searchChartSpinControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$searchChartSpinControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      SearchChartSpinController.new,
+      name: r'searchChartSpinControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$searchChartSpinControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$SearchChartSpinController = AutoDisposeNotifier<double>;
 // ignore_for_file: type=lint

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/collection_selection_controller.dart';
@@ -15,20 +15,17 @@ import 'package:vndb_lite/src/features/collection_selection/presentation/dialog_
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialog_components/status_option.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialog_components/vote_option.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VnSelection extends ConsumerWidget {
-  const VnSelection(
-    this.p1, {
-    super.key,
-    required this.isGridView,
-  });
+  const VnSelection(this.p1, {super.key, required this.isGridView});
 
   final List<VnDataPhase01> p1;
   final bool isGridView;
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -60,14 +57,11 @@ class VnSelection extends ConsumerWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Divider(
-            color: App.themeColor.tertiary,
-            height: responsiveUI.own(0.05),
-          ),
+          Divider(color: kColor(context).tertiary, height: responsiveUI.own(0.05)),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// VN Title(s)
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // VN Title(s)
           Padding(
             padding: EdgeInsets.only(top: responsiveUI.own(0.005)),
             child: ShadowText(
@@ -77,9 +71,9 @@ class VnSelection extends ConsumerWidget {
             ),
           ),
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Plus button for multi-selection
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Plus button for multi-selection
           if (App.isInCollectionScreen && !App.isInVnDetailScreen && isGridView)
             VnSelectionDialogPlusButton(data: p1),
           SizedBox(height: responsiveUI.own(0.015)),
@@ -87,9 +81,9 @@ class VnSelection extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Status name
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Status name
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
@@ -100,16 +94,16 @@ class VnSelection extends ConsumerWidget {
 
                       return ShadowText(
                         toBeginningOfSentenceCase<String>(selectionController.status),
-                        color: App.themeColor.secondary,
+                        color: kColor(context).secondary,
                         fontWeight: FontWeight.bold,
                       );
                     },
                   ),
                 ],
               ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Vote
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Vote
               SizedBox(width: responsiveUI.own(0.1)),
               Consumer(
                 builder: (context, ref, child) {
@@ -122,12 +116,12 @@ class VnSelection extends ConsumerWidget {
                     voteValue: selectionController.vote,
                   );
                 },
-              )
+              ),
             ],
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Status icons
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Status icons
           SizedBox(height: responsiveUI.own(0.01)),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -142,7 +136,9 @@ class VnSelection extends ConsumerWidget {
 
                       return RecordStatusOption(
                         onTap: () {
-                          ref.read(vnSelectionControllerProvider.notifier).copyWith(status: vnStatusCode);
+                          ref
+                              .read(vnSelectionControllerProvider.notifier)
+                              .copyWith(status: vnStatusCode);
                         },
                         statusCode: vnStatusCode,
                         selectedIcon: selectionController.status,
@@ -152,19 +148,19 @@ class VnSelection extends ConsumerWidget {
               ],
             ),
           ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          //
           SizedBox(height: responsiveUI.own(0.015)),
           const RecordDateOptions(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          //
           SizedBox(height: responsiveUI.own(0.025)),
           VnSelectionDialogFooter(data: p1),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          //
         ],
       ),
     );

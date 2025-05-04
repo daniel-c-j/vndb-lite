@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 
 class VnItemDetailTitle extends StatelessWidget {
   const VnItemDetailTitle({super.key, required this.title});
@@ -29,10 +29,7 @@ class VnItemDetailTitle extends StatelessWidget {
           softWrap: true,
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
-          style: styleText(
-            fontSize: responsiveUI.normalSize,
-            color: Colors.white,
-          ),
+          style: styleText(fontSize: responsiveUI.normalSize, color: Colors.white),
         ),
       ),
     );

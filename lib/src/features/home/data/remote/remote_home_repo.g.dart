@@ -13,13 +13,14 @@ String _$remoteHomeRepoHash() => r'1bbaadf8de43e8e88558c8287f673ed0e4ca5c06';
 final remoteHomeRepoProvider = AutoDisposeProvider<RemoteHomeRepoImpl>.internal(
   remoteHomeRepo,
   name: r'remoteHomeRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$remoteHomeRepoHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$remoteHomeRepoHash,
   dependencies: <ProviderOrFamily>[
     apiServiceProvider,
     sharedPrefProvider,
-    localVnRepoProvider
+    localVnRepoProvider,
   ],
   allTransitiveDependencies: <ProviderOrFamily>{
     apiServiceProvider,
@@ -27,7 +28,7 @@ final remoteHomeRepoProvider = AutoDisposeProvider<RemoteHomeRepoImpl>.internal(
     sharedPrefProvider,
     ...?sharedPrefProvider.allTransitiveDependencies,
     localVnRepoProvider,
-    ...?localVnRepoProvider.allTransitiveDependencies
+    ...?localVnRepoProvider.allTransitiveDependencies,
   },
 );
 
@@ -71,24 +72,18 @@ class FetchPreviewFamily extends Family<AsyncValue<Response>> {
     HomePreviewSection sectionData, {
     CancelToken? cancelToken,
   }) {
-    return FetchPreviewProvider(
-      sectionData,
-      cancelToken: cancelToken,
-    );
+    return FetchPreviewProvider(sectionData, cancelToken: cancelToken);
   }
 
   @override
   FetchPreviewProvider getProviderOverride(
     covariant FetchPreviewProvider provider,
   ) {
-    return call(
-      provider.sectionData,
-      cancelToken: provider.cancelToken,
-    );
+    return call(provider.sectionData, cancelToken: provider.cancelToken);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteHomeRepoProvider
+    remoteHomeRepoProvider,
   ];
 
   @override
@@ -96,9 +91,9 @@ class FetchPreviewFamily extends Family<AsyncValue<Response>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    remoteHomeRepoProvider,
-    ...?remoteHomeRepoProvider.allTransitiveDependencies
-  };
+        remoteHomeRepoProvider,
+        ...?remoteHomeRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -115,23 +110,23 @@ class FetchPreviewProvider extends AutoDisposeFutureProvider<Response> {
     HomePreviewSection sectionData, {
     CancelToken? cancelToken,
   }) : this._internal(
-          (ref) => fetchPreview(
-            ref as FetchPreviewRef,
-            sectionData,
-            cancelToken: cancelToken,
-          ),
-          from: fetchPreviewProvider,
-          name: r'fetchPreviewProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$fetchPreviewHash,
-          dependencies: FetchPreviewFamily._dependencies,
-          allTransitiveDependencies:
-              FetchPreviewFamily._allTransitiveDependencies,
-          sectionData: sectionData,
-          cancelToken: cancelToken,
-        );
+         (ref) => fetchPreview(
+           ref as FetchPreviewRef,
+           sectionData,
+           cancelToken: cancelToken,
+         ),
+         from: fetchPreviewProvider,
+         name: r'fetchPreviewProvider',
+         debugGetCreateSourceHash:
+             const bool.fromEnvironment('dart.vm.product')
+                 ? null
+                 : _$fetchPreviewHash,
+         dependencies: FetchPreviewFamily._dependencies,
+         allTransitiveDependencies:
+             FetchPreviewFamily._allTransitiveDependencies,
+         sectionData: sectionData,
+         cancelToken: cancelToken,
+       );
 
   FetchPreviewProvider._internal(
     super._createNotifier, {
@@ -199,7 +194,8 @@ mixin FetchPreviewRef on AutoDisposeFutureProviderRef<Response> {
 }
 
 class _FetchPreviewProviderElement
-    extends AutoDisposeFutureProviderElement<Response> with FetchPreviewRef {
+    extends AutoDisposeFutureProviderElement<Response>
+    with FetchPreviewRef {
   _FetchPreviewProviderElement(super.provider);
 
   @override
@@ -225,24 +221,18 @@ class CachePreviewFamily extends Family<AsyncValue<void>> {
     List<VnDataPhase01> vnData, {
     required String cacheKey,
   }) {
-    return CachePreviewProvider(
-      vnData,
-      cacheKey: cacheKey,
-    );
+    return CachePreviewProvider(vnData, cacheKey: cacheKey);
   }
 
   @override
   CachePreviewProvider getProviderOverride(
     covariant CachePreviewProvider provider,
   ) {
-    return call(
-      provider.vnData,
-      cacheKey: provider.cacheKey,
-    );
+    return call(provider.vnData, cacheKey: provider.cacheKey);
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteHomeRepoProvider
+    remoteHomeRepoProvider,
   ];
 
   @override
@@ -250,9 +240,9 @@ class CachePreviewFamily extends Family<AsyncValue<void>> {
 
   static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
       <ProviderOrFamily>{
-    remoteHomeRepoProvider,
-    ...?remoteHomeRepoProvider.allTransitiveDependencies
-  };
+        remoteHomeRepoProvider,
+        ...?remoteHomeRepoProvider.allTransitiveDependencies,
+      };
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -265,27 +255,22 @@ class CachePreviewFamily extends Family<AsyncValue<void>> {
 /// See also [cachePreview].
 class CachePreviewProvider extends AutoDisposeFutureProvider<void> {
   /// See also [cachePreview].
-  CachePreviewProvider(
-    List<VnDataPhase01> vnData, {
-    required String cacheKey,
-  }) : this._internal(
-          (ref) => cachePreview(
-            ref as CachePreviewRef,
-            vnData,
-            cacheKey: cacheKey,
-          ),
-          from: cachePreviewProvider,
-          name: r'cachePreviewProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$cachePreviewHash,
-          dependencies: CachePreviewFamily._dependencies,
-          allTransitiveDependencies:
-              CachePreviewFamily._allTransitiveDependencies,
-          vnData: vnData,
-          cacheKey: cacheKey,
-        );
+  CachePreviewProvider(List<VnDataPhase01> vnData, {required String cacheKey})
+    : this._internal(
+        (ref) =>
+            cachePreview(ref as CachePreviewRef, vnData, cacheKey: cacheKey),
+        from: cachePreviewProvider,
+        name: r'cachePreviewProvider',
+        debugGetCreateSourceHash:
+            const bool.fromEnvironment('dart.vm.product')
+                ? null
+                : _$cachePreviewHash,
+        dependencies: CachePreviewFamily._dependencies,
+        allTransitiveDependencies:
+            CachePreviewFamily._allTransitiveDependencies,
+        vnData: vnData,
+        cacheKey: cacheKey,
+      );
 
   CachePreviewProvider._internal(
     super._createNotifier, {
@@ -353,7 +338,8 @@ mixin CachePreviewRef on AutoDisposeFutureProviderRef<void> {
 }
 
 class _CachePreviewProviderElement
-    extends AutoDisposeFutureProviderElement<void> with CachePreviewRef {
+    extends AutoDisposeFutureProviderElement<void>
+    with CachePreviewRef {
   _CachePreviewProviderElement(super.provider);
 
   @override
@@ -361,5 +347,6 @@ class _CachePreviewProviderElement
   @override
   String get cacheKey => (origin as CachePreviewProvider).cacheKey;
 }
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

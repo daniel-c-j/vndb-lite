@@ -2,7 +2,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_title.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_controller.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
@@ -11,6 +11,8 @@ import 'package:vndb_lite/src/features/collection_selection/presentation/multise
 import 'package:vndb_lite/src/features/home/presentation/home_appbar.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/multiselection_appbar.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_appbar.dart';
+
+import '../../../../util/context_shortcut.dart';
 
 class TabAppBar extends ConsumerStatefulWidget {
   const TabAppBar({super.key});
@@ -53,16 +55,12 @@ class _TabAppBarState extends ConsumerState<TabAppBar> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              App.themeColor.primary.withAlpha(250),
-              App.themeColor.primary.withAlpha(150),
+              kColor(context).primary.withAlpha(250),
+              kColor(context).primary.withAlpha(150),
             ],
           ),
           boxShadow: const [
-            BoxShadow(
-              color: Color.fromARGB(160, 0, 0, 0),
-              spreadRadius: 2,
-              blurRadius: 6,
-            ),
+            BoxShadow(color: Color.fromARGB(160, 0, 0, 0), spreadRadius: 2, blurRadius: 6),
           ],
         ),
       ),
@@ -71,29 +69,29 @@ class _TabAppBarState extends ConsumerState<TabAppBar> {
       pinned: (App.isInCollectionScreen) ? true : false,
       title: (_showTitle) ? AppbarTitle() : null,
       actions: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         if (App.isInHomeScreen) const HomeBarActions(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         if (App.isInSearchScreen) const SearchBarActions(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         if (!isInMultiselection && App.isInCollectionScreen) const CollectionBarActions(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         if (isInMultiselection && App.isInCollectionScreen) const MultiSelectionBarActions(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ],
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Collection tab bar
+      //
+      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      // Collection tab bar
       bottom: (App.isInCollectionScreen) ? const CollectionAppbarTabs() : null,
     );
   }

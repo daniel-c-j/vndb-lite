@@ -3,36 +3,31 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 
+import '../core/_core.dart';
+import '../util/context_shortcut.dart';
+
 class StatusLabel extends ConsumerWidget {
-  const StatusLabel({
-    super.key,
-    required this.labelCode,
-    this.labelText,
-  });
+  const StatusLabel({super.key, required this.labelCode, this.labelText});
 
   final String labelCode;
   final String? labelText;
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _wrapWithPadding(Widget child) {
-    return Padding(
-      padding: EdgeInsets.only(right: responsiveUI.own(0.01)),
-      child: child,
-    );
+    return Padding(padding: EdgeInsets.only(right: responsiveUI.own(0.01)), child: child);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _shadowyImage(String imgPath) {
     return Stack(
@@ -58,13 +53,14 @@ class StatusLabel extends ConsumerWidget {
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget get _statusIcons {
     final labelCode_ = labelCode.toLowerCase();
-    final validCode = labelCode_ != SortableCode.title.name && COLLECTION_STATUS_DATA[labelCode_] != null;
+    final validCode =
+        labelCode_ != SortableCode.title.name && COLLECTION_STATUS_DATA[labelCode_] != null;
 
     if (labelCode_.isEmpty) return const SizedBox.shrink();
 
@@ -72,7 +68,7 @@ class StatusLabel extends ConsumerWidget {
       return Icon(
         LOCAL_SORTABLE_DATA[labelCode_]!.icon,
         size: responsiveUI.own(0.04),
-        color: App.themeColor.secondary,
+        color: kColor(NavigationService.currentContext).secondary,
       );
     }
 
@@ -83,9 +79,9 @@ class StatusLabel extends ConsumerWidget {
     return const SizedBox.shrink();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -107,22 +103,15 @@ class StatusLabel extends ConsumerWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            App.themeColor.primary.withAlpha(220),
-            App.themeColor.primary.withAlpha(160),
-          ],
+          colors: [kColor(context).primary.withAlpha(220), kColor(context).primary.withAlpha(160)],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromARGB(120, 0, 0, 0),
-            spreadRadius: 4,
-            blurRadius: 6,
-          )
+        boxShadow: const [
+          BoxShadow(color: Color.fromARGB(120, 0, 0, 0), spreadRadius: 4, blurRadius: 6),
         ],
       ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Icon and status label
+      //
+      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      // Icon and status label
       child: Wrap(
         alignment: WrapAlignment.start,
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -130,13 +119,13 @@ class StatusLabel extends ConsumerWidget {
           _wrapWithPadding(_statusIcons),
           ShadowText(
             toBeginningOfSentenceCase<String>(labelText ?? labelCode),
-            color: App.themeColor.secondary,
+            color: kColor(context).secondary,
           ),
         ],
       ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+      //
+      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      //
     );
   }
 }

@@ -6,13 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
 import 'package:vndb_lite/src/common_widgets/status_label.dart';
-import 'package:vndb_lite/src/core/app/responsive.dart';
+import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
 import 'package:vndb_lite/src/util/check_media_cache.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/widget_zoom/widget_zoom.dart';
 
 class VnDetailTopHeaderCover extends ConsumerStatefulWidget {
@@ -46,9 +47,9 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
     });
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool get _vnHasCover {
     return widget.p1.image != null && widget.p1.image!.url != null;
@@ -68,9 +69,9 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
     return (widget.p1.image!.sexual ?? 0) >= 1 || (widget.p1.image!.violence ?? 0) >= 1;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Widget _imgCover({required bool isCensor}) {
     return CachedNetworkImage(
@@ -78,7 +79,8 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
       fit: BoxFit.cover,
       height: responsiveUI.own(0.6),
       filterQuality: FilterQuality.high,
-      placeholder: (context, str) => SizedBox(width: responsiveUI.own(0.4), height: responsiveUI.own(0.45)),
+      placeholder:
+          (context, str) => SizedBox(width: responsiveUI.own(0.4), height: responsiveUI.own(0.45)),
       errorWidget: (context, url, error) => const GenericErrorImage(),
       cacheKey: widget.p1.id,
       cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
@@ -87,9 +89,9 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +106,9 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
             opacity: widget.animationController.drive(CurveTween(curve: Curves.linear)),
             child: Stack(
               children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Cover
+                //
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                // Cover
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Card(
@@ -114,7 +116,7 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
                     margin: EdgeInsets.zero,
                     clipBehavior: Clip.hardEdge,
                     color: const Color.fromARGB(120, 0, 0, 0),
-                    shadowColor: App.themeColor.primary.withOpacity(0.8),
+                    shadowColor: kColor(context).primary.withOpacity(0.8),
                     child: Consumer(
                       builder: (context, ref, child) {
                         return GestureDetector(
@@ -125,18 +127,16 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
                           },
                           child: WidgetZoom(
                             heroAnimationTag: widget.p1.id,
-                            zoomWidget: Center(
-                              child: _imgCover(isCensor: _censorCover),
-                            ),
+                            zoomWidget: Center(child: _imgCover(isCensor: _censorCover)),
                           ),
                         );
                       },
                     ),
                   ),
                 ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Status label
+                //
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                // Status label
                 Consumer(
                   builder: (context, ref, child) {
                     final record = ref.watch(vnRecordControllerProvider(widget.p1.id));
@@ -147,9 +147,9 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
                     return StatusLabel(labelCode: status);
                   },
                 ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+                //
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                //
               ],
             ),
           ),
