@@ -20,7 +20,7 @@ class CollectionSortFilterService {
 
   /// This method sorts all of the adapted vn data based on the given sort configuration.
   Future<void> sortData(SortData conf) async {
-    final String sortBy = conf.sort;
+    final sortBy = conf.sort;
 
     if (conf.reverse!) {
       for (String statusName in COLLECTION_STATUS_DATA.keys) {

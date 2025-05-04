@@ -1,9 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/features/home/domain/home_sections_model.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 
 class RemoteHomeRepo {
-  Future fetchPreview(HomePreviewSection sectionData, {CancelToken? cancelToken}) async {}
+  Future fetchPreview(
+    HomeSectionsCode sectionData,
+    int maxItem, {
+    CancelToken? cancelToken,
+  }) async {}
 
   Future cachePreview(List<VnDataPhase01> vnData, {required String cacheKey}) async {}
 }

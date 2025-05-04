@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
+import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
-import 'package:vndb_lite/src/features/home/domain/home_sections_model.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
@@ -18,11 +17,9 @@ import 'package:vndb_lite/src/routing/app_router.dart';
 class HomeSectionHeader extends ConsumerWidget {
   const HomeSectionHeader({super.key, required this.sectionData});
 
-  final HomePreviewSection sectionData;
+  final HomeSectionsCode sectionData;
 
-  bool get _titleIsCollection {
-    return sectionData.title.toLowerCase().contains('collection');
-  }
+  bool get _isCollection => sectionData == HomeSectionsCode.collection;
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,13 +101,13 @@ class HomeSectionHeader extends ConsumerWidget {
 
     return Padding(
       padding:
-          (userDidAuth && _titleIsCollection)
+          (userDidAuth && _isCollection)
               ? EdgeInsets.only(bottom: responsiveUI.own(0.025), top: responsiveUI.own(0.025))
               : EdgeInsets.zero,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          (userDidAuth && _titleIsCollection)
+          (userDidAuth && _isCollection)
               ? _authedCollectionTitleOf(uId.username)
               : ShadowText(
                 sectionData.title,
@@ -123,8 +120,8 @@ class HomeSectionHeader extends ConsumerWidget {
               seeMore(
                 ref,
                 filter: sectionData.filter,
-                sortBy: sectionData.labelCode,
-                isCollection: sectionData.labelCode == SortableCode.collection.name,
+                sortBy: sectionData.labelCode?.name,
+                isCollection: sectionData.labelCode == SortableCode.collection,
               );
             },
             child: Text(

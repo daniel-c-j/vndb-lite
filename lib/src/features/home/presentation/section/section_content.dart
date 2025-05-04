@@ -4,18 +4,19 @@ import 'package:vndb_lite/src/common_widgets/generic_failure_connection.dart';
 import 'package:vndb_lite/src/common_widgets/generic_local_empty_content.dart';
 import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
+import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/home/application/home_preview_service.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
-import 'package:vndb_lite/src/features/home/domain/home_sections_model.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
 
 /// A simple horizontal-slide widget consisting a list of vn items.
 class HomeSectionContent extends ConsumerWidget {
-  const HomeSectionContent({super.key, required this.sectionData});
+  const HomeSectionContent({super.key, required this.sectionData, required this.maxItem});
 
-  final HomePreviewSection sectionData;
+  final HomeSectionsCode sectionData;
+  final int maxItem;
 
   // Height will be smaller when landscape.
   double get _sectionContentHeight {
@@ -26,9 +27,7 @@ class HomeSectionContent extends ConsumerWidget {
         : responsiveUI.own(0.45);
   }
 
-  bool get _isCollection {
-    return sectionData.labelCode == SortableCode.collection.name;
-  }
+  bool get _isCollection => sectionData.labelCode == SortableCode.collection;
 
   String get _previewCacheKey {
     // TODO watchout with this key, if in the future, there will be another
@@ -56,7 +55,11 @@ class HomeSectionContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final previewData = ref.watch(
-      getPreviewDataProvider(cacheKey: _previewCacheKey, sectionData: sectionData),
+      getPreviewDataProvider(
+        cacheKey: _previewCacheKey,
+        sectionData: sectionData,
+        maxItem: maxItem,
+      ),
     );
 
     return previewData.when(
@@ -83,7 +86,7 @@ class HomeSectionContent extends ConsumerWidget {
                       key: UniqueKey(),
                       p1: formattedP1Data[idx],
                       isGridView: false,
-                      labelCode: sectionData.labelCode!,
+                      labelCode: sectionData.labelCode!.name,
                     );
                   },
                 ),

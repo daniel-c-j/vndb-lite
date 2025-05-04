@@ -17,7 +17,7 @@ class TabsSideNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final safeArea = (isSafeAreaNeccessary) ? measureSafeAreaOf(widthSideNav) : 0.0;
+    // final safeArea = (isSafeAreaNeccessary) ? measureSafeAreaOf(widthSideNav) : 0.0;
 
     // Only shows in landscape mode
     return Row(
@@ -26,8 +26,9 @@ class TabsSideNavbar extends StatelessWidget {
           // While the other safeAreaMeasured widgets need to be decreased in size when
           // there's a safeArea, this particular widget, needs to be increased instead,
           // that's why its incrementing the original size with the safeArea size.
-          width: widthSideNav + safeArea,
-          padding: EdgeInsets.only(left: safeArea),
+          width: widthSideNav,
+
+          // padding: EdgeInsets.only(left: safeArea),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,

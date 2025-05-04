@@ -6,7 +6,7 @@ import 'package:vndb_lite/src/features/sort_filter/domain/developers.dart';
 import 'package:vndb_lite/src/features/vn/domain/others.dart';
 
 class FilterData {
-  FilterData({
+  const FilterData({
     this.search = "",
     this.andOr = "and",
     this.lang = const [],
@@ -35,23 +35,23 @@ class FilterData {
       ["search", "=", search],
       //
       if (lang != null && lang.isNotEmpty) ...[
-        for (String val in lang) ["lang", "=", val]
+        for (String val in lang) ["lang", "=", val],
       ],
       //
       if (devstatus != null && devstatus.isNotEmpty) ...[
-        for (int val in devstatus) ["devstatus", "=", val]
+        for (int val in devstatus) ["devstatus", "=", val],
       ],
       //
       if (olang != null && olang.isNotEmpty) ...[
-        for (String val in olang) ["olang", "=", val]
+        for (String val in olang) ["olang", "=", val],
       ],
       //
       if (platform != null && platform.isNotEmpty) ...[
-        for (String val in platform) ["platform", "=", val]
+        for (String val in platform) ["platform", "=", val],
       ],
       //
       if (tag != null && tag.isNotEmpty) ...[
-        for (VnTag val in tag) ["tag", "=", val.id]
+        for (VnTag val in tag) ["tag", "=", val.id],
       ],
       //
       if (dev != null && dev.isNotEmpty) ...[
@@ -60,7 +60,7 @@ class FilterData {
             "developer",
             "=",
             ["id", "=", val.id],
-          ]
+          ],
       ],
       //
     ];
@@ -112,15 +112,9 @@ class FilterData {
       devstatus: (map['devstatus'] != null) ? [for (int val in map['devstatus']) val] : [],
       olang: (map['olang'] != null) ? [for (String val in map['olang']) val] : [],
       platform: (map['platform'] != null) ? [for (String val in map['platform']) val] : [],
-      tag: List<VnTag>.from(
-        map['tag'].map<VnTag>(
-          (x) => VnTag.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      tag: List<VnTag>.from(map['tag'].map<VnTag>((x) => VnTag.fromMap(x as Map<String, dynamic>))),
       dev: List<Developer>.from(
-        map['dev'].map<Developer>(
-          (x) => Developer.fromMap(x as Map<String, dynamic>),
-        ),
+        map['dev'].map<Developer>((x) => Developer.fromMap(x as Map<String, dynamic>)),
       ),
       minage: map['minage'] != null ? map['minage'] as int : null,
     );

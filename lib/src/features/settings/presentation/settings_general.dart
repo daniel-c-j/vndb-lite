@@ -94,7 +94,7 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral>
   //
 
   String _getSectionTitle(String key) {
-    return HOME_SCREEN_SECTIONS[key]!.title;
+    return HomeSectionsCode.values.byName(key).title;
   }
 
   //

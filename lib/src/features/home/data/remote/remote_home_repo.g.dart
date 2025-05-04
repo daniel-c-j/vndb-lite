@@ -35,7 +35,7 @@ final remoteHomeRepoProvider = AutoDisposeProvider<RemoteHomeRepoImpl>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef RemoteHomeRepoRef = AutoDisposeProviderRef<RemoteHomeRepoImpl>;
-String _$fetchPreviewHash() => r'20cc0b5faf42a5765753fbf6fc53f671bd7cdcd1';
+String _$fetchPreviewHash() => r'd80837b7e84f41b7c5e2b2a74a96e4ce8fa32b9e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -69,17 +69,22 @@ class FetchPreviewFamily extends Family<AsyncValue<Response>> {
 
   /// See also [fetchPreview].
   FetchPreviewProvider call(
-    HomePreviewSection sectionData, {
+    HomeSectionsCode sectionData,
+    int maxItem, {
     CancelToken? cancelToken,
   }) {
-    return FetchPreviewProvider(sectionData, cancelToken: cancelToken);
+    return FetchPreviewProvider(sectionData, maxItem, cancelToken: cancelToken);
   }
 
   @override
   FetchPreviewProvider getProviderOverride(
     covariant FetchPreviewProvider provider,
   ) {
-    return call(provider.sectionData, cancelToken: provider.cancelToken);
+    return call(
+      provider.sectionData,
+      provider.maxItem,
+      cancelToken: provider.cancelToken,
+    );
   }
 
   static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
@@ -107,12 +112,14 @@ class FetchPreviewFamily extends Family<AsyncValue<Response>> {
 class FetchPreviewProvider extends AutoDisposeFutureProvider<Response> {
   /// See also [fetchPreview].
   FetchPreviewProvider(
-    HomePreviewSection sectionData, {
+    HomeSectionsCode sectionData,
+    int maxItem, {
     CancelToken? cancelToken,
   }) : this._internal(
          (ref) => fetchPreview(
            ref as FetchPreviewRef,
            sectionData,
+           maxItem,
            cancelToken: cancelToken,
          ),
          from: fetchPreviewProvider,
@@ -125,6 +132,7 @@ class FetchPreviewProvider extends AutoDisposeFutureProvider<Response> {
          allTransitiveDependencies:
              FetchPreviewFamily._allTransitiveDependencies,
          sectionData: sectionData,
+         maxItem: maxItem,
          cancelToken: cancelToken,
        );
 
@@ -136,10 +144,12 @@ class FetchPreviewProvider extends AutoDisposeFutureProvider<Response> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.sectionData,
+    required this.maxItem,
     required this.cancelToken,
   }) : super.internal();
 
-  final HomePreviewSection sectionData;
+  final HomeSectionsCode sectionData;
+  final int maxItem;
   final CancelToken? cancelToken;
 
   @override
@@ -156,6 +166,7 @@ class FetchPreviewProvider extends AutoDisposeFutureProvider<Response> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         sectionData: sectionData,
+        maxItem: maxItem,
         cancelToken: cancelToken,
       ),
     );
@@ -170,6 +181,7 @@ class FetchPreviewProvider extends AutoDisposeFutureProvider<Response> {
   bool operator ==(Object other) {
     return other is FetchPreviewProvider &&
         other.sectionData == sectionData &&
+        other.maxItem == maxItem &&
         other.cancelToken == cancelToken;
   }
 
@@ -177,6 +189,7 @@ class FetchPreviewProvider extends AutoDisposeFutureProvider<Response> {
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, sectionData.hashCode);
+    hash = _SystemHash.combine(hash, maxItem.hashCode);
     hash = _SystemHash.combine(hash, cancelToken.hashCode);
 
     return _SystemHash.finish(hash);
@@ -187,7 +200,10 @@ class FetchPreviewProvider extends AutoDisposeFutureProvider<Response> {
 // ignore: unused_element
 mixin FetchPreviewRef on AutoDisposeFutureProviderRef<Response> {
   /// The parameter `sectionData` of this provider.
-  HomePreviewSection get sectionData;
+  HomeSectionsCode get sectionData;
+
+  /// The parameter `maxItem` of this provider.
+  int get maxItem;
 
   /// The parameter `cancelToken` of this provider.
   CancelToken? get cancelToken;
@@ -199,8 +215,10 @@ class _FetchPreviewProviderElement
   _FetchPreviewProviderElement(super.provider);
 
   @override
-  HomePreviewSection get sectionData =>
+  HomeSectionsCode get sectionData =>
       (origin as FetchPreviewProvider).sectionData;
+  @override
+  int get maxItem => (origin as FetchPreviewProvider).maxItem;
   @override
   CancelToken? get cancelToken => (origin as FetchPreviewProvider).cancelToken;
 }

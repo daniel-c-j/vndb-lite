@@ -17,7 +17,7 @@ class Default {
   static const int MAX_PREVIEW_ITEMS_CONF = 20;
   static const int MAX_ITEM_PER_ROW_PORTRAIT_CONF = 2;
   static const int MAX_ITEM_PER_ROW_LANDSCAPE_CONF = 4;
-  static final List<String> HOME_SECTION_ARRANGEMENT = HOME_SCREEN_SECTIONS.keys.toList();
+  static const List<HomeSectionsCode> HOME_SECTION_ARRANGEMENT = HomeSectionsCode.values;
   static final List<String> COLLECTION_STATUS_TAB_ARRANGEMENT =
       COLLECTION_STATUS_DATA.keys.toList();
   static const int MAX_VN_SEARCH_RESULT = 24;
@@ -30,7 +30,7 @@ class Default {
     platform: [],
   );
   static final SortData LOCAL_SORT_CONF = SortData(sort: SortableCode.title.name, reverse: false);
-  static final FilterData REMOTE_FILTER_CONF = FilterData(
+  static const FilterData REMOTE_FILTER_CONF = FilterData(
     search: "",
     andOr: "and",
     lang: [],

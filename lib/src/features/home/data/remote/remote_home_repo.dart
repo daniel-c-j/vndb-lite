@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vndb_lite/src/constants/network_constants.dart';
 import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/core/network/api_service.dart';
+import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/features/home/domain/home_sections_model.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
@@ -26,7 +27,11 @@ class RemoteHomeRepoImpl implements RemoteHomeRepo {
   /// Fetch data from VNDB api using [ApiService].
   /// Will be used in [HomeService] for the success data processed into a model.
   @override
-  Future<Response> fetchPreview(HomePreviewSection sectionData, {CancelToken? cancelToken}) async {
+  Future<Response> fetchPreview(
+    HomeSectionsCode sectionData,
+    int maxItem, {
+    CancelToken? cancelToken,
+  }) async {
     final postData = _convertSectionDataToPostData(sectionData);
 
     return await _apiService.post(
@@ -36,10 +41,10 @@ class RemoteHomeRepoImpl implements RemoteHomeRepo {
     );
   }
 
-  GenericPost _convertSectionDataToPostData(HomePreviewSection sectionData) {
+  GenericPost _convertSectionDataToPostData(HomeSectionsCode sectionData) {
     return GenericPost(
       reverse: true,
-      sort: sectionData.labelCode,
+      sort: sectionData.labelCode?.name,
       fields: NetConsts.P1_FIELDS,
       filters: sectionData.filter?.toList(),
       results: sectionData.maxPreviewItem,
@@ -72,11 +77,12 @@ RemoteHomeRepoImpl remoteHomeRepo(Ref ref) {
 @Riverpod(dependencies: [remoteHomeRepo])
 Future<Response> fetchPreview(
   Ref ref,
-  HomePreviewSection sectionData, {
+  HomeSectionsCode sectionData,
+  int maxItem, {
   CancelToken? cancelToken,
 }) async {
   final remoteHomeRepo = ref.watch(remoteHomeRepoProvider);
-  return await remoteHomeRepo.fetchPreview(sectionData, cancelToken: cancelToken);
+  return await remoteHomeRepo.fetchPreview(sectionData, maxItem, cancelToken: cancelToken);
 }
 
 @Riverpod(dependencies: [remoteHomeRepo])

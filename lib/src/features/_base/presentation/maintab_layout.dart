@@ -132,29 +132,31 @@ class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProvid
           extendBody: true,
           extendBodyBehindAppBar: (App.isInCollectionScreen) ? false : true,
           backgroundColor: theme.primary.withOpacity(0.3),
-          body: Row(
-            children: [
-              // Exclusive landscape mode only
-              if (isLandscape)
-                TabsSideNavbar(
-                  selectedIndex: widget.navigationShell.currentIndex,
-                  onTap: _goToBranch,
-                ),
-              Expanded(
-                child: NotificationListener(
-                  onNotification: _handleScrollNotification,
-                  child: NestedScrollView(
-                    floatHeaderSlivers: true,
-                    controller: _scrollController,
-                    headerSliverBuilder: (context, innerBoxIsScrolled) {
-                      // Do not set to constant.
-                      return <Widget>[TabAppBar()];
-                    },
-                    body: MainScaffoldBody(navigationShell: widget.navigationShell),
+          body: SafeArea(
+            child: Row(
+              children: [
+                // Exclusive landscape mode only
+                if (isLandscape)
+                  TabsSideNavbar(
+                    selectedIndex: widget.navigationShell.currentIndex,
+                    onTap: _goToBranch,
+                  ),
+                Expanded(
+                  child: NotificationListener(
+                    onNotification: _handleScrollNotification,
+                    child: NestedScrollView(
+                      floatHeaderSlivers: true,
+                      controller: _scrollController,
+                      headerSliverBuilder: (context, innerBoxIsScrolled) {
+                        // Do not set to constant.
+                        return <Widget>[TabAppBar()];
+                      },
+                      body: MainScaffoldBody(navigationShell: widget.navigationShell),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           //
           // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

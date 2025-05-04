@@ -26,7 +26,7 @@ final homePreviewServiceProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef HomePreviewServiceRef = AutoDisposeProviderRef<HomePreviewService>;
-String _$getPreviewDataHash() => r'e70dc04a591440fcc185d2733ac861fc7f96cd76';
+String _$getPreviewDataHash() => r'3c4a4f5ce7900b58e8f67fd4218c9226dc399f88';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -60,13 +60,15 @@ class GetPreviewDataFamily extends Family<AsyncValue<dynamic>> {
 
   /// See also [getPreviewData].
   GetPreviewDataProvider call({
-    required HomePreviewSection sectionData,
+    required HomeSectionsCode sectionData,
     required String cacheKey,
+    required int maxItem,
     CancelToken? cancelToken,
   }) {
     return GetPreviewDataProvider(
       sectionData: sectionData,
       cacheKey: cacheKey,
+      maxItem: maxItem,
       cancelToken: cancelToken,
     );
   }
@@ -78,22 +80,17 @@ class GetPreviewDataFamily extends Family<AsyncValue<dynamic>> {
     return call(
       sectionData: provider.sectionData,
       cacheKey: provider.cacheKey,
+      maxItem: provider.maxItem,
       cancelToken: provider.cancelToken,
     );
   }
 
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    homePreviewServiceProvider,
-  ];
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
   Iterable<ProviderOrFamily>? get dependencies => _dependencies;
 
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        homePreviewServiceProvider,
-        ...?homePreviewServiceProvider.allTransitiveDependencies,
-      };
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
@@ -107,14 +104,16 @@ class GetPreviewDataFamily extends Family<AsyncValue<dynamic>> {
 class GetPreviewDataProvider extends AutoDisposeFutureProvider<dynamic> {
   /// See also [getPreviewData].
   GetPreviewDataProvider({
-    required HomePreviewSection sectionData,
+    required HomeSectionsCode sectionData,
     required String cacheKey,
+    required int maxItem,
     CancelToken? cancelToken,
   }) : this._internal(
          (ref) => getPreviewData(
            ref as GetPreviewDataRef,
            sectionData: sectionData,
            cacheKey: cacheKey,
+           maxItem: maxItem,
            cancelToken: cancelToken,
          ),
          from: getPreviewDataProvider,
@@ -128,6 +127,7 @@ class GetPreviewDataProvider extends AutoDisposeFutureProvider<dynamic> {
              GetPreviewDataFamily._allTransitiveDependencies,
          sectionData: sectionData,
          cacheKey: cacheKey,
+         maxItem: maxItem,
          cancelToken: cancelToken,
        );
 
@@ -140,11 +140,13 @@ class GetPreviewDataProvider extends AutoDisposeFutureProvider<dynamic> {
     required super.from,
     required this.sectionData,
     required this.cacheKey,
+    required this.maxItem,
     required this.cancelToken,
   }) : super.internal();
 
-  final HomePreviewSection sectionData;
+  final HomeSectionsCode sectionData;
   final String cacheKey;
+  final int maxItem;
   final CancelToken? cancelToken;
 
   @override
@@ -162,6 +164,7 @@ class GetPreviewDataProvider extends AutoDisposeFutureProvider<dynamic> {
         debugGetCreateSourceHash: null,
         sectionData: sectionData,
         cacheKey: cacheKey,
+        maxItem: maxItem,
         cancelToken: cancelToken,
       ),
     );
@@ -177,6 +180,7 @@ class GetPreviewDataProvider extends AutoDisposeFutureProvider<dynamic> {
     return other is GetPreviewDataProvider &&
         other.sectionData == sectionData &&
         other.cacheKey == cacheKey &&
+        other.maxItem == maxItem &&
         other.cancelToken == cancelToken;
   }
 
@@ -185,6 +189,7 @@ class GetPreviewDataProvider extends AutoDisposeFutureProvider<dynamic> {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, sectionData.hashCode);
     hash = _SystemHash.combine(hash, cacheKey.hashCode);
+    hash = _SystemHash.combine(hash, maxItem.hashCode);
     hash = _SystemHash.combine(hash, cancelToken.hashCode);
 
     return _SystemHash.finish(hash);
@@ -195,10 +200,13 @@ class GetPreviewDataProvider extends AutoDisposeFutureProvider<dynamic> {
 // ignore: unused_element
 mixin GetPreviewDataRef on AutoDisposeFutureProviderRef<dynamic> {
   /// The parameter `sectionData` of this provider.
-  HomePreviewSection get sectionData;
+  HomeSectionsCode get sectionData;
 
   /// The parameter `cacheKey` of this provider.
   String get cacheKey;
+
+  /// The parameter `maxItem` of this provider.
+  int get maxItem;
 
   /// The parameter `cancelToken` of this provider.
   CancelToken? get cancelToken;
@@ -210,16 +218,18 @@ class _GetPreviewDataProviderElement
   _GetPreviewDataProviderElement(super.provider);
 
   @override
-  HomePreviewSection get sectionData =>
+  HomeSectionsCode get sectionData =>
       (origin as GetPreviewDataProvider).sectionData;
   @override
   String get cacheKey => (origin as GetPreviewDataProvider).cacheKey;
+  @override
+  int get maxItem => (origin as GetPreviewDataProvider).maxItem;
   @override
   CancelToken? get cancelToken =>
       (origin as GetPreviewDataProvider).cancelToken;
 }
 
-String _$formatPreviewDataHash() => r'5c2e6f6c1161cf6b12ca087d457ca0154f0f7867';
+String _$formatPreviewDataHash() => r'c4626ace9c8d16cf853ffbfe1a6e32bc8b88234e';
 
 /// See also [formatPreviewData].
 @ProviderFor(formatPreviewData)
@@ -242,18 +252,12 @@ class FormatPreviewDataFamily extends Family<AsyncValue<List<VnDataPhase01>>> {
     return call(provider.rawData, cacheKey: provider.cacheKey);
   }
 
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    homePreviewServiceProvider,
-  ];
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
 
   @override
   Iterable<ProviderOrFamily>? get dependencies => _dependencies;
 
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        homePreviewServiceProvider,
-        ...?homePreviewServiceProvider.allTransitiveDependencies,
-      };
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
   Iterable<ProviderOrFamily>? get allTransitiveDependencies =>

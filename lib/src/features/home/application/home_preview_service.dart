@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/features/home/domain/home_sections_model.dart';
+import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
@@ -17,32 +17,31 @@ class HomePreviewService {
 
   final Ref ref;
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   /// Fetch both remote raw json data and local string ids preview data.
   /// Returning either stream of strings or a response.
   FutureOr<dynamic> getPreviewData({
-    required HomePreviewSection sectionData,
+    required HomeSectionsCode sectionData,
+    required int maxItem,
     required String cacheKey,
     CancelToken? cancelToken,
   }) async {
     final localRepo = ref.read(localHomeRepoProvider);
     final remoteRepo = ref.read(remoteHomeRepoProvider);
 
-    if (localRepo.doesCacheExist(cacheKey) || sectionData.labelCode == SortableCode.collection.name) {
-      return await localRepo.fetchCachedPreview(sectionData.maxPreviewItem, cacheKey: cacheKey);
-      //
-    } else {
-      //
-      return await remoteRepo.fetchPreview(sectionData);
+    if (localRepo.doesCacheExist(cacheKey) || sectionData.labelCode == SortableCode.collection) {
+      return await localRepo.fetchCachedPreview(maxItem, cacheKey: cacheKey);
     }
+
+    return await remoteRepo.fetchPreview(sectionData, maxItem);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   /// Format both remote raw json data and local string ids preview data.
   Future<List<VnDataPhase01>> formatPreviewData(dynamic data, {required String cacheKey}) async {
@@ -80,9 +79,9 @@ class HomePreviewService {
     return p1;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   /// Should only cache preview data from remote datasource, do not cache from local
   /// since it will override the exisiting value, especially the data phases, which is
@@ -92,19 +91,18 @@ class HomePreviewService {
     await remoteHomeRepo.cachePreview(vnData, cacheKey: cacheKey);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void refreshRemotePreviews() {
     final localHomeRepo = ref.read(localHomeRepoProvider);
     localHomeRepo.clearAllCachedPreviews();
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 }
 
 @riverpod
@@ -112,11 +110,12 @@ HomePreviewService homePreviewService(Ref ref) {
   return HomePreviewService(ref);
 }
 
-@Riverpod(dependencies: [homePreviewService])
+@riverpod
 FutureOr<dynamic> getPreviewData(
   Ref ref, {
-  required HomePreviewSection sectionData,
+  required HomeSectionsCode sectionData,
   required String cacheKey,
+  required int maxItem,
   CancelToken? cancelToken,
 }) async {
   final homePreviewService = ref.watch(homePreviewServiceProvider);
@@ -124,12 +123,17 @@ FutureOr<dynamic> getPreviewData(
   return await homePreviewService.getPreviewData(
     cacheKey: cacheKey,
     sectionData: sectionData,
+    maxItem: maxItem,
     cancelToken: cancelToken,
   );
 }
 
-@Riverpod(dependencies: [homePreviewService])
-Future<List<VnDataPhase01>> formatPreviewData(Ref ref, dynamic rawData, {required String cacheKey}) async {
+@riverpod
+Future<List<VnDataPhase01>> formatPreviewData(
+  Ref ref,
+  dynamic rawData, {
+  required String cacheKey,
+}) async {
   final homePreviewService = ref.watch(homePreviewServiceProvider);
   return homePreviewService.formatPreviewData(rawData, cacheKey: cacheKey);
 }
