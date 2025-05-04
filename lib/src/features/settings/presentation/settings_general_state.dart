@@ -83,7 +83,7 @@ class SettingsGeneralState extends _$SettingsGeneralState {
     return Default.MAX_ITEM_PER_ROW_LANDSCAPE_CONF;
   }
 
-  List<String> get _homeSectionsArrangement {
+  List<HomeSectionsCode> get _homeSectionsArrangement {
     final sharedPref = ref.read(sharedPrefProvider);
     final List<String>? arrangement = sharedPref.getStringList(DBKeys.HOME_ARRANGEMENT);
 
@@ -91,7 +91,7 @@ class SettingsGeneralState extends _$SettingsGeneralState {
     if (arrangement != null &&
         arrangement.isNotEmpty &&
         arrangement.length >= HomeSectionsCode.values.length) {
-      return arrangement;
+      return arrangement.map((code) => HomeSectionsCode.values.byName(code)).toList();
     }
 
     return Default.HOME_SECTION_ARRANGEMENT;
@@ -151,9 +151,12 @@ class SettingsGeneralState extends _$SettingsGeneralState {
     state = state.copyWith(maxItemPerRowLandscape: value);
   }
 
-  set homeSectionsArrangement(List<String> value) {
+  set homeSectionsArrangement(List<HomeSectionsCode> value) {
     final sharedPref = ref.read(sharedPrefProvider);
-    sharedPref.setStringList(DBKeys.HOME_ARRANGEMENT, value);
+    sharedPref.setStringList(
+      DBKeys.HOME_ARRANGEMENT,
+      HomeSectionsCode.values.map((e) => e.name).toList(),
+    );
     sharedPref.reload();
 
     state = state.copyWith(homeSectionsArrangement: value);

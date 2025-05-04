@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
+import 'package:flutter/foundation.dart';
 
-import 'package:collection/collection.dart';
+import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 
 class SettingsGeneralConf {
   const SettingsGeneralConf({
@@ -19,7 +19,7 @@ class SettingsGeneralConf {
   final int maxPreviewItem;
   final int maxItemPerRowPortrait;
   final int maxItemPerRowLandscape;
-  final List<String> homeSectionsArrangement;
+  final List<HomeSectionsCode> homeSectionsArrangement;
   final List<String> collectionStatusTabArrangement;
 
   SettingsGeneralConf copyWith({
@@ -28,7 +28,7 @@ class SettingsGeneralConf {
     int? maxPreviewItem,
     int? maxItemPerRowPortrait,
     int? maxItemPerRowLandscape,
-    List<String>? homeSectionsArrangement,
+    List<HomeSectionsCode>? homeSectionsArrangement,
     List<String>? collectionStatusTabArrangement,
   }) {
     return SettingsGeneralConf(
@@ -38,39 +38,10 @@ class SettingsGeneralConf {
       maxItemPerRowPortrait: maxItemPerRowPortrait ?? this.maxItemPerRowPortrait,
       maxItemPerRowLandscape: maxItemPerRowLandscape ?? this.maxItemPerRowLandscape,
       homeSectionsArrangement: homeSectionsArrangement ?? this.homeSectionsArrangement,
-      collectionStatusTabArrangement: collectionStatusTabArrangement ?? this.collectionStatusTabArrangement,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'showCoverCensor': showCoverCensor,
-      'showChart': showChart,
-      'maxPreviewItem': maxPreviewItem,
-      'maxItemPerRowPortrait': maxItemPerRowPortrait,
-      'maxItemPerRowLandscape': maxItemPerRowLandscape,
-      'homeSectionsArrangement': homeSectionsArrangement,
-      'collectionStatusTabArrangement': collectionStatusTabArrangement,
-    };
-  }
-
-  factory SettingsGeneralConf.fromMap(Map<String, dynamic> map) {
-    return SettingsGeneralConf(
-      showCoverCensor: map['showCoverCensor'] as bool,
-      showChart: map['showChart'] as bool,
-      maxPreviewItem: map['maxPreviewItem'] as int,
-      maxItemPerRowPortrait: map['maxItemPerRowPortrait'] as int,
-      maxItemPerRowLandscape: map['maxItemPerRowLandscape'] as int,
-      homeSectionsArrangement: List<String>.from((map['homeSectionsArrangement'] as List<String>)),
       collectionStatusTabArrangement:
-          List<String>.from((map['collectionStatusTabArrangement'] as List<String>)),
+          collectionStatusTabArrangement ?? this.collectionStatusTabArrangement,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory SettingsGeneralConf.fromJson(String source) =>
-      SettingsGeneralConf.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -80,7 +51,6 @@ class SettingsGeneralConf {
   @override
   bool operator ==(covariant SettingsGeneralConf other) {
     if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
 
     return other.showCoverCensor == showCoverCensor &&
         other.showChart == showChart &&

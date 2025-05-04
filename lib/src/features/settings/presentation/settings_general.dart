@@ -120,8 +120,8 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral>
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (ctx, idx) {
             return _getDragAndDropItem(
-              key: homeArrangement[idx],
-              title: _getSectionTitle(homeArrangement[idx]),
+              key: homeArrangement[idx].name,
+              title: _getSectionTitle(homeArrangement[idx].title),
             );
           },
           itemCount: homeArrangement.length,

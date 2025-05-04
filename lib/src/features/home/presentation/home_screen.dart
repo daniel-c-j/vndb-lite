@@ -19,16 +19,13 @@ class HomeScreen extends ConsumerWidget {
       padding: EdgeInsets.only(left: responsiveUI.own(0.045), right: responsiveUI.own(0.045)),
       child: Column(
         children: [
-          for (String sectionCode in settings.homeSectionsArrangement)
+          for (HomeSectionsCode sectionCode in settings.homeSectionsArrangement)
             Column(
               mainAxisSize: MainAxisSize.min,
               key: ValueKey(sectionCode),
               children: [
-                HomeSectionHeader(sectionData: _convertToSectionCode(sectionCode)),
-                HomeSectionContent(
-                  sectionData: _convertToSectionCode(sectionCode),
-                  maxItem: settings.maxPreviewItem,
-                ),
+                HomeSectionHeader(sectionData: sectionCode),
+                HomeSectionContent(sectionData: sectionCode, maxItem: settings.maxPreviewItem),
                 SizedBox(height: responsiveUI.own(0.04)),
               ],
             ),
