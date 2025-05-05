@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -36,7 +37,7 @@ enum AppRoute {
 GoRouter goRouter(Ref ref) {
   return GoRouter(
     initialLocation: '/',
-    debugLogDiagnostics: false,
+    debugLogDiagnostics: !kReleaseMode,
     navigatorKey: NavigationService.navigatorKey,
     redirect: (context, state) {
       // Placeholder
@@ -44,9 +45,7 @@ GoRouter goRouter(Ref ref) {
     },
     routes: [
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) {
-          return MainTabLayout(navigationShell: navigationShell);
-        },
+        builder: (_, state, navigationShell) => MainTabLayout(navigationShell: navigationShell),
         branches: [
           StatefulShellBranch(
             navigatorKey: GlobalKey<NavigatorState>(debugLabel: AppRoute.home.name),

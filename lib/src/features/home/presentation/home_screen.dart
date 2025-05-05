@@ -8,9 +8,6 @@ import 'package:vndb_lite/src/features/settings/presentation/settings_general_st
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
-
-  HomeSectionsCode _convertToSectionCode(String code) => HomeSectionsCode.values.byName(code);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsGeneralStateProvider);

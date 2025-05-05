@@ -38,7 +38,7 @@ class VnItemDetailStatusIndicator extends ConsumerWidget {
           // Go to [VnItemDetailSummary].
           toggleVnDetailSummary();
         },
-        child: Container(
+        child: SizedBox(
           // color: Colors.red,
           width: responsiveUI.own(0.1),
           height: responsiveUI.own(0.1),

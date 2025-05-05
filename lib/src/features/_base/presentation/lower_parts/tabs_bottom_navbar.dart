@@ -35,47 +35,49 @@ class TabsBottomNavbar extends StatelessWidget {
             height: heightBottomNav,
             scrollController: scrollController,
             hideDirection: Axis.vertical,
-            child: Container(
+            child: SizedBox(
               height: heightBottomNav,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    kColor(context).primary.withAlpha(140),
-                    kColor(context).primary.withAlpha(220),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      kColor(context).primary.withAlpha(140),
+                      kColor(context).primary.withAlpha(220),
+                    ],
+                  ),
+                  boxShadow: const [
+                    BoxShadow(color: Color.fromARGB(150, 0, 0, 0), spreadRadius: 2, blurRadius: 6),
                   ],
                 ),
-                boxShadow: const [
-                  BoxShadow(color: Color.fromARGB(150, 0, 0, 0), spreadRadius: 2, blurRadius: 6),
-                ],
-              ),
-              child: BottomNavigationBar(
-                items: [
-                  for (MapEntry<String, dynamic> menu in BASE_TAB_MENU_SECTIONS.entries)
-                    BottomNavigationBarItem(
-                      icon: Icon(menu.value.icon, size: responsiveUI.standardIcon),
-                      label: menu.value.title,
-                    ),
-                ],
-                onTap: onTap,
-                elevation: 0,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Colors.transparent,
-                selectedLabelStyle: styleText(
-                  fontSize: responsiveUI.normalSize,
-                  fontWeight: FontWeight.bold,
-                  color: kColor(context).tertiary,
+                child: BottomNavigationBar(
+                  items: [
+                    for (MapEntry<String, dynamic> menu in BASE_TAB_MENU_SECTIONS.entries)
+                      BottomNavigationBarItem(
+                        icon: Icon(menu.value.icon, size: responsiveUI.standardIcon),
+                        label: menu.value.title,
+                      ),
+                  ],
+                  onTap: onTap,
+                  elevation: 0,
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: Colors.transparent,
+                  selectedLabelStyle: styleText(
+                    fontSize: responsiveUI.normalSize,
+                    fontWeight: FontWeight.bold,
+                    color: kColor(context).tertiary,
+                  ),
+                  unselectedLabelStyle: styleText(
+                    fontSize: responsiveUI.normalSize,
+                    color: kColor(context).tertiary,
+                  ),
+                  currentIndex: selectedIndex,
+                  selectedFontSize: responsiveUI.normalSize,
+                  unselectedFontSize: responsiveUI.normalSize,
+                  selectedItemColor: kColor(context).secondary,
+                  unselectedItemColor: kColor(context).secondary.withAlpha(120),
                 ),
-                unselectedLabelStyle: styleText(
-                  fontSize: responsiveUI.normalSize,
-                  color: kColor(context).tertiary,
-                ),
-                currentIndex: selectedIndex,
-                selectedFontSize: responsiveUI.normalSize,
-                unselectedFontSize: responsiveUI.normalSize,
-                selectedItemColor: kColor(context).secondary,
-                unselectedItemColor: kColor(context).secondary.withAlpha(120),
               ),
             ),
           ),
