@@ -116,9 +116,6 @@ dependencies:
   # A better version of tabBar view.
   contentsize_tabbarview: ^0.0.2
 
-  # Refresh screen.
-  pull_to_refresh: ^2.0.0
-
 #
 # ======================================================================================================
 #

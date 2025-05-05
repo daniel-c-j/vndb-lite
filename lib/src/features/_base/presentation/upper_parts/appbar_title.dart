@@ -26,7 +26,7 @@ class AppbarTitle extends ConsumerWidget {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Tab Appbar title
-        Container(
+        Padding(
           padding:
               (userDidAuth && App.isInCollectionScreen)
                   ? EdgeInsets.only(top: responsiveUI.own(0.03))

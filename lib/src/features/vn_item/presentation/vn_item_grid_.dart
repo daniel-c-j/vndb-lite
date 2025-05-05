@@ -329,8 +329,8 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         _fastDebouncer.call(() {
           if (!mounted) return;
           if (App.isInSearchScreen || App.isInCollectionScreen || App.isInVnDetailScreen) {
-            // debugPrint("${widget.vnData['title']} ${info.visibleFraction} of my widget is visible");
-            // debugPrint('${widget.vnData['title']} ${info.size.height}');
+            // debugPrint("${widget.p1.title} ${info.visibleFraction} of my widget is visible");
+            // debugPrint('${widget.p1.title} ${info.size.height}');
 
             // 人´∀｀) Thank You Very Much Father...
             if (_vnHasCover) {

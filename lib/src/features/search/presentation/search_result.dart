@@ -32,9 +32,7 @@ class _SearchResultState extends ConsumerState<SearchResult> {
     final searchNotify = ref.watch(searchResultNotifierProvider);
 
     // To forcefully update the widget
-    if (searchNotify && mounted) {
-      _forceUpdateUI();
-    }
+    if (searchNotify && mounted) _forceUpdateUI();
 
     return Padding(
       padding: EdgeInsets.only(top: responsiveUI.own(0.04)),

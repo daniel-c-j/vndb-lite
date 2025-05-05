@@ -22,8 +22,9 @@ import '../../theme/theme_data_provider.dart';
 
 // * Intentionally made global to be easily accessing the value throughout the entire
 // * widget tree for specific and crucial use cases.
-final TextEditingController textControllerCollection = TextEditingController();
-final TextEditingController textControllerSearch = TextEditingController();
+final textControllerCollection = TextEditingController();
+final textControllerSearch = TextEditingController();
+final mainScrollController = ScrollController();
 
 // * Once-check flags
 bool _updateIsChecked = false;
@@ -33,7 +34,6 @@ class MainTabLayout extends StatelessWidget {
   MainTabLayout({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
-  final _scrollController = ScrollController();
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -100,7 +100,7 @@ class MainTabLayout extends StatelessWidget {
 
     final body = NestedScrollView(
       floatHeaderSlivers: true,
-      controller: _scrollController,
+      controller: mainScrollController,
       // ! Do not set to constant.
       headerSliverBuilder: (_, __) => <Widget>[TabAppBar()],
       body: MainScaffoldBody(navigationShell: navigationShell),
@@ -169,7 +169,7 @@ class MainTabLayout extends StatelessWidget {
               return TabsBottomNavbar(
                 onlyProgressIndicator: isLandscape,
                 selectedIndex: navigationShell.currentIndex,
-                scrollController: _scrollController,
+                scrollController: mainScrollController,
                 onTap: _goToBranch,
               );
             },

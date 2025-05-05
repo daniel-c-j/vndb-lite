@@ -51,85 +51,87 @@ class AppbarSearchfield extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = (App.isInSearchScreen) ? textControllerSearch : textControllerCollection;
 
-    return Container(
+    return Align(
       alignment: Alignment.center,
-      padding: EdgeInsets.only(left: responsiveUI.own(0.055)),
-      child: ValueListenableBuilder(
-        valueListenable: controller,
-        builder: (context, value, child) {
-          return TextField(
-            //
-            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            //
-            onTapOutside: (_) {
-              ref.read(showSearchTextFieldProvider.notifier).state = false;
-            },
-            //
-            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            //
-            onSubmitted: (_) async {
-              if (App.isInSearchScreen) {
-                ref
-                    .read(tempRemoteFilterControllerProvider.notifier)
-                    .copyWith(search: textControllerSearch.text);
-                ref
-                    .read(appliedRemoteFilterControllerProvider.notifier)
-                    .copyWith(search: textControllerSearch.text);
+      child: Padding(
+        padding: EdgeInsets.only(left: responsiveUI.own(0.055)),
+        child: ValueListenableBuilder(
+          valueListenable: controller,
+          builder: (context, value, child) {
+            return TextField(
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
+              onTapOutside: (_) {
+                ref.read(showSearchTextFieldProvider.notifier).state = false;
+              },
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
+              onSubmitted: (_) async {
+                if (App.isInSearchScreen) {
+                  ref
+                      .read(tempRemoteFilterControllerProvider.notifier)
+                      .copyWith(search: textControllerSearch.text);
+                  ref
+                      .read(appliedRemoteFilterControllerProvider.notifier)
+                      .copyWith(search: textControllerSearch.text);
 
-                await ref.read(searchScreenControllerProvider.notifier).searchWithCurrentConf();
-              }
-            },
-            //
-            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            //
-            onChanged: (_) async {
-              if (App.isInCollectionScreen) {
-                _debouncer.call(() async => await _searchingInCollectionScreen(ref));
-              }
-            },
-            //
-            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            //
-            controller: controller,
-            cursorColor: kColor(context).tertiary,
-            decoration: InputDecoration(
-              hintText: 'Search...',
-              border: InputBorder.none,
-              hintStyle: styleText(
-                fontSize: responsiveUI.own(0.042),
-                color: kColor(context).secondary.withAlpha(180),
-              ),
-              fillColor: kColor(context).tertiary,
-              focusColor: kColor(context).tertiary,
-              // Constraints helps structure the suffix icon highlight.
-              suffixIconConstraints: BoxConstraints(
-                minWidth: responsiveUI.own(0.1),
-                minHeight: responsiveUI.own(0.1),
-              ),
-              suffixIcon:
-                  controller.text.isNotEmpty
-                      ? Padding(
-                        padding: EdgeInsets.only(
-                          // bottom: responsiveUI.own(0.01),
-                          right: responsiveUI.own(0.02),
-                        ),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(24),
-                          onTap: () {
-                            _xButtonTap(controller, ref);
-                          },
-                          child: Icon(
-                            Icons.clear,
-                            color: kColor(context).tertiary,
-                            size: responsiveUI.own(0.055),
+                  await ref.read(searchScreenControllerProvider.notifier).searchWithCurrentConf();
+                }
+              },
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
+              onChanged: (_) async {
+                if (App.isInCollectionScreen) {
+                  _debouncer.call(() async => await _searchingInCollectionScreen(ref));
+                }
+              },
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              //
+              controller: controller,
+              cursorColor: kColor(context).tertiary,
+              decoration: InputDecoration(
+                hintText: 'Search...',
+                border: InputBorder.none,
+                hintStyle: styleText(
+                  fontSize: responsiveUI.own(0.042),
+                  color: kColor(context).secondary.withAlpha(180),
+                ),
+                fillColor: kColor(context).tertiary,
+                focusColor: kColor(context).tertiary,
+                // Constraints helps structure the suffix icon highlight.
+                suffixIconConstraints: BoxConstraints(
+                  minWidth: responsiveUI.own(0.1),
+                  minHeight: responsiveUI.own(0.1),
+                ),
+                suffixIcon:
+                    controller.text.isNotEmpty
+                        ? Padding(
+                          padding: EdgeInsets.only(
+                            // bottom: responsiveUI.own(0.01),
+                            right: responsiveUI.own(0.02),
                           ),
-                        ),
-                      )
-                      : null,
-            ),
-            style: styleText(fontSize: responsiveUI.own(0.042)),
-          );
-        },
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(24),
+                            onTap: () {
+                              _xButtonTap(controller, ref);
+                            },
+                            child: Icon(
+                              Icons.clear,
+                              color: kColor(context).tertiary,
+                              size: responsiveUI.own(0.055),
+                            ),
+                          ),
+                        )
+                        : null,
+              ),
+              style: styleText(fontSize: responsiveUI.own(0.042)),
+            );
+          },
+        ),
       ),
     );
   }
