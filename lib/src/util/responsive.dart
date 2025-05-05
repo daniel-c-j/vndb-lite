@@ -6,10 +6,12 @@ import 'package:vndb_lite/src/features/settings/presentation/settings_theme_stat
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 
 // Global singleton
-final responsiveUI = _ResponsiveUI();
+const responsiveUI = _ResponsiveUI();
 
 /// A class that measures the size based on screen width or height based on the orientation.
 class _ResponsiveUI {
+  const _ResponsiveUI();
+
   double get normalSize => own(Default.FONT_SIZE_CONF);
   double get catgTitle => own(0.0425);
   double get standardIcon => own(0.065);

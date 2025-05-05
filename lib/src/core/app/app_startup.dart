@@ -93,13 +93,11 @@ class AppStartup {
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.presentError(details);
       errorLogger.log(details.exception, details.stack);
-      if (kReleaseMode) exit(1);
     };
 
     // * Handle errors from the underlying platform/OS
     PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
       errorLogger.log(error, stack);
-      if (kReleaseMode) exit(1);
       return true;
     };
 

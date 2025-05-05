@@ -151,8 +151,8 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
         cacheKey: "PREVIEW-$_vnId",
         filterQuality: (isCensor) ? FilterQuality.none : FilterQuality.low,
-        maxHeightDiskCache: (isCensor) ? 15 : 280,
-        maxWidthDiskCache: (isCensor) ? 15 : 280,
+        maxHeightDiskCache: (isCensor) ? 15 : 300,
+        maxWidthDiskCache: (isCensor) ? 15 : 300,
       ),
     );
   }

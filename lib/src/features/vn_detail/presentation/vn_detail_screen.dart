@@ -124,8 +124,8 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
         cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
         // High quality to make the pixels smooth when censor mode is on.
         filterQuality: (isCensor) ? FilterQuality.high : FilterQuality.medium,
-        maxHeightDiskCache: (isCensor) ? 15 : (MediaQuery.sizeOf(context).height * 1.75).toInt(),
-        maxWidthDiskCache: (isCensor) ? 15 : (MediaQuery.sizeOf(context).width * 1.75).toInt(),
+        maxHeightDiskCache: (isCensor) ? 15 : 1400,
+        maxWidthDiskCache: (isCensor) ? 15 : 1400,
       ),
     );
   }

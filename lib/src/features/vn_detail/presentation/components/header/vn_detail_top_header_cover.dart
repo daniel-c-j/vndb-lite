@@ -84,8 +84,8 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
       errorWidget: (context, url, error) => const GenericErrorImage(),
       cacheKey: widget.p1.id,
       cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
-      maxHeightDiskCache: (isCensor) ? 15 : (MediaQuery.sizeOf(context).height * 2.5).toInt(),
-      maxWidthDiskCache: (isCensor) ? 15 : (MediaQuery.sizeOf(context).width * 2.5).toInt(),
+      maxHeightDiskCache: (isCensor) ? 15 : 1600,
+      maxWidthDiskCache: (isCensor) ? 15 : 1600,
     );
   }
 

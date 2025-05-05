@@ -168,8 +168,8 @@ class _VnDetailGeneralScreenshotsState extends State<VnDetailGeneralScreenshots>
                                   height: responsiveUI.own(0.2),
                                 ),
                             errorWidget: (context, url, error) => const GenericErrorImage(),
-                            maxHeightDiskCache: (MediaQuery.sizeOf(context).height * 1.75).toInt(),
-                            maxWidthDiskCache: (MediaQuery.sizeOf(context).width * 1.75).toInt(),
+                            maxHeightDiskCache: 1400,
+                            maxWidthDiskCache: 1400,
                           );
                         },
                       ),

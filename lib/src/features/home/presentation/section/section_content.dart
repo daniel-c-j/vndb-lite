@@ -81,14 +81,13 @@ class HomeSectionContent extends ConsumerWidget {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: formattedP1Data.length,
-                  itemBuilder: (_, idx) {
-                    return VnItemGrid(
-                      key: UniqueKey(),
-                      p1: formattedP1Data[idx],
-                      isGridView: false,
-                      labelCode: sectionData.labelCode!.name,
-                    );
-                  },
+                  itemBuilder:
+                      (_, idx) => VnItemGrid(
+                        key: UniqueKey(),
+                        p1: formattedP1Data[idx],
+                        isGridView: false,
+                        labelCode: sectionData.labelCode!.name,
+                      ),
                 ),
               ),
             );
