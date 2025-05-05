@@ -130,7 +130,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
       placeHolderSize = ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl));
     }
 
-    return Container(
+    return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: responsiveUI.own(0.27),
         // Don't let item too thin. Actually meant for preview items only, but (widget.isGridView) ?
@@ -357,7 +357,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
       },
       child: Consumer(
         builder: (context, ref, child) {
-          bool showWidget = ref.watch(vnItemGridWidgetStateProvider(_vnId));
+          final showWidget = ref.watch(vnItemGridWidgetStateProvider(_vnId));
 
           return (showWidget)
               ? vnItemGrid

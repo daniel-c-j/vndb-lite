@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
+import 'package:vndb_lite/src/util/text_extensions.dart';
 
 import '../constants/_constants.dart';
 import '../util/delay.dart';
@@ -39,17 +40,9 @@ class _NotFoundScreenState extends State<NotFoundScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '404 - Page not found!',
-              key: NotFoundScreen.titleKey,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            const Text('404 - Page not found!', key: NotFoundScreen.titleKey).sizeOf(20).bold,
             GAP_H8,
-            Text(
-              'Redirecting to home page...',
-              key: NotFoundScreen.messageKey,
-              style: const TextStyle(fontSize: 14),
-            ),
+            const Text('Redirecting to home page...', key: NotFoundScreen.messageKey).sizeOf(14),
           ],
         ),
       ),
