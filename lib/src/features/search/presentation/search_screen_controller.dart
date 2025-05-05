@@ -53,6 +53,7 @@ class SearchScreenController extends _$SearchScreenController {
     // Resetting values, by expecting a new query has been made.
     if (pageResult == 1) {
       ref.invalidate(searchResultControllerProvider);
+      ref.read(searchResultControllerProvider.notifier).vnId.clear();
       ref.invalidate(searchResultPageControllerProvider);
       resetState();
     }

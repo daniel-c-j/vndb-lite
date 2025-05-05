@@ -42,8 +42,13 @@ class RemoteSearchRepoImpl implements RemoteSearchRepo {
   }
 
   /// Formatting rawData into a classified model.
-  List<VnDataPhase01> p1FromResponse(List result) {
+  List<VnDataPhase01> p1ListFromResponse(List result) {
     return [for (Map<String, dynamic> data in result) VnDataPhase01.fromMap(data)];
+  }
+
+  /// Formatting rawData into a classified model.
+  VnDataPhase01 p1FromResponse(Map<String, dynamic> data) {
+    return VnDataPhase01.fromMap(data);
   }
 }
 

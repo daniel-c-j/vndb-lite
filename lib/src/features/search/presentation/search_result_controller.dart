@@ -35,9 +35,13 @@ class SearchResultController extends _$SearchResultController {
     return [];
   }
 
+  final List<String> vnId = [];
+
   void fromP1(List<VnDataPhase01> p1List, String labelCode) {
     for (VnDataPhase01 p1 in p1List) {
+      if (vnId.contains(p1.id)) return;
       state.add(VnItemGrid(key: UniqueKey(), p1: p1, isGridView: true, labelCode: labelCode));
+      vnId.add(p1.id);
     }
   }
 

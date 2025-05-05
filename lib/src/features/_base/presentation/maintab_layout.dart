@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/common_widgets/generic_background.dart';
@@ -30,8 +31,12 @@ final mainScrollController = ScrollController();
 bool _updateIsChecked = false;
 bool _collectionTabInitialized = false;
 
+// * To maintain consistency in screens that has lots of items.
+double scrollOffsetInSearch = 0;
+double scrollOffsetInCollection = 0;
+
 class MainTabLayout extends StatelessWidget {
-  MainTabLayout({super.key, required this.navigationShell});
+  const MainTabLayout({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
@@ -65,15 +70,42 @@ class MainTabLayout extends StatelessWidget {
     navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
   }
 
+  static const _scrollAnimDuration = Duration(milliseconds: 200);
+
+  /// This method exists since there are another [ScrollController] inside of [NestedScrollView]
+  /// and since [NestedScrollView] animation behaviour went odd because of another controller's
+  /// existence, and the animation still crucial, this synthetic method exists to fulfill
+  ///  [NestedScrollView]'s sliver behaviour.
+  void _forceAnimateNestedScrollView() {
+    if (innerScrollController.position.userScrollDirection == ScrollDirection.idle) return;
+
+    if (innerScrollController.position.userScrollDirection == ScrollDirection.forward) {
+      mainScrollController.animateTo(0, duration: _scrollAnimDuration, curve: Curves.ease);
+      //
+    } else if (innerScrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      //
+      mainScrollController.animateTo(
+        innerScrollController.position.pixels * 0.5,
+        duration: _scrollAnimDuration,
+        curve: Curves.ease,
+      );
+    }
+  }
+
   bool _handleScrollNotification(ScrollNotification notification) {
     // debugPrint('Current pixel : ${notification.metrics.pixels}');
     // debugPrint('Max scroll in pixel : ${notification.metrics.maxScrollExtent}');
 
+    _forceAnimateNestedScrollView();
+
     // This supports search screen lazy loading when user hit the bottom screen, the result continues.
     if (App.isInSearchScreen) {
+      scrollOffsetInSearch = innerScrollController.position.pixels;
       ref_.read(searchResultControllerProvider.notifier).handleNextResult(notification);
+      return false;
     }
 
+    scrollOffsetInCollection = innerScrollController.position.pixels;
     return false;
   }
 
@@ -146,10 +178,11 @@ class MainTabLayout extends StatelessWidget {
                 TabsSideNavbar(selectedIndex: navigationShell.currentIndex, onTap: _goToBranch),
               Expanded(
                 child:
-                    // * Listener only active when it's in search screen.
-                    (App.isInSearchScreen)
+                    // * Listener only active when it's in search/collection screen.
+                    (App.isInSearchScreen || App.isInCollectionScreen)
                         ? NotificationListener(
                           onNotification: _handleScrollNotification,
+
                           child: body,
                         )
                         : body,
@@ -169,7 +202,7 @@ class MainTabLayout extends StatelessWidget {
               return TabsBottomNavbar(
                 onlyProgressIndicator: isLandscape,
                 selectedIndex: navigationShell.currentIndex,
-                scrollController: mainScrollController,
+                scrollController: innerScrollController,
                 onTap: _goToBranch,
               );
             },

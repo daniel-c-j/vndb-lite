@@ -40,11 +40,11 @@ class DioFactory {
     );
 
     // If not in release mode, log network requests with dio
-    if (!kReleaseMode) {
-      dio.interceptors.add(
-        PrettyDioLogger(requestHeader: true, requestBody: true, responseHeader: true),
-      );
-    }
+    // if (!kReleaseMode) {
+    //   dio.interceptors.add(
+    //     PrettyDioLogger(requestHeader: true, requestBody: true, responseHeader: true),
+    //   );
+    // }
 
     return dio;
   }

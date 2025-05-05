@@ -1,4 +1,6 @@
 import 'package:flutter/scheduler.dart';
+import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
@@ -41,6 +43,11 @@ class _CollectionScreenState extends ConsumerState<CollectionScreen> {
     final settings = ref.watch(settingsGeneralStateProvider);
     final statusArrangement = settings.collectionStatusTabArrangement;
 
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (!App.isInCollectionScreen) return;
+      innerScrollController.jumpTo(scrollOffsetInCollection);
+    });
+
     return Padding(
       padding: EdgeInsets.only(top: responsiveUI.own(0.04), right: measureSafeAreaOf(0)),
       child: ContentSizeTabBarView(
@@ -52,11 +59,11 @@ class _CollectionScreenState extends ConsumerState<CollectionScreen> {
                 final vnItemGrids = ref.watch(collectionContentControllerProvider);
                 final notifyCollection = ref.watch(collectionContentNotifierProvider);
 
-                if (notifyCollection) {
-                  _forceUpdateUI();
-                }
-
-                return CollectionContent(key: UniqueKey(), content: vnItemGrids[statusName] ?? []);
+                if (notifyCollection) _forceUpdateUI();
+                return CollectionContent(
+                  key: ValueKey(statusName),
+                  content: vnItemGrids[statusName] ?? const [],
+                );
               },
             ),
         ],

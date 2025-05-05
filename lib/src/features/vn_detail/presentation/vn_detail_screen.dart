@@ -165,7 +165,7 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
           extendBodyBehindAppBar: true,
           backgroundColor: kColor(context).primary.withOpacity(0.3),
           body: NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool inBoxScrolled) {
+            headerSliverBuilder: (_, bool inBoxScrolled) {
               return [VnDetailAppbar(vnId: _vnId)];
             },
             //

@@ -14,6 +14,8 @@ import 'package:vndb_lite/src/util/balanced_safearea.dart';
 
 import '../../../../util/context_shortcut.dart';
 
+final innerScrollController = ScrollController();
+
 class MainScaffoldBody extends StatelessWidget {
   const MainScaffoldBody({super.key, required this.navigationShell});
 
@@ -65,11 +67,13 @@ class MainScaffoldBody extends StatelessWidget {
 
                 return RawScrollbar(
                   interactive: showScrollBar,
+                  controller: innerScrollController,
                   radius: const Radius.circular(12),
                   minThumbLength: responsiveUI.own(0.1),
                   crossAxisMargin: measureSafeAreaOf(responsiveUI.own(0.01)),
                   thumbColor: (showScrollBar) ? scrollBarColor : Colors.transparent,
                   child: SingleChildScrollView(
+                    controller: innerScrollController,
                     padding: EdgeInsets.only(bottom: responsiveUI.own(0.2)),
                     // * The real content
                     child: navigationShell,
