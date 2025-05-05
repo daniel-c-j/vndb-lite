@@ -4,16 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/common_widgets/generic_background.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
+import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
+import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/navigation_rail_menu.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/tabs_sliver_appbar.dart';
-import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_result_controller.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_data_state.dart';
-import 'package:vndb_lite/src/features/settings/presentation/settings_theme_state.dart';
-import 'package:vndb_lite/src/features/theme/data/theme_data.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/tabs_bottom_navbar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,48 +20,20 @@ import 'package:vndb_lite/src/util/version_check/version_checker.dart';
 
 import '../../theme/theme_data_provider.dart';
 
-// Intentionally made global to be easily accessing the value throughout the entire
-// widget tree for specific and crucial use cases.
+// * Intentionally made global to be easily accessing the value throughout the entire
+// * widget tree for specific and crucial use cases.
 final TextEditingController textControllerCollection = TextEditingController();
 final TextEditingController textControllerSearch = TextEditingController();
-late TabController collectionTabController;
 
-class MainTabLayout extends ConsumerStatefulWidget {
-  const MainTabLayout({super.key, required this.navigationShell});
+// * Once-check flags
+bool _updateIsChecked = false;
+bool _collectionTabInitialized = false;
+
+class MainTabLayout extends StatelessWidget {
+  MainTabLayout({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
-
-  @override
-  ConsumerState<MainTabLayout> createState() {
-    return _MainTabLayoutState();
-  }
-}
-
-class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProviderStateMixin {
-  late final ScrollController _scrollController;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    collectionTabController = TabController(length: COLLECTION_STATUS_DATA.length, vsync: this);
-
-    // Checks version at startup.
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (ref.read(settingsDataStateProvider).autoUpdate) {
-        VersionChecker.check(notify: (value) => _showVersionCheckSnackbar(success: value));
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    textControllerSearch.dispose();
-    textControllerCollection.dispose();
-    collectionTabController.dispose();
-    super.dispose();
-  }
+  final _scrollController = ScrollController();
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,10 +62,7 @@ class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProvid
   //
 
   void _goToBranch(int index) {
-    widget.navigationShell.goBranch(
-      index,
-      initialLocation: index == widget.navigationShell.currentIndex,
-    );
+    navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {
@@ -103,7 +71,7 @@ class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProvid
 
     // This supports search screen lazy loading when user hit the bottom screen, the result continues.
     if (App.isInSearchScreen) {
-      ref.read(searchResultControllerProvider.notifier).handleNextResult(notification);
+      ref_.read(searchResultControllerProvider.notifier).handleNextResult(notification);
     }
 
     return false;
@@ -113,50 +81,76 @@ class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProvid
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
+  void _checkUpdate() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (ref_.read(settingsDataStateProvider).autoUpdate) {
+        VersionChecker.check(notify: (value) => _showVersionCheckSnackbar(success: value));
+        _updateIsChecked = true;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = ref.watch(appThemeStateProvider);
-
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final body = NestedScrollView(
+      floatHeaderSlivers: true,
+      controller: _scrollController,
+      // ! Do not set to constant.
+      headerSliverBuilder: (_, __) => <Widget>[TabAppBar()],
+      body: MainScaffoldBody(navigationShell: navigationShell),
+    );
+
+    // * Checks version at startup after everything loads.
+    if (!_updateIsChecked) _checkUpdate();
 
     return Stack(
       children: [
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
-        GenericBackground(imagePath: theme.backgroundImgPath),
+        Consumer(
+          builder: (context, ref, child) {
+            final theme = ref.watch(appThemeStateProvider);
+            return GenericBackground(imagePath: theme.backgroundImgPath);
+          },
+        ),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // ! Initialization must be happened inside of widget tree.
+        if (!_collectionTabInitialized)
+          Builder(
+            builder: (ctx) {
+              SchedulerBinding.instance.addPostFrameCallback(
+                (_) => _collectionTabInitialized = true,
+              );
+              return const CollectionTabConf();
+            },
+          ),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
         Scaffold(
           extendBody: true,
           extendBodyBehindAppBar: (App.isInCollectionScreen) ? false : true,
-          backgroundColor: theme.primary.withOpacity(0.3),
-          body: SafeArea(
-            child: Row(
-              children: [
-                // Exclusive landscape mode only
-                if (isLandscape)
-                  TabsSideNavbar(
-                    selectedIndex: widget.navigationShell.currentIndex,
-                    onTap: _goToBranch,
-                  ),
-                Expanded(
-                  child: NotificationListener(
-                    onNotification: _handleScrollNotification,
-                    child: NestedScrollView(
-                      floatHeaderSlivers: true,
-                      controller: _scrollController,
-                      headerSliverBuilder: (context, innerBoxIsScrolled) {
-                        // Do not set to constant.
-                        return <Widget>[TabAppBar()];
-                      },
-                      body: MainScaffoldBody(navigationShell: widget.navigationShell),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          backgroundColor: Colors.black.withOpacity(0.3),
+          body: Row(
+            children: [
+              // * Exclusive landscape mode only
+              if (isLandscape)
+                TabsSideNavbar(selectedIndex: navigationShell.currentIndex, onTap: _goToBranch),
+              Expanded(
+                child:
+                    // * Listener only active when it's in search screen.
+                    (App.isInSearchScreen)
+                        ? NotificationListener(
+                          onNotification: _handleScrollNotification,
+                          child: body,
+                        )
+                        : body,
+              ),
+            ],
           ),
           //
           // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -170,7 +164,7 @@ class _MainTabLayoutState extends ConsumerState<MainTabLayout> with TickerProvid
 
               return TabsBottomNavbar(
                 onlyProgressIndicator: isLandscape,
-                selectedIndex: widget.navigationShell.currentIndex,
+                selectedIndex: navigationShell.currentIndex,
                 scrollController: _scrollController,
                 onTap: _goToBranch,
               );

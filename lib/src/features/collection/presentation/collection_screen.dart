@@ -1,4 +1,5 @@
 import 'package:flutter/scheduler.dart';
+import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';

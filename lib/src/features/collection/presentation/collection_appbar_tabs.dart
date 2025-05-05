@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 
 import '../../../util/context_shortcut.dart';
+
+/// Global tab controller to maintain keep-Alive behaviour for the controller.
+TabController? collectionTabController;
 
 class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget {
   const CollectionAppbarTabs({super.key});
@@ -79,4 +81,23 @@ class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget
       ),
     );
   }
+}
+
+/// Init class to exploit [TickerProviderStateMixin] for collectionTabController's vsync.
+class CollectionTabConf extends StatefulWidget {
+  const CollectionTabConf({super.key});
+
+  @override
+  State<CollectionTabConf> createState() => _CollectionTabConfState();
+}
+
+class _CollectionTabConfState extends State<CollectionTabConf> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+    collectionTabController = TabController(length: COLLECTION_STATUS_DATA.length, vsync: this);
+  }
+
+  @override
+  Widget build(BuildContext context) => const SizedBox.shrink();
 }
