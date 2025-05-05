@@ -63,9 +63,7 @@ GoRouter goRouter(Ref ref) {
               GoRoute(
                 path: AppRoute.search.path,
                 name: AppRoute.search.name,
-                builder: (context, state) {
-                  return const SearchScreen();
-                },
+                builder: (context, state) => const SearchScreen(),
               ),
             ],
           ),
@@ -96,7 +94,7 @@ GoRouter goRouter(Ref ref) {
         ],
       ),
       GoRoute(
-        path: '/:parent/details/:vnId',
+        path: '/:parent/vnDetail/:vnId',
         name: AppRoute.vnDetail.name,
         builder: (context, state) {
           final p1 = state.extra as VnDataPhase01;

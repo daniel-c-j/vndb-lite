@@ -90,6 +90,10 @@ class MainTabLayout extends StatelessWidget {
     });
   }
 
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
+
   @override
   Widget build(BuildContext context) {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
@@ -133,7 +137,7 @@ class MainTabLayout extends StatelessWidget {
         //
         Scaffold(
           extendBody: true,
-          extendBodyBehindAppBar: (App.isInCollectionScreen) ? false : true,
+          extendBodyBehindAppBar: !App.isInCollectionScreen,
           backgroundColor: Colors.black.withOpacity(0.3),
           body: Row(
             children: [

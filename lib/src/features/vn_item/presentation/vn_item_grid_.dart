@@ -107,8 +107,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   //
 
   void _clearCache(String url) async {
-    ImageCache imageCache = PaintingBinding.instance.imageCache;
-    imageCache.clearLiveImages();
+    final imageCache = PaintingBinding.instance.imageCache;
     imageCache.clear();
 
     await CachedNetworkImage.evictFromCache(url);
@@ -298,24 +297,20 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
               left: 0,
               right: 0,
               bottom: 0,
-              child: Container(
-                child:
-                    (_showVnDetailSummary)
-                        //
-                        ? VnItemGridDetailsSummary(
-                          p1: widget.p1,
-                          labelCode: widget.labelCode,
-                          toggleVnDetailSummary:
-                              () => setState(() => _showVnDetailSummary = !_showVnDetailSummary),
-                        )
-                        //
-                        : VnItemGridDetails(
-                          p1: widget.p1,
-                          labelCode: widget.labelCode,
-                          toggleVnDetailSummary:
-                              () => setState(() => _showVnDetailSummary = !_showVnDetailSummary),
-                        ),
-              ),
+              child:
+                  (_showVnDetailSummary)
+                      ? VnItemGridDetailsSummary(
+                        p1: widget.p1,
+                        labelCode: widget.labelCode,
+                        toggleVnDetailSummary:
+                            () => setState(() => _showVnDetailSummary = !_showVnDetailSummary),
+                      )
+                      : VnItemGridDetails(
+                        p1: widget.p1,
+                        labelCode: widget.labelCode,
+                        toggleVnDetailSummary:
+                            () => setState(() => _showVnDetailSummary = !_showVnDetailSummary),
+                      ),
             ),
             //
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -324,6 +319,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         ),
       ),
     );
+
+    // Never hide in previews.
+    if (!widget.isGridView) return vnItemGrid;
 
     return VisibilityDetector(
       key: ValueKey(widget.p1.id),
@@ -359,14 +357,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
       },
       child: Consumer(
         builder: (context, ref, child) {
-          bool showWidget = false;
-
-          // Never hide in previews.
-          if (!widget.isGridView) {
-            showWidget = true;
-          } else {
-            showWidget = ref.watch(vnItemGridWidgetStateProvider(_vnId));
-          }
+          bool showWidget = ref.watch(vnItemGridWidgetStateProvider(_vnId));
 
           return (showWidget)
               ? vnItemGrid

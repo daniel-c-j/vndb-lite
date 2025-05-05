@@ -14,32 +14,16 @@ import 'package:vndb_lite/src/features/search/presentation/search_appbar.dart';
 
 import '../../../../util/context_shortcut.dart';
 
-class TabAppBar extends ConsumerStatefulWidget {
+class TabAppBar extends ConsumerWidget {
   const TabAppBar({super.key});
 
   @override
-  ConsumerState<TabAppBar> createState() => _TabAppBarState();
-}
-
-class _TabAppBarState extends ConsumerState<TabAppBar> {
-  bool get _showTitle {
-    final isInMultiselection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
-    final showTextField = ref.watch(showSearchTextFieldProvider);
-
-    if (App.isInSearchScreen) return false;
-    if (isInMultiselection) return false;
-    if (showTextField && App.isInCollectionScreen) return false;
-    if (App.isInOthersScreen) return true;
-    return true;
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isInMultiselection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
 
     // Hides search text field when changing screen.
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (!App.isInCollectionScreen && mounted) {
+      if (!App.isInCollectionScreen && context.mounted) {
         ref.read(showSearchTextFieldProvider.notifier).state = false;
       }
     });
@@ -65,9 +49,20 @@ class _TabAppBarState extends ConsumerState<TabAppBar> {
         ),
       ),
       backgroundColor: Colors.transparent,
-      snap: (App.isInCollectionScreen) ? false : true,
-      pinned: (App.isInCollectionScreen) ? true : false,
-      title: (_showTitle) ? AppbarTitle() : null,
+      snap: !App.isInCollectionScreen,
+      pinned: App.isInCollectionScreen,
+      title: Consumer(
+        builder: (context, ref, child) {
+          final isInMultiselection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
+          final showTextField = ref.watch(showSearchTextFieldProvider);
+
+          if (App.isInSearchScreen || isInMultiselection) return const SizedBox.shrink();
+          if (showTextField && App.isInCollectionScreen) return const SizedBox.shrink();
+
+          // No const yet.
+          return AppbarTitle();
+        },
+      ),
       actions: [
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

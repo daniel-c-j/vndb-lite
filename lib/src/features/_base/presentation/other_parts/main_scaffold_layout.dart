@@ -29,7 +29,7 @@ class MainScaffoldBody extends StatelessWidget {
     return false;
   }
 
-  void _showRefreshingSnackbar(ctx) {
+  void _showRefreshingSnackbar(BuildContext ctx) {
     GenericSnackBar(
       duration: const Duration(milliseconds: 2500),
       content: [
