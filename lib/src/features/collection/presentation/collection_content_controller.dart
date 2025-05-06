@@ -87,7 +87,7 @@ class CollectionContentController extends _$CollectionContentController {
       ref.read(collectionContentNotifierProvider.notifier).ring();
       //
     } catch (e) {
-      //
+      // TODO snackbar telling something's wrong.
     } finally {
       // Expecting that the caller of this function has another process and will handle the progress indicator
       // further, so it doesn't have to be turned off.

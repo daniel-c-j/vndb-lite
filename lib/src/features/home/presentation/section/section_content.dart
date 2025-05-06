@@ -23,7 +23,7 @@ class HomeSectionContent extends ConsumerWidget {
     final context = NavigationService.currentContext;
 
     return (MediaQuery.of(context).orientation == Orientation.portrait)
-        ? responsiveUI.own(0.55)
+        ? responsiveUI.own(0.525)
         : responsiveUI.own(0.45);
   }
 
@@ -74,21 +74,24 @@ class HomeSectionContent extends ConsumerWidget {
             final formattedP1Data = data;
             if (formattedP1Data.isEmpty) return const GenericLocalEmptyWidget();
 
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: SizedBox(
-                height: _sectionContentHeight,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: formattedP1Data.length,
-                  itemBuilder:
-                      (_, idx) => VnItemGrid(
+            return SizedBox(
+              height: _sectionContentHeight,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: formattedP1Data.length,
+                itemBuilder:
+                    (_, idx) => Padding(
+                      padding: EdgeInsets.only(
+                        left: (idx == 0) ? 6.0 : 0,
+                        right: (idx == formattedP1Data.length - 1) ? 6.0 : 0,
+                      ),
+                      child: VnItemGrid(
                         key: UniqueKey(),
                         p1: formattedP1Data[idx],
                         isGridView: false,
                         labelCode: sectionData.labelCode!.name,
                       ),
-                ),
+                    ),
               ),
             );
           },

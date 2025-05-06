@@ -6,7 +6,6 @@ import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/chart/application/chart_service.dart';
 import 'package:vndb_lite/src/features/chart/data/search_chart._data.dart';
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/chart/presentation/stat_chart_controller.dart';
 
 import '../../../util/context_shortcut.dart';

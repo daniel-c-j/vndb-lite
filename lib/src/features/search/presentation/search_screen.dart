@@ -6,8 +6,6 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_failure_connection.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
-import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/chart/presentation/stat_chart.dart';
 import 'package:vndb_lite/src/features/search/data/remote/remote_search_repo.dart';
@@ -195,11 +193,6 @@ class SearchScreen extends ConsumerWidget {
       if (settings.showChart) return const VNDBStatsChart();
       return const SizedBox.shrink();
     }
-
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      if (!App.isInSearchScreen) return;
-      innerScrollController.jumpTo(scrollOffsetInSearch);
-    });
 
     // Why there's a TapRegion? It's to prevent scrolling confusion between vnItem detail summary,
     // and the vnData search results.

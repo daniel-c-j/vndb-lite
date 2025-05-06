@@ -237,11 +237,10 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     // VnItemGrid went separated like this because we want to measure the widget's
     // size from the visiblity detector.
     final Widget vnItemGrid = Card(
-      elevation: 8,
+      elevation: 2,
       clipBehavior: Clip.hardEdge,
       color: kColor(context).secondary.withOpacity(0.5),
       margin: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.017)),
-      shadowColor: kColor(context).secondary.withOpacity(0.8),
       child: InkWell(
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:scroll_to_hide/scroll_to_hide.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
@@ -9,6 +8,7 @@ import 'package:vndb_lite/src/features/_base/presentation/other_parts/navigation
 import 'package:vndb_lite/src/util/balanced_safearea.dart';
 
 import '../../../../util/context_shortcut.dart';
+import '../../../../util/scroll_to_hide.dart';
 
 class TabsBottomNavbar extends StatelessWidget {
   const TabsBottomNavbar({
@@ -35,6 +35,7 @@ class TabsBottomNavbar extends StatelessWidget {
             height: heightBottomNav,
             scrollController: scrollController,
             hideDirection: Axis.vertical,
+
             child: SizedBox(
               height: heightBottomNav,
               child: DecoratedBox(

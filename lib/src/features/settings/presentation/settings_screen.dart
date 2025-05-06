@@ -13,28 +13,31 @@ import 'package:vndb_lite/src/util/balanced_safearea.dart';
 
 import '../../theme/theme_data_provider.dart';
 
-class SettingsScreen extends ConsumerStatefulWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
   bool _showDataList = false;
   bool _showThemeList = false;
   bool _showVnPreviewList = false;
 
   @override
   Widget build(BuildContext context) {
-    final theme = ref.watch(appThemeStateProvider);
-
     return Stack(
       children: [
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
-        GenericBackground(imagePath: theme.backgroundImgPath, useGradientOverlay: true),
+        Consumer(
+          builder: (context, ref, child) {
+            final theme = ref.watch(appThemeStateProvider);
+            return GenericBackground(imagePath: theme.backgroundImgPath, useGradientOverlay: true);
+          },
+        ),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //

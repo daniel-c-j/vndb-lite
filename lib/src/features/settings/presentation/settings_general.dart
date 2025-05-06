@@ -12,7 +12,6 @@ import 'package:vndb_lite/src/features/settings/presentation/dialog/settings_dia
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/app.dart';
 
 class SettingsGeneral extends ConsumerStatefulWidget {
   const SettingsGeneral({super.key});

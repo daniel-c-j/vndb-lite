@@ -11,7 +11,6 @@ import 'package:vndb_lite/src/features/settings/presentation/components/settings
 import 'package:vndb_lite/src/features/settings/presentation/dialog/settings_dialog.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_data_state.dart';
 import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 

@@ -7,6 +7,7 @@ import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
+import 'package:vndb_lite/src/util/debouncer.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/navigation_rail_menu.dart';
@@ -17,6 +18,7 @@ import 'package:vndb_lite/src/features/settings/presentation/settings_data_state
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/tabs_bottom_navbar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vndb_lite/src/util/scroll_to_hide.dart';
 import 'package:vndb_lite/src/util/version_check/version_checker.dart';
 
 import '../../theme/theme_data_provider.dart';
@@ -31,14 +33,17 @@ final mainScrollController = ScrollController();
 bool _updateIsChecked = false;
 bool _collectionTabInitialized = false;
 
-// * To maintain consistency in screens that has lots of items.
+// * To maintain consistency in screen that has lots of items.
 double scrollOffsetInSearch = 0;
-double scrollOffsetInCollection = 0;
 
 class MainTabLayout extends StatelessWidget {
   const MainTabLayout({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
+
+  static const _scrollAnimDuration = Duration(milliseconds: 250);
+  // Slightly optimizing performance.
+  static final _debounce = Debouncer(delay: const Duration(milliseconds: 50));
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,42 +75,56 @@ class MainTabLayout extends StatelessWidget {
     navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
   }
 
-  static const _scrollAnimDuration = Duration(milliseconds: 200);
-
   /// This method exists since there are another [ScrollController] inside of [NestedScrollView]
   /// and since [NestedScrollView] animation behaviour went odd because of another controller's
   /// existence, and the animation still crucial, this synthetic method exists to fulfill
   ///  [NestedScrollView]'s sliver behaviour.
-  void _forceAnimateNestedScrollView() {
+  ///
+  /// Also to control [BottomNavBar] visibility.
+  void _forceAnimateScroll() {
     if (innerScrollController.position.userScrollDirection == ScrollDirection.idle) return;
+    final bottomNavBarShown = ref_.read(showBottomNavBarProvider);
 
     if (innerScrollController.position.userScrollDirection == ScrollDirection.forward) {
-      mainScrollController.animateTo(0, duration: _scrollAnimDuration, curve: Curves.ease);
-      //
-    } else if (innerScrollController.position.userScrollDirection == ScrollDirection.reverse) {
-      //
-      mainScrollController.animateTo(
-        innerScrollController.position.pixels * 0.5,
-        duration: _scrollAnimDuration,
-        curve: Curves.ease,
-      );
+      // Only applies in search&collection screen.
+      if (App.isInSearchScreen || App.isInCollectionScreen) {
+        _debounce.call(() {
+          if (mainScrollController.position.pixels == 0) return;
+          mainScrollController.animateTo(0, duration: _scrollAnimDuration, curve: Curves.ease);
+        });
+      }
+
+      if (!bottomNavBarShown) ref_.read(showBottomNavBarProvider.notifier).state = true;
+      return;
+    }
+
+    // If scrolling in reverse, then:
+    if (bottomNavBarShown) ref_.read(showBottomNavBarProvider.notifier).state = false;
+    if (App.isInSearchScreen || App.isInCollectionScreen) {
+      _debounce.call(() {
+        if (mainScrollController.position.pixels > 10) return;
+        mainScrollController.animateTo(
+          responsiveUI.own(0.16), // AppBar's height
+          duration: _scrollAnimDuration,
+          curve: Curves.ease,
+        );
+      });
     }
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {
     // debugPrint('Current pixel : ${notification.metrics.pixels}');
     // debugPrint('Max scroll in pixel : ${notification.metrics.maxScrollExtent}');
-
-    _forceAnimateNestedScrollView();
+    _forceAnimateScroll();
 
     // This supports search screen lazy loading when user hit the bottom screen, the result continues.
     if (App.isInSearchScreen) {
       scrollOffsetInSearch = innerScrollController.position.pixels;
+
       ref_.read(searchResultControllerProvider.notifier).handleNextResult(notification);
       return false;
     }
 
-    scrollOffsetInCollection = innerScrollController.position.pixels;
     return false;
   }
 
@@ -126,20 +145,22 @@ class MainTabLayout extends StatelessWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
+  void _maintainSearchScrollOffset() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (!App.isInSearchScreen) return;
+      innerScrollController.jumpTo(scrollOffsetInSearch);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
-    final body = NestedScrollView(
-      floatHeaderSlivers: true,
-      controller: mainScrollController,
-      // ! Do not set to constant.
-      headerSliverBuilder: (_, __) => <Widget>[TabAppBar()],
-      body: MainScaffoldBody(navigationShell: navigationShell),
-    );
-
     // * Checks version at startup after everything loads.
     if (!_updateIsChecked) _checkUpdate();
+
+    // * Maintain search scroll offset.
+    if (App.isInSearchScreen) _maintainSearchScrollOffset();
 
     return Stack(
       children: [
@@ -177,15 +198,16 @@ class MainTabLayout extends StatelessWidget {
               if (isLandscape)
                 TabsSideNavbar(selectedIndex: navigationShell.currentIndex, onTap: _goToBranch),
               Expanded(
-                child:
-                    // * Listener only active when it's in search/collection screen.
-                    (App.isInSearchScreen || App.isInCollectionScreen)
-                        ? NotificationListener(
-                          onNotification: _handleScrollNotification,
-
-                          child: body,
-                        )
-                        : body,
+                child: NotificationListener(
+                  onNotification: _handleScrollNotification,
+                  child: NestedScrollView(
+                    floatHeaderSlivers: true,
+                    controller: mainScrollController,
+                    // ! Do not set to constant.
+                    headerSliverBuilder: (_, _) => <Widget>[TabAppBar()],
+                    body: MainScaffoldBody(navigationShell: navigationShell),
+                  ),
+                ),
               ),
             ],
           ),

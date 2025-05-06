@@ -28,7 +28,7 @@ class SearchResultPageController extends _$SearchResultPageController {
 
 @Riverpod(keepAlive: true)
 class SearchResultController extends _$SearchResultController {
-  final _debouncer = Debouncer(delay: Duration(milliseconds: 400));
+  final _debouncer = Debouncer(delay: const Duration(milliseconds: 400));
 
   @override
   List<VnItemGrid> build() {

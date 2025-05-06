@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
+import 'package:vndb_lite/src/constants/app_sizes.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
@@ -13,6 +14,7 @@ import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_so
 import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
+import 'package:vndb_lite/src/util/text_extensions.dart';
 
 class HomeSectionHeader extends ConsumerWidget {
   const HomeSectionHeader({super.key, required this.sectionData});
@@ -59,32 +61,24 @@ class HomeSectionHeader extends ConsumerWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Widget _authedCollectionTitleOf(String username) {
+  Widget _authedCollectionTitleOf(String username, BuildContext ctx) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Wrap(
+        Row(
           children: [
-            ShadowText(
-              username,
-              color: kColor().secondary.withAlpha(200),
-              fontSize: responsiveUI.own(0.046),
-              fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(
-                  color: Color.alphaBlend(Colors.black.withOpacity(0.5), kColor().primary),
-                  blurRadius: 8,
-                ),
-              ],
-            ),
-            ShadowText("'s", fontSize: responsiveUI.own(0.046)),
+            Icon(sectionData.icon, color: kColor(ctx).tertiary, size: responsiveUI.own(0.045)),
+            GAP_W6,
+            Text(username).sizeOf(responsiveUI.own(0.046)).withColor(kColor(ctx).secondary).bold,
+            Text("'s").sizeOf(responsiveUI.own(0.046)).withColor(kColor(ctx).tertiary),
           ],
         ),
-        ShadowText(
-          "Latest Collection",
-          fontSize: responsiveUI.catgTitle,
-          color: kColor().tertiary,
-          shadows: [Shadow(color: kColor().secondary, blurRadius: 5)],
+        Row(
+          children: [
+            Text(
+              "Latest Collection",
+            ).sizeOf(responsiveUI.catgTitle).withColor(kColor(ctx).tertiary),
+          ],
         ),
       ],
     );
@@ -99,24 +93,38 @@ class HomeSectionHeader extends ConsumerWidget {
     final uId = ref.watch(authScreenControllerProvider);
     final userDidAuth = uId != null;
 
-    return Padding(
-      padding:
-          (userDidAuth && _isCollection)
-              ? EdgeInsets.only(bottom: responsiveUI.own(0.025), top: responsiveUI.own(0.025))
-              : EdgeInsets.zero,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          (userDidAuth && _isCollection)
-              ? _authedCollectionTitleOf(uId.username)
-              : ShadowText(
-                sectionData.title,
-                fontSize: responsiveUI.catgTitle,
-                color: kColor(context).tertiary,
-                shadows: [Shadow(color: kColor(context).secondary, blurRadius: 5)],
-              ),
-          TextButton(
-            onPressed: () {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: EdgeInsets.all(responsiveUI.own(0.025)),
+
+            child:
+                (userDidAuth && _isCollection)
+                    ? _authedCollectionTitleOf(uId.username, context)
+                    : Row(
+                      children: [
+                        Icon(
+                          sectionData.icon,
+                          color: kColor(context).tertiary,
+                          size: responsiveUI.own(0.045),
+                        ),
+                        GAP_W6,
+                        Text(
+                          sectionData.title,
+                        ).sizeOf(responsiveUI.catgTitle).withColor(kColor(context).tertiary),
+                      ],
+                    ),
+          ),
+        ),
+        Positioned(
+          right: 0,
+          top: 0,
+          child: CustomButton(
+            msg: 'See More',
+            onTap: () {
               seeMore(
                 ref,
                 filter: sectionData.filter,
@@ -124,18 +132,17 @@ class HomeSectionHeader extends ConsumerWidget {
                 isCollection: sectionData.labelCode == SortableCode.collection,
               );
             },
-            child: Text(
-              'See more >',
-              style: TextStyle(
-                fontSize: responsiveUI.normalSize,
-                decoration: TextDecoration.underline,
-                color: kColor(context).secondary,
-                decorationColor: kColor(context).secondary,
-              ),
+            padding: const EdgeInsets.all(12),
+            buttonColor: Colors.transparent,
+            borderRadius: BorderRadius.circular(60),
+            child: Icon(
+              Icons.open_in_new,
+              color: kColor(context).tertiary,
+              size: responsiveUI.own(0.05),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
