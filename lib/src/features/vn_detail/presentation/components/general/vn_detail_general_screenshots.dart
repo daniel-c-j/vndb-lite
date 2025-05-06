@@ -130,6 +130,7 @@ class _VnDetailGeneralScreenshotsState extends State<VnDetailGeneralScreenshots>
                 child: Swiper(
                   scrollDirection: Axis.horizontal,
                   itemCount: screenshotsUrl.length,
+
                   axisDirection: AxisDirection.right,
                   pagination: SwiperPagination(
                     alignment: Alignment.bottomCenter,

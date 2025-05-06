@@ -61,11 +61,12 @@ class CustomButton extends StatelessWidget {
                   ? Border.all(color: borderColor ?? Colors.white, width: borderWidth ?? 1.5)
                   : Border.all(width: 0, color: Colors.transparent),
           borderRadius: borderRadius ?? _radius,
+          boxShadow: [BoxShadow(blurRadius: elevation)],
         ),
         child: Material(
           borderRadius: borderRadius ?? _radius,
           color: (gradientColor != null) ? Colors.transparent : buttonColor,
-          elevation: elevation,
+          // elevation: elevation,
           child: InkWell(
             splashColor: highlightColor,
             highlightColor: highlightColor,
