@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:vndb_lite/src/util/local_notification.dart';
+import 'package:vndb_lite/src/util/text_extensions.dart';
 import '../../app.dart';
 import '../../constants/_constants.dart';
 import '../../util/context_shortcut.dart';
@@ -108,9 +109,10 @@ class AppStartup {
         width: kScreenWidth(),
         child: Scaffold(
           appBar: AppBar(backgroundColor: Colors.red, title: const Text('An error occurred')),
+          backgroundColor: Colors.white,
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(8),
-            child: Center(child: Text(details.toString())),
+            child: Center(child: Text(details.toString()).withColor(Colors.black)),
           ),
         ),
       );

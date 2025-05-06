@@ -9,12 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- App theme configuration.
-- Buttons.
-- Refresh indicator.
-- Scrolling behaviour.
+- None.
 
 ## [2.0.0] - 2025-05-02
+
+### Added
+
+- Home big preview.
 
 ### Changed
 
@@ -22,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dependencies version.
 - Project structure.
 - Framework update.
+- App theme configuration.
+- Buttons.
+- Refresh indicator.
+- Scrolling behaviour.
 
 ## [1.2.0] - 2024-xx-xx
 

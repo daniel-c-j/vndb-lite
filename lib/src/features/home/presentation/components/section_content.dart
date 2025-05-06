@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/generic_failure_connection.dart';
 import 'package:vndb_lite/src/common_widgets/generic_local_empty_content.dart';
@@ -11,19 +12,27 @@ import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
 
+final homeRatingPreviewsProvider = StateProvider<List<VnDataPhase01>>((ref) => const []);
+
 /// A simple horizontal-slide widget consisting a list of vn items.
 class HomeSectionContent extends ConsumerWidget {
-  const HomeSectionContent({super.key, required this.sectionData, required this.maxItem});
+  const HomeSectionContent({
+    super.key,
+    required this.sectionData,
+    required this.maxItem,
+    this.height,
+  });
 
   final HomeSectionsCode sectionData;
   final int maxItem;
+  final double? height;
 
   // Height will be smaller when landscape.
   double get _sectionContentHeight {
     final context = NavigationService.currentContext;
 
     return (MediaQuery.of(context).orientation == Orientation.portrait)
-        ? responsiveUI.own(0.525)
+        ? responsiveUI.own(0.485)
         : responsiveUI.own(0.45);
   }
 
@@ -74,8 +83,13 @@ class HomeSectionContent extends ConsumerWidget {
             final formattedP1Data = data;
             if (formattedP1Data.isEmpty) return const GenericLocalEmptyWidget();
 
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              if (sectionData != HomeSectionsCode.rating) return;
+              ref.read(homeRatingPreviewsProvider.notifier).state = data;
+            });
+
             return SizedBox(
-              height: _sectionContentHeight,
+              height: height ?? _sectionContentHeight,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: formattedP1Data.length,
