@@ -84,155 +84,140 @@ class AboutScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(appThemeStateProvider);
 
-    return Stack(
-      children: [
-        //
-        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        //
-        GenericBackground(imagePath: theme.backgroundImgPath, useGradientOverlay: true),
-        //
-        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        //
-        Scaffold(
-          backgroundColor: kColor(context).primary.withOpacity(0.3),
-          body: Stack(
-            children: [
-              SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  right: measureSafeAreaOf(responsiveUI.own(0.05)),
-                  left: measureSafeAreaOf(responsiveUI.own(0.05)),
-                  bottom: responsiveUI.own(0.2),
+    return Scaffold(
+      backgroundColor: kColor(context).primary.withOpacity(0.3),
+      body: Stack(
+        children: [
+          GenericBackground(imagePath: theme.backgroundImgPath, useGradientOverlay: true),
+          SingleChildScrollView(
+            padding: EdgeInsets.only(
+              right: measureSafeAreaOf(responsiveUI.own(0.05)),
+              left: measureSafeAreaOf(responsiveUI.own(0.05)),
+              bottom: responsiveUI.own(0.2),
+            ),
+            child: Column(
+              children: [
+                //
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                // App icon
+                Tooltip(
+                  message: 'Christiane Friedrich from Majikoi Series ♥',
+                  margin: EdgeInsets.only(top: responsiveUI.own(0.12)),
+                  preferBelow: true,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: responsiveUI.own(0.3),
+                      bottom: responsiveUI.own(0.02),
+                    ),
+                    width: responsiveUI.own(0.25),
+                    height: responsiveUI.own(0.25),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: kColor(context).secondary.withOpacity(0.4),
+                        width: 2.5,
+                      ),
+                      borderRadius: BorderRadius.circular(60),
+                    ),
+                    child: Image.asset('assets/images/icon/app_icon.png', fit: BoxFit.cover),
+                  ),
                 ),
-                child: Column(
+                //
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                //
+                ShadowText(
+                  AppInfo.TITLE,
+                  fontSize: responsiveUI.own(0.05),
+                  fontWeight: FontWeight.bold,
+                  align: TextAlign.center,
+                ),
+                ShadowText('ver ${AppInfo.CURRENT_VERSION}', align: TextAlign.center),
+                ShadowText(AppInfo.DESCRIPTION, align: TextAlign.center),
+                Divider(indent: responsiveUI.own(0.1), endIndent: responsiveUI.own(0.1)),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: responsiveUI.own(0.02)),
+                  child: ShadowText('About', fontSize: responsiveUI.catgTitle),
+                ),
+                ShadowText(
+                  "Hi there, Daniel CJ here. I am the developer of this app, ${AppInfo.TITLE}. "
+                  "I have passions in $_passions. "
+                  "\n\n"
+                  "This is the first Flutter app I've ever developed. "
+                  "It took me about 8 ~ 9 weeks to finish the first version of this app. "
+                  "At first it was just a sudden idea popped in my head out of nowhere, but ended up "
+                  "as what you are using now. I am certainly grateful for this wonderful experience "
+                  "of developing a mobile app using Flutter, and looking to develop more!"
+                  "\n\n"
+                  "Also, I am currently open for mobile developing-related jobs (remotely global)! "
+                  "If you're interested, and would like to create similar apps as this one with even "
+                  "more cool features, don't hesitate to contact me!",
+                  align: TextAlign.center,
+                ),
+                Divider(indent: responsiveUI.own(0.1), endIndent: responsiveUI.own(0.1)),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: responsiveUI.own(0.02),
+                    bottom: responsiveUI.own(0.02),
+                  ),
+                  child: ShadowText('Contact', fontSize: responsiveUI.catgTitle),
+                ),
+                //
+                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                // Contact
+                ShadowText(
+                  'Project? Job offer? ... Or generous enough to donate me :)? '
+                  'Here are ways to reach me:',
+                  align: TextAlign.center,
+                ),
+                SizedBox(height: responsiveUI.own(0.02)),
+                Wrap(
+                  alignment: WrapAlignment.spaceEvenly,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     //
-                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                    // App icon
-                    Tooltip(
-                      message: 'Christiane Friedrich from Majikoi Series ♥',
-                      margin: EdgeInsets.only(top: responsiveUI.own(0.12)),
-                      preferBelow: true,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          top: responsiveUI.own(0.3),
-                          bottom: responsiveUI.own(0.02),
+                    for (String contactType in contacts.keys)
+                      //
+                      for (String url in contacts[contactType]["id"])
+                        _getContactWidget(
+                          urlLink: _getUrlDomain(contactType, url),
+                          contents: [contacts[contactType]["icon"], ShadowText('  $url')],
                         ),
-                        width: responsiveUI.own(0.25),
-                        height: responsiveUI.own(0.25),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: kColor(context).secondary.withOpacity(0.4),
-                            width: 2.5,
-                          ),
-                          borderRadius: BorderRadius.circular(60),
-                        ),
-                        child: Image.asset('assets/images/icon/app_icon.png', fit: BoxFit.cover),
-                      ),
-                    ),
-                    //
-                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                    //
-                    ShadowText(
-                      AppInfo.TITLE,
-                      fontSize: responsiveUI.own(0.05),
-                      fontWeight: FontWeight.bold,
-                      align: TextAlign.center,
-                    ),
-                    ShadowText('ver ${AppInfo.CURRENT_VERSION}', align: TextAlign.center),
-                    ShadowText(AppInfo.DESCRIPTION, align: TextAlign.center),
-                    Divider(indent: responsiveUI.own(0.1), endIndent: responsiveUI.own(0.1)),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: responsiveUI.own(0.02)),
-                      child: ShadowText('About', fontSize: responsiveUI.catgTitle),
-                    ),
-                    ShadowText(
-                      "Hi there, Daniel CJ here. I am the developer of this app, ${AppInfo.TITLE}. "
-                      "I have passions in $_passions. "
-                      "\n\n"
-                      "This is the first Flutter app I've ever developed. "
-                      "It took me about 8 ~ 9 weeks to finish the first version of this app. "
-                      "At first it was just a sudden idea popped in my head out of nowhere, but ended up "
-                      "as what you are using now. I am certainly grateful for this wonderful experience "
-                      "of developing a mobile app using Flutter, and looking to develop more!"
-                      "\n\n"
-                      "Also, I am currently open for mobile developing-related jobs (remotely global)! "
-                      "If you're interested, and would like to create similar apps as this one with even "
-                      "more cool features, don't hesitate to contact me!",
-                      align: TextAlign.center,
-                    ),
-                    Divider(indent: responsiveUI.own(0.1), endIndent: responsiveUI.own(0.1)),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: responsiveUI.own(0.02),
-                        bottom: responsiveUI.own(0.02),
-                      ),
-                      child: ShadowText('Contact', fontSize: responsiveUI.catgTitle),
-                    ),
-                    //
-                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                    // Contact
-                    ShadowText(
-                      'Project? Job offer? ... Or generous enough to donate me :)? '
-                      'Here are ways to reach me:',
-                      align: TextAlign.center,
-                    ),
-                    SizedBox(height: responsiveUI.own(0.02)),
-                    Wrap(
-                      alignment: WrapAlignment.spaceEvenly,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        //
-                        for (String contactType in contacts.keys)
-                          //
-                          for (String url in contacts[contactType]["id"])
-                            _getContactWidget(
-                              urlLink: _getUrlDomain(contactType, url),
-                              contents: [contacts[contactType]["icon"], ShadowText('  $url')],
-                            ),
-                      ],
-                    ),
                   ],
                 ),
-              ),
-              //
-              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-              // Back button
-              CustomButton(
-                msg: 'Back',
-                onTap: context.pop,
-                margin: EdgeInsets.symmetric(
-                  horizontal: responsiveUI.own(0.05),
-                  vertical: responsiveUI.own(0.11),
-                ),
-                padding: EdgeInsets.symmetric(
-                  vertical: responsiveUI.own(0.02),
-                  horizontal: responsiveUI.own(0.035),
-                ),
-                buttonColor: Colors.transparent,
-                gradientColor: [
-                  kColor(context).primary.withOpacity(0.85),
-                  kColor(context).secondary.withOpacity(0.65),
-                ],
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.arrow_back_ios,
-                      color: kColor(context).tertiary,
-                      size: responsiveUI.own(0.04),
-                    ),
-                    const ShadowText('Back'),
-                  ],
-                ),
-              ),
-
-              //
-              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-              //
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          // Back button
+          CustomButton(
+            msg: 'Back',
+            onTap: context.pop,
+            margin: EdgeInsets.symmetric(
+              horizontal: responsiveUI.own(0.05),
+              vertical: responsiveUI.own(0.11),
+            ),
+            padding: EdgeInsets.symmetric(
+              vertical: responsiveUI.own(0.02),
+              horizontal: responsiveUI.own(0.035),
+            ),
+            gradientColor: [
+              kColor(context).primary.withOpacity(0.85),
+              kColor(context).secondary.withOpacity(0.65),
+            ],
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.arrow_back_ios,
+                  color: kColor(context).tertiary,
+                  size: responsiveUI.own(0.04),
+                ),
+                const ShadowText('Back'),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

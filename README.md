@@ -111,6 +111,15 @@ Overview of this project dependencies:
 
 <br>
 
+TODOS:
+- Landscape mode optimization
+- Detail screen UI update
+- Filter & Sort mechanism
+- Better collection methods
+- Vn review
+- Vn self-note (Add note to a certain vn)
+- New vn releases news
+
 Dev note:
 - No, there will be no localizations. – =͟͟͞͞ =͟͟͞͞ ﾍ( ´Д`)ﾉ I can engrish
 

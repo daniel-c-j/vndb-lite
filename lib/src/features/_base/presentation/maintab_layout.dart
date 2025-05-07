@@ -219,7 +219,7 @@ class MainTabLayout extends StatelessWidget {
                   child: NestedScrollView(
                     floatHeaderSlivers: true,
                     controller: mainScrollController,
-                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                    physics: const NeverScrollableScrollPhysics(),
                     // ! Do not set to constant.
                     headerSliverBuilder: (_, _) => <Widget>[TabAppBar()],
                     body: MainScaffoldBody(navigationShell: navigationShell),

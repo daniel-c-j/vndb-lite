@@ -74,6 +74,7 @@ class MainScaffoldBody extends StatelessWidget {
                   thumbColor: (showScrollBar) ? scrollBarColor : Colors.transparent,
                   child: SingleChildScrollView(
                     controller: innerScrollController,
+                    physics: const BouncingScrollPhysics(),
                     padding: EdgeInsets.only(bottom: responsiveUI.own(0.2)),
                     // * The real content
                     child: navigationShell,

@@ -136,35 +136,34 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        GenericBackground(
-          useGradientOverlay: true,
-          imageWidget: FadeTransition(
-            opacity: _animationController.drive(CurveTween(curve: Curves.ease)),
-            child: ShaderMask(
-              blendMode: BlendMode.dstIn,
-              shaderCallback: (rect) {
-                return const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color.fromARGB(140, 0, 0, 0),
-                    Color.fromARGB(70, 0, 0, 0),
-                    Colors.transparent,
-                  ],
-                ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
-              },
-              child: _imgCover(isCensor: _coverNeedCensor),
+    return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      backgroundColor: kColor(context).primary.withOpacity(0.3),
+      body: Stack(
+        children: [
+          GenericBackground(
+            useGradientOverlay: true,
+            imageWidget: FadeTransition(
+              opacity: _animationController.drive(CurveTween(curve: Curves.ease)),
+              child: ShaderMask(
+                blendMode: BlendMode.dstIn,
+                shaderCallback: (rect) {
+                  return const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromARGB(140, 0, 0, 0),
+                      Color.fromARGB(70, 0, 0, 0),
+                      Colors.transparent,
+                    ],
+                  ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                },
+                child: _imgCover(isCensor: _coverNeedCensor),
+              ),
             ),
           ),
-        ),
-        // Real body
-        Scaffold(
-          extendBody: true,
-          extendBodyBehindAppBar: true,
-          backgroundColor: kColor(context).primary.withOpacity(0.3),
-          body: NestedScrollView(
+          NestedScrollView(
             headerSliverBuilder: (_, bool inBoxScrolled) {
               return [VnDetailAppbar(vnId: _vnId)];
             },
@@ -191,11 +190,8 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
               ),
             ),
           ),
-        ),
-        //
-        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        //
-      ],
+        ],
+      ),
     );
   }
 }

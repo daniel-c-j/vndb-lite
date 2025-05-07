@@ -1,6 +1,5 @@
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/others/languages.dart';
