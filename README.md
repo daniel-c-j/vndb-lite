@@ -146,6 +146,7 @@ Here are the features:
 
 TODOS:
 - Landscape mode optimization
+- Custom background
 - Detail screen UI update
 - Filter & Sort mechanism
 - Better collection methods
@@ -169,6 +170,8 @@ With main dependencies such as:
 - [Dio](https://pub.dev/packages/dio)
 - [Local Notifications](https://pub.dev/packages/flutter_local_notifications)
 - [SharedPreferences](https://pub.dev/packages/sharedpreferences)
+
+And many more...!
 
 [See Changelog](./CHANGELOG.md)
 
