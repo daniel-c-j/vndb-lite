@@ -161,6 +161,7 @@ flutter:
     - assets/images/contact/
     - assets/images/icon/
     - assets/images/os_image/
+    - assets/images/search/
     - assets/images/splash/
     - assets/images/status/
     - assets/images/tutorial/

@@ -10,7 +10,7 @@ import 'package:vndb_lite/src/features/collection/presentation/collection_appbar
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 import 'package:vndb_lite/src/features/home/presentation/home_appbar.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/multiselection_appbar.dart';
-import 'package:vndb_lite/src/features/search/presentation/search_appbar.dart';
+import 'package:vndb_lite/src/features/search/presentation/components/search_appbar.dart';
 
 import '../../../../util/context_shortcut.dart';
 

@@ -84,8 +84,9 @@ class HomeSectionContent extends ConsumerWidget {
             if (formattedP1Data.isEmpty) return const GenericLocalEmptyWidget();
 
             SchedulerBinding.instance.addPostFrameCallback((_) {
-              if (sectionData != HomeSectionsCode.rating) return;
-              ref.read(homeRatingPreviewsProvider.notifier).state = data;
+              if (sectionData == HomeSectionsCode.rating) {
+                ref.read(homeRatingPreviewsProvider.notifier).state = data;
+              }
             });
 
             return SizedBox(

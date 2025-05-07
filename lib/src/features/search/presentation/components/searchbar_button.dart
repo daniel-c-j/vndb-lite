@@ -21,6 +21,7 @@ class SearchBarButton extends StatelessWidget {
     "Tomboy GF",
     "Older heroine",
     "Nakige",
+    "Parody",
     "Sad stuff",
     "Childhood friends",
     "The meaning of life",
@@ -31,14 +32,13 @@ class SearchBarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomButton(
       onTap: () async {
-        print('890990');
         context.goNamed(AppRoute.search.name);
         SchedulerBinding.instance.addPostFrameCallback((_) async {
           await delay(true, 350);
           focusNodeSearch.requestFocus();
         });
       },
-      margin: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.04)),
+      margin: const EdgeInsets.symmetric(horizontal: 12),
       elevation: 2,
       gradientColor: [kColor(context).primary.withAlpha(200), kColor(context).inverseSurface],
       child: Row(
