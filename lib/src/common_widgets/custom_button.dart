@@ -17,6 +17,7 @@ class CustomButton extends StatelessWidget {
     this.gradientColor,
     this.borderWidth,
     this.elevation,
+    this.clipBehavior = Clip.antiAlias,
   });
 
   final VoidCallback onTap;
@@ -36,6 +37,7 @@ class CustomButton extends StatelessWidget {
   final bool? isOutlined;
   final Color? borderColor;
   final double? borderWidth;
+  final Clip clipBehavior;
 
   static final BorderRadius _radius = BorderRadius.circular(10);
   static const EdgeInsets _padding = EdgeInsets.symmetric(horizontal: 20, vertical: 10);
@@ -63,16 +65,20 @@ class CustomButton extends StatelessWidget {
           borderRadius: borderRadius ?? _radius,
           boxShadow: (elevation != null) ? [BoxShadow(blurRadius: elevation!)] : null,
         ),
-        child: Material(
+        child: ClipRRect(
           borderRadius: borderRadius ?? _radius,
-          color: (gradientColor != null) ? Colors.transparent : buttonColor,
-          elevation: 0,
-          child: InkWell(
-            splashColor: highlightColor,
-            highlightColor: highlightColor,
+          clipBehavior: clipBehavior,
+          child: Material(
             borderRadius: borderRadius ?? _radius,
-            onTap: onTap,
-            child: Padding(padding: padding ?? _padding, child: child),
+            color: (gradientColor != null) ? Colors.transparent : buttonColor,
+            elevation: 0,
+            child: InkWell(
+              splashColor: highlightColor,
+              highlightColor: highlightColor,
+              borderRadius: borderRadius ?? _radius,
+              onTap: onTap,
+              child: Padding(padding: padding ?? _padding, child: child),
+            ),
           ),
         ),
       ),

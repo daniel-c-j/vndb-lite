@@ -8,6 +8,14 @@ import '../../sort_filter/domain/filter_.dart';
 
 // ! Must convert to map to support custom section
 enum HomeSectionsCode {
+  collection(
+    id: 1,
+    title: "My Collection",
+    labelCode: SortableCode.collection,
+    maxPreviewItem: Default.MAX_PREVIEW_ITEMS_CONF,
+    icon: Icons.library_books,
+  ),
+
   rating(
     id: 2,
     title: "Top by Rating",
@@ -15,13 +23,6 @@ enum HomeSectionsCode {
     filter: Default.REMOTE_FILTER_CONF,
     maxPreviewItem: Default.MAX_PREVIEW_ITEMS_CONF,
     icon: Icons.star,
-  ),
-  collection(
-    id: 1,
-    title: "My Collection",
-    labelCode: SortableCode.collection,
-    maxPreviewItem: Default.MAX_PREVIEW_ITEMS_CONF,
-    icon: Icons.library_books,
   ),
 
   votecount(

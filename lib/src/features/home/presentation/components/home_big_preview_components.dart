@@ -114,20 +114,23 @@ class HomeBigPreviewText extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final vn = ref.watch(currentHomeBigPreviewProvider);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SingleChildScrollView(
-          padding: const EdgeInsets.only(top: 12.0, left: 12, right: 12),
-          child: Text(vn?.title ?? "").sizeOf(responsiveUI.own(0.0425)).bold,
-        ),
-        Flexible(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.only(top: 4, bottom: 12.0, left: 12, right: 12),
-            child: Text(vn?.description ?? "").sizeOf(responsiveUI.own(0.038)),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(vn?.title ?? "").sizeOf(responsiveUI.own(0.0425)).bold,
           ),
-        ),
-      ],
+          Flexible(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(top: 4, bottom: 12.0, left: 12, right: 12),
+              child: Text(vn?.description ?? "").sizeOf(responsiveUI.own(0.038)),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
