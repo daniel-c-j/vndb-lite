@@ -5,7 +5,6 @@ import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
-import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/features/settings/presentation/components/settings_item_per_row.dart';
 import 'package:vndb_lite/src/features/settings/presentation/components/settings_listview_scroll_items.dart';
 import 'package:vndb_lite/src/features/settings/presentation/dialog/settings_dialog.dart';
@@ -84,53 +83,6 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral>
           color: kColor(context).tertiary.withAlpha(180),
         ),
         title: ShadowText(title),
-      ),
-    );
-  }
-
-  //
-  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  //
-
-  String _getSectionTitle(String key) {
-    return HomeSectionsCode.values.byName(key).title;
-  }
-
-  //
-  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  //
-
-  Future<void> _arrangeHome() async {
-    final homeArrangement = ref.read(settingsGeneralStateProvider).homeSectionsArrangement;
-
-    await showSettingsDialog(
-      title: 'Re-arrange Home Screen',
-      yesOrNo: true,
-      yesFunction: () async {
-        ref.read(settingsGeneralStateProvider.notifier).homeSectionsArrangement = homeArrangement;
-        await _refreshApp();
-      },
-      content: Container(
-        width: double.maxFinite,
-        height: homeArrangement.length * responsiveUI.own(0.13) + responsiveUI.own(0.035),
-        padding: EdgeInsets.only(top: responsiveUI.own(0.03)),
-        child: ReorderableListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (ctx, idx) {
-            return _getDragAndDropItem(
-              key: homeArrangement[idx].name,
-              title: _getSectionTitle(homeArrangement[idx].title),
-            );
-          },
-          itemCount: homeArrangement.length,
-          onReorder: (int oldItemIndex, int newItemIndex) {
-            setState(() {
-              var movedItem = homeArrangement.removeAt(oldItemIndex);
-              homeArrangement.insert(newItemIndex, movedItem);
-            });
-          },
-        ),
       ),
     );
   }
@@ -321,19 +273,6 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral>
                     ],
                   ),
                 ],
-              ),
-              //
-              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-              // Arrange Home
-              SizedBox(height: responsiveUI.own(0.03)),
-              CustomLabel(
-                useBorder: true,
-                borderRadius: 12,
-                isSelected: false,
-                borderColor: kColor(context).secondary,
-                padding: EdgeInsets.all(responsiveUI.own(0.02)),
-                onTap: () async => await _arrangeHome(),
-                children: [ShadowText('Arrange home screen previews')],
               ),
 
               //

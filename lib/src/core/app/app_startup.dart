@@ -6,11 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:path_provider/path_provider.dart';
 
 // ignore:depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:hive_ce/hive.dart';
 import 'package:vndb_lite/src/util/local_notification.dart';
 import 'package:vndb_lite/src/util/text_extensions.dart';
 import '../../app.dart';

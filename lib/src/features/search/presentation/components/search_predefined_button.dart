@@ -1,22 +1,31 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/constants/app_sizes.dart';
+import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
+import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
+import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
+import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
+import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
+import 'package:vndb_lite/src/features/vn/domain/others.dart';
+import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/util/text_extensions.dart';
 
 enum PredefinedHomeSearch {
-  action("Action"),
-  comedy("Comedy"),
-  drama("Drama"),
-  fantasy("Fantasy"),
-  horror("Horror"),
-  mystery("Mystery"),
-  romance("Romance"),
-  scifi("Sci-fi");
+  action(VnTag(id: "g12", name: "Action")),
+  comedy(VnTag(id: "g104", name: "Comedy")),
+  drama(VnTag(id: "g147", name: "Drama")),
+  fantasy(VnTag(id: "g2", name: "Fantasy")),
+  horror(VnTag(id: "g7", name: "Horror")),
+  mystery(VnTag(id: "g19", name: "Mystery")),
+  romance(VnTag(id: "g96", name: "Romance")),
+  scifi(VnTag(id: "g105", name: "Sci-fi"));
 
-  const PredefinedHomeSearch(this.title);
-  final String title;
+  const PredefinedHomeSearch(this.tag);
+  final VnTag tag;
 }
 
 class SearchPredefinedSection extends StatelessWidget {
@@ -66,7 +75,6 @@ class SearchPredefinedSection extends StatelessWidget {
               itemCount: itemCount,
               itemBuilder: (BuildContext context, int index) {
                 final predefinedSearch = PredefinedHomeSearch.values[index];
-
                 return SearchPredefinedButton(data: predefinedSearch);
               },
             ),
@@ -77,23 +85,37 @@ class SearchPredefinedSection extends StatelessWidget {
   }
 }
 
-class SearchPredefinedButton extends StatelessWidget {
+class SearchPredefinedButton extends ConsumerWidget {
   const SearchPredefinedButton({super.key, required this.data});
 
   final PredefinedHomeSearch data;
 
+  static final sort = SortableCode.votecount.name;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return CustomButton(
-      msg: "Search for ${data.title.toLowerCase()} VNs",
-      onTap: () {},
+      msg: "Search for ${data.tag.name!.toLowerCase()} VNs",
+      onTap: () async {
+        final filter = FilterData(search: ' ', tag: [data.tag]);
+
+        ref.read(tempRemoteSortControllerProvider.notifier).copyWith(sort: sort);
+        ref.read(appliedRemoteSortControllerProvider.notifier).copyWith(sort: sort);
+
+        textControllerSearch.text = ' ';
+        ref.read(tempRemoteFilterControllerProvider.notifier).importFilterData(filter);
+        ref.read(appliedRemoteFilterControllerProvider.notifier).importFilterData(filter);
+
+        await ref.read(searchScreenControllerProvider.notifier).searchWithCurrentConf();
+        context.goNamed(AppRoute.search.name);
+      },
       buttonColor: const Color.fromARGB(30, 255, 255, 255),
       padding: EdgeInsets.zero,
-      // clipBehavior: Clip.hardEdge,
+      clipBehavior: Clip.hardEdge,
       child: Stack(
         children: [
           SizedBox.expand(
-            child: Image.asset("assets/images/search/${data.name}.jpg", fit: BoxFit.cover),
+            child: Image.asset("assets/images/search/${data.name}.png", fit: BoxFit.cover),
           ),
           DecoratedBox(
             decoration: BoxDecoration(
@@ -112,7 +134,7 @@ class SearchPredefinedButton extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Text(data.title).sizeOf(responsiveUI.catgTitle),
+                  child: Text(data.tag.name!).sizeOf(responsiveUI.catgTitle),
                 ),
               ),
             ),

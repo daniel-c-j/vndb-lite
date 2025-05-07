@@ -39,7 +39,7 @@ class CustomLabel extends ConsumerWidget {
       buttonColor: (isSelected) ? bgColor ?? kColor(context).primary : Colors.transparent,
       isOutlined: useBorder,
       borderWidth: (useBorder) ? 2 : 0,
-      elevation: (isSelected) ? 2 : 0,
+
       highlightColor: highlightColor,
       padding:
           padding ??
