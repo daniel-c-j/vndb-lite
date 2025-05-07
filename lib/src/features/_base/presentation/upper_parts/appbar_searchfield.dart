@@ -57,8 +57,10 @@ class AppbarSearchfield extends ConsumerWidget {
         padding: EdgeInsets.only(left: responsiveUI.own(0.055)),
         child: ValueListenableBuilder(
           valueListenable: controller,
+
           builder: (context, value, child) {
             return TextField(
+              focusNode: focusNodeSearch,
               //
               // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
               //

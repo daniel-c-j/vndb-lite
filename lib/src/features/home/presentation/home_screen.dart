@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vndb_lite/src/constants/_constants.dart';
 import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview.dart';
-import 'package:vndb_lite/src/util/context_shortcut.dart';
+import 'package:vndb_lite/src/features/search/presentation/searchbar_button.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/features/home/presentation/components/section_content.dart';
@@ -16,49 +17,18 @@ class HomeScreen extends ConsumerWidget {
 
     return Column(
       children: [
+        const HomeBigPreview(),
+        GAP_H12,
+        const SearchBarButton(),
         for (HomeSectionsCode sectionCode in settings.homeSectionsArrangement)
-          Padding(
-            padding:
-                (sectionCode == HomeSectionsCode.rating)
-                    ? EdgeInsets.only(bottom: responsiveUI.own(0.04))
-                    : EdgeInsets.only(
-                      left: responsiveUI.own(0.04),
-                      right: responsiveUI.own(0.04),
-                      bottom: responsiveUI.own(0.04),
-                    ),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [kColor(context).primary.withAlpha(200), kColor(context).inverseSurface],
-                ),
-                borderRadius:
-                    (sectionCode == HomeSectionsCode.rating)
-                        ? BorderRadius.only(
-                          bottomLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16),
-                        )
-                        : BorderRadius.circular(16),
-                boxShadow: const [BoxShadow(blurRadius: 1, color: Color.fromARGB(180, 0, 0, 0))],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                key: ValueKey(sectionCode),
-                children: [
-                  if (sectionCode == HomeSectionsCode.rating) ...const [
-                    HomeBigPreview(),
-                    Divider(height: 0, thickness: 0.5),
-                  ],
-                  HomeSectionHeader(sectionData: sectionCode),
-                  HomeSectionContent(
-                    sectionData: sectionCode,
-                    maxItem: settings.maxPreviewItem,
-                    height:
-                        (sectionCode == HomeSectionsCode.rating) ? responsiveUI.own(0.525) : null,
-                  ),
-                  SizedBox(height: responsiveUI.own(0.03)),
-                ],
-              ),
-            ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            key: ValueKey(sectionCode),
+            children: [
+              HomeSectionHeader(sectionData: sectionCode),
+              HomeSectionContent(sectionData: sectionCode, maxItem: settings.maxPreviewItem),
+              SizedBox(height: responsiveUI.own(0.03)),
+            ],
           ),
       ],
     );

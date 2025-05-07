@@ -42,8 +42,8 @@ class VnItemGrid extends ConsumerStatefulWidget {
 
 class _VnItemGridState extends ConsumerState<VnItemGrid> {
   // A debouncer useful to handle of vn widget's visibility state efficiently.
-  final _fastDebouncer = Debouncer(delay: Duration(milliseconds: 100));
-  final _slowDebouncer = Debouncer(delay: Duration(milliseconds: 500));
+  final _fastDebouncer = Debouncer(delay: const Duration(milliseconds: 100));
+  final _slowDebouncer = Debouncer(delay: const Duration(milliseconds: 500));
 
   late final String _vnId;
   late final String? _vnCoverUrl;

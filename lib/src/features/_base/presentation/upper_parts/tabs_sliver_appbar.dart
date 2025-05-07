@@ -17,6 +17,8 @@ import '../../../../util/context_shortcut.dart';
 class TabAppBar extends ConsumerWidget {
   const TabAppBar({super.key});
 
+  static final height = responsiveUI.own(0.16);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isInMultiselection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
@@ -31,7 +33,7 @@ class TabAppBar extends ConsumerWidget {
     return SliverAppBar(
       elevation: 0,
       floating: true,
-      toolbarHeight: responsiveUI.own(0.16),
+      toolbarHeight: height,
       automaticallyImplyLeading: false,
       flexibleSpace: Container(
         decoration: BoxDecoration(

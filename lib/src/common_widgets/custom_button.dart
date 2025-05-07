@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
     this.borderColor,
     this.gradientColor,
     this.borderWidth,
-    this.elevation = 0,
+    this.elevation,
   });
 
   final VoidCallback onTap;
@@ -31,7 +31,7 @@ class CustomButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final List<Color>? gradientColor;
   final Color? highlightColor;
-  final double elevation;
+  final double? elevation;
 
   final bool? isOutlined;
   final Color? borderColor;
@@ -61,12 +61,12 @@ class CustomButton extends StatelessWidget {
                   ? Border.all(color: borderColor ?? Colors.white, width: borderWidth ?? 1.5)
                   : Border.all(width: 0, color: Colors.transparent),
           borderRadius: borderRadius ?? _radius,
-          boxShadow: [BoxShadow(blurRadius: elevation)],
+          boxShadow: (elevation != null) ? [BoxShadow(blurRadius: elevation!)] : null,
         ),
         child: Material(
           borderRadius: borderRadius ?? _radius,
           color: (gradientColor != null) ? Colors.transparent : buttonColor,
-          // elevation: elevation,
+          elevation: 0,
           child: InkWell(
             splashColor: highlightColor,
             highlightColor: highlightColor,

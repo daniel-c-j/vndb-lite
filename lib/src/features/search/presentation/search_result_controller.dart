@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
+import 'package:vndb_lite/src/features/_base/presentation/upper_parts/tabs_sliver_appbar.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
@@ -37,6 +39,8 @@ class SearchResultController extends _$SearchResultController {
 
   final List<String> vnId = [];
 
+  final double limit = responsiveUI.own(0.7);
+
   void fromP1(List<VnDataPhase01> p1List, String labelCode) {
     for (VnDataPhase01 p1 in p1List) {
       if (vnId.contains(p1.id)) return;
@@ -50,7 +54,7 @@ class SearchResultController extends _$SearchResultController {
     _debouncer.call(() {
       if (notif is ScrollEndNotification) {
         if (_searchStateCanContinue &&
-            notif.metrics.pixels >= notif.metrics.maxScrollExtent - responsiveUI.own(0.7)) {
+            innerScrollController.position.pixels >= (notif.metrics.maxScrollExtent - limit)) {
           // Continue searching...
           SchedulerBinding.instance.addPostFrameCallback((_) async {
             ref.read(searchResultPageControllerProvider.notifier).increment();

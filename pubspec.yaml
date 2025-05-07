@@ -106,6 +106,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   fl_chart: ^0.71.0
   card_swiper: ^3.0.1
+  animated_text_kit: ^4.2.3
 
   # Hides bottom navigation bar when scrolling downward, shows when upward.
   scroll_to_hide: ^2.1.0

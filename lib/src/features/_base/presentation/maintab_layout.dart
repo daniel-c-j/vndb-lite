@@ -27,6 +27,7 @@ import '../../theme/theme_data_provider.dart';
 // * widget tree for specific and crucial use cases.
 final textControllerCollection = TextEditingController();
 final textControllerSearch = TextEditingController();
+final focusNodeSearch = FocusNode();
 final mainScrollController = ScrollController();
 
 // * Once-check flags
@@ -104,7 +105,7 @@ class MainTabLayout extends StatelessWidget {
       _debounce.call(() {
         if (mainScrollController.position.pixels > 10) return;
         mainScrollController.animateTo(
-          responsiveUI.own(0.16), // AppBar's height
+          TabAppBar.height,
           duration: _scrollAnimDuration,
           curve: Curves.ease,
         );
@@ -112,16 +113,21 @@ class MainTabLayout extends StatelessWidget {
     }
   }
 
-  bool _handleScrollNotification(ScrollNotification notification) {
-    // debugPrint('Current pixel : ${notification.metrics.pixels}');
+  bool _handleScrollNotification(ScrollNotification notif) {
+    // debugPrint('Current pixel : ${notification.metrics.pixels}'); // Or
+    // debugPrint('Current pixel : ${innerScrollController.position.pixels}');
     // debugPrint('Max scroll in pixel : ${notification.metrics.maxScrollExtent}');
     _forceAnimateScroll();
 
-    // This supports search screen lazy loading when user hit the bottom screen, the result continues.
+    // * This supports search screen lazy loading when user hit the bottom screen,
+    // * the result continues.
     if (App.isInSearchScreen) {
-      scrollOffsetInSearch = innerScrollController.position.pixels;
+      // * Do nothing if the ScrollNotification is currently talking about the NestedScrollview's
+      // * scrollExtent.
+      if (notif.metrics.maxScrollExtent < TabAppBar.height) return false;
 
-      ref_.read(searchResultControllerProvider.notifier).handleNextResult(notification);
+      scrollOffsetInSearch = innerScrollController.position.pixels;
+      ref_.read(searchResultControllerProvider.notifier).handleNextResult(notif);
       return false;
     }
 
