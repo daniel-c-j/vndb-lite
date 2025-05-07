@@ -12,6 +12,10 @@ import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
 
 part 'collection_sort_filter_service.g.dart';
 
+// TODO remote search 'none' should not be as 'searchrank', but instead, jsut
+// TODO not including the 'sort' at all. WATCHOUT with the search field too,
+// TODO and searching for real empty string is possible, not just space ' '.
+
 /// A service class to do some heavy processing such as sorting and filtering vn data.
 class CollectionSortFilterService {
   CollectionSortFilterService(this.ref);
@@ -169,7 +173,7 @@ class CollectionSortFilterService {
             VnItemGrid(
               key: UniqueKey(),
               p1: VnDataPhase01.fromMap(adaptedVnData),
-              labelCode: sort.sort,
+              labelCode: sort.sort ?? '',
               isGridView: true,
             ),
           ],

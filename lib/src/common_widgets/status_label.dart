@@ -58,11 +58,11 @@ class StatusLabel extends ConsumerWidget {
   //
 
   Widget get _statusIcons {
+    if (labelCode.isEmpty) return const SizedBox.shrink();
+
     final labelCode_ = labelCode.toLowerCase();
     final validCode =
         labelCode_ != SortableCode.title.name && COLLECTION_STATUS_DATA[labelCode_] != null;
-
-    if (labelCode_.isEmpty) return const SizedBox.shrink();
 
     if (LOCAL_SORTABLE_DATA[labelCode_] != null) {
       return Icon(

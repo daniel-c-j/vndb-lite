@@ -158,6 +158,12 @@ class MainTabLayout extends StatelessWidget {
     });
   }
 
+  void _showBottomNavBarWhenScreenChanges() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      ref_.read(showBottomNavBarProvider.notifier).state = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
@@ -167,6 +173,10 @@ class MainTabLayout extends StatelessWidget {
 
     // * Maintain search scroll offset.
     if (App.isInSearchScreen) _maintainSearchScrollOffset();
+
+    // * In certain scenarios bottom nav bar likes to hide when changing screen,
+    // * so this method exists to prevent that behaviour.
+    _showBottomNavBarWhenScreenChanges();
 
     return Stack(
       children: [
@@ -209,6 +219,7 @@ class MainTabLayout extends StatelessWidget {
                   child: NestedScrollView(
                     floatHeaderSlivers: true,
                     controller: mainScrollController,
+                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                     // ! Do not set to constant.
                     headerSliverBuilder: (_, _) => <Widget>[TabAppBar()],
                     body: MainScaffoldBody(navigationShell: navigationShell),

@@ -33,61 +33,64 @@ class SearchBarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: responsiveUI.own(0.025)),
-            child: Row(
-              children: [
-                Icon(Icons.search, color: kColor(context).tertiary, size: responsiveUI.own(0.045)),
-                GAP_W6,
-                Text(
-                  "Quick search",
-                ).sizeOf(responsiveUI.catgTitle).withColor(kColor(context).tertiary),
-              ],
-            ),
-          ),
-          CustomButton(
-            onTap: () async {
-              context.goNamed(AppRoute.search.name);
-              SchedulerBinding.instance.addPostFrameCallback((_) async {
-                await delay(true, 350);
-                focusNodeSearch.requestFocus();
-              });
-            },
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            elevation: 2,
-            gradientColor: [kColor(context).primary.withAlpha(200), kColor(context).inverseSurface],
-            child: Row(
-              children: [
-                Text('Search for... ').sizeOf(responsiveUI.normalSize),
-                Expanded(
-                  child: IgnorePointer(
-                    ignoring: true,
-                    child: AnimatedTextKit(
-                      animatedTexts: [
-                        for (String text in searchPlaceholder)
-                          TypewriterAnimatedText(
-                            text,
-                            textStyle: TextStyle(fontSize: responsiveUI.normalSize),
-                            speed: const Duration(milliseconds: 100),
-                            cursor: '|',
+      child: CustomButton(
+        onTap: () async {
+          context.goNamed(AppRoute.search.name);
+          SchedulerBinding.instance.addPostFrameCallback((_) async {
+            await delay(true, 350);
+            focusNodeSearch.requestFocus();
+          });
+        },
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        elevation: 2,
+        gradientColor: [kColor(context).primary.withAlpha(200), kColor(context).inverseSurface],
+        child: Row(
+          children: [
+            Expanded(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: kColor(context).surface.withAlpha(60),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  child: Row(
+                    children: [
+                      Text('Search for... ').sizeOf(responsiveUI.normalSize),
+                      Expanded(
+                        child: IgnorePointer(
+                          ignoring: true,
+                          child: AnimatedTextKit(
+                            animatedTexts: [
+                              for (String text in searchPlaceholder)
+                                TypewriterAnimatedText(
+                                  text,
+                                  textStyle: TextStyle(fontSize: responsiveUI.normalSize),
+                                  speed: const Duration(milliseconds: 100),
+                                  cursor: '|',
+                                ),
+                            ],
+                            totalRepeatCount: 4,
+                            pause: const Duration(milliseconds: 1000),
                           ),
-                      ],
-                      totalRepeatCount: 4,
-                      pause: const Duration(milliseconds: 1000),
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Icon(
-                  Icons.search_rounded,
-                  color: kColor(context).tertiary,
-                  size: responsiveUI.own(0.0475),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+            GAP_W8,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Icon(
+                Icons.search_rounded,
+                color: kColor(context).tertiary,
+                size: responsiveUI.own(0.06),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

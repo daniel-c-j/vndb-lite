@@ -5,6 +5,7 @@ import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/util/delay.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
@@ -37,11 +38,11 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Stream<List<Widget>> get _tags async* {
+  List<Widget> get _tags {
     final List<VnTag> rawTagList = widget.p2.tags ?? [];
-    List<Widget> tagWidgets = [];
+    final List<Widget> tagWidgets = [];
 
-    if (rawTagList.isEmpty) yield tagWidgets;
+    if (rawTagList.isEmpty) return tagWidgets;
 
     // Sort tags list based on its rating.
     rawTagList.sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
@@ -54,8 +55,8 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
       }
 
       if (tag.rating! >= 1 && tag.spoiler! <= _spoilerTag) {
-        await Future.microtask(() => tagWidgets.add(_getTagWidget(tag)));
-        yield tagWidgets;
+        // await delay(true, 50);
+        tagWidgets.add(_getTagWidget(tag));
       }
     }
 
@@ -81,9 +82,9 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
           ],
         ),
       );
-
-      yield tagWidgets;
     }
+
+    return tagWidgets;
   }
 
   //
@@ -91,8 +92,8 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
   //
 
   Widget _getTagWidget(VnTag tag) {
-    return Container(
-      margin: EdgeInsets.only(right: responsiveUI.own(0.02), bottom: responsiveUI.own(0.02)),
+    return Padding(
+      padding: EdgeInsets.only(right: responsiveUI.own(0.02), bottom: responsiveUI.own(0.02)),
       child: Tooltip(
         message: 'Search for VNs with "${tag.name}" tag.',
         child: CustomLabel(
@@ -188,20 +189,7 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
         SizedBox(height: responsiveUI.own(0.025)),
         (widget.p2.tags == null || widget.p2.tags!.isEmpty)
             ? ShadowText('--')
-            : StreamBuilder(
-              stream: _tags,
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return ShadowText('Loading...');
-                }
-
-                if (snapshot.hasError) {
-                  return ShadowText('Something went wrong.', color: Colors.red);
-                }
-
-                return Wrap(children: snapshot.data);
-              },
-            ),
+            : Wrap(children: _tags),
       ],
     );
   }

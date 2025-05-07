@@ -17,6 +17,7 @@ class HomeBigPreview extends ConsumerWidget {
   const HomeBigPreview({super.key});
 
   static final height = responsiveUI.own(0.7);
+  static const double radius = 12;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,8 +30,10 @@ class HomeBigPreview extends ConsumerWidget {
           colors: [kColor(context).primary.withAlpha(200), kColor(context).inverseSurface],
         ),
         boxShadow: const [BoxShadow(blurRadius: 1, color: Color.fromARGB(180, 0, 0, 0))],
+        borderRadius: BorderRadius.circular(radius),
       ),
-      child: ClipRect(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(radius),
         child: SizedBox(
           height: height,
           child: Stack(

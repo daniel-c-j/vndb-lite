@@ -2,41 +2,30 @@
 import 'dart:convert';
 
 class SortData {
-  const SortData({
-    this.reverse = true,
-    this.sort = "searchrank",
-  });
+  const SortData({this.reverse = true, this.sort = "searchrank"});
 
   final bool? reverse;
-  final String sort;
+  final String? sort;
 
-  SortData copyWith({
-    bool? reverse,
-    String? sort,
-  }) {
-    return SortData(
-      reverse: reverse ?? this.reverse,
-      sort: sort ?? this.sort,
-    );
+  SortData copyWith({bool? reverse, String? sort}) {
+    return SortData(reverse: reverse ?? this.reverse, sort: sort ?? this.sort);
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'reverse': reverse,
-      'sort': sort,
-    };
+    return <String, dynamic>{'reverse': reverse, if (sort != null) 'sort': sort};
   }
 
   factory SortData.fromMap(Map<String, dynamic> map) {
     return SortData(
-      reverse: map['reverse'] as bool,
-      sort: map['sort'] as String,
+      reverse: map['reverse'] != null ? map['reverse'] as bool : null,
+      sort: map['sort'] != null ? map['sort'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SortData.fromJson(String source) => SortData.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SortData.fromJson(String source) =>
+      SortData.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'SortData(reverse: $reverse, sort: $sort)';

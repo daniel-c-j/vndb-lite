@@ -5,8 +5,8 @@ import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/constants/app_sizes.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
-import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
+import 'package:vndb_lite/src/features/sort_filter/domain/sort_.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/vn/domain/others.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
@@ -31,10 +31,10 @@ enum PredefinedHomeSearch {
 class SearchPredefinedSection extends StatelessWidget {
   const SearchPredefinedSection({super.key});
 
-  static final double buttonHeight = responsiveUI.own(0.15);
+  static final double buttonHeight = responsiveUI.own(0.2);
   static final int itemCount = PredefinedHomeSearch.values.length;
   static const int crossAxisCount = 2;
-  static const double spacing = 4;
+  static const double spacing = 8;
 
   @override
   Widget build(BuildContext context) {
@@ -90,57 +90,64 @@ class SearchPredefinedButton extends ConsumerWidget {
 
   final PredefinedHomeSearch data;
 
-  static final sort = SortableCode.votecount.name;
+  static const searchSortConf = SortData(sort: null);
+  static const double radius = 10;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return CustomButton(
-      msg: "Search for ${data.tag.name!.toLowerCase()} VNs",
-      onTap: () async {
-        final filter = FilterData(search: ' ', tag: [data.tag]);
-
-        ref.read(tempRemoteSortControllerProvider.notifier).copyWith(sort: sort);
-        ref.read(appliedRemoteSortControllerProvider.notifier).copyWith(sort: sort);
-
-        textControllerSearch.text = ' ';
-        ref.read(tempRemoteFilterControllerProvider.notifier).importFilterData(filter);
-        ref.read(appliedRemoteFilterControllerProvider.notifier).importFilterData(filter);
-
-        await ref.read(searchScreenControllerProvider.notifier).searchWithCurrentConf();
-        context.goNamed(AppRoute.search.name);
-      },
-      buttonColor: const Color.fromARGB(30, 255, 255, 255),
-      padding: EdgeInsets.zero,
-      clipBehavior: Clip.hardEdge,
-      child: Stack(
-        children: [
-          SizedBox.expand(
-            child: Image.asset("assets/images/search/${data.name}.png", fit: BoxFit.cover),
+    return Stack(
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(radius),
+            boxShadow: const [
+              BoxShadow(blurRadius: 2, offset: Offset(0, 2), color: Color.fromARGB(120, 0, 0, 0)),
+            ],
           ),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  kColor(context).primary.withAlpha(120),
-                  kColor(context).primary.withAlpha(60),
-                  Colors.transparent,
-                ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-            ),
-            child: SizedBox.expand(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(data.tag.name!).sizeOf(responsiveUI.catgTitle),
-                ),
-              ),
+          child: SizedBox.expand(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(radius),
+              child: Image.asset("assets/images/search/${data.name}.png", fit: BoxFit.cover),
             ),
           ),
-        ],
-      ),
+        ),
+        CustomButton(
+          msg: "Search for ${data.tag.name!.toLowerCase()} VNs",
+          onTap: () async {
+            final filter = FilterData(search: ' ', tag: [data.tag]);
+
+            ref.read(tempRemoteSortControllerProvider.notifier).importSortData(searchSortConf);
+            ref.read(appliedRemoteSortControllerProvider.notifier).importSortData(searchSortConf);
+
+            textControllerSearch.text = ' ';
+            ref.read(tempRemoteFilterControllerProvider.notifier).importFilterData(filter);
+            ref.read(appliedRemoteFilterControllerProvider.notifier).importFilterData(filter);
+
+            await ref.read(searchScreenControllerProvider.notifier).searchWithCurrentConf();
+            context.goNamed(AppRoute.search.name);
+          },
+          padding: EdgeInsets.zero,
+          gradientColor: [
+            kColor(context).primary.withAlpha(120),
+            kColor(context).primary.withAlpha(60),
+            Colors.transparent,
+          ],
+          gradientStart: Alignment.centerLeft,
+          gradientEnd: Alignment.centerRight,
+          borderRadius: BorderRadius.circular(radius),
+          child: SizedBox(
+            width: double.maxFinite,
+            height: double.maxFinite,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(data.tag.name!).sizeOf(responsiveUI.own(0.0475)),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

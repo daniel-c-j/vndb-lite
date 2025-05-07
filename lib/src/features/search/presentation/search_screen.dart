@@ -160,9 +160,9 @@ class SearchScreen extends ConsumerWidget {
         // Communicate with searchResultController that will present the widgets item from
         // formatting the raw response into the classified model then to the widgets.
         final labelCode =
-            (requestData.sort! == SortableCode.searchrank.name)
+            ((requestData.sort ?? '') == SortableCode.searchrank.name)
                 ? SortableCode.title.name
-                : requestData.sort!;
+                : (requestData.sort ?? '');
         final p1 = remoteRepo.p1ListFromResponse(result);
 
         // Append the result to the controller, and should update UI.

@@ -12,9 +12,11 @@ class CustomButton extends StatelessWidget {
     this.borderRadius,
     this.padding,
     this.highlightColor,
-    this.isOutlined,
+    this.isOutlined = false,
     this.borderColor,
     this.gradientColor,
+    this.gradientStart,
+    this.gradientEnd,
     this.borderWidth,
     this.elevation,
     this.clipBehavior = Clip.antiAlias,
@@ -31,10 +33,12 @@ class CustomButton extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final List<Color>? gradientColor;
+  final AlignmentGeometry? gradientStart;
+  final AlignmentGeometry? gradientEnd;
   final Color? highlightColor;
   final double? elevation;
 
-  final bool? isOutlined;
+  final bool isOutlined;
   final Color? borderColor;
   final double? borderWidth;
   final Clip clipBehavior;
@@ -50,16 +54,17 @@ class CustomButton extends StatelessWidget {
       padding: margin ?? EdgeInsets.zero,
       child: DecoratedBox(
         decoration: BoxDecoration(
+          color: buttonColor,
           gradient:
               (gradientColor != null)
                   ? LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
+                    begin: gradientStart ?? Alignment.topRight,
+                    end: gradientEnd ?? Alignment.bottomLeft,
                     colors: gradientColor!,
                   )
                   : null,
           border:
-              (isOutlined ?? false)
+              (isOutlined)
                   ? Border.all(color: borderColor ?? Colors.white, width: borderWidth ?? 1.5)
                   : Border.all(width: 0, color: Colors.transparent),
           borderRadius: borderRadius ?? _radius,
@@ -69,8 +74,8 @@ class CustomButton extends StatelessWidget {
           borderRadius: borderRadius ?? _radius,
           clipBehavior: clipBehavior,
           child: Material(
+            color: Colors.transparent,
             borderRadius: borderRadius ?? _radius,
-            color: (gradientColor != null) ? Colors.transparent : buttonColor,
             elevation: 0,
             child: InkWell(
               splashColor: highlightColor,

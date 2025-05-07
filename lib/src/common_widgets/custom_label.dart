@@ -36,17 +36,16 @@ class CustomLabel extends ConsumerWidget {
     return CustomButton(
       onTap: onTap ?? () {},
       borderRadius: BorderRadius.circular(borderRadius),
-      buttonColor: (isSelected) ? bgColor ?? kColor(context).primary : Colors.transparent,
-      isOutlined: useBorder,
-      borderWidth: (useBorder) ? 2 : 0,
-
-      highlightColor: highlightColor,
+      buttonColor: (isSelected) ? (bgColor ?? kColor(context).primary) : Colors.transparent,
       padding:
           padding ??
           EdgeInsets.symmetric(
             vertical: responsiveUI.own(0.01),
             horizontal: responsiveUI.own(0.025),
           ),
+      isOutlined: useBorder,
+      borderWidth: (useBorder) ? 2 : 0,
+      highlightColor: highlightColor,
       borderColor:
           (useBorder)
               ? (isSelected)

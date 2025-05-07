@@ -10,11 +10,7 @@ import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/v
 import 'package:vndb_lite/src/util/format_minutes.dart';
 
 class VnItemDetailLabel extends ConsumerWidget {
-  const VnItemDetailLabel({
-    super.key,
-    required this.p1,
-    required this.labelCode,
-  });
+  const VnItemDetailLabel({super.key, required this.p1, required this.labelCode});
 
   final VnDataPhase01 p1;
 
@@ -22,7 +18,7 @@ class VnItemDetailLabel extends ConsumerWidget {
 
   Future<String> _getLabelData(WidgetRef ref, String label, {VnRecord? record}) async {
     final labelCode = label.toLowerCase();
-    if (labelCode == SortableCode.title.name) return '';
+    if (labelCode == SortableCode.title.name || labelCode.isEmpty) return '';
     if (labelCode == SortableCode.rating.name) return (p1.rating! / 10).toStringAsFixed(2);
     if (labelCode == SortableCode.votecount.name) return p1.votecount.toString();
     if (labelCode == SortableCode.released.name) return p1.released!;
@@ -72,7 +68,9 @@ class VnItemDetailLabel extends ConsumerWidget {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return StatusLabel(
             labelCode:
-                (labelCode == SortableCode.collection.name && vnRecord != null) ? vnRecord.status : labelCode,
+                (labelCode == SortableCode.collection.name && vnRecord != null)
+                    ? vnRecord.status
+                    : labelCode,
             labelText: snapshot.data,
           );
         },

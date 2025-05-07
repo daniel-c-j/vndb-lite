@@ -44,9 +44,8 @@ class VnDetailReleasesLang extends StatelessWidget {
     //
     return Padding(
       padding: EdgeInsets.only(bottom: responsiveUI.own(0.01)),
-      child: Wrap(
-        alignment: WrapAlignment.start,
-        crossAxisAlignment: WrapCrossAlignment.center,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Flag.fromString(
             formatLanguageCode(languageCode: langCode),
@@ -68,7 +67,7 @@ class VnDetailReleasesLang extends StatelessWidget {
       children: [
         ShadowText('Languages', fontSize: responsiveUI.own(0.045), fontWeight: FontWeight.bold),
         SizedBox(height: responsiveUI.own(0.01)),
-        Wrap(
+        Row(
           children: [
             _flagLangCode(p1.olang!),
             ShadowText(
@@ -88,11 +87,11 @@ class VnDetailReleasesLang extends StatelessWidget {
         FutureBuilder(
           future: _flagWidgets,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return snapshot.data;
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SizedBox.shrink();
             }
 
-            return const SizedBox.shrink();
+            return snapshot.data;
           },
         ),
       ],

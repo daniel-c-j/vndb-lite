@@ -56,7 +56,7 @@ class VnDetailsTopHeader extends StatelessWidget {
                       fontSize: responsiveUI.own(0.05),
                       fontWeight: FontWeight.bold,
                       color: kColor(context).tertiary,
-                      shadows: [Shadow(color: kColor(context).secondary, blurRadius: 3)],
+                      // shadows: [Shadow(color: kColor(context).secondary, blurRadius: 3)],
                     ),
                   ),
                 ),
