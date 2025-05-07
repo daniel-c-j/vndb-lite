@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/common_widgets/generic_background.dart';
@@ -7,7 +6,6 @@ import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
-import 'package:vndb_lite/src/util/debouncer.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/navigation_rail_menu.dart';
@@ -42,10 +40,6 @@ class MainTabLayout extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  static const _scrollAnimDuration = Duration(milliseconds: 250);
-  // Slightly optimizing performance.
-  static final _debounce = Debouncer(delay: const Duration(milliseconds: 50));
-
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
@@ -76,48 +70,10 @@ class MainTabLayout extends StatelessWidget {
     navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
   }
 
-  /// This method exists since there are another [ScrollController] inside of [NestedScrollView]
-  /// and since [NestedScrollView] animation behaviour went odd because of another controller's
-  /// existence, and the animation still crucial, this synthetic method exists to fulfill
-  ///  [NestedScrollView]'s sliver behaviour.
-  ///
-  /// Also to control [BottomNavBar] visibility.
-  void _forceAnimateScroll() {
-    if (innerScrollController.position.userScrollDirection == ScrollDirection.idle) return;
-    final bottomNavBarShown = ref_.read(showBottomNavBarProvider);
-
-    if (innerScrollController.position.userScrollDirection == ScrollDirection.forward) {
-      // Only applies in search&collection screen.
-      if (App.isInSearchScreen || App.isInCollectionScreen) {
-        _debounce.call(() {
-          if (mainScrollController.position.pixels == 0) return;
-          mainScrollController.animateTo(0, duration: _scrollAnimDuration, curve: Curves.ease);
-        });
-      }
-
-      if (!bottomNavBarShown) ref_.read(showBottomNavBarProvider.notifier).state = true;
-      return;
-    }
-
-    // If scrolling in reverse, then:
-    if (bottomNavBarShown) ref_.read(showBottomNavBarProvider.notifier).state = false;
-    if (App.isInSearchScreen || App.isInCollectionScreen) {
-      _debounce.call(() {
-        if (mainScrollController.position.pixels > 10) return;
-        mainScrollController.animateTo(
-          TabAppBar.height,
-          duration: _scrollAnimDuration,
-          curve: Curves.ease,
-        );
-      });
-    }
-  }
-
   bool _handleScrollNotification(ScrollNotification notif) {
-    // debugPrint('Current pixel : ${notification.metrics.pixels}'); // Or
+    // debugPrint('Current pixel : ${notif.metrics.pixels}'); // Or
     // debugPrint('Current pixel : ${innerScrollController.position.pixels}');
-    // debugPrint('Max scroll in pixel : ${notification.metrics.maxScrollExtent}');
-    _forceAnimateScroll();
+    // debugPrint('Max scroll in pixel : ${notif.metrics.maxScrollExtent}');
 
     // * This supports search screen lazy loading when user hit the bottom screen,
     // * the result continues.
@@ -126,7 +82,7 @@ class MainTabLayout extends StatelessWidget {
       // * scrollExtent.
       if (notif.metrics.maxScrollExtent < TabAppBar.height) return false;
 
-      scrollOffsetInSearch = innerScrollController.position.pixels;
+      scrollOffsetInSearch = ref_.read(innerScrollControllerProvider)!.position.pixels;
       ref_.read(searchResultControllerProvider.notifier).handleNextResult(notif);
       return false;
     }
@@ -154,13 +110,7 @@ class MainTabLayout extends StatelessWidget {
   void _maintainSearchScrollOffset() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (!App.isInSearchScreen) return;
-      innerScrollController.jumpTo(scrollOffsetInSearch);
-    });
-  }
-
-  void _showBottomNavBarWhenScreenChanges() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      ref_.read(showBottomNavBarProvider.notifier).state = true;
+      ref_.read(innerScrollControllerProvider)?.jumpTo(scrollOffsetInSearch);
     });
   }
 
@@ -173,10 +123,6 @@ class MainTabLayout extends StatelessWidget {
 
     // * Maintain search scroll offset.
     if (App.isInSearchScreen) _maintainSearchScrollOffset();
-
-    // * In certain scenarios bottom nav bar likes to hide when changing screen,
-    // * so this method exists to prevent that behaviour.
-    _showBottomNavBarWhenScreenChanges();
 
     return Stack(
       children: [
@@ -206,7 +152,6 @@ class MainTabLayout extends StatelessWidget {
         //
         Scaffold(
           extendBody: true,
-          extendBodyBehindAppBar: !App.isInCollectionScreen,
           backgroundColor: Colors.black.withOpacity(0.3),
           body: Row(
             children: [
@@ -219,10 +164,20 @@ class MainTabLayout extends StatelessWidget {
                   child: NestedScrollView(
                     floatHeaderSlivers: true,
                     controller: mainScrollController,
-                    physics: const NeverScrollableScrollPhysics(),
                     // ! Do not set to constant.
-                    headerSliverBuilder: (_, _) => <Widget>[TabAppBar()],
-                    body: MainScaffoldBody(navigationShell: navigationShell),
+                    headerSliverBuilder: (ctx, _) => [TabAppBar()],
+                    body: Builder(
+                      builder: (context) {
+                        // ! Crucial, if not exists, screen will not be able to remember their latest
+                        // ! position in pixel.
+                        SchedulerBinding.instance.addPostFrameCallback((_) {
+                          final controller = PrimaryScrollController.of(context);
+                          ref_.read(innerScrollControllerProvider.notifier).state = controller;
+                        });
+
+                        return MainScaffoldBody(navigationShell: navigationShell);
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -241,7 +196,6 @@ class MainTabLayout extends StatelessWidget {
               return TabsBottomNavbar(
                 onlyProgressIndicator: isLandscape,
                 selectedIndex: navigationShell.currentIndex,
-                scrollController: innerScrollController,
                 onTap: _goToBranch,
               );
             },

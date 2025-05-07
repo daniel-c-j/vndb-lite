@@ -53,8 +53,9 @@ class SearchResultController extends _$SearchResultController {
     _debouncer.call(() {
       if (notif is ScrollEndNotification) {
         if (_searchStateCanContinue &&
-            innerScrollController.position.pixels >= (notif.metrics.maxScrollExtent - limit)) {
-          // Continue searching...
+            ref.read(innerScrollControllerProvider)!.position.pixels >=
+                (notif.metrics.maxScrollExtent - limit)) {
+          // * Continue searching...
           SchedulerBinding.instance.addPostFrameCallback((_) async {
             ref.read(searchResultPageControllerProvider.notifier).increment();
             ref.read(searchResultNotifierProvider.notifier).ring();

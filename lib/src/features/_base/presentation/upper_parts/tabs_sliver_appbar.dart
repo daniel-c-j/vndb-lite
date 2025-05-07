@@ -34,6 +34,7 @@ class TabAppBar extends ConsumerWidget {
       elevation: 0,
       floating: true,
       toolbarHeight: height,
+      forceElevated: true,
       automaticallyImplyLeading: false,
       flexibleSpace: Container(
         decoration: BoxDecoration(

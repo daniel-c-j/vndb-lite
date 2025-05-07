@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/data/base_menu_sections.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
@@ -10,16 +11,14 @@ import 'package:vndb_lite/src/util/balanced_safearea.dart';
 import '../../../../util/context_shortcut.dart';
 import '../other_parts/scroll_to_hide.dart';
 
-class TabsBottomNavbar extends StatelessWidget {
+class TabsBottomNavbar extends ConsumerWidget {
   const TabsBottomNavbar({
     super.key,
-    required this.scrollController,
     required this.selectedIndex,
     required this.onTap,
     this.onlyProgressIndicator = false,
   });
 
-  final ScrollController scrollController;
   final int selectedIndex;
   final void Function(int)? onTap;
   final bool onlyProgressIndicator;
@@ -27,13 +26,16 @@ class TabsBottomNavbar extends StatelessWidget {
   static final double heightBottomNav = responsiveUI.own(0.18);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(innerScrollControllerProvider);
+    if (controller == null) return const SizedBox.shrink();
+
     return Stack(
       children: [
         if (!onlyProgressIndicator)
           ScrollToHide(
             height: heightBottomNav,
-            scrollController: scrollController,
+            scrollController: controller,
             hideDirection: Axis.vertical,
             child: SizedBox(
               height: heightBottomNav,

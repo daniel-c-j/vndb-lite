@@ -16,8 +16,10 @@ TabController? collectionTabController;
 class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget {
   const CollectionAppbarTabs({super.key});
 
+  static final height = responsiveUI.own(0.1);
+
   @override
-  Size get preferredSize => Size(0, responsiveUI.own(0.12));
+  Size get preferredSize => Size(0, height);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +27,7 @@ class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget
     final statusArrangement = settings.collectionStatusTabArrangement;
 
     return SizedBox(
-      height: responsiveUI.own(0.12),
+      height: height,
       child: TabBar(
         dividerHeight: 0,
         isScrollable: true,
@@ -42,7 +44,7 @@ class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget
           for (String statusCode in statusArrangement)
             Tab(
               key: ValueKey<String>(statusCode),
-              height: responsiveUI.own(0.12),
+              height: height,
               child: Padding(
                 padding: EdgeInsets.only(bottom: responsiveUI.own(0.01)),
                 child: Row(
