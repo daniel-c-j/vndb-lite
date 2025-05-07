@@ -18,7 +18,7 @@ import 'package:vndb_lite/src/features/settings/presentation/settings_data_state
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/tabs_bottom_navbar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/util/scroll_to_hide.dart';
+import 'package:vndb_lite/src/features/_base/presentation/other_parts/scroll_to_hide.dart';
 import 'package:vndb_lite/src/util/version_check/version_checker.dart';
 
 import '../../theme/theme_data_provider.dart';

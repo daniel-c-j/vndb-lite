@@ -8,7 +8,7 @@ import 'package:vndb_lite/src/features/_base/presentation/other_parts/navigation
 import 'package:vndb_lite/src/util/balanced_safearea.dart';
 
 import '../../../../util/context_shortcut.dart';
-import '../../../../util/scroll_to_hide.dart';
+import '../other_parts/scroll_to_hide.dart';
 
 class TabsBottomNavbar extends StatelessWidget {
   const TabsBottomNavbar({
@@ -35,7 +35,6 @@ class TabsBottomNavbar extends StatelessWidget {
             height: heightBottomNav,
             scrollController: scrollController,
             hideDirection: Axis.vertical,
-
             child: SizedBox(
               height: heightBottomNav,
               child: DecoratedBox(

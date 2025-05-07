@@ -7,8 +7,6 @@ import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 
-// TODO kill home arrangement settings.
-
 final currentHomeBigPreviewProvider = StateProvider<VnDataPhase01?>((ref) {
   return;
 });

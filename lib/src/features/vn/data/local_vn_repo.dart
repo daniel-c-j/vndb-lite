@@ -88,7 +88,7 @@ class LocalVnRepo {
     } else if (phase == 3) {
       await _sharedPref.remove('${DBKeys.P3}$vnId');
     } else {
-      // TODO throw grenade (jk, exception).
+      // TODO throw grenade (joke... Exception).
     }
 
     _sharedPref.reload();

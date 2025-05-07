@@ -65,7 +65,7 @@ class ScrollToHide extends ConsumerWidget {
 
     return AnimatedContainer(
       duration: duration,
-      height: isShown ? height : 0,
+      height: (isShown) ? height : 0,
       width: width,
       curve: Curves.linear,
       clipBehavior: Clip.none,

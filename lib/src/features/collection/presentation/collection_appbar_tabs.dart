@@ -42,6 +42,7 @@ class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget
           for (String statusCode in statusArrangement)
             Tab(
               key: ValueKey<String>(statusCode),
+              height: responsiveUI.own(0.12),
               child: Padding(
                 padding: EdgeInsets.only(bottom: responsiveUI.own(0.01)),
                 child: Row(
