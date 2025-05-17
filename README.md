@@ -5,7 +5,9 @@
 > 2) This app is in dormant mode, and there are some known issues specifically about the local collection. Hopefully will be maintained again in somewhere in 2025 ~ early 2026 :).
 
 <!-- Banner -->
+<a href = "obtainium://app/{"id":"com.vndblite.dcj","url":"https://github.com/Daniel-C-J/vndb-lite","author":"DanielCJ","name":"VNDB Lite","preferredApkIndex":0,"additionalSettings":"{\"includePrereleases\":false,\"fallbackToOlderReleases\":true,\"filterReleaseTitlesByRegEx\":\"\",\"filterReleaseNotesByRegEx\":\"\",\"verifyLatestTag\":false,\"dontSortReleasesList\":false,\"useLatestAssetDateAsReleaseDate\":false,\"trackOnly\":false,\"versionExtractionRegEx\":\"\",\"matchGroupToUse\":\"\",\"versionDetection\":true,\"releaseDateAsVersion\":false,\"useVersionCodeAsOSVersion\":false,\"apkFilterRegEx\":\"\",\"invertAPKFilter\":false,\"autoApkFilterByArch\":true,\"appName\":\"VNDB Lite\",\"exemptFromBackgroundUpdates\":false,\"skipUpdateNotifications\":false,\"about\":\"A lite, open-source, mobile version of your favorite vndb.org website.\",\"appAuthor\":\"DanielCJ\"}"}">
 <img src="./media/banner.png" align="center"></img>
+</a>
 
 <!-- Title & Description -->
 <h1 align="center"> [VNDB Lite] </h1>
