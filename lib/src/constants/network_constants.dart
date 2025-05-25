@@ -37,9 +37,9 @@ class NetConsts {
   /// Lazy Initialization exists for the ease of testing to manipulate certain properties of [NetConsts].
   static void init() {
     BASE_URL = 'https://api.vndb.org';
-    
-    // TODO INSERT
-    URL_CHECK_VERSION = "";
-    URL_UPDATE_VERSION = "";
+
+    URL_CHECK_VERSION =
+        "https://raw.githubusercontent.com/Daniel-C-J/vndb-lite/refs/heads/master/VERSION.json";
+    URL_UPDATE_VERSION = "https://github.com/Daniel-C-J/vndb-lite/releases/latest";
   }
 }

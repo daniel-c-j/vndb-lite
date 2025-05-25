@@ -27,8 +27,6 @@ class DioFactory {
     );
 
     dio.options = BaseOptions(
-      // TODO watchout can conflict with other url, do an optimization instead.
-      baseUrl: NetConsts.BASE_URL,
       headers: {
         NetConsts.CONTENT_TYPE: NetConsts.APPLICATION_JSON,
         NetConsts.ACCEPT: NetConsts.APPLICATION_JSON,

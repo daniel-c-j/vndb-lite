@@ -10,7 +10,7 @@ class RemoteChartRepo {
 
   final ApiService _apiService;
 
-  static const statsEndpoint = "/kana/stats";
+  static const statsEndpoint = NetConsts.BASE_URL + "/kana/stats";
 
   Future<Response> fetchStats({CancelToken? cancelToken}) async {
     return await _apiService.get(url: statsEndpoint);

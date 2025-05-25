@@ -4,7 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/common_widgets/generic_background.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
+import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
+import 'package:vndb_lite/src/features/version_check/domain/version_check.dart';
+import 'package:vndb_lite/src/features/version_check/presentation/version_check_controller.dart';
+import 'package:vndb_lite/src/features/version_check/presentation/version_update_dialog.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
@@ -16,8 +20,6 @@ import 'package:vndb_lite/src/features/settings/presentation/settings_data_state
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/tabs_bottom_navbar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/features/_base/presentation/other_parts/scroll_to_hide.dart';
-import 'package:vndb_lite/src/util/version_check/version_checker.dart';
 
 import '../../theme/theme_data_provider.dart';
 
@@ -94,12 +96,24 @@ class MainTabLayout extends StatelessWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void _checkUpdate() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (ref_.read(settingsDataStateProvider).autoUpdate) {
-        VersionChecker.check(notify: (value) => _showVersionCheckSnackbar(success: value));
-        _updateIsChecked = true;
-      }
+  Future<void> _checkVersionUpdate() async {
+    if (!ref_.read(settingsDataStateProvider).autoUpdate) return;
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _updateIsChecked = true; // Flagging.
+
+      final controller = ref_.read(versionCheckControllerProvider.notifier);
+      await controller.checkData(
+        onSuccess: (VersionCheck ver) async {
+          if (!ver.canUpdate) {
+            _showVersionCheckSnackbar(success: true);
+          }
+
+          return await VersionUpdateDialog.show(NavigationService.currentContext, ver);
+        },
+        onError: (e, st) async {
+          _showVersionCheckSnackbar(success: false);
+        },
+      );
     });
   }
 
@@ -119,7 +133,7 @@ class MainTabLayout extends StatelessWidget {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     // * Checks version at startup after everything loads.
-    if (!_updateIsChecked) _checkUpdate();
+    if (!_updateIsChecked) _checkVersionUpdate();
 
     // * Maintain search scroll offset.
     if (App.isInSearchScreen) _maintainSearchScrollOffset();

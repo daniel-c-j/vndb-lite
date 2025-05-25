@@ -13,7 +13,7 @@ class RemoteSortFilterRepo {
 
   Future<Response> fetchDevelopers(String devName, {CancelToken? cancelToken}) async {
     return await _apiService.post(
-      url: '/kana/producer',
+      url: NetConsts.BASE_URL + '/kana/producer',
       data: GenericPost(filters: ["search", "=", devName], fields: "name").toMap(),
       cancelToken: cancelToken,
     );
@@ -21,7 +21,7 @@ class RemoteSortFilterRepo {
 
   Future<Response> fetchTags(String tagName, {CancelToken? cancelToken}) async {
     return await _apiService.post(
-      url: '/kana/tag',
+      url: NetConsts.BASE_URL + '/kana/tag',
       data: GenericPost(filters: ["search", "=", tagName], fields: "name").toMap(),
       cancelToken: cancelToken,
     );

@@ -20,7 +20,7 @@ class RemoteSearchRepoImpl implements RemoteSearchRepo {
   @override
   Future<Response> remoteSearchVn(GenericPost requestData, {CancelToken? cancelToken}) async {
     return await _apiService.post(
-      url: '/kana/vn',
+      url: NetConsts.BASE_URL + '/kana/vn',
       data: requestData.toMap(),
       cancelToken: cancelToken,
     );
