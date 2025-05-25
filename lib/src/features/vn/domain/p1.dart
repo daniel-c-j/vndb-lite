@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:vndb_lite/src/features/vn/domain/others.dart';
 
-class VnDataPhase {}
+abstract class VnDataPhase {}
 
 class VnDataPhase01 implements VnDataPhase {
   const VnDataPhase01({

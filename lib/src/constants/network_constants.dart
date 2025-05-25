@@ -32,7 +32,7 @@ class NetConsts {
       "relations.olang, relations.released, relations.rating, relations.description";
 
   static const String USER_VNS_FIELDS =
-      "id, vote, vn.title, added, started, finished, labels.label";
+      "id, vote, vn.title, added, started, finished, labels.label, lastmod";
 
   /// Lazy Initialization exists for the ease of testing to manipulate certain properties of [NetConsts].
   static void init() {

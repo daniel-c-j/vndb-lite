@@ -38,7 +38,9 @@ class LocalCollectionRepo {
 
     // In order to prevent duplication, if vn record exists, then remove first.
     collection.removeWhere((record) => record.contains('"${vnRecord.id}"'));
-    collection.add(json.encode(vnRecord.toMap()));
+    final changedRecord = vnRecord.toMap();
+    changedRecord["lastmod"] = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    collection.add(json.encode(changedRecord));
 
     // Override data
     _sharedPref.setStringList('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange', collection);

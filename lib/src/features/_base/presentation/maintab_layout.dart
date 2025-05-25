@@ -98,23 +98,22 @@ class MainTabLayout extends StatelessWidget {
 
   Future<void> _checkVersionUpdate() async {
     if (!ref_.read(settingsDataStateProvider).autoUpdate) return;
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _updateIsChecked = true; // Flagging.
+    _updateIsChecked = true; // Flagging.
 
-      final controller = ref_.read(versionCheckControllerProvider.notifier);
-      await controller.checkData(
-        onSuccess: (VersionCheck ver) async {
-          if (!ver.canUpdate) {
-            _showVersionCheckSnackbar(success: true);
-          }
+    final controller = ref_.read(versionCheckControllerProvider.notifier);
+    await controller.checkData(
+      onSuccess: (VersionCheck ver) async {
+        if (!ver.canUpdate) {
+          _showVersionCheckSnackbar(success: true);
+          return;
+        }
 
-          return await VersionUpdateDialog.show(NavigationService.currentContext, ver);
-        },
-        onError: (e, st) async {
-          _showVersionCheckSnackbar(success: false);
-        },
-      );
-    });
+        return await VersionUpdateDialog.show(NavigationService.currentContext, ver);
+      },
+      onError: (e, st) async {
+        _showVersionCheckSnackbar(success: false);
+      },
+    );
   }
 
   //
@@ -133,7 +132,11 @@ class MainTabLayout extends StatelessWidget {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     // * Checks version at startup after everything loads.
-    if (!_updateIsChecked) _checkVersionUpdate();
+    if (!_updateIsChecked) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _checkVersionUpdate();
+      });
+    }
 
     // * Maintain search scroll offset.
     if (App.isInSearchScreen) _maintainSearchScrollOffset();

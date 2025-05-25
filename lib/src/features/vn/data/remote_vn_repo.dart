@@ -12,8 +12,8 @@ class RemoteVnRepo {
 
   final ApiService _apiService;
 
-  static const vnEndpoint = NetConsts.BASE_URL + "/kana/vn";
-  static const releaseEndpoint = NetConsts.BASE_URL + "/kana/release";
+  static final vnEndpoint = NetConsts.BASE_URL + "/kana/vn";
+  static final releaseEndpoint = NetConsts.BASE_URL + "/kana/release";
 
   Future<Response> fetchP1Data(String vnId, {CancelToken? cancelToken}) async {
     return await _apiService.post(

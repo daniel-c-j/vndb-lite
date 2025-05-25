@@ -29,13 +29,10 @@ class VersionCheckController extends _$VersionCheckController with NotifierMount
     // For some good reason, AsyncGuard doesn't catch the error.
     try {
       versionCheck = await versionRepo.getVersionCheck();
-      state = const AsyncData(null);
 
       // Typically calls for a showDialog widget.
       return onSuccess(versionCheck);
-    } catch (e, st) {
-      state = AsyncError(e, st);
-
+    } catch (e) {
       // Throws custom exception.
       final error = state.asError?.error;
       return _handleErrors(error, onError: onError);

@@ -4,6 +4,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/core/network/api_service.dart';
 import 'package:vndb_lite/src/features/search/domain/generic_vn_post.dart';
 
+import '../../../../constants/network_constants.dart';
+
 part 'remote_sort_filter_repo.g.dart';
 
 class RemoteSortFilterRepo {

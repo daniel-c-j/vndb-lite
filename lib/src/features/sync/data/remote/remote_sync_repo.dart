@@ -20,7 +20,7 @@ class RemoteSyncRepo {
   final ApiService _apiService;
   final LocalCollectionRepo _collection;
 
-  static const authEndpoint = NetConsts.BASE_URL + "/kana/authinfo";
+  static final authEndpoint = NetConsts.BASE_URL + "/kana/authinfo";
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,7 +115,7 @@ class RemoteSyncRepo {
       if (cloudRecord != null) {
         // Preparing for comparing data to check for any changes.
         if (isThereAnyDifference(localRecord, cloudRecord)) {
-          // For behavioural issue of the API (or maybe I was drunk at that time, jk), such logic happen:
+          // For behavioral issue of the API (or maybe I was drunk at that time, jk), such logic happen:
           // If vote exists in vn, then delete the vn first, and then repost the record.
           if (localVnHasVote(localRecord)) {
             await delete(cloudRecord['id'], authToken: authToken);
