@@ -125,7 +125,7 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
               margin: EdgeInsets.only(left: responsiveUI.own(0.05)),
               padding: EdgeInsets.all(responsiveUI.own(0.018)),
               buttonColor: kColor(context).secondary.withAlpha(180),
-              elevation: 2.5,
+              elevation: 0.5,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -162,7 +162,7 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
                               ? const Color.fromARGB(255, 110, 200, 15)
                               : const Color.fromARGB(100, 110, 200, 15),
 
-                      elevation: (filter.minage == 17) ? 4 : 0,
+                      elevation: (filter.minage == 17) ? 0.5 : null,
                       child: ShadowText(" All-ages", fontSize: responsiveUI.own(0.03)),
                     ),
                     CustomButton(
@@ -180,7 +180,7 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
                               ? const Color.fromARGB(255, 200, 15, 33)
                               : const Color.fromARGB(99, 200, 15, 49),
 
-                      elevation: (filter.minage == 18) ? 4 : 0,
+                      elevation: (filter.minage == 18) ? 0.5 : null,
                       child: ShadowText("Adult-only ", fontSize: responsiveUI.own(0.03)),
                     ),
                   ],

@@ -5,7 +5,7 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialog_components/footer_button_state.dart';
-import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class RecordStatusOption extends ConsumerWidget {
@@ -22,7 +22,7 @@ class RecordStatusOption extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final buttonState = ref.watch(vnConfirmButtonStateProvider);
+    final buttonState = ref.watch(vnButtonStateProvider);
 
     final statusOption = COLLECTION_STATUS_DATA[statusCode]!;
     final isMultiselection = selectedIcon.toLowerCase() == 'mixed';
@@ -37,12 +37,12 @@ class RecordStatusOption extends ConsumerWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
         onTap: () {
-          if (buttonState == ConfirmButtonState.inprogress) return;
+          if (buttonState == ButtonState.loading) return;
           onTap();
         },
         child: Opacity(
           opacity:
-              (isMultiselection || buttonState == ConfirmButtonState.inprogress)
+              (isMultiselection || buttonState == ButtonState.loading)
                   ? 0.8
                   : (selectedIcon == statusCode)
                   ? 1

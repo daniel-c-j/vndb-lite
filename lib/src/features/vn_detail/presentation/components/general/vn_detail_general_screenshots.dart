@@ -11,7 +11,7 @@ import 'package:vndb_lite/src/features/vn/domain/others.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/general/vn_detail_screenshots_state.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
-import 'package:vndb_lite/src/util/widget_zoom/widget_zoom.dart';
+import 'package:vndb_lite/src/common_widgets/widget_zoom/widget_zoom.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VnDetailGeneralScreenshots extends StatefulWidget {

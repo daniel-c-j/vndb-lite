@@ -69,15 +69,13 @@ class HomeSectionHeader extends ConsumerWidget {
           children: [
             Icon(sectionData.icon, color: kColor(ctx).tertiary, size: responsiveUI.own(0.045)),
             GAP_W6,
-            Text(username).sizeOf(responsiveUI.own(0.046)).withColor(kColor(ctx).secondary).bold,
-            Text("'s").sizeOf(responsiveUI.own(0.046)).withColor(kColor(ctx).tertiary),
+            Text(username).wSize(responsiveUI.own(0.046)).wColor(kColor(ctx).secondary).bold,
+            Text("'s").wSize(responsiveUI.own(0.046)).wColor(kColor(ctx).tertiary),
           ],
         ),
         Row(
           children: [
-            Text(
-              "Latest Collection",
-            ).sizeOf(responsiveUI.catgTitle).withColor(kColor(ctx).tertiary),
+            Text("Latest Collection").wSize(responsiveUI.catgTitle).wColor(kColor(ctx).tertiary),
           ],
         ),
       ],
@@ -114,7 +112,7 @@ class HomeSectionHeader extends ConsumerWidget {
                         GAP_W6,
                         Text(
                           sectionData.title,
-                        ).sizeOf(responsiveUI.catgTitle).withColor(kColor(context).tertiary),
+                        ).wSize(responsiveUI.catgTitle).wColor(kColor(context).tertiary),
                       ],
                     ),
           ),

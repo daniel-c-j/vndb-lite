@@ -75,7 +75,7 @@ class AppBarRefreshButton extends ConsumerWidget {
     ref_.invalidate(vnSelectionControllerProvider);
     ref_.invalidate(dialogDismissedStateProvider);
 
-    ref_.invalidate(authConfirmButtonStateProvider);
+    ref_.invalidate(authButtonStateProvider);
     ref_.invalidate(showAuthTokenFieldStateProvider);
     ref_.invalidate(authTokenFieldServerErrorControllerProvider);
 

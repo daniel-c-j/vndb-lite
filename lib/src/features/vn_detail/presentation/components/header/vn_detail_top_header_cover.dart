@@ -14,7 +14,7 @@ import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/v
 import 'package:vndb_lite/src/util/check_media_cache.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
-import 'package:vndb_lite/src/util/widget_zoom/widget_zoom.dart';
+import 'package:vndb_lite/src/common_widgets/widget_zoom/widget_zoom.dart';
 
 class VnDetailTopHeaderCover extends ConsumerStatefulWidget {
   const VnDetailTopHeaderCover({

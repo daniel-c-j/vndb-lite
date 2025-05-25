@@ -9,7 +9,7 @@ import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_confirm_button_state.dart';
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_token_field_controller.dart';
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_token_validator.dart';
-import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class AuthenticationField extends ConsumerStatefulWidget {
@@ -80,11 +80,11 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
 
     // If there is an error or token is empty.
     if (errorIsNotEmpty || tokenIsEmpty || serverErr) {
-      ref.read(authConfirmButtonStateProvider.notifier).state = ConfirmButtonState.disabled;
+      ref.read(authButtonStateProvider.notifier).state = ButtonState.inactive;
       return;
     }
 
-    ref.read(authConfirmButtonStateProvider.notifier).state = ConfirmButtonState.normal;
+    ref.read(authButtonStateProvider.notifier).state = ButtonState.active;
     ref.read(authTokenFieldControllerProvider.notifier).value = token ?? "";
   }
 
@@ -96,7 +96,7 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
   Widget build(BuildContext context) {
     final uId = ref.watch(authScreenControllerProvider);
     final showAuthField = ref.watch(showAuthTokenFieldStateProvider);
-    final buttonState = ref.watch(authConfirmButtonStateProvider);
+    final buttonState = ref.watch(authButtonStateProvider);
 
     return Container(
       decoration: BoxDecoration(
@@ -162,7 +162,7 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
                             controller: _authFieldController,
                             autovalidateMode: AutovalidateMode.always,
                             // Cannot edit when in progress.
-                            enabled: (buttonState != ConfirmButtonState.inprogress),
+                            enabled: (buttonState != ButtonState.loading),
                             style: styleText(fontSize: responsiveUI.normalSize),
                             cursorColor: kColor(context).tertiary,
                             decoration: InputDecoration(

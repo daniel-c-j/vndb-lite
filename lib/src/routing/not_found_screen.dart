@@ -40,9 +40,9 @@ class _NotFoundScreenState extends State<NotFoundScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('404 - Page not found!', key: NotFoundScreen.titleKey).sizeOf(20).bold,
+            const Text('404 - Page not found!', key: NotFoundScreen.titleKey).wSize(20).bold,
             GAP_H8,
-            const Text('Redirecting to home page...', key: NotFoundScreen.messageKey).sizeOf(14),
+            const Text('Redirecting to home page...', key: NotFoundScreen.messageKey).wSize(14),
           ],
         ),
       ),

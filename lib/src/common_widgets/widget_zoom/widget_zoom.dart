@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/util/widget_zoom/widget_zoom_full_screen.dart';
+import 'package:vndb_lite/src/common_widgets/widget_zoom/widget_zoom_full_screen.dart';
 
 class WidgetZoom extends StatefulWidget {
   /// The widget that should be zoomed.
@@ -64,16 +64,14 @@ class _WidgetZoomState extends State<WidgetZoom> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    )
-      ..addListener(() => _transformationController.value = _animation!.value)
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _removeOverlay();
-        }
-      });
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 300))
+          ..addListener(() => _transformationController.value = _animation!.value)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              _removeOverlay();
+            }
+          });
   }
 
   @override
@@ -118,10 +116,7 @@ class _WidgetZoomState extends State<WidgetZoom> with SingleTickerProviderStateM
           onInteractionStart: _showOverlay,
           onInteractionUpdate: _onInteractionUpdate,
           onInteractionEnd: (details) => _resetAnimation(),
-          child: Hero(
-            tag: widget.heroAnimationTag,
-            child: widget.zoomWidget,
-          ),
+          child: Hero(tag: widget.heroAnimationTag, child: widget.zoomWidget),
         );
       },
     );
@@ -140,26 +135,26 @@ class _WidgetZoomState extends State<WidgetZoom> with SingleTickerProviderStateM
       final RenderBox imageBox = context.findRenderObject() as RenderBox;
       final Offset imageOffset = imageBox.localToGlobal(Offset.zero);
       _entry = OverlayEntry(
-        builder: (context) => Stack(
-          children: [
-            Positioned.fill(
-              child: AnimatedOpacity(
-                duration: _opcaityBackgroundDuration,
-                opacity: ((_scale - 1) / (widget.maxScaleEmbeddedView - 1)).clamp(0, 1).toDouble(),
-                child: Container(
-                  color: Colors.black,
+        builder:
+            (context) => Stack(
+              children: [
+                Positioned.fill(
+                  child: AnimatedOpacity(
+                    duration: _opcaityBackgroundDuration,
+                    opacity:
+                        ((_scale - 1) / (widget.maxScaleEmbeddedView - 1)).clamp(0, 1).toDouble(),
+                    child: Container(color: Colors.black),
+                  ),
                 ),
-              ),
+                Positioned(
+                  left: imageOffset.dx,
+                  top: imageOffset.dy,
+                  width: imageBox.size.width,
+                  height: imageBox.size.height,
+                  child: _buildImage(),
+                ),
+              ],
             ),
-            Positioned(
-              left: imageOffset.dx,
-              top: imageOffset.dy,
-              width: imageBox.size.width,
-              height: imageBox.size.height,
-              child: _buildImage(),
-            ),
-          ],
-        ),
       );
 
       final OverlayState overlay = Overlay.of(context);
@@ -178,12 +173,7 @@ class _WidgetZoomState extends State<WidgetZoom> with SingleTickerProviderStateM
     _animation = Matrix4Tween(
       begin: _transformationController.value,
       end: Matrix4.identity(),
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
+    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeInOut));
     _animationController.forward(from: 0);
   }
 
@@ -192,24 +182,23 @@ class _WidgetZoomState extends State<WidgetZoom> with SingleTickerProviderStateM
     await _rootNavigator.push(
       PageRouteBuilder(
         opaque: false,
-        pageBuilder: (context, animation1, animation2) => FadeTransition(
-          opacity: animation1,
-          child: WidgetZoomFullscreen(
-            zoomWidget: widget.zoomWidget is Image
-                ? Image(
-                    image: (widget.zoomWidget as Image).image,
-                    fit: BoxFit.contain,
-                  )
-                : widget.zoomWidget,
-            minScale: widget.minScaleFullscreen,
-            maxScale: widget.maxScaleFullscreen,
-            heroAnimationTag: widget.heroAnimationTag,
-            fullScreenDoubleTapZoomScale: widget.fullScreenDoubleTapZoomScale,
+        pageBuilder:
+            (context, animation1, animation2) => FadeTransition(
+              opacity: animation1,
+              child: WidgetZoomFullscreen(
+                zoomWidget:
+                    widget.zoomWidget is Image
+                        ? Image(image: (widget.zoomWidget as Image).image, fit: BoxFit.contain)
+                        : widget.zoomWidget,
+                minScale: widget.minScaleFullscreen,
+                maxScale: widget.maxScaleFullscreen,
+                heroAnimationTag: widget.heroAnimationTag,
+                fullScreenDoubleTapZoomScale: widget.fullScreenDoubleTapZoomScale,
 
-            // * Modified
-            onExit: widget.onExit,
-          ),
-        ),
+                // * Modified
+                onExit: widget.onExit,
+              ),
+            ),
         transitionDuration: const Duration(milliseconds: 300),
         reverseTransitionDuration: const Duration(milliseconds: 300),
       ),

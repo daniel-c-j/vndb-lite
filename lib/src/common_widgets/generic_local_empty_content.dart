@@ -11,7 +11,7 @@ class GenericLocalEmptyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ShadowText(
-        customMessage ?? "Oops, nothing's here yet! Maybe try adding some :) ?",
+        customMessage ?? "Oops, nothing's here yet!\n Maybe try adding some?",
         fontSize: responsiveUI.normalSize,
         align: TextAlign.center,
       ),

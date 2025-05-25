@@ -12,7 +12,7 @@ class IOFileSystem implements c.FileSystem {
   IOFileSystem(this._cacheKey) : _fileDir = createDirectory(_cacheKey);
 
   static Future<Directory> createDirectory(String key) async {
-    // Use documents directory instead of temp directory.
+    // ! Use documents directory instead of temp directory.
     var baseDir = await getApplicationDocumentsDirectory();
     var path = p.join(baseDir.path, key);
 
@@ -35,9 +35,5 @@ class IOFileSystem implements c.FileSystem {
 class CustomCacheManager extends CacheManager with ImageCacheManager {
   static const String key = "vndb_lite_cache";
 
-  CustomCacheManager()
-      : super(Config(
-          key,
-          fileSystem: IOFileSystem(key),
-        ));
+  CustomCacheManager() : super(Config(key, fileSystem: IOFileSystem(key)));
 }

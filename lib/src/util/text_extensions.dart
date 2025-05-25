@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 extension TextExtension on Text {
   /// Will copy the current [Text] widget configuration.
   ///
-  /// [WARNING] This is actually a bad approach since [Text] widget could be updated in anytime
-  /// officially, and there might be some deprecated parameters, or parameters that is yet
-  /// covered in this method. Better check the official documentation first, and reconfigure
-  /// this method as needed.
-  ///
+  /// ! [WARNING] This is actually a bad approach since [Text] widget could be updated in anytime
+  /// ! officially, and there might be some deprecated parameters, or parameters that is yet
+  /// ! covered in this method. Better check the official documentation first, and reconfigure
+  /// ! this method as needed.
   Text copyWith(
     String data, {
     TextStyle? style,
     StrutStyle? strutStyle,
     TextAlign? textAlign,
+    Key? key,
     TextDirection? textDirection,
     Locale? locale,
     bool? softWrap,
@@ -27,6 +27,7 @@ extension TextExtension on Text {
   }) => Text(
     data,
     style: style ?? this.style,
+    key: key ?? this.key,
     strutStyle: strutStyle ?? this.strutStyle,
     textAlign: textAlign ?? this.textAlign,
     textDirection: textDirection ?? this.textDirection,
@@ -56,12 +57,14 @@ extension TextExtension on Text {
             : style?.copyWith(fontStyle: FontStyle.italic),
   );
 
-  Text withColor(Color color) => copyWith(
+  /// Colorized the [Text] widget.
+  Text wColor(Color color) => copyWith(
     data!,
     style: (style == null) ? TextStyle(color: color) : style?.copyWith(color: color),
   );
 
-  Text sizeOf(double size) => copyWith(
+  /// Change the size of the [Text] widget.
+  Text wSize(double size) => copyWith(
     data!,
     style: (style == null) ? TextStyle(fontSize: size) : style?.copyWith(fontSize: size),
   );

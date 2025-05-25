@@ -17,7 +17,7 @@ import 'package:vndb_lite/src/features/home/application/home_preview_service.dar
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
-import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VnSelectionDialogFooter extends ConsumerWidget {
@@ -69,7 +69,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
 
     // Watch states, to update UI.
     final selectionState = ref.watch(vnSelectionControllerProvider);
-    final buttonState = ref.watch(vnConfirmButtonStateProvider);
+    final buttonState = ref.watch(vnButtonStateProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -98,7 +98,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Remove button
-        if (!selection.isVnNew && buttonState == ConfirmButtonState.normal)
+        if (!selection.isVnNew && buttonState == ButtonState.active)
           CustomDialogButton(
             text: 'Remove',
             padding: EdgeInsets.symmetric(
@@ -107,7 +107,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
             ),
             color: const Color.fromARGB(180, 255, 20, 0),
             onPressed: () async {
-              if (buttonState == ConfirmButtonState.inprogress) return;
+              if (buttonState == ButtonState.loading) return;
 
               await confirmVnRemovalDialog(() async {
                 await selection.remove(
@@ -145,17 +145,17 @@ class VnSelectionDialogFooter extends ConsumerWidget {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Confirm button
         Opacity(
-          opacity: (buttonState == ConfirmButtonState.normal) ? 1 : 0.6,
+          opacity: (buttonState == ButtonState.active) ? 1 : 0.6,
           child: CustomDialogButton(
             text: 'Confirm',
             color: kColor(context).tertiary,
             textColor: kColor(context).primary,
             textShadow: const [Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1)],
             onPressed: () async {
-              if (buttonState == ConfirmButtonState.inprogress) return;
+              if (buttonState == ButtonState.loading) return;
 
-              final changeButton = ref.read(vnConfirmButtonStateProvider.notifier);
-              changeButton.state = ConfirmButtonState.inprogress;
+              final changeButton = ref.read(vnButtonStateProvider.notifier);
+              changeButton.state = ButtonState.loading;
 
               // Ugly... yet working.
               // TODO rearrange this, make it more elegant?
@@ -176,7 +176,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
                   },
                   // ignore: provider_parameters
                   whenSuccess: () async {
-                    changeButton.state = ConfirmButtonState.normal;
+                    changeButton.state = ButtonState.active;
 
                     // Turning off multiselection mode
                     ref.invalidate(recordSelectedControllerProvider);
@@ -201,7 +201,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
                     // print(err);
                     // print(st);
                     //TODO better error handl message
-                    changeButton.state = ConfirmButtonState.normal;
+                    changeButton.state = ButtonState.active;
                     _showSnackbar(
                       color: Colors.red,
                       text: 'An error occurred... Please try again later.',
@@ -212,7 +212,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
               );
             },
             additionalWidget:
-                (buttonState == ConfirmButtonState.inprogress)
+                (buttonState == ButtonState.loading)
                     ? SizedBox(
                       width: responsiveUI.own(0.05),
                       height: responsiveUI.own(0.05),

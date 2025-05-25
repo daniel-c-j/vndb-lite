@@ -6,25 +6,19 @@ part of 'auth_confirm_button_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authConfirmButtonStateHash() =>
-    r'5fe05580e7f71209f1bfdafe530960e1d590f4b7';
+String _$authButtonStateHash() => r'5fe05580e7f71209f1bfdafe530960e1d590f4b7';
 
-/// See also [AuthConfirmButtonState].
-@ProviderFor(AuthConfirmButtonState)
-final authConfirmButtonStateProvider = AutoDisposeNotifierProvider<
-  AuthConfirmButtonState,
-  ConfirmButtonState
->.internal(
-  AuthConfirmButtonState.new,
-  name: r'authConfirmButtonStateProvider',
+/// See also [AuthButtonState].
+@ProviderFor(AuthButtonState)
+final authButtonStateProvider = AutoDisposeNotifierProvider<AuthButtonState, ButtonState>.internal(
+  AuthButtonState.new,
+  name: r'authButtonStateProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$authConfirmButtonStateHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$authButtonStateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AuthConfirmButtonState = AutoDisposeNotifier<ConfirmButtonState>;
+typedef _$AuthButtonState = AutoDisposeNotifier<ButtonState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

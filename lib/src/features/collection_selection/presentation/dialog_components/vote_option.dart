@@ -6,7 +6,7 @@ import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/data/vote_data.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialog_components/footer_button_state.dart';
-import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class RecordVoteOption extends ConsumerWidget {
@@ -19,7 +19,7 @@ class RecordVoteOption extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final buttonState = ref.watch(vnConfirmButtonStateProvider);
+    final buttonState = ref.watch(vnButtonStateProvider);
 
     if (dropdownMenuItemWidgets.length != VOTE_DATA.length) {
       //
@@ -33,9 +33,9 @@ class RecordVoteOption extends ConsumerWidget {
     }
 
     return IgnorePointer(
-      ignoring: (buttonState == ConfirmButtonState.inprogress),
+      ignoring: (buttonState == ButtonState.loading),
       child: Opacity(
-        opacity: (buttonState == ConfirmButtonState.inprogress) ? 0.6 : 1,
+        opacity: (buttonState == ButtonState.loading) ? 0.6 : 1,
         child: DropdownButtonHideUnderline(
           child: DropdownButton2(
             alignment: Alignment.center,

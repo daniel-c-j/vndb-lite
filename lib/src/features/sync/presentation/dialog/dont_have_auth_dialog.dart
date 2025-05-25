@@ -2,7 +2,7 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/util/widget_zoom/widget_zoom.dart';
+import 'package:vndb_lite/src/common_widgets/widget_zoom/widget_zoom.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -57,7 +57,7 @@ class SearchPredefinedSection extends StatelessWidget {
                 GAP_W6,
                 Text(
                   "Explore general genres",
-                ).sizeOf(responsiveUI.catgTitle).withColor(kColor(context).tertiary),
+                ).wSize(responsiveUI.catgTitle).wColor(kColor(context).tertiary),
               ],
             ),
           ),
@@ -142,7 +142,7 @@ class SearchPredefinedButton extends ConsumerWidget {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Text(data.tag.name!).sizeOf(responsiveUI.own(0.0475)),
+                child: Text(data.tag.name!).wSize(responsiveUI.own(0.0475)),
               ),
             ),
           ),

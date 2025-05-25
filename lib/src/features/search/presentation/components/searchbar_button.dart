@@ -56,7 +56,7 @@ class SearchBarButton extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   child: Row(
                     children: [
-                      Text('Search for... ').sizeOf(responsiveUI.normalSize),
+                      Text('Search for... ').wSize(responsiveUI.normalSize),
                       Expanded(
                         child: IgnorePointer(
                           ignoring: true,

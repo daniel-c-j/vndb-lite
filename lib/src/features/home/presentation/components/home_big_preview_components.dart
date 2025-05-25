@@ -121,12 +121,12 @@ class HomeBigPreviewText extends ConsumerWidget {
         children: [
           SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Text(vn?.title ?? "").sizeOf(responsiveUI.own(0.0425)).bold,
+            child: Text(vn?.title ?? "").wSize(responsiveUI.own(0.0425)).bold,
           ),
           Flexible(
             child: SingleChildScrollView(
               padding: const EdgeInsets.only(top: 4, bottom: 12.0, left: 12, right: 12),
-              child: Text(vn?.description ?? "").sizeOf(responsiveUI.own(0.038)),
+              child: Text(vn?.description ?? "").wSize(responsiveUI.own(0.038)),
             ),
           ),
         ],
@@ -161,8 +161,8 @@ class HomeBigPreviewDetailButton extends ConsumerWidget {
       gradientColor: [kColor(context).secondary.withAlpha(180), kColor(context).primary],
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 32),
-      elevation: 2,
-      child: Text("Details").sizeOf(responsiveUI.own(0.038)),
+      elevation: 1,
+      child: Text("Details").wSize(responsiveUI.own(0.038)),
     );
   }
 }

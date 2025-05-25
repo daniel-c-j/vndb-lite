@@ -110,7 +110,7 @@ class AppStartup {
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(8),
-            child: Center(child: Text(details.toString()).withColor(Colors.black)),
+            child: Center(child: Text(details.toString()).wColor(Colors.black)),
           ),
         ),
       );

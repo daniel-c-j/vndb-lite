@@ -8,17 +8,17 @@ import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_confirm_button_state.dart';
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_token_field_controller.dart';
 import 'package:vndb_lite/src/features/sync/presentation/dialog/sync_dialog.dart';
-import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class AuthConfirmButton extends ConsumerStatefulWidget {
   const AuthConfirmButton({super.key});
 
   @override
-  ConsumerState<AuthConfirmButton> createState() => _AuthConfirmButtonState();
+  ConsumerState<AuthConfirmButton> createState() => _AuthButtonState();
 }
 
-class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton>
+class _AuthButtonState extends ConsumerState<AuthConfirmButton>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation<Offset> _offsetAnimation;
@@ -47,7 +47,7 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton>
   //
 
   Future<void> _onTap(String token) async {
-    ref.read(authConfirmButtonStateProvider.notifier).state = ConfirmButtonState.inprogress;
+    ref.read(authButtonStateProvider.notifier).state = ButtonState.loading;
 
     try {
       final response = await ref.read(authScreenControllerProvider.notifier).authenticate(token);
@@ -59,7 +59,7 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton>
         ref
             .read(authScreenControllerProvider.notifier)
             .userIdentityFromResponse(response.data, token);
-        ref.read(authConfirmButtonStateProvider.notifier).state = ConfirmButtonState.normal;
+        ref.read(authButtonStateProvider.notifier).state = ButtonState.active;
 
         ref.read(showAuthTokenFieldStateProvider.notifier).show = false;
         ref.invalidate(authScreenControllerProvider);
@@ -73,7 +73,7 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton>
           'Invalid authorization given. Please ensure the authentication token '
           'grant both read and write permissions.';
 
-      ref.read(authConfirmButtonStateProvider.notifier).state = ConfirmButtonState.disabled;
+      ref.read(authButtonStateProvider.notifier).state = ButtonState.inactive;
       return;
       //
     } catch (err) {
@@ -84,7 +84,7 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton>
           ref.read(authTokenFieldServerErrorControllerProvider.notifier).error =
               'Invalid authentication token';
 
-          ref.read(authConfirmButtonStateProvider.notifier).state = ConfirmButtonState.disabled;
+          ref.read(authButtonStateProvider.notifier).state = ButtonState.inactive;
           return;
         }
       }
@@ -98,12 +98,12 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton>
   @override
   Widget build(BuildContext context) {
     final userSuccessfullyAuthed = ref.watch(authScreenControllerProvider) != null;
-    final buttonState = ref.watch(authConfirmButtonStateProvider);
+    final buttonState = ref.watch(authButtonStateProvider);
     final showAuthField = ref.watch(showAuthTokenFieldStateProvider);
     final tokenFieldValue = ref.watch(authTokenFieldControllerProvider);
 
     final button = Opacity(
-      opacity: (buttonState == ConfirmButtonState.disabled) ? 0.4 : 1,
+      opacity: (buttonState == ButtonState.inactive) ? 0.4 : 1,
       child: CustomDialogButton(
         text: (userSuccessfullyAuthed) ? "Change" : "Confirm",
         textColor: kColor(context).primary,
@@ -114,12 +114,12 @@ class _AuthConfirmButtonState extends ConsumerState<AuthConfirmButton>
           vertical: responsiveUI.own(0.02),
         ),
         onPressed: () async {
-          if (buttonState == ConfirmButtonState.normal) {
+          if (buttonState == ButtonState.active) {
             await _onTap(tokenFieldValue);
           }
         },
         additionalWidget:
-            (buttonState == ConfirmButtonState.inprogress)
+            (buttonState == ButtonState.loading)
                 ? SizedBox(
                   width: responsiveUI.own(0.05),
                   height: responsiveUI.own(0.05),

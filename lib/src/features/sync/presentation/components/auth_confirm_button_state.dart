@@ -1,15 +1,15 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 
 part 'auth_confirm_button_state.g.dart';
 
 @riverpod
-class AuthConfirmButtonState extends _$AuthConfirmButtonState {
+class AuthButtonState extends _$AuthButtonState {
   @override
-  ConfirmButtonState build() {
-    return ConfirmButtonState.disabled;
+  ButtonState build() {
+    return ButtonState.inactive;
   }
 
   @override
-  set state(ConfirmButtonState newState) => super.state = newState;
+  set state(ButtonState newState) => super.state = newState;
 }

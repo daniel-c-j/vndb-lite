@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/domain/vn_selection.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/collection_selection_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialog_components/footer_button_state.dart';
-import 'package:vndb_lite/src/util/button_states.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class RecordDateOptions extends ConsumerStatefulWidget {
@@ -42,8 +42,8 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
   }
 
   set _canConfirm(bool value) {
-    ref.read(vnConfirmButtonStateProvider.notifier).state =
-        (value) ? ConfirmButtonState.normal : ConfirmButtonState.disabled;
+    ref.read(vnButtonStateProvider.notifier).state =
+        (value) ? ButtonState.active : ButtonState.inactive;
   }
 
   Future<DateTime?> getDatePicker({DateTime? initialDate}) async {
@@ -150,10 +150,10 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
   @override
   Widget build(BuildContext context) {
     final selectionController = ref.watch(vnSelectionControllerProvider);
-    final buttonState = ref.watch(vnConfirmButtonStateProvider);
+    final buttonState = ref.watch(vnButtonStateProvider);
 
     return IgnorePointer(
-      ignoring: buttonState == ConfirmButtonState.inprogress,
+      ignoring: buttonState == ButtonState.loading,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -167,7 +167,7 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
               setState(() {});
             },
             child: Opacity(
-              opacity: (buttonState == ConfirmButtonState.inprogress) ? 0.6 : 1,
+              opacity: (buttonState == ButtonState.loading) ? 0.6 : 1,
               child: Wrap(
                 alignment: WrapAlignment.start,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -210,8 +210,7 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
           // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           // Started
           Opacity(
-            opacity:
-                (_selectingDateTimeNow || buttonState == ConfirmButtonState.inprogress) ? 0.6 : 1,
+            opacity: (_selectingDateTimeNow || buttonState == ButtonState.loading) ? 0.6 : 1,
             child: GestureDetector(
               onTap: (_selectingDateTimeNow) ? () {} : _startDatePicker,
               child: Wrap(
@@ -238,8 +237,7 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
           // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           // Finished
           Opacity(
-            opacity:
-                (_selectingDateTimeNow || buttonState == ConfirmButtonState.inprogress) ? 0.6 : 1,
+            opacity: (_selectingDateTimeNow || buttonState == ButtonState.loading) ? 0.6 : 1,
             child: GestureDetector(
               onTap: (_selectingDateTimeNow) ? () {} : _finishDatePicker,
               child: Wrap(

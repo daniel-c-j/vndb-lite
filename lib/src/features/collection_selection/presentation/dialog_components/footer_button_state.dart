@@ -1,15 +1,15 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/util/button_states.dart';
+import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 
 part 'footer_button_state.g.dart';
 
 @riverpod
-class VnConfirmButtonState extends _$VnConfirmButtonState {
+class VnButtonState extends _$VnButtonState {
   @override
-  ConfirmButtonState build() {
-    return ConfirmButtonState.normal;
+  ButtonState build() {
+    return ButtonState.active;
   }
 
   @override
-  set state(ConfirmButtonState newState) => super.state = newState;
+  set state(ButtonState newState) => super.state = newState;
 }
