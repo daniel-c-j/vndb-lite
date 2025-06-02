@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/collection/application/collection_vn_service.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
@@ -62,9 +60,8 @@ class SyncService {
           rawRecords.add(
             await remoteSyncRepo.filterAndSyncRecords(
               localRecords,
-              rawRecords,
+              rawRecords as List<Map<String, dynamic>>,
               authToken: userIdentity.authToken,
-              keepVns: keepVns,
             ),
           );
         }
@@ -96,17 +93,15 @@ class SyncService {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  VnRecord _generateVnRecord(VnRecord? localRecord, Map<String, dynamic> cloudRecord) {
-    // Will use localRecord instead of cloud, making the procedure local data oriented
+  VnRecord _generateVnRecord(Map<String, dynamic> cloudRecord) {
     return VnRecord(
       id: cloudRecord['id'],
-      title: (localRecord != null) ? localRecord.title : cloudRecord['vn']['title'],
-      status: ((localRecord != null) ? localRecord.status : cloudRecord['status']).toLowerCase(),
-      vote: (localRecord != null) ? localRecord.vote : getVnCloudVote(cloudRecord),
-      added: (localRecord != null) ? localRecord.added : getVnCloudDate('added', cloudRecord),
-      started: (localRecord != null) ? localRecord.started : getVnCloudDate('started', cloudRecord),
-      finished:
-          (localRecord != null) ? localRecord.finished : getVnCloudDate('finished', cloudRecord),
+      title: cloudRecord['vn']['title'],
+      status: cloudRecord['status'].toLowerCase(),
+      vote: getVnCloudVote(cloudRecord),
+      added: getVnCloudDate('added', cloudRecord),
+      started: getVnCloudDate('started', cloudRecord),
+      finished: getVnCloudDate('finished', cloudRecord),
     );
   }
 
@@ -114,29 +109,24 @@ class SyncService {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Future<void> getDataPhases(
-    List<VnRecord> localRecords,
-    List cloudRecords,
-    VoidCallback whenDownloadingAndSaving,
-  ) async {
+  Future<void> getDataPhases(List records, VoidCallback whenDownloadingAndSaving) async {
     final Set<VnRecord> vnRecords = {};
 
-    for (Map<String, dynamic> cloudRecord in cloudRecords) {
-      final VnRecord? localRecord = localRecords.firstWhereOrNull(
-        (record) => record.id == cloudRecord['id'],
-      );
+    for (dynamic record in records) {
+      if (record is VnRecord) {
+        vnRecords.add(record);
+        continue;
+      }
 
       // TODO
       // This eliminates strange status label that is not defined in the vn status label.
-      final List labels =
-          cloudRecord['labels'].where((label) {
-            return COLLECTION_STATUS_DATA.keys.contains(label['label'].toString().toLowerCase());
-          }).toList();
+      final List labels = record['labels'].where((Map<String, String> label) {
+        return CollectionStatusCode.values.asNameMap().containsKey(label['label']?.toLowerCase());
+      });
 
       // Injecting label to cloudrecord's status to make it available to process.
-      cloudRecord['status'] = labels[0]['label'];
-
-      vnRecords.add(_generateVnRecord(localRecord, cloudRecord));
+      record['status'] = labels[0]['label'];
+      vnRecords.add(_generateVnRecord(record));
     }
 
     // After saving all of the records, now's the time to save each phase 01

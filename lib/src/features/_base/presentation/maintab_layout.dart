@@ -10,6 +10,7 @@ import 'package:vndb_lite/src/features/version_check/domain/version_check.dart';
 import 'package:vndb_lite/src/features/version_check/presentation/version_check_controller.dart';
 import 'package:vndb_lite/src/features/version_check/presentation/version_update_dialog.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
+import 'package:vndb_lite/src/util/breaking_changes.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/navigation_rail_menu.dart';
@@ -133,6 +134,11 @@ class MainTabLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    // * BreakingChanges feature.
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      BreakingChangesCounterMeasure.show(context);
+    });
 
     // * Checks version at startup after everything loads.
     if (!_updateIsChecked) _checkVersionUpdate();

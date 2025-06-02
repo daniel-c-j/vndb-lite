@@ -1,4 +1,3 @@
-// import 'package:flutter/foundation.dart';
 import 'package:vndb_lite/src/features/collection/domain/record.dart';
 
 // TODO create class for this?
@@ -7,46 +6,35 @@ import 'package:vndb_lite/src/features/collection/domain/record.dart';
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // This file contains helper functions for the remoteSyncRepo class
 
-bool isThereAnyDifference(VnRecord localRecord, Map<String, dynamic> cloudRecord) {
-  final recordInLocal = localRecord.toMap();
-
-  // final String vnTitle = cloudRecord['vn']['title'];
-  final String cloudStatus = _getVnCloudStatus(cloudRecord);
-  final int cloudVote = getVnCloudVote(cloudRecord);
-  final String cloudStarted = getVnCloudDate('started', cloudRecord);
-  final String cloudFinished = getVnCloudDate('finished', cloudRecord);
-
-  // debugPrint('''Checking VN ${myVnFromCloud['vn']['title']}...''');
-
-  // debugPrint('$vnTitle status in dbCloud: $cloudStatus');
-  // debugPrint('$vnTitle status in dbLocal: ${recordInLocal['status']}');
-
-  // debugPrint('$vnTitle vote in dbCloud: $cloudVote');
-  // debugPrint('$vnTitle vote in dbLocal: ${recordInLocal['vote']}');
-
-  // debugPrint('$vnTitle started in dbCloud: $cloudStarted');
-  // debugPrint('$vnTitle started in dbLocal: ${_getComparableLocalVnDate('started', recordInLocal)}');
-
-  // debugPrint('$vnTitle finished in dbCloud: $cloudFinished');
-  // debugPrint('$vnTitle finished in dbLocal: ${_getComparableLocalVnDate('finished', recordInLocal)}');
-
-  if (localRecord.status == cloudStatus &&
-      localRecord.vote == cloudVote &&
-      _getComparableLocalVnDate('started', recordInLocal) == cloudStarted &&
-      _getComparableLocalVnDate('finished', recordInLocal) == cloudFinished) {
-    return false;
+/// Returns true if records are comparable, returns false if both records are equal -- Simply
+/// means just pick one operation either ifLocal or ifRemote as there are no changes and both should
+/// do fine.
+Future<bool> compareNewerRecords(
+  VnRecord localRecord,
+  Map<String, dynamic> cloudRecord, {
+  required Future<void> Function() ifLocal,
+  required Future<void> Function() ifRemote,
+}) async {
+  final int localLastMod =
+      int.tryParse(localRecord.lastmod ?? 'f') ?? (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+  if (localLastMod > (cloudRecord['lastmod'] ?? 0)) {
+    await ifLocal();
+    return true;
   }
 
-  return true;
-}
+  if (localLastMod < (cloudRecord['lastmod'] ?? 0)) {
+    await ifRemote();
+    return true;
+  }
 
-String _getVnCloudStatus(Map<String, dynamic> cloudRecord) {
-  return cloudRecord['labels'][0]['label'].toString().toLowerCase();
+  await ifRemote();
+  return false;
 }
 
 int getVnCloudVote(Map<String, dynamic> cloudRecord) {
-  if (cloudRecord['vote'] != null && cloudRecord['vote'] != 0)
+  if (cloudRecord['vote'] != null && cloudRecord['vote'] != 0) {
     return (cloudRecord['vote'] / 10).toInt();
+  }
   return 0;
 }
 
@@ -63,16 +51,6 @@ String getVnCloudDate(String whatDate, Map<String, dynamic> cloudRecord) {
   }
 
   return cloudRecord[whatDate].toString().substring(0, 10);
-}
-
-String _getComparableLocalVnDate(String whatDate, Map<String, dynamic> localRecord) {
-  if (localRecord[whatDate] == null ||
-      localRecord[whatDate].contains("null") ||
-      localRecord[whatDate].contains('1970-01-01')) {
-    return "null";
-  }
-
-  return localRecord[whatDate].substring(0, 10);
 }
 
 bool localVnHasVote(VnRecord localRecord) {

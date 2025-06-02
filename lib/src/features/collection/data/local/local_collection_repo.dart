@@ -39,16 +39,18 @@ class LocalCollectionRepo {
     // In order to prevent duplication, if vn record exists, then remove first.
     collection.removeWhere((record) => record.contains('"${vnRecord.id}"'));
 
-    // ! Breaking change for version less than 2.0.0, assign lastmod property for VN record.
-    final changedRecord = vnRecord.copyWith(
-      lastmod: (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString(),
+    // ! Breaking change for version > 2.0.0, assign lastmod property for VN record.
+    collection.add(
+      vnRecord
+          .copyWith(lastmod: (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString())
+          .toJson(),
     );
-    collection.add(json.encode(changedRecord));
 
     // Override data
     _sharedPref.setStringList('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange', collection);
     _sharedPref.reload();
 
+    // Updates home interface
     _updateSectionRangeList(vnRecord.id);
     _localHomeRepo.insertCollectionPreview(vnRecord.id);
   }
@@ -205,6 +207,7 @@ class LocalCollectionRepo {
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
+
   void cleanVnToBeRemovedWhenSync() {
     _sharedPref.setStringList(DBKeys.VN_RECORDS_TO_BE_REMOVED, []);
     _sharedPref.reload();
@@ -226,6 +229,33 @@ class LocalCollectionRepo {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
+  void cleanAddedViaAppNotBySync() {
+    _sharedPref.setStringList(DBKeys.VN_RECORDS_ADDED_BY_APP, []);
+    _sharedPref.reload();
+  }
+
+  /// Returns an ID of VNs that are added directly by the app in order
+  /// to not conflict with VNs that are added by synchronizing from the
+  /// cloud.
+  set addedViaAppNotBySync(List<String> vnId) {
+    List<String> vns = _sharedPref.getStringList(DBKeys.VN_RECORDS_ADDED_BY_APP) ?? [];
+    vns = [...vns, ...vnId];
+
+    _sharedPref.setStringList(DBKeys.VN_RECORDS_ADDED_BY_APP, vns);
+    _sharedPref.reload();
+  }
+
+  /// Returns an ID of VNs that are added directly by the app in order
+  /// to not conflict with VNs that are added by synchronizing from the
+  /// cloud.
+  List<String> get addedViaAppNotBySync {
+    return _sharedPref.getStringList(DBKeys.VN_RECORDS_ADDED_BY_APP) ?? [];
+  }
+
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
+
   List<String> getRawRecords(List<VnRecord> records) {
     final List<String> tempDB = [];
     for (VnRecord vnRecord in records) {
@@ -241,8 +271,7 @@ class LocalCollectionRepo {
 
   Future<List<VnRecord>> getAllRecords([List<String>? partialCollection]) async {
     final List<String> dbCollection = partialCollection ?? rawAllRecords;
-
-    return [for (var rawRecord in dbCollection) VnRecord.fromMap(json.decode(rawRecord))];
+    return [for (String rawRecord in dbCollection) VnRecord.fromJson(rawRecord)];
   }
 
   //

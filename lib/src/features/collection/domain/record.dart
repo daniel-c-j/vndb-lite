@@ -63,10 +63,10 @@ class VnRecord {
       title: map['title'] as String,
       status: map['status'] as String,
       vote: map['vote'] as int,
-      added: (map['added'] != null) ? map['added'] as String : null,
-      started: (map['started'] != null) ? map['started'] as String : null,
-      finished: (map['finished'] != null) ? map['finished'] as String : null,
-      lastmod: (map['lastmod'] != null) ? map['lastmod'] as String : null,
+      added: map['added'] != null ? map['added'] as String : null,
+      started: map['started'] != null ? map['started'] as String : null,
+      finished: map['finished'] != null ? map['finished'] as String : null,
+      lastmod: map['lastmod'] != null ? map['lastmod'] as String : null,
     );
   }
 
@@ -83,11 +83,10 @@ class VnRecord {
   @override
   bool operator ==(covariant VnRecord other) {
     if (identical(this, other)) return true;
+
     return other.id == id;
   }
 
   @override
-  int get hashCode {
-    return id.hashCode;
-  }
+  int get hashCode => id.hashCode;
 }

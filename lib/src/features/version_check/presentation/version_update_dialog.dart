@@ -41,6 +41,7 @@ class VersionUpdateDialog extends StatelessWidget {
         SizedBox(height: responsiveUI.own(0.01)),
         ShadowText("There is a new improved version of this app.", align: TextAlign.center),
         SizedBox(height: responsiveUI.own(0.01)),
+        // TODO custom remote text in here.
         ShadowText(
           "Make sure you synchronize all of your current collection to the cloud before updating the app "
           "if you still want to keep your data. Thank you for your attention! :D",
@@ -50,6 +51,7 @@ class VersionUpdateDialog extends StatelessWidget {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
         SizedBox(height: responsiveUI.own(0.02)),
+        // TODO custom remote text in here.
         CustomDialogButton(
           text: "Take me to the download page",
           textColor: kColor(context).primary,

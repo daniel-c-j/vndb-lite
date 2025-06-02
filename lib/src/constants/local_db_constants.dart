@@ -6,6 +6,8 @@ class DBKeys {
   static const String P2 = "P02_";
   static const String P3 = "P03_";
 
+  static const String BREAKING_CHANGE_UPDATE = "BREAKING_CHANGE_UPDATE";
+
   static const String HOME_PREVIEW_CACHE_KEY = "HOME_PREVIEW_";
   static const String HOME_ARRANGEMENT = "HOME_ARRANGEMENT";
 
@@ -15,6 +17,7 @@ class DBKeys {
   static const String COLLECTION_FILTER_CONF = "COLLECTION_FILTER_CONF";
   static const String COLLECTION_SORT_CONF = "COLLECTION_SORT_CONF";
   static const String VN_RECORDS_TO_BE_REMOVED = "VN_RECORDS_TO_BE_REMOVED";
+  static const String VN_RECORDS_ADDED_BY_APP = "VN_RECORDS_ADDED_BY_APP";
   static const String COLLECTION_FILTER_ICON_HIGHLIGHT = "COLLECTION_FILTER_ICON_HIGHLIGHT";
   static const String COLLECTION_ARRANGEMENT = "COLLECTION_ARRANGEMENT";
 
