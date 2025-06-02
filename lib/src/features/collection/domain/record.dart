@@ -83,26 +83,11 @@ class VnRecord {
   @override
   bool operator ==(covariant VnRecord other) {
     if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.title == title &&
-        other.status == status &&
-        other.vote == vote &&
-        other.added == added &&
-        other.started == started &&
-        other.finished == finished &&
-        other.lastmod == lastmod;
+    return other.id == id;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        title.hashCode ^
-        status.hashCode ^
-        vote.hashCode ^
-        added.hashCode ^
-        started.hashCode ^
-        finished.hashCode ^
-        lastmod.hashCode;
+    return id.hashCode;
   }
 }

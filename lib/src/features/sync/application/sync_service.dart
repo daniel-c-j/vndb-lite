@@ -50,34 +50,33 @@ class SyncService {
       // Sync process begin
       final remoteSyncRepo = ref.read(remoteSyncRepoProvider);
 
-      // 1. Remove Vns in the cloud collection that is meant to be removed from the local collection after once
-      // successfully sync. (Not the first time)
-      remoteSyncRepo.removeVns(userIdentity.authToken);
-
-      // 2. Fetch all Vns data from the cloud collection
+      // 1. Fetch all Vns data from the cloud collection
       await Future.delayed(const Duration(milliseconds: 1500));
-      final List cloudRecords = await remoteSyncRepo.getLatestDataFromCloud(userIdentity.id);
+      List rawRecords = await remoteSyncRepo.getLatestDataFromCloud(userIdentity.id);
 
-      // If choosing not to keepVns that the current db will be ignored as in empty.
-      List<VnRecord> localRecords = [];
-
-      // 3. If user chose to keep his/her Vns from the local collection (default), then post and patch
+      // 2. If user chose to keep his/her Vns from the local collection (default), then post and patch
       // the vns to the cloud collection.
       if (keepVns) {
-        localRecords = await ref.read(localCollectionRepoProvider).getAllRecords();
+        final localRecords = await ref.read(localCollectionRepoProvider).getAllRecords();
         if (localRecords.isNotEmpty) {
-          await remoteSyncRepo.postPatchData(
-            localRecords,
-            cloudRecords,
-            authToken: userIdentity.authToken,
-            keepVns: keepVns,
+          rawRecords.add(
+            await remoteSyncRepo.filterAndSyncRecords(
+              localRecords,
+              rawRecords,
+              authToken: userIdentity.authToken,
+              keepVns: keepVns,
+            ),
           );
         }
       }
 
-      // 4. After all data has been posted and patched to the cloud, it is time to fetch them back to make
-      // sure data is correct and served locally.
-      await getDataPhases(localRecords, cloudRecords, whenDownloadingAndSaving);
+      // 3. After all record has been synchronized and the filtered data retrieved,
+      // it's best to clean the residual data first.
+      await remoteSyncRepo.removeResidualData();
+
+      // 4. After that, it is time to fetch them back to make sure data is correct
+      // and served locally.
+      await getDataPhases(rawRecords, whenDownloadingAndSaving);
 
       // 5. Success
       _successfullySynchronized(whenDownloadingAndSaving);
@@ -120,13 +119,14 @@ class SyncService {
     List cloudRecords,
     VoidCallback whenDownloadingAndSaving,
   ) async {
-    final List<VnRecord> vnRecords = [];
+    final Set<VnRecord> vnRecords = {};
 
     for (Map<String, dynamic> cloudRecord in cloudRecords) {
       final VnRecord? localRecord = localRecords.firstWhereOrNull(
         (record) => record.id == cloudRecord['id'],
       );
 
+      // TODO
       // This eliminates strange status label that is not defined in the vn status label.
       final List labels =
           cloudRecord['labels'].where((label) {
@@ -139,12 +139,6 @@ class SyncService {
       vnRecords.add(_generateVnRecord(localRecord, cloudRecord));
     }
 
-    // Duplication removal
-    final ids = vnRecords.map<String>((e) => e.id).toSet();
-    vnRecords.retainWhere((VnRecord x) {
-      return ids.remove(x.id);
-    });
-
     // After saving all of the records, now's the time to save each phase 01
     // and phase 02 data of the vn.
     await _downloadAndSaveData(vnRecords, whenDownloadingAndSaving);
@@ -156,7 +150,7 @@ class SyncService {
   //
 
   Future<void> _downloadAndSaveData(
-    List<VnRecord> vnRecords,
+    Set<VnRecord> vnRecords,
     VoidCallback whenDownloadingAndSaving,
   ) async {
     final localVnRepo = ref.read(localVnRepoProvider);

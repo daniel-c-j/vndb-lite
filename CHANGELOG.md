@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dio configuration.
 - Synchronization can now aware of changes made from cloud and not local restricted anymore.
 - Bottom Navigation Bar's scrolling visibility.
+- VN detail screen platforms and languages UI rendering.
 
 ### Fixed
 

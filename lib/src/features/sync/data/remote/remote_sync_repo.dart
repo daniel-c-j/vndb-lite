@@ -37,20 +37,8 @@ class RemoteSyncRepo {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Future<void> removeVns(String token) async {
-    for (String vnId in _collection.vnToBeRemovedWhenSync) {
-      await Future.delayed(const Duration(milliseconds: 400), () async {
-        await _apiService.delete(
-          url: NetConsts.BASE_URL + "/kana/ulist/$vnId",
-          options: Options(
-            contentType: 'application/json',
-            headers: {'Authorization': 'token $token'},
-          ),
-        );
-      });
-    }
-
-    // Clear data when done.
+  Future<void> removeResidualData() async {
+    _collection.addedByTheAppNotBySync();
     _collection.cleanVnToBeRemovedWhenSync();
     return;
   }
@@ -59,14 +47,14 @@ class RemoteSyncRepo {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  // List of api call responses, meant to store future data, and outside any function
-  // to prevent being overwritten.
-  List _resultFromAPI = [];
+  /// List of api call responses, meant to store future data, and outside any function
+  /// to prevent being overwritten.
+  final List<Map<String, String>> _resultFromAPI = [];
 
-  // Page of results.
+  /// Page of results.
   int _page = 1;
 
-  getLatestDataFromCloud(String userId) async {
+  Future<List<Map<String, String>>> getLatestDataFromCloud(String userId) async {
     // Get the collections from the cloud.
     final Response requestToServer = await _apiService.post(
       url: NetConsts.BASE_URL + "/kana/ulist",
@@ -79,7 +67,8 @@ class RemoteSyncRepo {
       },
     );
 
-    _resultFromAPI = [..._resultFromAPI, ...requestToServer.data['results']];
+    // Keeps appending till reach `more = false` flag.
+    _resultFromAPI.addAll(requestToServer.data['results']);
 
     // Repeating again until there is no 'more' left.
     if (requestToServer.data['more']) {
@@ -100,40 +89,78 @@ class RemoteSyncRepo {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  // TODO compare lastmod instead to check ifThereIsAnyDifferences.
-  Future<void> postPatchData(
+  // TODO sync snackbar/user feedback when data is deleted/saved/modified.
+  Future<List> filterAndSyncRecords(
     List<VnRecord> localRecords,
     List cloudRecords, {
     required String authToken,
     required bool keepVns,
   }) async {
-    //
+    final List vnIdsToBeSaved = [];
+
+    // *** Filter the localRecords first.
     for (VnRecord localRecord in localRecords) {
       final int statusId = COLLECTION_STATUS_DATA[localRecord.status.toLowerCase()]!.id;
-      final cloudRecord = cloudRecords.firstWhereOrNull((idx) => idx['id'] == localRecord.id);
+      final localRecordInTheCloud = cloudRecords.firstWhereOrNull(
+        (idx) => idx['id'] == localRecord.id,
+      );
 
-      // If local record exists in the cloud.
-      if (cloudRecord != null) {
+      // ** MODIFYING SECTION
+      // * If local record exists in the cloud. (Just need to be done once)
+      if (localRecordInTheCloud != null) {
         // Preparing for comparing data to check for any changes.
-        if (isThereAnyDifference(localRecord, cloudRecord)) {
+        if (isThereAnyDierence(localRecord, localRecordInTheCloud)) {
           // For behavioral issue of the API (or maybe I was drunk at that time, jk), such logic happen:
           // If vote exists in vn, then delete the vn first, and then repost the record.
           if (localVnHasVote(localRecord)) {
-            await delete(cloudRecord['id'], authToken: authToken);
+            await delete(localRecordInTheCloud['id']!, authToken: authToken);
           }
 
           await post(localRecord, authToken: authToken, statusId: statusId);
-          continue;
         }
 
+        vnIdsToBeSaved.add(localRecordInTheCloud);
+        vnIdsToBeSaved.add(localRecord);
+      }
+
+      // ** ADDING/DELETING SECTION
+      // * If local record does not exist in the cloud. Then:
+      // * 1. If VN never been deleted before locally, then backup it to the server.
+      if (localRecord.isAddedByTheAppNotBySync()) {
+        await post(localRecord, authToken: authToken, statusId: statusId);
+        vnIdsToBeSaved.add(localRecord);
         continue;
       }
 
-      // If not exist in the cloud, then post the data
-      await post(localRecord, authToken: authToken, statusId: statusId);
+      // * 2. The record already deleted from the server, then sync the deletion to local too.
+      _collection.removeVnRecord(localRecord.id);
     }
 
-    return;
+    // *** Filter the rest that are unique only in cloudRecords.
+    for (Map<String, String> cloudRecord in cloudRecords) {
+      final cloudRecordInTheLocal = localRecords.firstWhereOrNull(
+        (idx) => idx.id == cloudRecord['id'],
+      );
+
+      // ** MODIFYING SECTION
+      // * If cloud record exists in the local: Then do nothing. Intersection already handled by
+      // * the above filter.
+
+      // ** ADDING/DELETING SECTION CONTD.
+      // * If cloud record does not exist in the local.
+      if (cloudRecordInTheLocal == null) {
+        // * 1. If ever deleted before, then delete the vn too in the cloud.
+        if (_collection.vnToBeRemovedWhenSync.contains(cloudRecord['id']!)) {
+          await delete(cloudRecord['id']!, authToken: authToken);
+          continue;
+        }
+
+        // * 2. If never exists before, then save it to the local.
+        vnIdsToBeSaved.add(cloudRecord);
+      }
+    }
+
+    return vnIdsToBeSaved;
   }
 
   //
