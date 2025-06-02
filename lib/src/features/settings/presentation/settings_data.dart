@@ -116,7 +116,7 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
 
   Future<void> _deleteVns() async {
     await showSettingsDialog(
-      title: "You are about to delete all Visual Novels in your collection. Are you sure?",
+      title: "You are about to delete all visual novels in your collection. Are you sure?",
       content: Padding(
         padding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.05)),
         child: ShadowText(
@@ -285,7 +285,7 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                 highlightColor: const Color.fromARGB(180, 240, 210, 50),
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: _refreshVns,
-                children: [ShadowText('Refresh all Visual Novel in collection')],
+                children: [ShadowText('Refresh all visual novel in collection')],
               ),
 
               //
@@ -300,7 +300,7 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
                 highlightColor: const Color.fromARGB(180, 240, 70, 50),
                 padding: EdgeInsets.all(responsiveUI.own(0.02)),
                 onTap: _deleteVns,
-                children: [ShadowText('Remove all Visual Novel in collection')],
+                children: [ShadowText('Remove all visual novel in collection')],
               ),
 
               //

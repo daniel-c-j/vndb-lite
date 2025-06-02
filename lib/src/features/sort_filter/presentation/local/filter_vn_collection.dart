@@ -194,7 +194,7 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Language
         FilterItem(
-          title: 'Available Languages ',
+          title: 'Available languages ',
           isOpened: _showLangOptions,
           onTap: () => setState(() => _showLangOptions = !_showLangOptions),
         ),
@@ -217,7 +217,7 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Development Status
         FilterItem(
-          title: 'Development Status ',
+          title: 'Development status ',
           isOpened: _showdevStatOptions,
           onTap: () => setState(() => _showdevStatOptions = !_showdevStatOptions),
         ),

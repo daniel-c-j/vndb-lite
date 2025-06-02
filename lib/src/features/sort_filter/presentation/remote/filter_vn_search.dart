@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/devstatus_data.dart';
@@ -139,7 +138,7 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Languages
         FilterItem(
-          title: 'Available Languages ',
+          title: 'Available languages ',
           isOpened: _showLangOptions,
           onTap: () => setState(() => _showLangOptions = !_showLangOptions),
         ),
@@ -176,7 +175,7 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Development Status
         FilterItem(
-          title: 'Development Status ',
+          title: 'Development status ',
           isOpened: _showDevStatOptions,
           onTap: () => setState(() => _showDevStatOptions = !_showDevStatOptions),
         ),
