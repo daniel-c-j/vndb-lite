@@ -76,6 +76,19 @@ class HomeBigPreviewImages extends ConsumerWidget {
             // * visiblity reaches zero.
             index: (currentVn != null) ? p1Data.indexOf(currentVn) : null,
             onIndexChanged: (int index) => _synchronizeVn(p1Data[index]),
+            pagination: SwiperPagination(
+              alignment: Alignment.centerRight,
+              margin: EdgeInsets.only(
+                bottom: responsiveUI.own(0.085),
+                right: responsiveUI.own(0.03),
+              ),
+              builder: DotSwiperPaginationBuilder(
+                color: kColor(context).primary,
+                activeColor: kColor(context).secondary,
+                space: 2.75,
+                size: 4,
+              ),
+            ),
             itemBuilder: (BuildContext context, int index) {
               final vn = p1Data[index];
 

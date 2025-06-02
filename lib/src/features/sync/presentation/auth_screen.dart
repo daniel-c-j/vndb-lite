@@ -92,7 +92,7 @@ class _AuthenticationScreenState extends ConsumerState<AuthenticationScreen>
                           SizedBox(
                             height:
                                 (MediaQuery.of(context).orientation == Orientation.portrait)
-                                    ? (MediaQuery.of(context).viewInsets.bottom !=
+                                    ? (MediaQuery.of(context).viewInsets.bottom >
                                             0) // When keyboard opens
                                         ? MediaQuery.sizeOf(context).height * 0.12
                                         : MediaQuery.sizeOf(context).height * 0.3

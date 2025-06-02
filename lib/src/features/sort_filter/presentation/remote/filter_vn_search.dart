@@ -137,10 +137,15 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Languages
-        FilterItem(
-          title: 'Available languages ',
-          isOpened: _showLangOptions,
-          onTap: () => setState(() => _showLangOptions = !_showLangOptions),
+        Consumer(
+          builder: (context, ref, child) {
+            final hasFilter = ref.watch(appliedRemoteFilterControllerProvider).lang.isNotEmpty;
+            return FilterItem(
+              title: 'Available languages ${(hasFilter) ? "(Filtered)" : ""}',
+              isOpened: _showLangOptions,
+              onTap: () => setState(() => _showLangOptions = !_showLangOptions),
+            );
+          },
         ),
         if (_showLangOptions)
           Padding(
@@ -160,10 +165,15 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Developer
-        FilterItem(
-          title: 'Developer ',
-          isOpened: _showDevOptions,
-          onTap: () => setState(() => _showDevOptions = !_showDevOptions),
+        Consumer(
+          builder: (context, ref, child) {
+            final hasFilter = ref.watch(appliedRemoteFilterControllerProvider).dev.isNotEmpty;
+            return FilterItem(
+              title: 'Developer ${(hasFilter) ? "(Filtered)" : ""}',
+              isOpened: _showDevOptions,
+              onTap: () => setState(() => _showDevOptions = !_showDevOptions),
+            );
+          },
         ),
         if (_showDevOptions)
           Padding(
@@ -174,12 +184,16 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Development Status
-        FilterItem(
-          title: 'Development status ',
-          isOpened: _showDevStatOptions,
-          onTap: () => setState(() => _showDevStatOptions = !_showDevStatOptions),
+        Consumer(
+          builder: (context, ref, child) {
+            final hasFilter = ref.watch(appliedRemoteFilterControllerProvider).devstatus.isNotEmpty;
+            return FilterItem(
+              title: 'Development status ${(hasFilter) ? "(Filtered)" : ""}',
+              isOpened: _showDevStatOptions,
+              onTap: () => setState(() => _showDevStatOptions = !_showDevStatOptions),
+            );
+          },
         ),
-
         if (_showDevStatOptions)
           Padding(
             padding: filterContentPadding,
@@ -197,12 +211,16 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Origin language
-        FilterItem(
-          title: 'Origin ',
-          isOpened: _showOriginOptions,
-          onTap: () => setState(() => _showOriginOptions = !_showOriginOptions),
+        Consumer(
+          builder: (context, ref, child) {
+            final hasFilter = ref.watch(appliedRemoteFilterControllerProvider).olang.isNotEmpty;
+            return FilterItem(
+              title: 'Origin ${(hasFilter) ? "(Filtered)" : ""}',
+              isOpened: _showOriginOptions,
+              onTap: () => setState(() => _showOriginOptions = !_showOriginOptions),
+            );
+          },
         ),
-
         if (_showOriginOptions)
           Padding(
             padding: filterContentPadding,
@@ -220,10 +238,15 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Platforms
-        FilterItem(
-          title: 'Platforms ',
-          isOpened: _showPlatformOptions,
-          onTap: () => setState(() => _showPlatformOptions = !_showPlatformOptions),
+        Consumer(
+          builder: (context, ref, child) {
+            final hasFilter = ref.watch(appliedRemoteFilterControllerProvider).platform.isNotEmpty;
+            return FilterItem(
+              title: 'Platforms ${(hasFilter) ? "(Filtered)" : ""}',
+              isOpened: _showPlatformOptions,
+              onTap: () => setState(() => _showPlatformOptions = !_showPlatformOptions),
+            );
+          },
         ),
         if (_showPlatformOptions)
           Padding(
@@ -242,10 +265,15 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Tags
-        FilterItem(
-          title: 'Tags ',
-          isOpened: _showTagOptions,
-          onTap: () => setState(() => _showTagOptions = !_showTagOptions),
+        Consumer(
+          builder: (context, ref, child) {
+            final hasFilter = ref.watch(appliedRemoteFilterControllerProvider).tag.isNotEmpty;
+            return FilterItem(
+              title: 'Tags ${(hasFilter) ? "(Filtered)" : ""}',
+              isOpened: _showTagOptions,
+              onTap: () => setState(() => _showTagOptions = !_showTagOptions),
+            );
+          },
         ),
         if (_showTagOptions)
           Padding(

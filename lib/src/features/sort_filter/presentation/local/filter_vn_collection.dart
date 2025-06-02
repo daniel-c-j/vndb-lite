@@ -193,10 +193,16 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Language
-        FilterItem(
-          title: 'Available languages ',
-          isOpened: _showLangOptions,
-          onTap: () => setState(() => _showLangOptions = !_showLangOptions),
+        Consumer(
+          builder: (context, ref, child) {
+            final hasFilter = ref.watch(localFilterControllerProvider).lang.isNotEmpty;
+
+            return FilterItem(
+              title: 'Available languages ${(hasFilter) ? "(Filtered)" : ""}',
+              isOpened: _showLangOptions,
+              onTap: () => setState(() => _showLangOptions = !_showLangOptions),
+            );
+          },
         ),
         if (_showLangOptions)
           Padding(
@@ -216,10 +222,15 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Development Status
-        FilterItem(
-          title: 'Development status ',
-          isOpened: _showdevStatOptions,
-          onTap: () => setState(() => _showdevStatOptions = !_showdevStatOptions),
+        Consumer(
+          builder: (context, ref, child) {
+            final hasFilter = ref.watch(localFilterControllerProvider).devstatus.isNotEmpty;
+            return FilterItem(
+              title: 'Development status ${(hasFilter) ? "(Filtered)" : ""}',
+              isOpened: _showdevStatOptions,
+              onTap: () => setState(() => _showdevStatOptions = !_showdevStatOptions),
+            );
+          },
         ),
         if (_showdevStatOptions)
           Padding(
@@ -238,10 +249,15 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Language Origin
-        FilterItem(
-          title: 'Origin ',
-          isOpened: _showOriginOptions,
-          onTap: () => setState(() => _showOriginOptions = !_showOriginOptions),
+        Consumer(
+          builder: (context, ref, child) {
+            final hasFilter = ref.watch(localFilterControllerProvider).olang.isNotEmpty;
+            return FilterItem(
+              title: 'Origin ${(hasFilter) ? "(Filtered)" : ""}',
+              isOpened: _showOriginOptions,
+              onTap: () => setState(() => _showOriginOptions = !_showOriginOptions),
+            );
+          },
         ),
         if (_showOriginOptions)
           Padding(
@@ -257,14 +273,18 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
               ],
             ),
           ),
-
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Platform
-        FilterItem(
-          title: 'Platforms ',
-          isOpened: _showPlatformOptions,
-          onTap: () => setState(() => _showPlatformOptions = !_showPlatformOptions),
+        Consumer(
+          builder: (context, ref, child) {
+            final hasFilter = ref.watch(localFilterControllerProvider).platform.isNotEmpty;
+            return FilterItem(
+              title: 'Platforms ${(hasFilter) ? "(Filtered)" : ""}',
+              isOpened: _showPlatformOptions,
+              onTap: () => setState(() => _showPlatformOptions = !_showPlatformOptions),
+            );
+          },
         ),
         if (_showPlatformOptions)
           Padding(
