@@ -18,7 +18,7 @@ class VnDetailReleasesLang extends StatelessWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Future<Widget> get _flagWidgets async {
+  Widget get _flagWidgets {
     final List<Widget> languageData = [];
 
     for (String language in (p2.languages ?? [])) {
@@ -83,16 +83,7 @@ class VnDetailReleasesLang extends StatelessWidget {
             ),
           ],
         ),
-        FutureBuilder(
-          future: _flagWidgets,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const SizedBox.shrink();
-            }
-
-            return snapshot.data;
-          },
-        ),
+        _flagWidgets,
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
@@ -49,22 +50,25 @@ class SearchResultController extends _$SearchResultController {
   }
 
   void handleNextResult(ScrollNotification notif) {
+    // Don't give a damn if keyboard is opened.
+    if (MediaQuery.of(NavigationService.currentContext).viewInsets.bottom > 0) {
+      return;
+    }
+
     // Using debouncer to debounce scrolling listener to fetch the next result if exists.
     _debouncer.call(() {
-      if (notif is ScrollEndNotification) {
-        if (_searchStateCanContinue &&
-            ref.read(innerScrollControllerProvider)!.position.pixels >=
-                (notif.metrics.maxScrollExtent - limit)) {
-          // * Continue searching...
-          SchedulerBinding.instance.addPostFrameCallback((_) async {
-            ref.read(searchResultPageControllerProvider.notifier).increment();
-            ref.read(searchResultNotifierProvider.notifier).ring();
+      if (_searchStateCanContinue &&
+          ref.read(innerScrollControllerProvider)!.position.pixels >=
+              (notif.metrics.maxScrollExtent - limit)) {
+        // * Continue searching...
+        SchedulerBinding.instance.addPostFrameCallback((_) async {
+          ref.read(searchResultPageControllerProvider.notifier).increment();
+          ref.read(searchResultNotifierProvider.notifier).ring();
 
-            await ref
-                .read(searchScreenControllerProvider.notifier)
-                .searchWithCurrentConf(pageResult: ref.read(searchResultPageControllerProvider));
-          });
-        }
+          await ref
+              .read(searchScreenControllerProvider.notifier)
+              .searchWithCurrentConf(pageResult: ref.read(searchResultPageControllerProvider));
+        });
       }
     });
   }

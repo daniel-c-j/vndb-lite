@@ -21,10 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Version check control system.
 - Dio configuration.
 - Synchronization can now aware of changes made from cloud and not local restricted anymore.
+- Bottom Navigation Bar's scrolling visibility.
 
 ### Fixed
 
-- Typos
+- Typos.
+- Clicking searchbar in search screen while preserving search results will take user to the top bug.
 
 
 [2.0.0] - 2025-05-07

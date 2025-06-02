@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:vndb_lite/src/util/debouncer.dart';
+import 'package:vndb_lite/src/util/delay.dart';
 
 /// A widget that hides its child when the user scrolls down and shows it again when the user scrolls up.
 /// This behavior is commonly used to hide elements like a bottom navigation bar to provide a more immersive user experience.
@@ -50,6 +52,7 @@ class ScrollToHide extends StatefulWidget {
 
 class _ScrollToHideState extends State<ScrollToHide> {
   bool isShown = true;
+  final _debouncer = Debouncer();
 
   @override
   void initState() {
@@ -104,12 +107,16 @@ class _ScrollToHideState extends State<ScrollToHide> {
     }
   }
 
-  void listen() {
+  void listen() async {
     final direction = widget.scrollController.position.userScrollDirection;
-    if (direction == ScrollDirection.forward) {
-      show();
-    } else if (direction == ScrollDirection.reverse) {
+    if (direction == ScrollDirection.reverse) {
       hide();
     }
+
+    _debouncer.call(() async {
+      await delay(true, 400);
+      show();
+      return;
+    });
   }
 }

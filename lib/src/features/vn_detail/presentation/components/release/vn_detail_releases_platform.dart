@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
@@ -16,7 +15,7 @@ class VnDetailReleasesPlatform extends StatelessWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Future<Widget> get _platformWidgets async {
+  Widget get _platformWidgets {
     final List<Widget> platforms = [];
     bool hasOthers = false;
 
@@ -62,14 +61,14 @@ class VnDetailReleasesPlatform extends StatelessWidget {
       );
     }
 
-    return await _getFinalPlatformWidget(platforms, hasOthers);
+    return _getFinalPlatformWidget(platforms, hasOthers);
   }
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Future<Widget> _getFinalPlatformWidget(List<Widget> platforms, bool hasOthers) async {
+  Widget _getFinalPlatformWidget(List<Widget> platforms, bool hasOthers) {
     if (platforms.isEmpty) {
       platforms.add(ShadowText('--'));
     }
@@ -98,16 +97,7 @@ class VnDetailReleasesPlatform extends StatelessWidget {
       children: [
         ShadowText('Platforms', fontSize: responsiveUI.own(0.045), fontWeight: FontWeight.bold),
         SizedBox(height: responsiveUI.own(0.01)),
-        FutureBuilder(
-          future: _platformWidgets,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return snapshot.data;
-            }
-
-            return const SizedBox.shrink();
-          },
-        ),
+        _platformWidgets,
       ],
     );
   }
