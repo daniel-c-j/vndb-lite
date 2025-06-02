@@ -100,6 +100,7 @@ class RemoteSyncRepo {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
+  // TODO compare lastmod instead to check ifThereIsAnyDifferences.
   Future<void> postPatchData(
     List<VnRecord> localRecords,
     List cloudRecords, {
@@ -126,11 +127,10 @@ class RemoteSyncRepo {
         }
 
         continue;
-        //
-      } else {
-        // If not exist in the cloud, then post the data
-        await post(localRecord, authToken: authToken, statusId: statusId);
       }
+
+      // If not exist in the cloud, then post the data
+      await post(localRecord, authToken: authToken, statusId: statusId);
     }
 
     return;

@@ -45,7 +45,8 @@ String _getVnCloudStatus(Map<String, dynamic> cloudRecord) {
 }
 
 int getVnCloudVote(Map<String, dynamic> cloudRecord) {
-  if (cloudRecord['vote'] != null && cloudRecord['vote'] != 0) return (cloudRecord['vote'] / 10).toInt();
+  if (cloudRecord['vote'] != null && cloudRecord['vote'] != 0)
+    return (cloudRecord['vote'] / 10).toInt();
   return 0;
 }
 

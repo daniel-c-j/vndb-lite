@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 
-
-
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>VNDB Lite</title>
 	<link href="https://fonts.googleapis.com/css?family=Heebo:400,700|Oxygen:700" rel="stylesheet">
@@ -13,18 +11,22 @@
 	<script src="dist/js/scrollrveal.min.js"></script>
 </head>
 
-
-
 <body class="is-boxed has-animations">
 	<div class="body-wrap boxed-container">
 		<header class="site-header text-light">
-			<div class="container">
+			<div class="container ">
 				<div class="site-header-inner">
-					<div class="brand header-brand">
-						<h1 class="m-0">
-							<a href="#" id="repo-url" title="Go to repository">
+					<div class="brand header-brand" style="max-width: 100%; display: flex; height: auto; ">
+						<h1 class="m-0" style="padding: 0px 20px 0px 0px;">
+							<a href="#" id="repo-url" title="Go to the GitHub repository">
 								<img class="header-logo-image" width="35" height="35" src="dist/images/github.png"
-									alt="Github Logo">
+									alt="Github logo">
+							</a>
+						</h1>
+						<h1 class="m-0" style="padding: 0px 20px 0px 0px;">
+							<a href="https://codeberg.org/daniel-c-j/vndb-lite/" title="Go to the Codeberg repository">
+								<img class="header-logo-image" width="35" height="35" src="dist/images/codeberg.png"
+									alt="Codeberg logo">
 							</a>
 						</h1>
 					</div>
@@ -43,15 +45,14 @@
 						<div class="hero-copy">
 							<h1 class="hero-title mt-0">Introducing VNDB Lite</h1>
 
-							<p class="hero-paragraph" style="color:rgba(255, 255, 255, 0.8);">A lite open-source mobile
-								version of your
-								favorite <b>vndb.org</b>
-								website.</p>
+							<p class="hero-paragraph" style="color:rgba(255, 255, 255, 0.8);">A lite,
+								free, and open-source mobile version of your
+								favorite website, <b>vndb.org</b>.</p>
 
 							<div class="hero-cta" align="center">
 								<a class="button button-primary button-wide-mobile" title="Download" id="releases-url"
 									href="#">Take me
-									to download page</a>
+									to the download page</a>
 
 								<p
 									style="padding-top: 10px; padding-bottom: 10px;margin: 0 0 0 0;color:rgba(255, 255, 255, 0.8);font-size: 16px;">
@@ -64,11 +65,11 @@
 										title="Make sure you have Obtainium installed!" width="200">
 								</a>
 
-								<p style="padding-top: 14px; color:rgba(255, 255, 255, 0.8);font-size: 16px;">Or read
+								<p style="padding-top: 14px; color:rgba(255, 255, 255, 0.8);font-size: 16px;">OR read
 									the brief
 									documentation <a href="https://github.com/Daniel-C-J/vndb-lite#readme-top">
-										here
-									</a></p>
+										here</a>.
+								</p>
 
 								<br />
 							</div>
@@ -101,7 +102,7 @@
 									<h3 class="mt-0 mb-16">Cozy UI</h3>
 									<p class="m-0">Designed with empathy in mind, welcoming all unfamiliarity, and
 										preparing guidance
-										for the user journey by the solid interface.</p>
+										for the user's journey via its solid interface.</p>
 								</div>
 							</div>
 							<div class="feature-extended">
@@ -113,8 +114,8 @@
 										alt="Feature 02">
 								</div>
 								<div class="feature-extended-body is-revealing">
-									<h3 class="mt-0 mb-16">Limitless scroll</h3>
-									<p class="m-0">Lazy loading to fuel the fingers to scroll addictively with dynamic
+									<h3 class="mt-0 mb-16">Infinite scroll</h3>
+									<p class="m-0">Lazy loading fuelling the fingers to scroll addictively with dynamic
 										content at each pixels scrolled through.</p>
 								</div>
 							</div>
@@ -127,9 +128,9 @@
 										alt="Feature 03">
 								</div>
 								<div class="feature-extended-body is-revealing">
-									<h3 class="mt-0 mb-16">Preference goes first</h3>
+									<h3 class="mt-0 mb-16">Preference first</h3>
 									<p class="m-0">A tappable context, a taste to try. Intriguing the mind with
-										unlimited possiblity of filters and sorts combinations.</p>
+										infinite possiblity of filters and sorts combinations.</p>
 								</div>
 							</div>
 							<div class="feature-extended">
@@ -141,9 +142,9 @@
 										alt="Feature 04">
 								</div>
 								<div class="feature-extended-body is-revealing">
-									<h3 class="mt-0 mb-16">Minimum yet enough detail</h3>
-									<p class="m-0">Embracing the "lite" context of information to digest, structured
-										minimalistically.</p>
+									<h3 class="mt-0 mb-16">Minimal yet detailed</h3>
+									<p class="m-0">Embracing the 'lite' approach of information to digest, structured
+										minimally.</p>
 								</div>
 							</div>
 							<div class="feature-extended">
@@ -156,7 +157,7 @@
 								</div>
 								<div class="feature-extended-body is-revealing">
 									<h3 class="mt-0 mb-16">Multiple selection</h3>
-									<p class="m-0">A shortcut of time, a way to manage your library efficiently.</p>
+									<p class="m-0">A great shortcut, a way to manage your library efficiently.</p>
 								</div>
 							</div>
 							<div class="feature-extended">
@@ -176,7 +177,7 @@
 
 							<br />
 							<div align="center">
-								<h3>And still many more...!</h3>
+								<h3>With many more features...!</h3>
 
 							</div>
 
@@ -195,16 +196,16 @@
 					<div class="container-sm">
 						<div class="cta-inner section-inner">
 							<div class="cta-header text-center">
-								<h2 class="section-title mt-0">Yea I know, this page is not perfect... like my life.
+								<h2 class="section-title mt-0">Yeah, this page is not perfect... like my life.
 								</h2>
 								<p class="section-paragraph" style="color: rgba(255, 255, 255, 0.8)">When my time is
 									flexible enough, I'll try to
-									redo this page again
-									with way better enhancements.</p>
+									redo this page again,
+									but way better.</p>
 								<div class="cta-cta">
 									<a class="button button-primary button-wide-mobile" title="Download anyway"
-										id="releases-url" href="#">Yeah
-										whatever, go to download</a>
+										id="releases-url" href="#">
+										Whatever, take me to the download page.</a>
 								</div>
 							</div>
 						</div>
@@ -216,9 +217,14 @@
 					<div class="site-footer-inner">
 						<div class="brand footer-brand">
 							<a href="#" id="profile-url" title="Profile">
-								<img width="35" height="35" src="dist/images/github.png" alt="Me" title="Go to me">
+								<img width="35" height="35" src="dist/images/github.png" alt="GitHub profile"
+									title="Go to my GitHub profile">
 							</a>
-
+							<p>&nbsp;+&nbsp;</p>
+							<a href="https://codeberg.org/daniel-c-j" id="profile-url" title="Profile">
+								<img width="35" height="35" src="dist/images/codeberg.png" alt="Codeberg profile"
+									title="Go to my Codeberg profile">
+							</a>
 						</div>
 						<ul class="footer-social-links list-reset">
 						</ul>

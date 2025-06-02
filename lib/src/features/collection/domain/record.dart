@@ -10,6 +10,7 @@ class VnRecord {
     this.added,
     this.started,
     this.finished,
+    this.lastmod,
   });
 
   final String id;
@@ -19,6 +20,7 @@ class VnRecord {
   final String? added;
   final String? started;
   final String? finished;
+  final String? lastmod;
 
   VnRecord copyWith({
     String? id,
@@ -28,6 +30,7 @@ class VnRecord {
     String? added,
     String? started,
     String? finished,
+    String? lastmod,
   }) {
     return VnRecord(
       id: id ?? this.id,
@@ -37,6 +40,7 @@ class VnRecord {
       added: added ?? this.added,
       started: started ?? this.started,
       finished: finished ?? this.finished,
+      lastmod: lastmod ?? this.lastmod,
     );
   }
 
@@ -49,6 +53,7 @@ class VnRecord {
       'added': added,
       'started': started,
       'finished': finished,
+      'lastmod': lastmod,
     };
   }
 
@@ -58,19 +63,21 @@ class VnRecord {
       title: map['title'] as String,
       status: map['status'] as String,
       vote: map['vote'] as int,
-      added: map['added'] != null ? map['added'] as String : null,
-      started: map['started'] != null ? map['started'] as String : null,
-      finished: map['finished'] != null ? map['finished'] as String : null,
+      added: (map['added'] != null) ? map['added'] as String : null,
+      started: (map['started'] != null) ? map['started'] as String : null,
+      finished: (map['finished'] != null) ? map['finished'] as String : null,
+      lastmod: (map['lastmod'] != null) ? map['lastmod'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory VnRecord.fromJson(String source) => VnRecord.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory VnRecord.fromJson(String source) =>
+      VnRecord.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'VnRecord(id: $id, title: $title, status: $status, vote: $vote, added: $added, started: $started, finished: $finished)';
+    return 'VnRecord(id: $id, title: $title, status: $status, vote: $vote, added: $added, started: $started, finished: $finished, lastmod: $lastmod)';
   }
 
   @override
@@ -83,7 +90,8 @@ class VnRecord {
         other.vote == vote &&
         other.added == added &&
         other.started == started &&
-        other.finished == finished;
+        other.finished == finished &&
+        other.lastmod == lastmod;
   }
 
   @override
@@ -94,6 +102,7 @@ class VnRecord {
         vote.hashCode ^
         added.hashCode ^
         started.hashCode ^
-        finished.hashCode;
+        finished.hashCode ^
+        lastmod.hashCode;
   }
 }

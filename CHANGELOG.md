@@ -7,12 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Codeberg profile.
+
 ### Changed
 
 - Code refactor.
-- Better buttons.
-- Better version check.
-- Better Dio configuration.
+- Fix typos.
+- Buttons consistency.
+- Version check control system.
+- Dio configuration.
+- Synchronization can now aware of changes made from cloud and not local restricted anymore.
 
 ## [2.0.0] - 2025-05-07
 

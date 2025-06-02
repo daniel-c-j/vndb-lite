@@ -38,8 +38,11 @@ class LocalCollectionRepo {
 
     // In order to prevent duplication, if vn record exists, then remove first.
     collection.removeWhere((record) => record.contains('"${vnRecord.id}"'));
-    final changedRecord = vnRecord.toMap();
-    changedRecord["lastmod"] = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+    // ! Breaking change for version less than 2.0.0, assign lastmod property for VN record.
+    final changedRecord = vnRecord.copyWith(
+      lastmod: (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString(),
+    );
     collection.add(json.encode(changedRecord));
 
     // Override data
