@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
 ## [Unreleased]
 
 ### Added
@@ -14,13 +15,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Code refactor.
-- Fix typos.
 - Buttons consistency.
 - Version check control system.
 - Dio configuration.
 - Synchronization can now aware of changes made from cloud and not local restricted anymore.
 
-## [2.0.0] - 2025-05-07
+### Fixed
+
+- Typos
+
+
+[2.0.0] - 2025-05-07
 
 ### Added
 
@@ -39,6 +44,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refresh indicator.
 - Scrolling behaviour.
 
+### Fixed
+
+- Error image text design inconsistency at VN detail screen background.
+
+
 ## [1.2.0] - 2024-xx-xx
 
 ### Fixed
@@ -53,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Progress circular indicator when refreshing collection screen.
 
+
 ## [1.1.2] - 2024-xx-xx
 
 ### Fixed
@@ -61,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multiselection indicator overlay stuck when dismissing dialog from FAB.
 - Inkwell bug in back button VN detail screen.
 - Big memory consumption.
+
 
 ## [1.1.0] - 2024-xx-xx
 
@@ -75,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Scrolling experience.
 - App performance.
 - App structure.
+
 
 ## [1.0.0] - 2024-xx-xx
 
@@ -97,6 +110,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Floating action button in VN detail screen won't appear.
 - Tight landscape search field.
 
+
 ## [0.9.0] - 2024-xx-xx
 
 ### Fixed
@@ -107,6 +121,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Scrolling experience.
+
 
 ## [0.8.0] - 2024-xx-xx
 
@@ -124,6 +139,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Clearing cache option in settings.
+
 
 ## [0.7.0] - 2024-xx-xx
 
@@ -149,6 +165,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Scrollbar.
 
+
 ## [0.6.0] - 2024-xx-xx
 
 ### Fixed
@@ -165,6 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Gradient in tab bar view in VN detail screen.
 - Better vote dropdown button UI.
+
 
 ## [0.4.0] - 2024-xx-xx
 
@@ -183,6 +201,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Splash screen.
 - App icon.
 
+
 ## [0.3.0] - 2024-xx-xx
 
 ### Added
@@ -195,12 +214,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Arrangement layout settings customisation.
 - Multi-selection back button lag UI update.
 
+
 ## [0.2.2] - 2024-xx-xx
 
 ### Changed
 
 - Splash screen.
 - App icon.
+
 
 ## [0.2.1] - 2024-xx-xx
 
@@ -210,12 +231,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Loop progress linear on the bottom navigation bar when refreshing.
 - Uncancelled timer for snackbar warning.
 
+
 ## [0.2.0] - 2024-xx-xx
 
 ### Added
 
 - Splash screen.
 - Tags border color in detail screen according spoiler level.
+
 
 ## [0.1.0] - 2024-07-xx
 

@@ -14,9 +14,9 @@ import 'package:vndb_lite/src/util/text_extensions.dart';
 class SearchBarButton extends StatelessWidget {
   const SearchBarButton({super.key});
 
-  static List<String> searchPlaceholder = [
+  static const List<String> searchPlaceholder = [
     "Fate series",
-    "Steins gate",
+    "STEINS;GATE",
     "Samurai stuff",
     "I don't know",
     "Tomboy GF",
@@ -24,9 +24,10 @@ class SearchBarButton extends StatelessWidget {
     "Nakige",
     "Parody",
     "Sad stuff",
-    "Childhood friends",
+    "Childhood friend",
+    "Political crap",
     "The meaning of life",
-    "Vtuber feet",
+    "VTuber feet",
   ];
 
   @override
