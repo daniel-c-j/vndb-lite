@@ -1,5 +1,5 @@
 name: vndb_lite
-description: "A lite open-source mobile version of your favorite vndb.org website."
+description: "A lite, free, and open-source mobile version of your favorite website, vndb.org."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 #
@@ -104,7 +104,7 @@ dependencies:
   flag: ^7.0.0
   gradient_borders: ^1.0.1
   dropdown_button2: ^2.3.9
-  fl_chart: ^0.71.0
+  fl_chart: ^1.0.0
   card_swiper: ^3.0.1
   animated_text_kit: ^4.2.3
 

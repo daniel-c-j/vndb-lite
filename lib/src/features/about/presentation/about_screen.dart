@@ -18,8 +18,6 @@ class AboutScreen extends ConsumerWidget {
 
   static const List<String> oreNoPassion = ["Mobile Development", "Cybersecurity", "Literature"];
 
-  // TODO model class...?
-  // Hope someone's contacting me for either a job offer or a donation :-)
   static final Map<String, dynamic> contacts = {
     "email": {
       "urlDomain": "mailto:",
@@ -39,6 +37,16 @@ class AboutScreen extends ConsumerWidget {
         color: kColor().tertiary,
       ),
     },
+    "codeberg": {
+      "urlDomain": "https://codeberg.org/",
+      "id": ["daniel-c-j"],
+      "icon": Image.asset(
+        'assets/images/contact/codeberg.png',
+        fit: BoxFit.cover,
+        width: responsiveUI.own(0.05),
+        color: kColor().tertiary,
+      ),
+    },
     "ko-fi": {
       "urlDomain": "https://ko-fi.com/",
       "id": ["danielcj"],
@@ -51,7 +59,7 @@ class AboutScreen extends ConsumerWidget {
   };
 
   String get _passions {
-    String passion = oreNoPassion.getRange(0, oreNoPassion.length - 1).join(", ");
+    final String passion = oreNoPassion.getRange(0, oreNoPassion.length - 1).join(", ");
     return "$passion, and ${oreNoPassion.last}";
   }
 
@@ -139,17 +147,13 @@ class AboutScreen extends ConsumerWidget {
                 ),
                 ShadowText(
                   "Hi there, Daniel CJ here. I am the developer of this app, ${AppInfo.TITLE}. "
-                  "I have passions in $_passions. "
+                  "I am passionated about $_passions. "
                   "\n\n"
                   "This is the first Flutter app I've ever developed. "
                   "It took me about 8 ~ 9 weeks to finish the first version of this app. "
-                  "At first it was just a sudden idea popped in my head out of nowhere, but ended up "
+                  "At first it was just a sudden idea that popped in my head out of nowhere, but it ended up "
                   "as what you are using now. I am certainly grateful for this wonderful experience "
-                  "of developing a mobile app using Flutter, and looking to develop more!"
-                  "\n\n"
-                  "Also, I am currently open for mobile developing-related jobs (remotely global)! "
-                  "If you're interested, and would like to create similar apps as this one with even "
-                  "more cool features, don't hesitate to contact me!",
+                  "of developing a mobile app using Flutter, and looking to develop more!",
                   align: TextAlign.center,
                 ),
                 Divider(indent: responsiveUI.own(0.1), endIndent: responsiveUI.own(0.1)),
@@ -164,8 +168,8 @@ class AboutScreen extends ConsumerWidget {
                 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 // Contact
                 ShadowText(
-                  'Project? Job offer? ... Or generous enough to donate me :)? '
-                  'Here are ways to reach me:',
+                  'Project? Job offer?... Or feeling generous enough to donate to me? :) '
+                  'Check out my contact info right below:',
                   align: TextAlign.center,
                 ),
                 SizedBox(height: responsiveUI.own(0.02)),
@@ -186,6 +190,7 @@ class AboutScreen extends ConsumerWidget {
               ],
             ),
           ),
+
           //
           // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           // Back button
@@ -216,6 +221,9 @@ class AboutScreen extends ConsumerWidget {
               ],
             ),
           ),
+          //
+          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          //
         ],
       ),
     );

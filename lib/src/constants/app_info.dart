@@ -5,12 +5,13 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 /// Basic app identity informations.
 final class AppInfo {
-  static const unknown = "UNKNOWN";
+  static const String unknown = "UNKNOWN";
 
-  // TODO recheck whether README, Github Description, and Pubspec.yaml are all matching with title and desc.
+  // TODO recheck whether README, Github-Codeberg Description, and Pubspec.yaml are all matching with title and desc.
   // ! These two are crucial and should not depend on the packageInfo or any changing operations.
   static const String TITLE = "VNDB Lite";
-  static const String DESCRIPTION = "A lite open-source mobile version of your favorite vndb.org website.";
+  static const String DESCRIPTION =
+      "A lite, free, and open-source mobile version of your favorite website, vndb.org.";
 
   // ! Must be initialized first before being used.
   static late String _CURRENT_VERSION;
