@@ -45,7 +45,10 @@ class LocalCollectionRepo {
     );
 
     // Override data
-    _sharedPref.setStringList('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange', collection);
+    await _sharedPref.setStringList(
+      '${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange',
+      collection,
+    );
     _sharedPref.reload();
 
     // Updates home interface

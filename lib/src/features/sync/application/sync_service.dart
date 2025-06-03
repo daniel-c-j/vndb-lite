@@ -45,10 +45,9 @@ class SyncService {
 
     if (!await _isTokenValid(userIdentity)) return returnError(status: 1);
 
+    final remoteSyncRepo = ref.read(remoteSyncRepoProvider);
+    // Sync process begin
     try {
-      // Sync process begin
-      final remoteSyncRepo = ref.read(remoteSyncRepoProvider);
-
       // 1. Fetch all Vns data from the cloud collection
       await Future.delayed(const Duration(milliseconds: 1500));
       List rawRecords = await remoteSyncRepo.getLatestDataFromCloud(userIdentity.id);
@@ -76,10 +75,13 @@ class SyncService {
 
       // 5. Success
       _successfullySynchronized(whenDownloadingAndSaving);
-      return;
       //
     } catch (e) {
       debugPrint(e.toString());
+
+      // * If error, clean only the data in memory, not the persistent ones in local storage.
+      // * Because it still reflects the changes made by the user from the app.
+      remoteSyncRepo.cleanFetchLatestData();
       returnError();
       //
     } finally {
@@ -120,13 +122,13 @@ class SyncService {
       // This eliminates strange status label that is not defined in the vn status label.
       String labelValue = "";
       for (Map<String, dynamic> label in record['labels']) {
-        String newLabel = label['label']?.toLowerCase();
+        final String newLabel = label['label']?.toLowerCase();
         if (newLabel == 'vote') continue;
 
         if (COLLECTION_STATUS_DATA.containsKey(newLabel)) labelValue = newLabel;
       }
 
-      // TODO supports custom label.
+      // TODO supports custom label and multiple labels.
       if (labelValue.isEmpty) continue;
 
       // Injecting label to cloudrecord's status to make it available to process.
@@ -163,12 +165,7 @@ class SyncService {
 
       // Saves vn record if data exists in local collection.
       await collectionRepo.saveVnRecord(record);
-      await Future.delayed(const Duration(milliseconds: 2000));
-
-      // Paranoid mode, a recheck.
-      if (collectionRepo.getVnRecordFromId(record.id) == null) {
-        await collectionRepo.saveVnRecord(record);
-      }
+      await Future.delayed(const Duration(milliseconds: 1200));
 
       final title =
           (record.title.length >= 14) ? '${record.title.substring(0, 12)}...' : record.title;
