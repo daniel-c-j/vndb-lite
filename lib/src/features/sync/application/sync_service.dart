@@ -6,6 +6,7 @@ import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/re
 import 'package:vndb_lite/src/features/collection/application/collection_vn_service.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/collection/data/local/local_collection_repo.dart';
+import 'package:vndb_lite/src/features/collection/domain/collection_status.dart';
 import 'package:vndb_lite/src/features/collection/domain/record.dart';
 import 'package:vndb_lite/src/util/local_notification.dart';
 import 'package:vndb_lite/src/features/sync/data/local/local_sync_repo.dart';
@@ -56,15 +57,13 @@ class SyncService {
       // the vns to the cloud collection.
       if (keepVns) {
         final localRecords = await ref.read(localCollectionRepoProvider).getAllRecords();
-        if (localRecords.isNotEmpty) {
-          rawRecords.add(
-            await remoteSyncRepo.filterAndSyncRecords(
-              localRecords,
-              rawRecords as List<Map<String, dynamic>>,
-              authToken: userIdentity.authToken,
-            ),
-          );
-        }
+
+        snackbar('Processing records...', icon: Icons.sync, iconColor: kColor().tertiary);
+        rawRecords = await remoteSyncRepo.filterAndSyncRecords(
+          localRecords,
+          rawRecords,
+          authToken: userIdentity.authToken,
+        );
       }
 
       // 3. After all record has been synchronized and the filtered data retrieved,
@@ -97,7 +96,7 @@ class SyncService {
     return VnRecord(
       id: cloudRecord['id'],
       title: cloudRecord['vn']['title'],
-      status: cloudRecord['status'].toLowerCase(),
+      status: cloudRecord['status'],
       vote: getVnCloudVote(cloudRecord),
       added: getVnCloudDate('added', cloudRecord),
       started: getVnCloudDate('started', cloudRecord),
@@ -112,20 +111,26 @@ class SyncService {
   Future<void> getDataPhases(List records, VoidCallback whenDownloadingAndSaving) async {
     final Set<VnRecord> vnRecords = {};
 
-    for (dynamic record in records) {
+    for (var record in records) {
       if (record is VnRecord) {
         vnRecords.add(record);
         continue;
       }
 
-      // TODO
       // This eliminates strange status label that is not defined in the vn status label.
-      final List labels = record['labels'].where((Map<String, String> label) {
-        return CollectionStatusCode.values.asNameMap().containsKey(label['label']?.toLowerCase());
-      });
+      String labelValue = "";
+      for (Map<String, dynamic> label in record['labels']) {
+        String newLabel = label['label']?.toLowerCase();
+        if (newLabel == 'vote') continue;
+
+        if (COLLECTION_STATUS_DATA.containsKey(newLabel)) labelValue = newLabel;
+      }
+
+      // TODO supports custom label.
+      if (labelValue.isEmpty) continue;
 
       // Injecting label to cloudrecord's status to make it available to process.
-      record['status'] = labels[0]['label'];
+      record['status'] = labelValue;
       vnRecords.add(_generateVnRecord(record));
     }
 

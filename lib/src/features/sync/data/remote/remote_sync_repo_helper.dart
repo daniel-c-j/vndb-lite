@@ -22,12 +22,12 @@ Future<bool> compareNewerRecords(
     return true;
   }
 
-  if (localLastMod < (cloudRecord['lastmod'] ?? 0)) {
+  if ((cloudRecord['lastmod'] ?? 0) > localLastMod) {
     await ifRemote();
     return true;
   }
 
-  await ifRemote();
+  await ifLocal();
   return false;
 }
 

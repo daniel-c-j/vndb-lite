@@ -177,21 +177,11 @@ class LocalCollectionRepo {
   //
 
   Future<void> removeAllCollection({required bool includeSync}) async {
-    final List<String> collectionSections =
-        _sharedPref.getStringList(DBKeys.SAVED_COLLECTION_SECTIONS) ?? [];
-    final List<String> removeVnIds = vnToBeRemovedWhenSync;
-
-    for (String sectionRange in collectionSections) {
-      //
-      if (_sharedPref.containsKey('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange')) {
-        _sharedPref.remove('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange');
-      }
-    }
-
     // A case scenario where user already once synchronized with the server, and for some reason,
     // they want to delete or remove all of their collections, then the below operation must also
     // be executed, in order to also remove those collections in their cloud account too.
     // But ONLY will happen, if they're clicking the sync button again.
+    final List<String> removeVnIds = vnToBeRemovedWhenSync;
     if (includeSync) {
       final allRecords = await getAllRecords();
       for (VnRecord record in allRecords) {
@@ -199,6 +189,15 @@ class LocalCollectionRepo {
       }
 
       vnToBeRemovedWhenSync = removeVnIds;
+    }
+
+    final collectionSections =
+        _sharedPref.getStringList(DBKeys.SAVED_COLLECTION_SECTIONS) ?? <String>[];
+    for (String sectionRange in collectionSections) {
+      //
+      if (_sharedPref.containsKey('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange')) {
+        _sharedPref.remove('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange');
+      }
     }
 
     _sharedPref.remove(DBKeys.SAVED_COLLECTION_SECTIONS);

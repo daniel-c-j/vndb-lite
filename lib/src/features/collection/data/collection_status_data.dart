@@ -3,14 +3,7 @@
 import 'package:vndb_lite/src/features/collection/domain/collection_status.dart';
 import 'package:flutter/material.dart';
 
-enum CollectionStatusCode {
-  playing,
-  finished,
-  stalled,
-  dropped,
-  wishlist,
-  blacklist,
-}
+enum CollectionStatusCode { playing, finished, stalled, dropped, wishlist, blacklist }
 
 // Using .name property for sharedPreferences support. (Rearrangement)
 final Map<String, CollectionStatus> COLLECTION_STATUS_DATA = {

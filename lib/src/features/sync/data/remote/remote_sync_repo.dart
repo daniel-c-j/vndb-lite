@@ -40,6 +40,7 @@ class RemoteSyncRepo {
   Future<void> removeResidualData() async {
     _collection.cleanAddedViaAppNotBySync();
     _collection.cleanVnToBeRemovedWhenSync();
+    cleanFetchLatestData();
     return;
   }
 
@@ -49,12 +50,12 @@ class RemoteSyncRepo {
 
   /// List of api call responses, meant to store future data, and outside any function
   /// to prevent being overwritten.
-  final List<Map<String, dynamic>> _resultFromAPI = [];
+  final List _resultFromAPI = [];
 
   /// Page of results.
   int _page = 1;
 
-  Future<List<Map<String, dynamic>>> getLatestDataFromCloud(String userId) async {
+  Future<List> getLatestDataFromCloud(String userId) async {
     // Get the collections from the cloud.
     final Response requestToServer = await _apiService.post(
       url: NetConsts.BASE_URL + "/kana/ulist",
@@ -76,13 +77,12 @@ class RemoteSyncRepo {
       return getLatestDataFromCloud(userId);
     }
 
-    // Back to default
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      _resultFromAPI.clear();
-      _page = 1;
-    });
-
     return _resultFromAPI;
+  }
+
+  void cleanFetchLatestData() {
+    _resultFromAPI.clear();
+    _page = 1;
   }
 
   //
@@ -92,12 +92,46 @@ class RemoteSyncRepo {
   // TODO sync snackbar/user feedback when data is deleted/saved/modified.
   Future<List> filterAndSyncRecords(
     List<VnRecord> localRecords,
-    List<Map<String, dynamic>> cloudRecords, {
+    List cloudRecords, {
     required String authToken,
   }) async {
     final List vnRecordsToBeSaved = [];
 
-    // *** Filter the localRecords first.
+    // Debugging purpose.
+    // print("LOCAL RECORDS (${localRecords.length}) \n$localRecords");
+    // print("CLOUD RECORDS (${cloudRecords.length}) \n$cloudRecords");
+    // print(
+    //   "VN TO BE REMOVED (${_collection.vnToBeRemovedWhenSync.length}) \n${_collection.vnToBeRemovedWhenSync}",
+    // );
+    // print(
+    //   "VN ADDED VIA APP (${_collection.addedViaAppNotBySync.length}) \n${_collection.addedViaAppNotBySync}",
+    // );
+
+    // *** Filter the cloudRecords.
+    for (Map<String, dynamic> cloudRecord in cloudRecords) {
+      final cloudRecordInTheLocal = localRecords.firstWhereOrNull(
+        (idx) => idx.id == cloudRecord['id'],
+      );
+
+      // ** MODIFYING SECTION
+      // * If cloud record exists in the local: Then do nothing. Intersection already handled by
+      // * the localRecord filter.
+
+      // ** ADDING/DELETING SECTION CONTD.
+      // * If cloud record does not exist in the local.
+      if (cloudRecordInTheLocal == null) {
+        // * 1. If ever deleted before, then delete the vn too in the cloud.
+        if (_collection.vnToBeRemovedWhenSync.contains(cloudRecord['id']!)) {
+          await delete(cloudRecord['id']!, authToken: authToken);
+          continue;
+        }
+
+        // * 2. If never exists before, then save it to the local.
+        vnRecordsToBeSaved.add(cloudRecord);
+      }
+    }
+
+    // *** Filter the localRecords.
     for (VnRecord localRecord in localRecords) {
       final int statusId = COLLECTION_STATUS_DATA[localRecord.status.toLowerCase()]!.id;
       final localRecordInTheCloud = cloudRecords.firstWhereOrNull(
@@ -113,7 +147,9 @@ class RemoteSyncRepo {
           localRecordInTheCloud,
 
           // ? If remote it'll just override the current existing local record.
-          ifRemote: () async => vnRecordsToBeSaved.add(localRecordInTheCloud),
+          ifRemote: () async {
+            vnRecordsToBeSaved.add(localRecordInTheCloud);
+          },
 
           // ? If local it'll override the cloud record.
           ifLocal: () async {
@@ -144,30 +180,8 @@ class RemoteSyncRepo {
       _collection.removeVnRecord(localRecord.id);
     }
 
-    // *** Filter the rest that are unique only in cloudRecords.
-    for (Map<String, dynamic> cloudRecord in cloudRecords) {
-      final cloudRecordInTheLocal = localRecords.firstWhereOrNull(
-        (idx) => idx.id == cloudRecord['id'],
-      );
-
-      // ** MODIFYING SECTION
-      // * If cloud record exists in the local: Then do nothing. Intersection already handled by
-      // * the above filter.
-
-      // ** ADDING/DELETING SECTION CONTD.
-      // * If cloud record does not exist in the local.
-      if (cloudRecordInTheLocal == null) {
-        // * 1. If ever deleted before, then delete the vn too in the cloud.
-        if (_collection.vnToBeRemovedWhenSync.contains(cloudRecord['id']!)) {
-          await delete(cloudRecord['id']!, authToken: authToken);
-          continue;
-        }
-
-        // * 2. If never exists before, then save it to the local.
-        vnRecordsToBeSaved.add(cloudRecord);
-      }
-    }
-
+    // Debugging purpose.
+    // print("RESULTS (${vnRecordsToBeSaved.length}): $vnRecordsToBeSaved");
     return vnRecordsToBeSaved;
   }
 

@@ -93,7 +93,6 @@ class VnSelectionService {
     }
 
     whenSuccess();
-
     return;
   }
 
@@ -139,7 +138,8 @@ class VnSelectionService {
         localVnRepo.saveVnContent(p1);
       }
 
-      // ! Must be put here not in the repo level in order to differentiate it.
+      // ! Must be put here not in the repo level in order to differentiate that
+      // ! This is the only way to add record from directly the app.
       final tempList = localCollection.addedViaAppNotBySync;
       tempList.add(saveVnRecord.id);
       localCollection.addedViaAppNotBySync = tempList.toSet().toList();
