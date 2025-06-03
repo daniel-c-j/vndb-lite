@@ -140,7 +140,7 @@ dev_dependencies:
   riverpod_lint: ^2.6.2
 
   # For hive noSQL db.
-  # TODO
+  # TODO migrate to HIVE
   # hive_ce_generator: ^1.8.1
 
   # For testing.

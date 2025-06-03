@@ -13,9 +13,6 @@ import 'package:vndb_lite/src/features/search/domain/generic_vn_post.dart';
 
 part 'remote_home_repo.g.dart';
 
-// TODO simple documentation of classes
-// TODO repo should not depend onto another
-
 class RemoteHomeRepoImpl implements RemoteHomeRepo {
   RemoteHomeRepoImpl(this._apiService, this._sharedPref, this._localVnRepo);
 

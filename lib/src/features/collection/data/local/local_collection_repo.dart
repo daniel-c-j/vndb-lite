@@ -13,8 +13,6 @@ import 'package:vndb_lite/src/features/home/data/local/local_home_repo.dart';
 
 part 'local_collection_repo.g.dart';
 
-// TODO do remember to put class abstractions... :)
-
 class LocalCollectionRepo {
   const LocalCollectionRepo(this._sharedPref, this._localHomeRepo);
 

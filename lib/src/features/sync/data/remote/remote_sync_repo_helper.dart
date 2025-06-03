@@ -1,7 +1,5 @@
 import 'package:vndb_lite/src/features/collection/domain/record.dart';
 
-// TODO create class for this?
-
 //
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // This file contains helper functions for the remoteSyncRepo class
