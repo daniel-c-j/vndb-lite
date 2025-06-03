@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - None.
 
 
-[3.0.1] - 2025-06-03
+## [3.0.1] - 2025-06-03
 
 ### Fixed
 
@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove all collection cache bug.
 
 
-[3.0.0] - 2025-06-03
+## [3.0.0] - 2025-06-03
 
 ### Added
 
@@ -42,9 +42,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Typos.
-- 
+  
 
-[2.0.0] - 2025-05-07
+## [2.0.0] - 2025-05-07
 
 ### Added
 
