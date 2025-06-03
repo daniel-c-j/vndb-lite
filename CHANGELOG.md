@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Synchronization failed bug.
+- Failed synchronization bug.
 
 
 ## [3.0.1] - 2025-06-03
