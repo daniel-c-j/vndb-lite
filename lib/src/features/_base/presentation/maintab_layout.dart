@@ -102,21 +102,19 @@ class MainTabLayout extends StatelessWidget {
     _updateIsChecked = true; // Flagging.
 
     final controller = ref_.read(versionCheckControllerProvider.notifier);
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await controller.checkData(
-        onSuccess: (VersionCheck ver) async {
-          if (!ver.canUpdate) {
-            _showVersionCheckSnackbar(success: true);
-            return;
-          }
+    await controller.checkData(
+      onSuccess: (VersionCheck ver) async {
+        if (!ver.canUpdate) {
+          _showVersionCheckSnackbar(success: true);
+          return;
+        }
 
-          return await VersionUpdateDialog.show(NavigationService.currentContext, ver);
-        },
-        onError: (e, st) async {
-          _showVersionCheckSnackbar(success: false);
-        },
-      );
-    });
+        return await VersionUpdateDialog.show(NavigationService.currentContext, ver);
+      },
+      onError: (e, st) async {
+        _showVersionCheckSnackbar(success: false);
+      },
+    );
   }
 
   //
@@ -124,27 +122,26 @@ class MainTabLayout extends StatelessWidget {
   //
 
   void _maintainSearchScrollOffset(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      // Ignore if keyboard opens.
-      if (!App.isInSearchScreen || MediaQuery.of(context).viewInsets.bottom > 0) return;
-      ref_.read(innerScrollControllerProvider)?.jumpTo(scrollOffsetInSearch);
-    });
+    // Ignore if keyboard opens.
+    if (!App.isInSearchScreen || MediaQuery.of(context).viewInsets.bottom > 0) return;
+    if (ref_.read(searchResultControllerProvider).isEmpty) return;
+    ref_.read(innerScrollControllerProvider)?.jumpTo(scrollOffsetInSearch);
   }
 
   @override
   Widget build(BuildContext context) {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
-    // * BreakingChanges feature.
     SchedulerBinding.instance.addPostFrameCallback((_) {
+      // * BreakingChanges feature.
       BreakingChangesCounterMeasure.show(context);
+
+      // * Checks version at startup after everything loads.
+      if (!_updateIsChecked) _checkVersionUpdate();
+
+      // * Maintain search scroll offset.
+      if (App.isInSearchScreen) _maintainSearchScrollOffset(context);
     });
-
-    // * Checks version at startup after everything loads.
-    if (!_updateIsChecked) _checkVersionUpdate();
-
-    // * Maintain search scroll offset.
-    if (App.isInSearchScreen) _maintainSearchScrollOffset(context);
 
     return Stack(
       children: [
@@ -194,6 +191,8 @@ class MainTabLayout extends StatelessWidget {
                         // ! position in pixel.
                         SchedulerBinding.instance.addPostFrameCallback((_) {
                           final controller = PrimaryScrollController.of(context);
+                          if (MediaQuery.of(context).viewInsets.bottom > 0)
+                            return; // Ignore keyboard opens.
                           ref_.read(innerScrollControllerProvider.notifier).state = controller;
                         });
 

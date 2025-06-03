@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Clicking searchbar in search screen while preserving search results will take user to the top bug.
+
+
+[3.0.0] - 2025-06-03
+
 ### Added
 
 - Codeberg profile.
@@ -27,8 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Typos.
-- Clicking searchbar in search screen while preserving search results will take user to the top bug.
-
+- 
 
 [2.0.0] - 2025-05-07
 
