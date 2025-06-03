@@ -247,16 +247,16 @@ start . # This opens Windows's file explorer to check out the output.
 
 While there is no real official documentation yet for this project, it is as simple as managing your own VNDB.org collection. So have fun, and experiment with it!
 
-<img src="./media/screenshots/Screenshot_01.png" alt="screenshot" width=180  style="padding: 5px;" >
-<img src="./media/screenshots/Screenshot_02.png" alt="screenshot" width=180  style="padding: 5px;" >
-<img src="./media/screenshots/Screenshot_03.png" alt="screenshot" width=180  style="padding: 5px;" >
-<img src="./media/screenshots/Screenshot_04.png" alt="screenshot" width=180  style="padding: 5px;" >
-<img src="./media/screenshots/Screenshot_05.png" alt="screenshot" width=180  style="padding: 5px;" >
-<img src="./media/screenshots/Screenshot_06.png" alt="screenshot" width=180  style="padding: 5px;" >
-<img src="./media/screenshots/Screenshot_07.png" alt="screenshot" width=180  style="padding: 5px;" >
-<img src="./media/screenshots/Screenshot_08.png" alt="screenshot" width=180  style="padding: 5px;" >
-<img src="./media/screenshots/Screenshot_09.png" alt="screenshot" width=180  style="padding: 5px;" >
-<img src="./media/screenshots/Screenshot_10.png" alt="screenshot" width=180  style="padding: 5px;" >
+<img src="./media/screenshots/Screenshot_01.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_02.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_03.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_04.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_05.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_06.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_07.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_08.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_09.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
+<img src="./media/screenshots/Screenshot_10.png" alt="screenshot" width=180  style="padding: 5px;" ></img>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
