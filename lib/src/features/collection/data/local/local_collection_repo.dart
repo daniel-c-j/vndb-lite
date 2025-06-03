@@ -199,6 +199,7 @@ class LocalCollectionRepo {
     }
 
     _sharedPref.remove(DBKeys.SAVED_COLLECTION_SECTIONS);
+    _localHomeRepo.clearAllLocalCachedPreviews();
   }
 
   //

@@ -73,8 +73,14 @@ class LocalHomeRepoImpl implements LocalHomeRepo {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  // This method will only clear the remote previews.
-  void clearAllCachedPreviews() {
+  /// This method will only clear the remote previews.
+  void clearAllLocalCachedPreviews() {
+    _sharedPref.remove(DBKeys.COLLECTION_PREVIEW_CACHE_KEY);
+    _sharedPref.reload();
+  }
+
+  /// This method will only clear the remote previews.
+  void clearAllRemoteCachedPreviews() {
     for (String key in _sharedPref.getKeys()) {
       if (key.contains(DBKeys.HOME_PREVIEW_CACHE_KEY)) {
         _sharedPref.remove(key);

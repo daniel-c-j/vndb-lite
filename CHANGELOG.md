@@ -8,9 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- None.
+
+
+[3.0.1] - 2025-06-03
+
 ### Fixed
 
-- Clicking searchbar in search screen while preserving search results will take user to the top bug.
+- Search screen search bar scroll bug.
+- Remove all collection cache bug.
 
 
 [3.0.0] - 2025-06-03

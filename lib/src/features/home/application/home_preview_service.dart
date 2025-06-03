@@ -97,7 +97,7 @@ class HomePreviewService {
 
   void refreshRemotePreviews() {
     final localHomeRepo = ref.read(localHomeRepoProvider);
-    localHomeRepo.clearAllCachedPreviews();
+    localHomeRepo.clearAllRemoteCachedPreviews();
   }
 
   //

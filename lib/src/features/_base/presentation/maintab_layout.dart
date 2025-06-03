@@ -6,6 +6,7 @@ import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
+import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
 import 'package:vndb_lite/src/features/version_check/domain/version_check.dart';
 import 'package:vndb_lite/src/features/version_check/presentation/version_check_controller.dart';
 import 'package:vndb_lite/src/features/version_check/presentation/version_update_dialog.dart';
@@ -34,8 +35,9 @@ final mainScrollController = ScrollController();
 // * Once-check flags
 bool _updateIsChecked = false;
 bool _collectionTabInitialized = false;
+bool _innerControllerInitialized = false;
 
-// * To maintain consistency in screen that has lots of items.
+// * To maintain consistency in screen that has lots of items. Convert into stateNotifier?
 double scrollOffsetInSearch = 0;
 
 class MainTabLayout extends StatelessWidget {
@@ -75,7 +77,8 @@ class MainTabLayout extends StatelessWidget {
 
   bool _handleScrollNotification(ScrollNotification notif) {
     // debugPrint('Current pixel : ${notif.metrics.pixels}'); // Or
-    // debugPrint('Current pixel : ${innerScrollController.position.pixels}');
+    // debugPrint('Current pixel : ${ref_.read(innerScrollControllerProvider)!.position.pixels}');
+    // debugPrint('Current pixel : ${mainScrollController.position.pixels}');
     // debugPrint('Max scroll in pixel : ${notif.metrics.maxScrollExtent}');
 
     // * This supports search screen lazy loading when user hit the bottom screen,
@@ -122,11 +125,14 @@ class MainTabLayout extends StatelessWidget {
   //
 
   void _maintainSearchScrollOffset(BuildContext context) {
-    // Ignore if keyboard opens.
-    if (!App.isInSearchScreen || MediaQuery.of(context).viewInsets.bottom > 0) return;
-    if (ref_.read(searchResultControllerProvider).isEmpty) return;
+    if (!App.isInSearchScreen || ref_.read(searchScreenControllerProvider).isEmpty) return;
+    if (MediaQuery.of(context).viewInsets.bottom > 0) return; // Ignore keyboard
     ref_.read(innerScrollControllerProvider)?.jumpTo(scrollOffsetInSearch);
   }
+
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -189,12 +195,14 @@ class MainTabLayout extends StatelessWidget {
                       builder: (context) {
                         // ! Crucial, if not exists, screen will not be able to remember their latest
                         // ! position in pixel.
-                        SchedulerBinding.instance.addPostFrameCallback((_) {
-                          final controller = PrimaryScrollController.of(context);
-                          if (MediaQuery.of(context).viewInsets.bottom > 0)
-                            return; // Ignore keyboard opens.
-                          ref_.read(innerScrollControllerProvider.notifier).state = controller;
-                        });
+                        if (!_innerControllerInitialized) {
+                          SchedulerBinding.instance.addPostFrameCallback((_) {
+                            _innerControllerInitialized = true;
+
+                            final controller = PrimaryScrollController.of(context);
+                            ref_.read(innerScrollControllerProvider.notifier).state = controller;
+                          });
+                        }
 
                         return MainScaffoldBody(navigationShell: navigationShell);
                       },
