@@ -23,7 +23,7 @@ def update_version_json(file_path, version):
     with open(file_path, 'w') as file:
         json.dump(data, file, indent=4)
 
-def create_git_tag(version):
+def commit_and_create_git_tag(version):
     try:
         subprocess.run(['git', 'commit', '-a', '-m', 'Bump Version'], check=True)
         subprocess.run(['git', 'tag', '-a', version, '-m', f'*** See changelog for [{version}] ***'], check=True)
@@ -36,9 +36,11 @@ def main():
     parser.add_argument('-v', help='New version', required=True)
     args = parser.parse_args()
 
-    update_version('pubspec.yaml', args.v)
-    update_version_json('VERSION.json', args.v)
-    create_git_tag(args.v)
+    version_arg = args.v.replace("v", "", 1)
+    update_version('pubspec.yaml', version_arg)
+    update_version_json('VERSION.json',version_arg)
+
+    commit_and_create_git_tag(args.v)
 
 if __name__ == '__main__':
     main()

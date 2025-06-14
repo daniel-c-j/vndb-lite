@@ -283,7 +283,7 @@ VNDB Lite's Git repositories: [https://github.com/Daniel-C-J/vndb-lite](https://
 ## Acknowledgments
 
 - Synchronized data is stored back to vndb.org via its official API.
-- The icon used for this app is not mine, it's one of *Majikoi*'s CG, and I'm just using it for fun.
+- The icon used for this app is an edited high resolution version of vndb's original icon.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

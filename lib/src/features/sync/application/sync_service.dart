@@ -168,11 +168,11 @@ class SyncService {
       await Future.delayed(const Duration(milliseconds: 1200));
 
       final title =
-          (record.title.length >= 14) ? '${record.title.substring(0, 12)}...' : record.title;
+          (record.title.length >= 12) ? '${record.title.substring(0, 10)}...' : record.title;
       if (!localVnRepo.p1Exist(record.id) || !localVnRepo.p2Exist(record.id)) {
         snackbar("Failed to sync $title", icon: Icons.error, iconColor: Colors.red);
       } else {
-        snackbar("$title synced! ", icon: Icons.check_circle, iconColor: Colors.green);
+        snackbar("$title synchronized! ", icon: Icons.check_circle, iconColor: Colors.green);
       }
     }
   }
