@@ -162,7 +162,7 @@ class MainTabLayout extends StatelessWidget {
         ),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        // ! Initialization must be happened inside of widget tree.
+        // ! Initialization must be happened inside of the widget tree.
         if (!_collectionTabInitialized)
           Builder(
             builder: (ctx) {

@@ -529,7 +529,7 @@ h2,
 .h1,
 .h2 {
     margin-top: 48px;
-    margin-bottom: 16px
+    margin-bottom: 8px
 }
 
 h3,
@@ -1374,7 +1374,7 @@ label {
 
 @media (min-width: 641px) {
     .hero {
-        padding-top: 160px;
+        padding-top: 150px;
         padding-bottom: 128px
     }
 
@@ -1515,7 +1515,7 @@ label {
 
 .device-mockup {
     position: relative;
-    width: 350px;
+    width: 640px;
     height: auto;
     margin: 0 auto;
     z-index: 1
@@ -1559,7 +1559,7 @@ label {
 .feature-extended-image img,
 .feature-extended-image svg {
     width: 100%;
-    max-width: 296px;
+    max-width: 350px;
     height: auto;
     margin-left: auto;
     margin-right: auto;
@@ -1622,7 +1622,7 @@ label {
 
     .feature-extended .feature-extended-image img.device-mockup,
     .feature-extended .feature-extended-image svg.device-mockup {
-        max-width: 296px
+        max-width: 350px
     }
 
     .feature-extended:nth-child(even) {
