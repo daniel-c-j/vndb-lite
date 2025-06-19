@@ -36,7 +36,9 @@ def main():
     parser.add_argument('-v', help='New version', required=True)
     args = parser.parse_args()
 
-    version_arg = args.v.replace("v", "", 1)
+    # git version tag is okay with v1.0.0, 
+    # but app version tag, must be: 1.0.0 (without any prefix)
+    version_arg = args.v.replace("v", "", 1) 
     update_version('pubspec.yaml', version_arg)
     update_version_json('VERSION.json',version_arg)
 

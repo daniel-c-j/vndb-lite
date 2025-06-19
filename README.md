@@ -30,7 +30,9 @@
   </a>
 </div>
 
-<br>
+<br/>
+est. read time: <b>6.5 minutes</b>
+<br/><br/>
 
 <!-- INDEX -->
 <details>
