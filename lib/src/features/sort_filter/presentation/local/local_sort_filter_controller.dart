@@ -41,8 +41,8 @@ class LocalFilterController extends _$LocalFilterController {
     state = tempState;
   }
 
-  void reset() {
-    ref.read(localSortFilterRepoProvider).resetFilter();
+  Future<void> reset() async {
+    await ref.read(localSortFilterRepoProvider).resetFilter();
     state = ref.read(localSortFilterRepoProvider).latestFilterConf.copyWith(search: state.search);
   }
 
@@ -84,21 +84,15 @@ class LocalSortController extends _$LocalSortController {
     return ref.watch(localSortFilterRepoProvider).latestSortConf;
   }
 
-  void copyWith({
-    bool? reverse,
-    String? sort,
-  }) {
-    final tempState = SortData(
-      reverse: reverse ?? state.reverse,
-      sort: sort ?? state.sort,
-    );
+  void copyWith({bool? reverse, String? sort}) {
+    final tempState = SortData(reverse: reverse ?? state.reverse, sort: sort ?? state.sort);
 
     ref.read(localSortFilterRepoProvider).latestSortConf = tempState;
     state = tempState;
   }
 
-  void reset() {
-    ref.read(localSortFilterRepoProvider).resetSort();
+  Future<void> reset() async {
+    await ref.read(localSortFilterRepoProvider).resetSort();
     state = ref.read(localSortFilterRepoProvider).latestSortConf;
   }
 

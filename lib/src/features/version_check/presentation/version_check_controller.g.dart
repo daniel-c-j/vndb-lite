@@ -7,20 +7,21 @@ part of 'version_check_controller.dart';
 // **************************************************************************
 
 String _$versionCheckControllerHash() =>
-    r'd2b818bd7c1c1ee6481facb80c41e21239f9ab56';
+    r'836ec424e57be9a2f0d4b44b2e19b583de506fd1';
 
 /// See also [VersionCheckController].
 @ProviderFor(VersionCheckController)
 final versionCheckControllerProvider =
     AutoDisposeAsyncNotifierProvider<VersionCheckController, void>.internal(
-  VersionCheckController.new,
-  name: r'versionCheckControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$versionCheckControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      VersionCheckController.new,
+      name: r'versionCheckControllerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$versionCheckControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$VersionCheckController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint

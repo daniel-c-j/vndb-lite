@@ -19,6 +19,10 @@ class LocalCollectionRepo {
   final SharedPreferences _sharedPref;
   final LocalHomeRepoImpl _localHomeRepo;
 
+  Future<void> refreshCollection() async {
+    await _sharedPref.reload();
+  }
+
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
@@ -49,18 +53,17 @@ class LocalCollectionRepo {
       '${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange',
       collection,
     );
-    _sharedPref.reload();
 
     // Updates home interface
-    _updateSectionRangeList(vnRecord.id);
-    _localHomeRepo.insertCollectionPreview(vnRecord.id);
+    await _updateSectionRangeList(vnRecord.id);
+    await _localHomeRepo.insertCollectionPreview(vnRecord.id);
   }
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void removeVnRecord(String vnId) {
+  Future<void> removeVnRecord(String vnId) async {
     final int? sectionRange = getSectionFromId(vnId);
 
     if (sectionRange == null) {
@@ -75,18 +78,20 @@ class LocalCollectionRepo {
 
     collection.removeWhere((vnRecord) => vnRecord.contains('"$vnId"'));
 
-    _sharedPref.setStringList('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange', collection);
-    _sharedPref.reload();
+    await _sharedPref.setStringList(
+      '${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange',
+      collection,
+    );
 
-    _updateSectionRangeList(vnId);
-    _localHomeRepo.popCollectionPreview(vnId);
+    await _updateSectionRangeList(vnId);
+    await _localHomeRepo.popCollectionPreview(vnId);
   }
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void _updateSectionRangeList(String vnId) {
+  Future<void> _updateSectionRangeList(String vnId) async {
     final List<String> currentSectionRangeLists =
         _sharedPref.getStringList(DBKeys.SAVED_COLLECTION_SECTIONS) ?? [];
     final int sectionRange = getSectionFromId(vnId)!;
@@ -96,7 +101,7 @@ class LocalCollectionRepo {
 
       // If a section found have nothing inside, then delete the section.
       if (vnInCollection == null) {
-        _sharedPref.remove('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange');
+        await _sharedPref.remove('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange');
         currentSectionRangeLists.remove('$sectionRange');
       }
       //
@@ -105,7 +110,7 @@ class LocalCollectionRepo {
       currentSectionRangeLists.add('$sectionRange');
     }
 
-    _sharedPref.setStringList(DBKeys.SAVED_COLLECTION_SECTIONS, currentSectionRangeLists);
+    await _sharedPref.setStringList(DBKeys.SAVED_COLLECTION_SECTIONS, currentSectionRangeLists);
   }
 
   //
@@ -182,14 +187,14 @@ class LocalCollectionRepo {
     // they want to delete or remove all of their collections, then the below operation must also
     // be executed, in order to also remove those collections in their cloud account too.
     // But ONLY will happen, if they're clicking the sync button again.
-    final List<String> removeVnIds = vnToBeRemovedWhenSync;
+    final List<String> removeVnIds = getVnToBeRemovedWhenSync();
     if (includeSync) {
       final allRecords = await getAllRecords();
       for (VnRecord record in allRecords) {
         removeVnIds.add(record.id);
       }
 
-      vnToBeRemovedWhenSync = removeVnIds;
+      await setVnToBeRemovedWhenSync(removeVnIds);
     }
 
     final collectionSections =
@@ -197,32 +202,30 @@ class LocalCollectionRepo {
     for (String sectionRange in collectionSections) {
       //
       if (_sharedPref.containsKey('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange')) {
-        _sharedPref.remove('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange');
+        await _sharedPref.remove('${DBKeys.SAVED_COLLECTION_OF_SECTION_V}$sectionRange');
       }
     }
 
-    _sharedPref.remove(DBKeys.SAVED_COLLECTION_SECTIONS);
-    _localHomeRepo.clearAllLocalCachedPreviews();
+    await _sharedPref.remove(DBKeys.SAVED_COLLECTION_SECTIONS);
+    await _localHomeRepo.clearAllLocalCachedPreviews();
   }
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void cleanVnToBeRemovedWhenSync() {
-    _sharedPref.setStringList(DBKeys.VN_RECORDS_TO_BE_REMOVED, []);
-    _sharedPref.reload();
+  Future<void> cleanVnToBeRemovedWhenSync() async {
+    await _sharedPref.setStringList(DBKeys.VN_RECORDS_TO_BE_REMOVED, []);
   }
 
-  set vnToBeRemovedWhenSync(List<String> vnId) {
+  Future<void> setVnToBeRemovedWhenSync(List<String> vnId) async {
     List<String> vns = _sharedPref.getStringList(DBKeys.VN_RECORDS_TO_BE_REMOVED) ?? [];
     vns = [...vns, ...vnId];
 
-    _sharedPref.setStringList(DBKeys.VN_RECORDS_TO_BE_REMOVED, vns);
-    _sharedPref.reload();
+    await _sharedPref.setStringList(DBKeys.VN_RECORDS_TO_BE_REMOVED, vns);
   }
 
-  List<String> get vnToBeRemovedWhenSync {
+  List<String> getVnToBeRemovedWhenSync() {
     return _sharedPref.getStringList(DBKeys.VN_RECORDS_TO_BE_REMOVED) ?? [];
   }
 
@@ -230,26 +233,24 @@ class LocalCollectionRepo {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void cleanAddedViaAppNotBySync() {
-    _sharedPref.setStringList(DBKeys.VN_RECORDS_ADDED_BY_APP, []);
-    _sharedPref.reload();
+  Future<void> cleanAddedViaAppNotBySync() async {
+    await _sharedPref.setStringList(DBKeys.VN_RECORDS_ADDED_BY_APP, []);
   }
 
   /// Returns an ID of VNs that are added directly by the app in order
   /// to not conflict with VNs that are added by synchronizing from the
   /// cloud.
-  set addedViaAppNotBySync(List<String> vnId) {
+  Future<void> setAddedViaAppNotBySync(List<String> vnId) async {
     List<String> vns = _sharedPref.getStringList(DBKeys.VN_RECORDS_ADDED_BY_APP) ?? [];
     vns = [...vns, ...vnId];
 
-    _sharedPref.setStringList(DBKeys.VN_RECORDS_ADDED_BY_APP, vns);
-    _sharedPref.reload();
+    await _sharedPref.setStringList(DBKeys.VN_RECORDS_ADDED_BY_APP, vns);
   }
 
   /// Returns an ID of VNs that are added directly by the app in order
   /// to not conflict with VNs that are added by synchronizing from the
   /// cloud.
-  List<String> get addedViaAppNotBySync {
+  List<String> getAddedViaAppNotBySync() {
     return _sharedPref.getStringList(DBKeys.VN_RECORDS_ADDED_BY_APP) ?? [];
   }
 

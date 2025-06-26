@@ -6,18 +6,21 @@ part of 'footer_button_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$vnButtonStateHash() => r'9a8360afda058a1165481467a4e5e615a2e387d1';
+String _$vnButtonStateHash() => r'749862d23621a05c8738878a6affa9de64b6b5e3';
 
 /// See also [VnButtonState].
 @ProviderFor(VnButtonState)
-final vnButtonStateProvider = AutoDisposeNotifierProvider<VnButtonState, ButtonState>.internal(
-  VnButtonState.new,
-  name: r'vnButtonStateProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$vnButtonStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final vnButtonStateProvider =
+    AutoDisposeNotifierProvider<VnButtonState, ButtonState>.internal(
+      VnButtonState.new,
+      name: r'vnButtonStateProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$vnButtonStateHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$VnButtonState = AutoDisposeNotifier<ButtonState>;
 // ignore_for_file: type=lint

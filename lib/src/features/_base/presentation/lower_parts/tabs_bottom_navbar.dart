@@ -5,8 +5,6 @@ import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaff
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/data/base_menu_sections.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
-import 'package:vndb_lite/src/features/_base/presentation/other_parts/navigation_rail_menu.dart';
-import 'package:vndb_lite/src/util/balanced_safearea.dart';
 
 import '../../../../util/context_shortcut.dart';
 import '../other_parts/scroll_to_hide.dart';
@@ -85,27 +83,18 @@ class TabsBottomNavbar extends ConsumerWidget {
           ),
         Consumer(
           builder: (context, ref, child) {
-            if (ref.watch(bottomProgressIndicatorProvider)) {
-              final safeArea =
-                  (isSafeAreaNeccessary) ? measureSafeAreaOf(TabsSideNavbar.widthSideNav) : 0.0;
-
-              return SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                height: responsiveUI.own(0.01),
-                child: Padding(
-                  padding:
-                      (MediaQuery.of(context).orientation == Orientation.portrait)
-                          ? EdgeInsets.zero
-                          : EdgeInsets.only(left: TabsSideNavbar.widthSideNav + safeArea),
-                  child: LinearProgressIndicator(
-                    backgroundColor: kColor(context).secondary,
-                    color: kColor(context).primary,
-                  ),
-                ),
-              );
+            if (!ref.watch(bottomProgressIndicatorProvider)) {
+              return const SizedBox.shrink();
             }
 
-            return const SizedBox.shrink();
+            return SizedBox(
+              width: MediaQuery.sizeOf(context).width,
+              height: responsiveUI.own(0.01),
+              child: LinearProgressIndicator(
+                backgroundColor: kColor(context).secondary,
+                color: kColor(context).primary,
+              ),
+            );
           },
         ),
       ],

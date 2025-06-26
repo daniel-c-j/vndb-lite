@@ -57,8 +57,8 @@ class RemoteHomeRepoImpl implements RemoteHomeRepo {
       vnIds.add(vnDataP1.id);
     }
 
-    _sharedPref.setStringList(cacheKey, vnIds);
-    _sharedPref.reload();
+    final success = await _sharedPref.setStringList(cacheKey, vnIds);
+    if (!success) throw Exception();
   }
 }
 

@@ -17,7 +17,7 @@ Checklist.pdf
 *.psd
 *REMINDER.txt
 *.code-workspace
-*bump.py
+bump.py
 *strings.json
 *README_ALT.md
 TODO.txt

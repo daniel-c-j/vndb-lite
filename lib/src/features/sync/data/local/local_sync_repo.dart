@@ -34,11 +34,11 @@ class LocalSyncRepo {
     return null;
   }
 
-  void reset() {
-    _sharedPref.remove(DBKeys.USER_IDENTITY);
-    _sharedPref.remove(DBKeys.USER_SYNCED);
+  Future<void> reset() async {
+    await _sharedPref.remove(DBKeys.USER_IDENTITY);
+    await _sharedPref.remove(DBKeys.USER_SYNCED);
 
-    _sharedPref.reload();
+    await _sharedPref.reload();
   }
 }
 

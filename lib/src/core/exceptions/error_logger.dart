@@ -8,7 +8,9 @@ import '_exceptions.dart';
 part 'error_logger.g.dart';
 
 class ErrorLogger {
-  final _log = Logger();
+  const ErrorLogger();
+
+  static final _log = Logger();
 
   /// This method will separate the error object to be processed by certain mechanism based
   /// on the error's type.
@@ -32,7 +34,7 @@ class ErrorLogger {
     }
 
     // Warning level since it is recognized as a pre-defined Exception.
-    _log.w('', error: exception);
+    _log.w('$exception');
   }
 }
 
@@ -46,5 +48,5 @@ class ErrorLogger {
 
 @riverpod
 ErrorLogger errorLogger(Ref ref) {
-  return ErrorLogger();
+  return const ErrorLogger();
 }

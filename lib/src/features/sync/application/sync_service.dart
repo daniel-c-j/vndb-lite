@@ -8,7 +8,8 @@ import 'package:vndb_lite/src/features/collection/data/collection_status_data.da
 import 'package:vndb_lite/src/features/collection/data/local/local_collection_repo.dart';
 import 'package:vndb_lite/src/features/collection/domain/collection_status.dart';
 import 'package:vndb_lite/src/features/collection/domain/record.dart';
-import 'package:vndb_lite/src/util/local_notification.dart';
+import 'package:vndb_lite/src/features/notif/application/local_notification_service.dart';
+import 'package:vndb_lite/src/features/sync/application/sync_notif_data.dart';
 import 'package:vndb_lite/src/features/sync/data/local/local_sync_repo.dart';
 import 'package:vndb_lite/src/features/sync/data/remote/remote_sync_repo.dart';
 import 'package:vndb_lite/src/features/sync/data/remote/remote_sync_repo_helper.dart';
@@ -39,8 +40,10 @@ class SyncService {
     final userIdentity = ref.read(authScreenControllerProvider);
     if (userIdentity == null) return returnError(status: 2);
 
-    // User friendly (should be) message.
-    localNotification.showSyncNotification(status: 0);
+    // User friendly message.
+    ref
+        .read(localNotifServiceProvider)
+        .show(title: SyncStatus.ongoing.title, detail: getSyncNotifDetail(SyncStatus.ongoing));
     snackbar('Synchronizing account...', icon: Icons.sync, iconColor: kColor().tertiary);
 
     if (!await _isTokenValid(userIdentity)) return returnError(status: 1);
@@ -165,14 +168,15 @@ class SyncService {
 
       // Saves vn record if data exists in local collection.
       await collectionRepo.saveVnRecord(record);
-      await Future.delayed(const Duration(milliseconds: 1200));
+      await collectionRepo.refreshCollection();
+      await Future.delayed(const Duration(milliseconds: 500));
 
       final title =
-          (record.title.length >= 12) ? '${record.title.substring(0, 10)}...' : record.title;
+          (record.title.length >= 14) ? '${record.title.substring(0, 12)}...' : record.title;
       if (!localVnRepo.p1Exist(record.id) || !localVnRepo.p2Exist(record.id)) {
         snackbar("Failed to sync $title", icon: Icons.error, iconColor: Colors.red);
       } else {
-        snackbar("$title synchronized! ", icon: Icons.check_circle, iconColor: Colors.green);
+        snackbar("$title synced! ", icon: Icons.check_circle, iconColor: Colors.green);
       }
     }
   }
@@ -199,7 +203,9 @@ class SyncService {
       }
 
       // Shows statusbar notification error.
-      localNotification.showSyncNotification(status: -1);
+      ref
+          .read(localNotifServiceProvider)
+          .show(title: SyncStatus.failed.title, detail: getSyncNotifDetail(SyncStatus.failed));
     });
   }
 
@@ -217,11 +223,11 @@ class SyncService {
           response.data['permissions'].contains('listwrite')) {
         return true;
       }
-
-      return false;
     } catch (e) {
-      return false;
+      //
     }
+
+    return false;
   }
 
   //
@@ -233,7 +239,9 @@ class SyncService {
 
     Future.delayed(const Duration(milliseconds: 3500), () {
       whenSuccess();
-      localNotification.showSyncNotification(status: 1);
+      ref
+          .read(localNotifServiceProvider)
+          .show(title: SyncStatus.success.title, detail: getSyncNotifDetail(SyncStatus.success));
       snackbar('Synchronization successful', icon: Icons.sync, iconColor: kColor().tertiary);
     });
 

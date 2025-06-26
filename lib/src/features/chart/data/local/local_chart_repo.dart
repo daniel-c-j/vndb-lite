@@ -23,7 +23,7 @@ class LocalChartRepo {
     }
   }
 
-  void saveStatsFromMap(Map<String, dynamic> data) {
+  Future<void> saveStatsFromMap(Map<String, dynamic> data) async {
     final Map<String, int> statsData = {};
 
     for (StatsCode statsCode in StatsCode.values) {
@@ -34,7 +34,7 @@ class LocalChartRepo {
       searchChartStatsData[statsCode.name] = newValue;
     }
 
-    _sharedPref.setString(DBKeys.VNDB_STATS, json.encode(statsData));
+    await _sharedPref.setString(DBKeys.VNDB_STATS, json.encode(statsData));
   }
 
   Map<String, int>? get latestStats {

@@ -8,6 +8,7 @@ import 'package:vndb_lite/src/features/sort_filter/domain/sort_.dart';
 import 'package:vndb_lite/src/features/theme/data/theme_data.dart';
 
 class Default {
+  static const String FONT_FAMILY = "OpenSans";
   static const bool AUTO_UPDATE_CHECK_CONF = true;
   static const ThemeCode THEME_CONF = ThemeCode.agl;
   static const bool SHOW_CHART_CONF = true;

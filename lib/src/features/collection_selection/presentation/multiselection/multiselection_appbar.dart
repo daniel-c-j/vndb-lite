@@ -97,7 +97,7 @@ class MultiSelectionBarActions extends ConsumerWidget {
                   ref.invalidate(recordSelectedControllerProvider);
                 }
 
-                sharedPref.reload();
+                await sharedPref.reload();
               },
               icon: Container(
                 margin: EdgeInsets.only(left: responsiveUI.own(0.02)),
@@ -129,17 +129,17 @@ class MultiSelectionBarActions extends ConsumerWidget {
             child: IconButton(
               highlightColor: Colors.white.withOpacity(0.25),
               tooltip: 'Select all',
-              onPressed: () {
+              onPressed: () async {
                 // Get user current location in the collection tabs.
                 final tabsArrangement =
                     ref.read(settingsGeneralStateProvider).collectionStatusTabArrangement;
-                final statusBasedOnIndex = tabsArrangement[collectionTabController!.index];
+                final statusBasedOnIndex = tabsArrangement[CollectionAppbarTabs.controller!.index];
 
                 // For every vnData in the current status category, include them all.
                 final collectionContent = ref.read(collectionContentControllerProvider);
                 _selectAll(ref, collectionContent[statusBasedOnIndex]!);
 
-                sharedPref.reload();
+                await sharedPref.reload();
               },
               icon: Icon(Icons.select_all, color: kColor(context).tertiary),
             ),
@@ -153,17 +153,17 @@ class MultiSelectionBarActions extends ConsumerWidget {
             child: IconButton(
               tooltip: 'Select inverse',
               highlightColor: Colors.white.withOpacity(0.25),
-              onPressed: () {
+              onPressed: () async {
                 // Get user current location in the collection tabs.
                 final tabsArrangement =
                     ref.read(settingsGeneralStateProvider).collectionStatusTabArrangement;
-                final statusBasedOnIndex = tabsArrangement[collectionTabController!.index];
+                final statusBasedOnIndex = tabsArrangement[CollectionAppbarTabs.controller!.index];
 
                 // For every vnData in the current status category, inverse them.
                 final collectionContent = ref.read(collectionContentControllerProvider);
                 _inverseSelect(ref, collectionContent[statusBasedOnIndex]!);
 
-                sharedPref.reload();
+                await sharedPref.reload();
               },
               icon: Icon(Icons.flip_to_back, color: kColor(context).tertiary),
             ),

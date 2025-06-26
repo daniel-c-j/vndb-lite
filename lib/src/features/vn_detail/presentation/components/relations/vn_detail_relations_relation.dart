@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/masonry_grid.dart';
+import 'package:vndb_lite/src/util/delay.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
@@ -37,6 +38,7 @@ class _VnDetailRelationsRelationState extends ConsumerState<VnDetailRelationsRel
 
   Future<List<Widget>> get _relationsList async {
     if (!_isThereRelation) return [];
+    await delay(true, 1000);
 
     final List<VnItemGrid> relationWidget = [];
     final localVnRepo = ref.watch(localVnRepoProvider);

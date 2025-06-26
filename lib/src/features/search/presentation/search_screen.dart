@@ -16,12 +16,14 @@ import 'package:vndb_lite/src/features/settings/presentation/settings_general_st
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_detail_summary_scroll_state.dart';
-import 'package:vndb_lite/src/util/balanced_safearea.dart';
 
 import '../../../util/alt_provider_reader.dart';
 
 class SearchScreen extends ConsumerWidget {
   const SearchScreen({super.key});
+
+  // * To maintain consistency in screen that has lots of items. Convert into stateNotifier?
+  static double scrollOffset = 0;
 
   void _showConnectionErrorSnackbar() {
     final snackbar = GenericSnackBar(
@@ -201,10 +203,7 @@ class SearchScreen extends ConsumerWidget {
       onTapInside: (_) => ref_.read(vnItemSummaryScrollStateProvider.notifier).isScrolling = false,
       onTapOutside: (_) => ref_.read(vnItemSummaryScrollStateProvider.notifier).isScrolling = true,
       child: Padding(
-        padding: EdgeInsets.only(
-          left: responsiveUI.own(0.025),
-          right: measureSafeAreaOf(responsiveUI.own(0.025)),
-        ),
+        padding: EdgeInsets.only(left: responsiveUI.own(0.025), right: responsiveUI.own(0.025)),
         child: Consumer(
           builder: (context, ref, child) {
             final searchNotify = ref.watch(searchResultNotifierProvider);

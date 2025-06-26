@@ -6,7 +6,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # ======================================================================================================
 #
 
-version: 3.1.0+1
+version: 3.2.0-beta+1
 
 #
 # ======================================================================================================
@@ -34,9 +34,6 @@ dependencies:
 
   # Unique id generator.
   uuid: ^4.5.1
-
-  # Api to expose native OS filesystem's path.
-  path_provider: ^2.1.5
 
   # Splash screen customization.
   flutter_native_splash: ^2.4.1
@@ -95,9 +92,6 @@ dependencies:
   # Synthetic recycleview.
   visibility_detector: ^0.4.0+2
 
-  # App theme font customization.
-  google_fonts: ^6.2.1
-
   # Icons & Decorations
   cupertino_icons: ^1.0.8
   icons_plus: ^5.0.0
@@ -128,7 +122,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
-  # Cool & Useful codegen
+  # Cool & useful codegen
   build_runner: ^2.4.13
 
   # Lints
@@ -155,7 +149,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/google_fonts/
+    - assets/fonts/
     - assets/images/bg/
     - assets/images/status/
     - assets/images/contact/
@@ -165,3 +159,9 @@ flutter:
     - assets/images/splash/
     - assets/images/status/
     - assets/images/tutorial/
+
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-RegularBold.ttf
+        - asset: assets/fonts/OpenSans-Italic.ttf

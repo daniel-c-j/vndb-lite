@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/constants/defaults.dart';
+import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/util/delay.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
@@ -38,13 +39,14 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  List<Widget> get _tags {
+  Future<List<Widget>> get _tags async {
     final List<VnTag> rawTagList = widget.p2.tags ?? [];
     final List<Widget> tagWidgets = [];
 
     if (rawTagList.isEmpty) return tagWidgets;
 
     // Sort tags list based on its rating.
+    await delay(true, 1500);
     rawTagList.sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
 
     for (VnTag tag in rawTagList) {
@@ -99,8 +101,8 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
         child: CustomLabel(
           onTap: () async {
             // Search Configurations to search the corresponding vn tag.
-            final text = " ";
-            textControllerSearch.text = text;
+            const text = " ";
+            AppbarSearchfield.controllerSearch.text = text;
 
             final filter = Default.REMOTE_FILTER_CONF.copyWith(
               tag: [VnTag(id: tag.id, name: tag.name)],
@@ -127,6 +129,7 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
             ref.read(searchScreenControllerProvider.notifier).searchWithCurrentConf();
           },
           useBorder: true,
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
           borderColor:
               (tag.spoiler! < spoilerLimit[0])
                   ? Colors.transparent
@@ -189,7 +192,20 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
         SizedBox(height: responsiveUI.own(0.025)),
         (widget.p2.tags == null || widget.p2.tags!.isEmpty)
             ? ShadowText('--')
-            : Wrap(children: _tags),
+            : FutureBuilder(
+              future: _tags,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Padding(
+                    padding: EdgeInsets.all(responsiveUI.own(0.4)),
+                    child: const Center(child: CircularProgressIndicator()),
+                  );
+                }
+
+                final data = snapshot.data;
+                return Wrap(children: data);
+              },
+            ),
       ],
     );
   }

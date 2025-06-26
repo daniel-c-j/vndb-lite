@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/constants/app_sizes.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
+import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
@@ -48,7 +49,7 @@ class HomeSectionHeader extends ConsumerWidget {
       ref.read(appliedRemoteFilterControllerProvider.notifier).importFilterData(filter);
     }
 
-    textControllerSearch.text = ' ';
+    AppbarSearchfield.controllerSearch.text = ' ';
     ref.read(tempRemoteFilterControllerProvider.notifier).copyWith(search: ' ');
     ref.read(appliedRemoteFilterControllerProvider.notifier).copyWith(search: ' ');
 

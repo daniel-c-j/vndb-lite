@@ -16,7 +16,7 @@ Future<void> getStatsChart(Ref ref) async {
   // Downloads and update the latest data.
   if (hasConnection) {
     final fetchedStats = await remoteChartRepo.fetchStats();
-    localChartRepo.saveStatsFromMap(fetchedStats.data);
+    await localChartRepo.saveStatsFromMap(fetchedStats.data);
     //
   } else {
     //

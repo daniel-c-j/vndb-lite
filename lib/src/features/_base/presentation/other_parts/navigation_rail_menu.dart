@@ -15,8 +15,6 @@ class TabsSideNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final safeArea = (isSafeAreaNeccessary) ? measureSafeAreaOf(widthSideNav) : 0.0;
-
     // Only shows in landscape mode
     return Row(
       children: [
@@ -26,7 +24,6 @@ class TabsSideNavbar extends StatelessWidget {
           // that's why its incrementing the original size with the safeArea size.
           width: widthSideNav,
 
-          // padding: EdgeInsets.only(left: safeArea),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
@@ -41,7 +38,6 @@ class TabsSideNavbar extends StatelessWidget {
             ],
           ),
           child: NavigationRail(
-            // minWidth: measureSafeAreaOf(widthSideNav) + widthSideNav,
             backgroundColor: Colors.transparent,
             indicatorColor: Colors.transparent,
             selectedLabelTextStyle: styleText(

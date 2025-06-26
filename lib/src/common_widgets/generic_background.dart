@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class GenericBackground extends StatelessWidget {
   const GenericBackground({
@@ -14,11 +15,14 @@ class GenericBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = kScreenWidth();
+    final height = kScreenHeight();
+
     return Stack(
       children: [
         SizedBox(
-          width: MediaQuery.sizeOf(context).width,
-          height: MediaQuery.sizeOf(context).height,
+          width: width,
+          height: height,
           child: const DecoratedBox(decoration: BoxDecoration(color: Colors.black)),
         ),
         if (imagePath == null && imageWidget != null) imageWidget!,
@@ -26,16 +30,16 @@ class GenericBackground extends StatelessWidget {
           Image.asset(
             imagePath!,
             opacity: const AlwaysStoppedAnimation(0.8),
-            height: MediaQuery.sizeOf(context).height,
-            width: MediaQuery.sizeOf(context).width,
+            height: height,
+            width: width,
             fit: BoxFit.cover,
           ),
         if (useGradientOverlay)
           SizedBox(
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height,
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
+            width: width,
+            height: height,
+            child: const DecoratedBox(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,

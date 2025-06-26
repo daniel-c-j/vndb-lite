@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
@@ -22,9 +22,9 @@ class LocalSortFilterRepo {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void resetFilter() {
-    _sharedPref.remove(DBKeys.COLLECTION_FILTER_CONF);
-    _sharedPref.reload();
+  Future<void> resetFilter() async {
+    await _sharedPref.remove(DBKeys.COLLECTION_FILTER_CONF);
+    await _sharedPref.reload();
   }
 
   FilterData get latestFilterConf {
@@ -45,9 +45,9 @@ class LocalSortFilterRepo {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void resetSort() {
-    _sharedPref.remove(DBKeys.COLLECTION_SORT_CONF);
-    _sharedPref.reload();
+  Future<void> resetSort() async {
+    await _sharedPref.remove(DBKeys.COLLECTION_SORT_CONF);
+    await _sharedPref.reload();
   }
 
   SortData get latestSortConf {

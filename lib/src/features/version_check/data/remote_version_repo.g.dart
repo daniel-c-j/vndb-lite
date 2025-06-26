@@ -13,9 +13,10 @@ String _$versionCheckRepoHash() => r'8f3facde2d74448dbebe03f3ff21316d0981baf0';
 final versionCheckRepoProvider = AutoDisposeProvider<VersionCheckRepo>.internal(
   versionCheckRepo,
   name: r'versionCheckRepoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$versionCheckRepoHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$versionCheckRepoHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

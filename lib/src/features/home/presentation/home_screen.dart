@@ -23,7 +23,6 @@ class HomeScreen extends ConsumerWidget {
         const HomeBigPreview(),
         const SearchPredefinedSection(),
         GAP_H12,
-        
         for (HomeSectionsCode sectionCode in settings.homeSectionsArrangement)
           Column(
             mainAxisSize: MainAxisSize.min,

@@ -12,10 +12,9 @@ Future<void> fetchAndSaveP2Data(Ref ref, String vnId) async {
   final localVnRepo = ref.watch(localVnRepoProvider);
 
   // Fetch request data.
-  await Future.wait([
-    remoteVnRepo.fetchP2aData(vnId),
-    remoteVnRepo.fetchP2bData(vnId),
-  ]).then((value) {
+  await Future.wait([remoteVnRepo.fetchP2aData(vnId), remoteVnRepo.fetchP2bData(vnId)]).then((
+    value,
+  ) async {
     final result1 = value[0].data['results']?[0];
     final result2 = value[1].data['results'];
 
@@ -23,7 +22,11 @@ Future<void> fetchAndSaveP2Data(Ref ref, String vnId) async {
     if (result1.isEmpty || result1 == null || result2.isEmpty || result2 == null) return;
 
     // Format the response and save to the local db if no error and not empty.
-    final Map<String, dynamic> newResult = {...result1, ...VnDataPhase02.processAdditionalP2(result2)};
-    localVnRepo.saveVnContent(VnDataPhase02.fromMap(newResult));
+    final Map<String, dynamic> newResult = {
+      ...result1,
+      ...VnDataPhase02.processAdditionalP2(result2),
+    };
+    await localVnRepo.saveVnContent(VnDataPhase02.fromMap(newResult));
+    await localVnRepo.refresh();
   });
 }

@@ -154,6 +154,7 @@ Here are the primary features:
 <br>
 
 TODOS:
+- BBCode
 - Better logic
 - Landscape mode optimization
 - Custom background
@@ -161,7 +162,7 @@ TODOS:
 - Filter & sort mechanism
 - Better collection methods
 - VN review
-- VN self-note (Add note to a certain vn)
+- VN note (Add note to a certain vn)
 - New VN releases news
 
 Dev note:

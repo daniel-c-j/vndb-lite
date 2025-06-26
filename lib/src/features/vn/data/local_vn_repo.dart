@@ -15,6 +15,10 @@ class LocalVnRepo {
 
   final SharedPreferences _sharedPref;
 
+  Future<void> refresh() async {
+    await _sharedPref.reload();
+  }
+
   bool p1Exist(String vnId) {
     return _sharedPref.containsKey('${DBKeys.P1}$vnId');
   }
@@ -70,7 +74,6 @@ class LocalVnRepo {
       await _sharedPref.setString('${DBKeys.P3}${vnData.id}', json.encode(vnData.toMap()));
     }
 
-    _sharedPref.reload();
     return;
   }
 
@@ -90,8 +93,6 @@ class LocalVnRepo {
     } else {
       // TODO throw grenade (joke... Exception).
     }
-
-    _sharedPref.reload();
   }
 
   //

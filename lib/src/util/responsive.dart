@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_theme_state.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';

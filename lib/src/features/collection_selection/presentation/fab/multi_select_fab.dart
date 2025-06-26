@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
@@ -55,11 +55,11 @@ class MultiSelectFab extends ConsumerWidget {
               ref.invalidate(recordSelectedControllerProvider);
             }
 
-            sharedPref.reload();
+            await sharedPref.reload();
 
             // Refreshing vn item's record indicator, after multiselection changes made
             for (VnDataPhase01 p1 in p1List) {
-              ref.invalidate(vnRecordControllerProvider(p1.id));
+              ref_.invalidate(vnRecordControllerProvider(p1.id));
             }
           },
           child: Icon(Icons.check, color: kColor(context).tertiary),

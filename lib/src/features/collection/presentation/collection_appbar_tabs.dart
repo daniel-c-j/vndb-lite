@@ -10,12 +10,11 @@ import 'package:vndb_lite/src/features/settings/presentation/settings_general_st
 
 import '../../../util/context_shortcut.dart';
 
-/// Global tab controller to maintain keep-Alive behaviour for the controller.
-TabController? collectionTabController;
-
 class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget {
   const CollectionAppbarTabs({super.key});
 
+  /// Global tab controller to maintain keep-Alive behaviour for the controller.
+  static late final TabController? controller;
   static final height = responsiveUI.own(0.1);
 
   @override
@@ -32,7 +31,7 @@ class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget
         dividerHeight: 0,
         isScrollable: true,
         tabAlignment: TabAlignment.start,
-        controller: collectionTabController,
+        controller: controller,
         indicatorPadding: EdgeInsets.only(
           left: responsiveUI.own(0.04),
           right: responsiveUI.own(0.02),
@@ -98,7 +97,10 @@ class _CollectionTabConfState extends State<CollectionTabConf> with TickerProvid
   @override
   void initState() {
     super.initState();
-    collectionTabController = TabController(length: COLLECTION_STATUS_DATA.length, vsync: this);
+    CollectionAppbarTabs.controller = TabController(
+      length: COLLECTION_STATUS_DATA.length,
+      vsync: this,
+    );
   }
 
   @override

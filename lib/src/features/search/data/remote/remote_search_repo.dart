@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/constants/network_constants.dart';
 import 'package:vndb_lite/src/core/network/api_service.dart';
 import 'package:vndb_lite/src/features/search/data/search_repo_abstract.dart';

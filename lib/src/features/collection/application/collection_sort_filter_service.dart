@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/features/collection/application/local_filter_service.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';

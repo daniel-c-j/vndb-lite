@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/constants/network_constants.dart';
 import 'package:vndb_lite/src/core/network/api_service.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
@@ -38,8 +38,9 @@ class RemoteSyncRepo {
   //
 
   Future<void> removeResidualData() async {
-    _collection.cleanAddedViaAppNotBySync();
-    _collection.cleanVnToBeRemovedWhenSync();
+    await _collection.cleanAddedViaAppNotBySync();
+    await _collection.cleanVnToBeRemovedWhenSync();
+    await _collection.refreshCollection();
     cleanFetchLatestData();
     return;
   }
@@ -121,7 +122,7 @@ class RemoteSyncRepo {
       // * If cloud record does not exist in the local.
       if (cloudRecordInTheLocal == null) {
         // * 1. If ever deleted before, then delete the vn too in the cloud.
-        if (_collection.vnToBeRemovedWhenSync.contains(cloudRecord['id']!)) {
+        if (_collection.getVnToBeRemovedWhenSync().contains(cloudRecord['id']!)) {
           await delete(cloudRecord['id']!, authToken: authToken);
           continue;
         }
@@ -169,7 +170,7 @@ class RemoteSyncRepo {
       // ** ADDING/DELETING SECTION
       // * If local record does not exist in the cloud. Then:
       // * 1. If VN originally added from the app, then backup it to the server.
-      if (_collection.addedViaAppNotBySync.contains(localRecord.id)) {
+      if (_collection.getAddedViaAppNotBySync().contains(localRecord.id)) {
         await post(localRecord, authToken: authToken, statusId: statusId);
         vnRecordsToBeSaved.add(localRecord);
         continue;
@@ -177,7 +178,8 @@ class RemoteSyncRepo {
 
       // * 2. If not number 1, then the record already deleted from the server,
       // * then sync the deletion to local too.
-      _collection.removeVnRecord(localRecord.id);
+      await _collection.removeVnRecord(localRecord.id);
+      await _collection.refreshCollection();
     }
 
     // Debugging purpose.

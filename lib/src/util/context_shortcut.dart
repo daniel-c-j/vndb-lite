@@ -9,7 +9,7 @@ import '../core/_core.dart';
 // * [INFO]
 // * This is intentionally not an extension of [BuildContext] itself, since this is
 // * meant to be as flexible as possible, even outside widget class itself despite how
-// * not a good practice it is.
+// * not a good practice it actually is.
 
 /// An alternative way to get BuildContext that is assigned globally to GoRouter.
 BuildContext get altContext => NavigationService.currentContext;
@@ -19,7 +19,7 @@ double kScreenWidth([BuildContext? ctx]) {
   try {
     return (ctx == null) ? MediaQuery.sizeOf(altContext).width : MediaQuery.sizeOf(ctx).width;
   } catch (e) {
-    // Expecting the screen resolution will be mobile.
+    // Expecting the screen width to be mobile.
     return 360;
   }
 }
@@ -29,7 +29,7 @@ double kScreenHeight([BuildContext? ctx]) {
   try {
     return (ctx == null) ? MediaQuery.sizeOf(altContext).height : MediaQuery.sizeOf(ctx).height;
   } catch (e) {
-    // Expecting the screen resolution will be mobile.
+    // Expecting the screen height to be mobile.
     return 720;
   }
 }
@@ -40,7 +40,7 @@ ColorScheme kColor([BuildContext? ctx]) {
     return (ctx == null) ? Theme.of(altContext).colorScheme : Theme.of(ctx).colorScheme;
   } catch (e) {
     // Will go by default.
-    return ColorScheme.fromSeed(seedColor: Colors.purpleAccent);
+    return ColorScheme.fromSeed(seedColor: Colors.blueAccent);
   }
 }
 

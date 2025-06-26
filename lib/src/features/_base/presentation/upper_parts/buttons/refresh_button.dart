@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
+import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
@@ -60,7 +61,7 @@ class AppBarRefreshButton extends ConsumerWidget {
         await ref_.read(collectionContentControllerProvider.notifier).separateVNsByStatus();
       }
 
-      resetTempData();
+      await resetTempData();
 
       // Refreshing the settings throughout the whole app.
       ref_.invalidate(settingsGeneralStateProvider);
@@ -70,7 +71,7 @@ class AppBarRefreshButton extends ConsumerWidget {
   }
 
   /// Resetting almost all temporary keepAlive:true providers.
-  static void resetTempData({bool verbose = false}) {
+  static Future<void> resetTempData({bool verbose = false}) async {
     ref_.invalidate(recordSelectedControllerProvider);
     ref_.invalidate(vnSelectionControllerProvider);
     ref_.invalidate(dialogDismissedStateProvider);
@@ -82,16 +83,16 @@ class AppBarRefreshButton extends ConsumerWidget {
     ref_.invalidate(vnRecordControllerProvider);
 
     if (verbose) {
-      textControllerCollection.clear();
-      textControllerSearch.clear();
+      AppbarSearchfield.controllerCollection.clear();
+      AppbarSearchfield.controllerSearch.clear();
 
       ref_.invalidate(appliedRemoteFilterControllerProvider);
       ref_.invalidate(appliedRemoteSortControllerProvider);
       ref_.invalidate(tempRemoteFilterControllerProvider);
       ref_.invalidate(tempRemoteSortControllerProvider);
 
-      ref_.read(localSortControllerProvider.notifier).reset();
-      ref_.read(localFilterControllerProvider.notifier).reset();
+      await ref_.read(localSortControllerProvider.notifier).reset();
+      await ref_.read(localFilterControllerProvider.notifier).reset();
       ref_.invalidate(collectionContentControllerProvider);
 
       ref_.invalidate(bottomProgressIndicatorProvider);

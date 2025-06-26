@@ -15,7 +15,6 @@ import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/vn_detail_appbar.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/vn_detail_entrance.dart';
-import 'package:vndb_lite/src/util/balanced_safearea.dart';
 import 'package:vndb_lite/src/util/check_media_cache.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
@@ -95,8 +94,9 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
     final localVnRepo = ref.read(localVnRepoProvider);
 
     // This removes all corresponded vn detail data, to be redownloaded.
-    localVnRepo.removeVnContent(phase: 2, vnId: _vnId);
-    localVnRepo.removeVnContent(phase: 3, vnId: _vnId);
+    await localVnRepo.removeVnContent(phase: 2, vnId: _vnId);
+    await localVnRepo.removeVnContent(phase: 3, vnId: _vnId);
+    await localVnRepo.refresh();
 
     // Set providers back to its default state.
     ref.invalidate(vnDetailFabStateProvider(widget.p1.id));
@@ -136,61 +136,63 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      backgroundColor: kColor(context).primary.withOpacity(0.3),
-      body: Stack(
-        children: [
-          GenericBackground(
-            useGradientOverlay: true,
-            imageWidget: FadeTransition(
-              opacity: _animationController.drive(CurveTween(curve: Curves.ease)),
-              child: ShaderMask(
-                blendMode: BlendMode.dstIn,
-                shaderCallback: (rect) {
-                  return const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color.fromARGB(140, 0, 0, 0),
-                      Color.fromARGB(70, 0, 0, 0),
-                      Colors.transparent,
-                    ],
-                  ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
-                },
-                child: _imgCover(isCensor: _coverNeedCensor),
-              ),
-            ),
-          ),
-          NestedScrollView(
-            headerSliverBuilder: (_, bool inBoxScrolled) {
-              return [VnDetailAppbar(vnId: _vnId)];
-            },
-            //
-            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            // Double scaffold to prevent snackbar ui conflicting with floating action button
-            body: Scaffold(
-              backgroundColor: Colors.transparent,
-              floatingActionButton: VnDetailFab(p1: widget.p1),
-              body: RefreshIndicator(
-                onRefresh: _onRefresh,
-                color: kColor(context).tertiary,
-                backgroundColor: kColor(context).primary.withOpacity(0.75),
-                displacement: responsiveUI.own(0.02),
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                    top: responsiveUI.own(0.03),
-                    bottom: responsiveUI.own(0.24),
-                    right: measureSafeAreaOf(responsiveUI.own(0.045)),
-                    left: measureSafeAreaOf(responsiveUI.own(0.045)),
-                  ),
-                  child: VnDetailsEntrance(p1: widget.p1),
+    return SafeArea(
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        backgroundColor: kColor(context).primary.withOpacity(0.3),
+        body: Stack(
+          children: [
+            GenericBackground(
+              useGradientOverlay: true,
+              imageWidget: FadeTransition(
+                opacity: _animationController.drive(CurveTween(curve: Curves.ease)),
+                child: ShaderMask(
+                  blendMode: BlendMode.dstIn,
+                  shaderCallback: (rect) {
+                    return const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromARGB(140, 0, 0, 0),
+                        Color.fromARGB(70, 0, 0, 0),
+                        Colors.transparent,
+                      ],
+                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                  },
+                  child: _imgCover(isCensor: _coverNeedCensor),
                 ),
               ),
             ),
-          ),
-        ],
+            NestedScrollView(
+              headerSliverBuilder: (_, bool inBoxScrolled) {
+                return [VnDetailAppbar(vnId: _vnId)];
+              },
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Double scaffold to prevent snackbar ui conflicting with floating action button
+              body: Scaffold(
+                backgroundColor: Colors.transparent,
+                floatingActionButton: VnDetailFab(p1: widget.p1),
+                body: RefreshIndicator(
+                  onRefresh: _onRefresh,
+                  color: kColor(context).tertiary,
+                  backgroundColor: kColor(context).primary.withOpacity(0.75),
+                  displacement: responsiveUI.own(0.02),
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                      top: responsiveUI.own(0.03),
+                      bottom: responsiveUI.own(0.24),
+                      right: responsiveUI.own(0.045),
+                      left: responsiveUI.own(0.045),
+                    ),
+                    child: VnDetailsEntrance(p1: widget.p1),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

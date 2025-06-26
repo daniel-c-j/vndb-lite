@@ -36,6 +36,10 @@ class LocalHomeRepoImpl implements LocalHomeRepo {
     return vnIds;
   }
 
+  Future<void> refreshCollection() async {
+    await _sharedPref.reload();
+  }
+
   List<String> getInstantLocalPreview() {
     return _sharedPref.getStringList(DBKeys.COLLECTION_PREVIEW_CACHE_KEY) ?? [];
   }
@@ -44,7 +48,7 @@ class LocalHomeRepoImpl implements LocalHomeRepo {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void insertCollectionPreview(String vnId) async {
+  Future<void> insertCollectionPreview(String vnId) async {
     final collectionPreview = _sharedPref.getStringList(DBKeys.COLLECTION_PREVIEW_CACHE_KEY) ?? [];
 
     // In order to prevent duplication, if vn id exists, then remove first.
@@ -52,21 +56,19 @@ class LocalHomeRepoImpl implements LocalHomeRepo {
     collectionPreview.insert(0, vnId);
 
     // Updating by overriding the value.
-    _sharedPref.setStringList(DBKeys.COLLECTION_PREVIEW_CACHE_KEY, collectionPreview);
-    _sharedPref.reload();
+    await _sharedPref.setStringList(DBKeys.COLLECTION_PREVIEW_CACHE_KEY, collectionPreview);
   }
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void popCollectionPreview(String vnId) async {
+  Future<void> popCollectionPreview(String vnId) async {
     final collectionPreview = _sharedPref.getStringList(DBKeys.COLLECTION_PREVIEW_CACHE_KEY) ?? [];
     collectionPreview.remove(vnId);
 
     // Updating by overriding the value.
-    _sharedPref.setStringList(DBKeys.COLLECTION_PREVIEW_CACHE_KEY, collectionPreview);
-    _sharedPref.reload();
+    await _sharedPref.setStringList(DBKeys.COLLECTION_PREVIEW_CACHE_KEY, collectionPreview);
   }
 
   //
@@ -74,20 +76,17 @@ class LocalHomeRepoImpl implements LocalHomeRepo {
   //
 
   /// This method will only clear the remote previews.
-  void clearAllLocalCachedPreviews() {
-    _sharedPref.remove(DBKeys.COLLECTION_PREVIEW_CACHE_KEY);
-    _sharedPref.reload();
+  Future<void> clearAllLocalCachedPreviews() async {
+    await _sharedPref.remove(DBKeys.COLLECTION_PREVIEW_CACHE_KEY);
   }
 
   /// This method will only clear the remote previews.
-  void clearAllRemoteCachedPreviews() {
+  Future<void> clearAllRemoteCachedPreviews() async {
     for (String key in _sharedPref.getKeys()) {
       if (key.contains(DBKeys.HOME_PREVIEW_CACHE_KEY)) {
-        _sharedPref.remove(key);
+        await _sharedPref.remove(key);
       }
     }
-
-    _sharedPref.reload();
   }
 
   //

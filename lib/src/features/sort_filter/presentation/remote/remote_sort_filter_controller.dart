@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/developers.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/sort_.dart';
@@ -41,7 +41,6 @@ class AppliedRemoteFilterController extends _$AppliedRemoteFilterController {
       minage: minage ?? state.minage,
     );
   }
-
 }
 
 @Riverpod(keepAlive: true)
@@ -51,20 +50,13 @@ class AppliedRemoteSortController extends _$AppliedRemoteSortController {
     return Default.REMOTE_SORT_CONF;
   }
 
-  void copyWith({
-    bool? reverse,
-    String? sort,
-  }) {
-    state = SortData(
-      reverse: reverse ?? state.reverse,
-      sort: sort ?? state.sort,
-    );
+  void copyWith({bool? reverse, String? sort}) {
+    state = SortData(reverse: reverse ?? state.reverse, sort: sort ?? state.sort);
   }
 
   void importSortData(SortData sort) {
     state = sort;
   }
-
 }
 
 @Riverpod(keepAlive: true)
@@ -101,7 +93,6 @@ class TempRemoteFilterController extends _$TempRemoteFilterController {
       minage: minage ?? state.minage,
     );
   }
-
 }
 
 @Riverpod(keepAlive: true)
@@ -111,18 +102,11 @@ class TempRemoteSortController extends _$TempRemoteSortController {
     return Default.REMOTE_SORT_CONF;
   }
 
-  void copyWith({
-    bool? reverse,
-    String? sort,
-  }) {
-    state = SortData(
-      reverse: reverse ?? state.reverse,
-      sort: sort ?? state.sort,
-    );
+  void copyWith({bool? reverse, String? sort}) {
+    state = SortData(reverse: reverse ?? state.reverse, sort: sort ?? state.sort);
   }
 
   void importSortData(SortData sort) {
     state = sort;
   }
-
 }

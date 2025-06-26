@@ -10,11 +10,13 @@ class NetConsts {
   static const int API_TIMEOUT = 60000;
 
   // Used for [VersionCheck].
-  static late final String URL_CHECK_VERSION;
-  static late final String URL_UPDATE_VERSION;
+  static const String URL_CHECK_VERSION =
+      "https://raw.githubusercontent.com/Daniel-C-J/vndb-lite/refs/heads/master/VERSION.json";
+  static const String URL_UPDATE_VERSION =
+      "https://github.com/Daniel-C-J/vndb-lite/releases/latest";
 
   // API base url.
-  static late final String BASE_URL;
+  static const String BASE_URL = "https://api.vndb.org";
 
   static const String P1_FIELDS =
       "title, image.url, image.sexual, image.violence, length, rating, "
@@ -33,13 +35,4 @@ class NetConsts {
 
   static const String USER_VNS_FIELDS =
       "id, vote, vn.title, added, started, finished, labels.label, lastmod";
-
-  /// Lazy Initialization exists for the ease of testing to manipulate certain properties of [NetConsts].
-  static void init() {
-    BASE_URL = 'https://api.vndb.org';
-
-    URL_CHECK_VERSION =
-        "https://raw.githubusercontent.com/Daniel-C-J/vndb-lite/refs/heads/master/VERSION.json";
-    URL_UPDATE_VERSION = "https://github.com/Daniel-C-J/vndb-lite/releases/latest";
-  }
 }

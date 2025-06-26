@@ -23,30 +23,31 @@ class SettingsService {
       // This will both download and save phase01 and phase02 vn data.
       await ref.read(validateVnAndSaveToLocalProvider(record.id).future);
       await localCollectionRepo.saveVnRecord(record);
+      await localCollectionRepo.refreshCollection();
 
-      await Future.delayed(const Duration(milliseconds: 2500));
+      await Future.delayed(const Duration(milliseconds: 1200));
       if (onRefresh != null) onRefresh(record.title);
     }
   }
 
   Future<void> deleteAll({required bool sync}) async {
-    ref.read(localCollectionRepoProvider).removeAllCollection(includeSync: sync);
+    await ref.read(localCollectionRepoProvider).removeAllCollection(includeSync: sync);
+    await ref.read(localCollectionRepoProvider).refreshCollection();
   }
 
   Future<void> clearCache() async {
     final sharedPref = ref.read(sharedPrefProvider);
 
     // Clearing all SharedPreferences, temp data, and cache managers.
-    sharedPref.clear();
-    sharedPref.reload();
+    await sharedPref.clear();
+    await sharedPref.reload();
     await CustomCacheManager().emptyCache();
     await DefaultCacheManager().emptyCache();
-    sharedPref.reload();
   }
 
   Future<void> removeAuth() async {
-    ref.read(localCollectionRepoProvider).cleanVnToBeRemovedWhenSync();
-    ref.read(localSyncRepoProvider).reset();
+    await ref.read(localCollectionRepoProvider).cleanVnToBeRemovedWhenSync();
+    await ref.read(localSyncRepoProvider).reset();
     return;
   }
 }

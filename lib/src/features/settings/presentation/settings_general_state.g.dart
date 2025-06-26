@@ -7,7 +7,7 @@ part of 'settings_general_state.dart';
 // **************************************************************************
 
 String _$settingsGeneralStateHash() =>
-    r'72436203b3249b35c6e72c2af555df0e6657d57e';
+    r'f921aee52c0517c95d031c33695db327b0013a33';
 
 /// See also [SettingsGeneralState].
 @ProviderFor(SettingsGeneralState)

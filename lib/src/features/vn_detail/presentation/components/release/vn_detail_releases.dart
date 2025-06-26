@@ -7,14 +7,14 @@ import 'package:vndb_lite/src/features/vn/domain/p2.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/release/vn_detail_releases_lang.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/release/vn_detail_releases_platform.dart';
 
-class VnDetailsContentReleases extends ConsumerWidget {
+class VnDetailsContentReleases extends StatelessWidget {
   const VnDetailsContentReleases({super.key, required this.p1, required this.p2});
 
   final VnDataPhase01 p1;
   final VnDataPhase02 p2;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

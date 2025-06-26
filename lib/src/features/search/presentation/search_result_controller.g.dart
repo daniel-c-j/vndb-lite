@@ -25,7 +25,7 @@ final searchResultPageControllerProvider =
 
 typedef _$SearchResultPageController = Notifier<int>;
 String _$searchResultControllerHash() =>
-    r'60fca21d561f4a3bdea61b010abb143303c9af52';
+    r'e4879d856825b12684c6f02524dd4877fc69cbb8';
 
 /// See also [SearchResultController].
 @ProviderFor(SearchResultController)

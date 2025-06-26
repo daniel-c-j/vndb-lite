@@ -49,7 +49,11 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   late final String? _vnCoverUrl;
   late final bool _vnHasCover;
 
-  bool _imageCached = false;
+  static final nonGridViewHeight = responsiveUI.own(0.55);
+  static final minHeight = responsiveUI.own(0.27);
+  static final minWidth = responsiveUI.own(0.3);
+
+  double _placeHolderSize = responsiveUI.own(0.35);
   bool _showVnDetailSummary = false;
 
   @override
@@ -63,11 +67,6 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     if (_vnHasCover) {
       _configVnCoverVisibility();
     }
-
-    // Checks whether vn image already cached or not.
-    didMediaCache(_vnId).then((value) {
-      _imageCached = value;
-    });
   }
 
   @override
@@ -124,30 +123,29 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
 
   Widget _vnCover({required bool isCensor}) {
     final isVisible = ref.read(vnItemGridWidgetStateProvider(_vnCoverUrl!));
-    double placeHolderSize = responsiveUI.own(0.35);
 
     if (_vnHasCover) {
-      placeHolderSize = ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl));
+      _placeHolderSize = ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl));
     }
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: responsiveUI.own(0.27),
+        minHeight: minHeight,
         // Don't let item too thin. Actually meant for preview items only, but (widget.isGridView) ?
         // somehow is not working...
-        minWidth: responsiveUI.own(0.3),
+        minWidth: minWidth,
       ),
       child: CachedNetworkImage(
-        imageUrl: (_vnHasCover && (!_imageCached || isVisible)) ? _vnCoverUrl : '',
+        imageUrl: (_vnHasCover && isVisible) ? _vnCoverUrl : '',
         fit: BoxFit.cover,
         width: (widget.isGridView) ? double.infinity : null,
         height:
             (widget.isGridView)
                 ? null // dynamic, but with bare minimum of 0.27
-                : responsiveUI.own(0.55),
+                : nonGridViewHeight,
         errorWidget: (context, url, error) => const GenericErrorImage(),
         errorListener: null,
-        placeholder: (context, str) => SizedBox(width: placeHolderSize, height: placeHolderSize),
+        placeholder: (context, str) => SizedBox(width: _placeHolderSize, height: _placeHolderSize),
         cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
         cacheKey: "PREVIEW-$_vnId",
         filterQuality: (isCensor) ? FilterQuality.none : FilterQuality.low,
@@ -195,7 +193,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
       recordSelected.add(_vnId);
     }
 
+    // In order to refresh appbar
     ref.invalidate(recordSelectedControllerProvider);
+
     // Turning multiselection mode off if empty
     if (recordSelected.isEmpty) return;
     ref.read(recordSelectedControllerProvider.notifier).record = recordSelected;
@@ -222,15 +222,41 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
       if (mounted && ref.read(dialogDismissedStateProvider)) {
         ref.invalidate(recordSelectedControllerProvider);
       }
-
-      final sharedPref = ref.read(sharedPrefProvider);
-      sharedPref.reload();
     }
   }
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
+
+  Future<void> _controlVisibility(VisibilityInfo info) async {
+    _fastDebouncer.call(() {
+      if (!mounted) return;
+
+      // debugPrint("${widget.p1.title} ${info.visibleFraction} of my widget is visible");
+      // debugPrint('${widget.p1.title} ${info.size.height}');
+
+      // 人´∀｀) Thank You Very Much Father...
+      if (_vnHasCover) {
+        ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl!).notifier).size = info.size.height;
+      }
+
+      // When Vn item disappear from screen, clear the cache, using slow debouncer to prevent images to
+      // disappear so suddenly... it breaks my heart. (jk)
+      _slowDebouncer.call(() {
+        if (info.visibleFraction == 0 && !_widgetIsInvisible) {
+          if (!mounted) return;
+          ref.read(vnItemGridWidgetStateProvider(_vnId).notifier).show = false;
+
+          if (_vnHasCover) _clearCache(_vnCoverUrl!);
+          return;
+        }
+      });
+
+      // Make the widget appear in viewport (visibleFraction > 0)
+      ref.read(vnItemGridWidgetStateProvider(_vnId).notifier).show = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -245,8 +271,8 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
-        onTap: () async => await _vnOnTap(),
-        onLongPress: () async => await _vnOnLongPress(),
+        onTap: _vnOnTap,
+        onLongPress: _vnOnLongPress,
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
@@ -324,36 +350,10 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
 
     return VisibilityDetector(
       key: ValueKey(widget.p1.id),
-      onVisibilityChanged: (VisibilityInfo info) async {
-        _fastDebouncer.call(() {
-          if (!mounted) return;
-          if (App.isInSearchScreen || App.isInCollectionScreen || App.isInVnDetailScreen) {
-            // debugPrint("${widget.p1.title} ${info.visibleFraction} of my widget is visible");
-            // debugPrint('${widget.p1.title} ${info.size.height}');
-
-            // 人´∀｀) Thank You Very Much Father...
-            if (_vnHasCover) {
-              ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl!).notifier).size =
-                  info.size.height;
-            }
-
-            // When Vn item disappear from screen, clear the cache, using slow debouncer to prevent images to
-            // disappear so suddenly... it breaks my heart. (jk)
-            _slowDebouncer.call(() {
-              if (info.visibleFraction == 0 && !_widgetIsInvisible) {
-                if (!mounted) return;
-                ref.read(vnItemGridWidgetStateProvider(_vnId).notifier).show = false;
-
-                if (_vnHasCover) _clearCache(_vnCoverUrl!);
-                return;
-              }
-            });
-
-            // Make the widget appear in viewport (visibleFraction > 0)
-            ref.read(vnItemGridWidgetStateProvider(_vnId).notifier).show = true;
-          }
-        });
-      },
+      onVisibilityChanged:
+          (App.isInSearchScreen || App.isInCollectionScreen || App.isInVnDetailScreen)
+              ? _controlVisibility
+              : (_) {},
       child: Consumer(
         builder: (context, ref, child) {
           final showWidget = ref.watch(vnItemGridWidgetStateProvider(_vnId));

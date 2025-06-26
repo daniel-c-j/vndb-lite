@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/theme/theme_data_provider.dart';

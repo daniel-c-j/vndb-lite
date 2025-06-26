@@ -9,10 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
-import 'package:vndb_lite/src/util/balanced_safearea.dart';
 
 class CollectionScreen extends ConsumerWidget {
   const CollectionScreen({super.key});
+
+  static bool tabInitialized = false;
 
   void _forceUpdateUI() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -34,9 +35,9 @@ class CollectionScreen extends ConsumerWidget {
     });
 
     return Padding(
-      padding: EdgeInsets.only(top: responsiveUI.own(0.04), right: measureSafeAreaOf(0)),
+      padding: EdgeInsets.only(top: responsiveUI.own(0.04)),
       child: ContentSizeTabBarView(
-        controller: collectionTabController,
+        controller: CollectionAppbarTabs.controller,
         children: [
           for (String statusName in statusArrangement)
             Consumer(

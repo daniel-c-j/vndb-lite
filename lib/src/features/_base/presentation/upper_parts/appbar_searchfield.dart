@@ -17,14 +17,18 @@ class AppbarSearchfield extends ConsumerWidget {
 
   static final _debouncer = Debouncer(delay: Duration(milliseconds: 700));
 
+  // * Intentionally made global to be easily accessing the value throughout the entire
+  // * widget tree for specific and crucial use cases.
+  static final controllerCollection = TextEditingController();
+  static final controllerSearch = TextEditingController();
+  static final focusNode = FocusNode();
+
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
   Future<void> _searchingInCollectionScreen(WidgetRef ref) async {
-    ref
-        .read(localFilterControllerProvider.notifier)
-        .copyWith(search: textControllerCollection.text);
+    ref.read(localFilterControllerProvider.notifier).copyWith(search: controllerCollection.text);
     await ref.read(collectionContentControllerProvider.notifier).separateVNsByStatus(true);
   }
 
@@ -49,7 +53,7 @@ class AppbarSearchfield extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = (App.isInSearchScreen) ? textControllerSearch : textControllerCollection;
+    final controller = (App.isInSearchScreen) ? controllerSearch : controllerCollection;
 
     return Align(
       alignment: Alignment.center,
@@ -60,7 +64,7 @@ class AppbarSearchfield extends ConsumerWidget {
 
           builder: (context, value, child) {
             return TextField(
-              focusNode: focusNodeSearch,
+              focusNode: focusNode,
               //
               // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
               //
@@ -74,10 +78,10 @@ class AppbarSearchfield extends ConsumerWidget {
                 if (App.isInSearchScreen) {
                   ref
                       .read(tempRemoteFilterControllerProvider.notifier)
-                      .copyWith(search: textControllerSearch.text);
+                      .copyWith(search: controllerSearch.text);
                   ref
                       .read(appliedRemoteFilterControllerProvider.notifier)
-                      .copyWith(search: textControllerSearch.text);
+                      .copyWith(search: controllerSearch.text);
 
                   await ref.read(searchScreenControllerProvider.notifier).searchWithCurrentConf();
                 }

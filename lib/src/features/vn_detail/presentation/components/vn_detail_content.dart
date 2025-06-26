@@ -14,7 +14,6 @@ import 'package:vndb_lite/src/features/vn_detail/presentation/components/header/
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/relations/vn_detail_relations_entrance.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/release/vn_detail_releases.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
-import 'package:vndb_lite/src/util/balanced_safearea.dart';
 
 class VnDetailsContent extends ConsumerStatefulWidget {
   const VnDetailsContent({super.key, required this.p1, required this.p2});
@@ -77,7 +76,7 @@ class _VnDetailsContentState extends ConsumerState<VnDetailsContent> with Ticker
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: responsiveUI.own(0.045)),
           child: Container(
-            width: MediaQuery.sizeOf(context).width - measureSafeAreaOf(responsiveUI.own(0.045)),
+            width: MediaQuery.sizeOf(context).width - responsiveUI.own(0.045),
             height: responsiveUI.own(0.075),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),

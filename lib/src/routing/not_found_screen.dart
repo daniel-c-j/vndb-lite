@@ -35,15 +35,17 @@ class _NotFoundScreenState extends State<NotFoundScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('404 - Page not found!', key: NotFoundScreen.titleKey).wSize(20).bold,
-            GAP_H8,
-            const Text('Redirecting to home page...', key: NotFoundScreen.messageKey).wSize(14),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('404 - Page not found!', key: NotFoundScreen.titleKey).wSize(20).bold,
+              GAP_H8,
+              const Text('Redirecting to home page...', key: NotFoundScreen.messageKey).wSize(14),
+            ],
+          ),
         ),
       ),
     );

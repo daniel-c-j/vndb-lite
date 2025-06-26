@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/constants/defaults.dart';
+import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/components/tab_header.dart';
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/filter_vn_search.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/sort_vn_search.dart';
@@ -38,11 +38,11 @@ class _BottomSheetSearchState extends ConsumerState<BottomSheetSearch>
   }
 
   void _applyFiltersToQuery() async {
-    if (textControllerSearch.text.isEmpty) {
-      textControllerSearch.text = ' ';
+    if (AppbarSearchfield.controllerSearch.text.isEmpty) {
+      AppbarSearchfield.controllerSearch.text = ' ';
       ref
           .read(tempRemoteFilterControllerProvider.notifier)
-          .copyWith(search: textControllerSearch.text);
+          .copyWith(search: AppbarSearchfield.controllerSearch.text);
     }
 
     // Applying the temp filter to the real post request data.

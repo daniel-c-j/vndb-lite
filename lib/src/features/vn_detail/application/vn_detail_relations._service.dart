@@ -20,9 +20,11 @@ Future<void> fetchAndSaveP3Data(Ref ref, String vnId) async {
   if (result.isEmpty || result == null) return;
 
   // If false, then save the contents.
-  localVnRepo.saveVnContent(VnDataPhase03.fromMap(result[0]));
+  await localVnRepo.saveVnContent(VnDataPhase03.fromMap(result[0]));
 
   for (Map<String, dynamic> relation in result[0]['relations']) {
-    localVnRepo.saveVnContent(VnDataPhase01.fromMap(relation));
+    await localVnRepo.saveVnContent(VnDataPhase01.fromMap(relation));
   }
+
+  await localVnRepo.refresh();
 }

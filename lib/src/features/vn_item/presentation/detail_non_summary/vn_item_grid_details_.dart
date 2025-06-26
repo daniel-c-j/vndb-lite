@@ -8,6 +8,8 @@ import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/v
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_item_detail_title.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_controller.dart';
 
+import '../../../../app.dart';
+
 class VnItemGridDetails extends StatelessWidget {
   const VnItemGridDetails({
     super.key,
@@ -34,29 +36,26 @@ class VnItemGridDetails extends StatelessWidget {
             VnItemDetailTitle(title: p1.title),
           ],
         ),
-        VnItemDetailStatusIndicator(
-          id: p1.id,
-          toggleVnDetailSummary: toggleVnDetailSummary,
-        ),
-
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Multi-selection mode.
+        VnItemDetailStatusIndicator(id: p1.id, toggleVnDetailSummary: toggleVnDetailSummary),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Multi-selection mode.
         Consumer(
           builder: (context, ref, child) {
-            final recordSelected = ref.watch(recordSelectedControllerProvider);
             final almostLongPressed = ref.watch(vnItemGridAlmostLongPressedStateProvider);
+            if (almostLongPressed == p1.id) return const MultiSelectionIndicator();
 
-            if (recordSelected.contains(p1.id) || almostLongPressed == p1.id) {
-              return const MultiSelectionIndicator();
+            if (App.isInCollectionScreen) {
+              final recordSelected = ref.watch(recordSelectedControllerProvider);
+              if (recordSelected.contains(p1.id)) return const MultiSelectionIndicator();
             }
 
             return const SizedBox.shrink();
           },
         ),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/util/delay.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/others/languages.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
@@ -18,7 +19,7 @@ class VnDetailReleasesLang extends StatelessWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Widget get _flagWidgets {
+  Future<Widget> get _flagWidgets async {
     final List<Widget> languageData = [];
 
     for (String language in (p2.languages ?? [])) {
@@ -32,6 +33,7 @@ class VnDetailReleasesLang extends StatelessWidget {
       languageData.add(_flagLangCode(language, txt: '(Machine Translation)'));
     }
 
+    await delay(true, 1200);
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: languageData);
   }
 
@@ -83,7 +85,20 @@ class VnDetailReleasesLang extends StatelessWidget {
             ),
           ],
         ),
-        _flagWidgets,
+        FutureBuilder(
+          future: _flagWidgets,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Padding(
+                padding: EdgeInsets.all(responsiveUI.own(0.3)),
+                child: const Center(child: CircularProgressIndicator()),
+              );
+            }
+
+            final flags = snapshot.data;
+            return flags;
+          },
+        ),
       ],
     );
   }

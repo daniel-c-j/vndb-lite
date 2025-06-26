@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/constants/app_sizes.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
+import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/sort_.dart';
@@ -119,7 +120,7 @@ class SearchPredefinedButton extends ConsumerWidget {
             ref.read(tempRemoteSortControllerProvider.notifier).importSortData(searchSortConf);
             ref.read(appliedRemoteSortControllerProvider.notifier).importSortData(searchSortConf);
 
-            textControllerSearch.text = ' ';
+            AppbarSearchfield.controllerSearch.text = ' ';
             ref.read(tempRemoteFilterControllerProvider.notifier).importFilterData(filter);
             ref.read(appliedRemoteFilterControllerProvider.notifier).importFilterData(filter);
 

@@ -6,18 +6,21 @@ part of 'auth_confirm_button_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authButtonStateHash() => r'5fe05580e7f71209f1bfdafe530960e1d590f4b7';
+String _$authButtonStateHash() => r'1eb5d71ad5d93ef45d2365e41451df7a3e16dba7';
 
 /// See also [AuthButtonState].
 @ProviderFor(AuthButtonState)
-final authButtonStateProvider = AutoDisposeNotifierProvider<AuthButtonState, ButtonState>.internal(
-  AuthButtonState.new,
-  name: r'authButtonStateProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$authButtonStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final authButtonStateProvider =
+    AutoDisposeNotifierProvider<AuthButtonState, ButtonState>.internal(
+      AuthButtonState.new,
+      name: r'authButtonStateProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$authButtonStateHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$AuthButtonState = AutoDisposeNotifier<ButtonState>;
 // ignore_for_file: type=lint

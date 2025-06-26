@@ -25,7 +25,7 @@ final searchResultNotifierProvider =
 
 typedef _$SearchResultNotifier = Notifier<bool>;
 String _$searchScreenControllerHash() =>
-    r'54f8219593b103d77478e9ada5664b937efb5af4';
+    r'423e7c9bd46abd5187005e8a4d7b5a72e4234750';
 
 /// See also [SearchScreenController].
 @ProviderFor(SearchScreenController)

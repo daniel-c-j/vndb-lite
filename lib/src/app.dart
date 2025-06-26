@@ -1,20 +1,20 @@
+import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart' show GoTransitions;
-import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
-import 'package:vndb_lite/src/constants/app_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/core/_core.dart';
+import 'package:vndb_lite/src/features/theme/theme_data_provider.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 
-import 'features/theme/theme_data_provider.dart';
-
-// TODO experiment with splash screen custom made
+import 'constants/_constants.dart';
+import 'core/_core.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
+
+  static bool updateIsChecked = false;
 
   // This is useful when facing with deep nested vndetail stack.
   static String currentRootRoute = "/";
@@ -46,12 +46,14 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);
-    final themeCode = ref.watch(appThemeStateProvider);
+    final theme = ref.watch(appThemeStateProvider);
 
     // Force removal of splash screen after everything loads.
-    FlutterNativeSplash.remove();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      FlutterNativeSplash.remove();
+    });
 
-    // Assigning an emergency global state reader.
+    // Assigning an emergency globally-shared state reader.
     ref_ = ref;
 
     return MaterialApp.router(
@@ -64,27 +66,27 @@ class App extends ConsumerWidget {
       //
       theme: ThemeData(
         useMaterial3: true,
-        brightness: themeCode.brightness,
+        brightness: theme.brightness,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: themeCode.seedColor,
-          primary: themeCode.primary,
-          secondary: themeCode.secondary,
-          tertiary: themeCode.tertiary,
-          brightness: themeCode.brightness,
+          seedColor: theme.seedColor,
+          primary: theme.primary,
+          secondary: theme.secondary,
+          tertiary: theme.tertiary,
+          brightness: theme.brightness,
         ),
-        dividerColor: themeCode.tertiary.withAlpha(150),
-        dividerTheme: DividerThemeData(color: themeCode.tertiary.withAlpha(150)),
-        progressIndicatorTheme: ProgressIndicatorThemeData(color: themeCode.secondary),
+        dividerColor: theme.tertiary.withAlpha(150),
+        dividerTheme: DividerThemeData(color: theme.tertiary.withAlpha(150)),
+        progressIndicatorTheme: ProgressIndicatorThemeData(color: theme.secondary),
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.android: GoTransitions.fadeUpwards,
             TargetPlatform.iOS: GoTransitions.cupertino,
-            TargetPlatform.macOS: GoTransitions.cupertino,
           },
         ),
-        textTheme: GoogleFonts.rubikTextTheme().apply(
-          bodyColor: themeCode.tertiary,
-          displayColor: themeCode.tertiary,
+        textTheme: TextTheme.primaryOf(context).apply(
+          fontFamily: Default.FONT_FAMILY,
+          bodyColor: theme.tertiary,
+          displayColor: theme.tertiary,
         ),
       ),
       //

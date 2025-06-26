@@ -21,14 +21,14 @@ class VnItemDetailStatusIndicator extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final almostLongPressed = ref.watch(vnItemGridAlmostLongPressedStateProvider);
-    final recordSelected = ref.watch(recordSelectedControllerProvider);
-    final vnRecord = ref.watch(vnRecordControllerProvider(id));
+    if (almostLongPressed == id) return const SizedBox.shrink();
 
-    // If current vnId exists in multiSelectedVns, or it's just almost long pressed.
-    if (recordSelected.contains(id) || almostLongPressed == id) {
-      return const SizedBox.shrink();
+    if (App.isInCollectionScreen) {
+      final recordSelected = ref.watch(recordSelectedControllerProvider);
+      if (recordSelected.contains(id)) return const SizedBox.shrink();
     }
 
+    final vnRecord = ref.watch(vnRecordControllerProvider(id));
     return Positioned(
       right: 0,
       top: 0,

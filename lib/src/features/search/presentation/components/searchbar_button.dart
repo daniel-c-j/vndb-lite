@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/constants/app_sizes.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
+import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/delay.dart';
@@ -39,7 +39,7 @@ class SearchBarButton extends StatelessWidget {
           context.goNamed(AppRoute.search.name);
           SchedulerBinding.instance.addPostFrameCallback((_) async {
             await delay(true, 350);
-            focusNodeSearch.requestFocus();
+            AppbarSearchfield.focusNode.requestFocus();
           });
         },
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

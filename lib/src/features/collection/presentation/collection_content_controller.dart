@@ -65,14 +65,13 @@ class CollectionContentController extends _$CollectionContentController {
       });
     }
 
-    final sharedPref = ref.read(sharedPrefProvider);
     final collectionHandler = ref.read(collectionSortFilterServiceProvider);
     final localCollectionRepo = ref.read(localCollectionRepoProvider);
     final localFilter = ref.read(localFilterControllerProvider);
     final localSort = ref.read(localSortControllerProvider);
 
     try {
-      sharedPref.reload();
+      await localCollectionRepo.refreshCollection();
       final List<String> dbCollection = localCollectionRepo.rawAllRecords;
       cleanCurrentData(searchOnly);
 
@@ -81,6 +80,7 @@ class CollectionContentController extends _$CollectionContentController {
       if (!searchOnly) {
         await _adaptingRawData(localFilter);
         await collectionHandler.sortData(localSort);
+        await localCollectionRepo.refreshCollection();
       }
 
       await collectionHandler.filterData(localFilter, localSort);
@@ -149,7 +149,9 @@ class CollectionContentController extends _$CollectionContentController {
         if (!valid) {
           // Will delete current vn record, if even with internet connection access, the corresponding
           // vn is not valid.
-          if (isConnected) localCollectionRepo.removeVnRecord(vnId);
+          if (isConnected) {
+            await localCollectionRepo.removeVnRecord(vnId);
+          }
           continue;
         }
       }

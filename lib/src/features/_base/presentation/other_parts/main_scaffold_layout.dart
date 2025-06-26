@@ -10,7 +10,6 @@ import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/re
 import 'package:vndb_lite/src/features/collection_selection/presentation/fab/multi_select_fab.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
-import 'package:vndb_lite/src/util/balanced_safearea.dart';
 
 import '../../../../util/context_shortcut.dart';
 
@@ -46,8 +45,6 @@ class MainScaffoldBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrollBarColor = kColor(context).secondary.withOpacity(0.9);
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Stack(
@@ -66,16 +63,16 @@ class MainScaffoldBody extends StatelessWidget {
             child: Consumer(
               builder: (context, ref, child) {
                 final controller = ref.watch(innerScrollControllerProvider);
-                final showScrollBar = _showScrollBar(ref);
-
                 if (controller == null) return const SizedBox.shrink();
 
+                final showScrollBar = _showScrollBar(ref);
+                final scrollBarColor = kColor(context).secondary.withOpacity(0.9);
                 return RawScrollbar(
                   interactive: showScrollBar,
                   controller: controller,
                   radius: const Radius.circular(12),
                   minThumbLength: responsiveUI.own(0.1),
-                  crossAxisMargin: measureSafeAreaOf(responsiveUI.own(0.01)),
+                  crossAxisMargin: responsiveUI.own(0.01),
                   thumbColor: (showScrollBar) ? scrollBarColor : Colors.transparent,
                   child: SingleChildScrollView(
                     controller: controller,
@@ -91,9 +88,11 @@ class MainScaffoldBody extends StatelessWidget {
       ),
       floatingActionButton: Consumer(
         builder: (context, ref, child) {
-          final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
+          if (!App.isInCollectionScreen) return const SizedBox.shrink();
 
+          final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
           if (isInMultiSelection) return const MultiSelectFab();
+
           return const SizedBox.shrink();
         },
       ),

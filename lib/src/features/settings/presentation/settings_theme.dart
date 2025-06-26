@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/constants/conf.dart';
+import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/settings/presentation/components/settings_list_theme_selection.dart';

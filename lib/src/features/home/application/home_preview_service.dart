@@ -54,6 +54,8 @@ class HomePreviewService {
       rawData = data.data['results'];
     } else if (data is List<String>) {
       rawData = data;
+    } else {
+      throw Exception();
     }
 
     bool toBeCached = false;
@@ -76,6 +78,7 @@ class HomePreviewService {
       await cachePreviewData(p1, cacheKey: cacheKey);
     }
 
+    await localVnRepo.refresh();
     return p1;
   }
 
@@ -95,9 +98,10 @@ class HomePreviewService {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void refreshRemotePreviews() {
+  Future<void> refreshRemotePreviews() async {
     final localHomeRepo = ref.read(localHomeRepoProvider);
-    localHomeRepo.clearAllRemoteCachedPreviews();
+    await localHomeRepo.clearAllRemoteCachedPreviews();
+    await localHomeRepo.refreshCollection();
   }
 
   //

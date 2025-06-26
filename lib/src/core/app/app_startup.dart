@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // ignore:depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:vndb_lite/src/util/local_notification.dart';
+import 'package:vndb_lite/src/features/notif/application/local_notification_service.dart';
 import 'package:vndb_lite/src/util/text_extensions.dart';
 import '../../app.dart';
 import '../../constants/_constants.dart';
@@ -22,21 +21,22 @@ class AppStartup {
   const AppStartup();
 
   /// Create the root widget that should be passed to [runApp].
+  ///
+  /// [minimumTest] exists to control the initialization logic when integration testing.
   Future<Widget> createRootWidget({
     required ProviderContainer container,
     bool minimumTest = false,
   }) async {
-    // * Initalize app.
-    if (!minimumTest) await _initializeApp();
-
-    // * Initialize services/providers.
-    await _initializeProviders(container);
-
-    // * Register error handlers.
+    // * Initialization and register error handlers for non testing environment.
     if (!minimumTest) {
       final errorLogger = container.read(errorLoggerProvider);
       _registerErrorHandlers(errorLogger);
+
+      await _initializeApp();
     }
+
+    // * Initialize services/providers specifically for riverpod.
+    await _initializeProviders(container);
 
     return UncontrolledProviderScope(container: container, child: const App());
   }
@@ -44,24 +44,12 @@ class AppStartup {
   /// Core app initializations.
   Future<void> _initializeApp() async {
     // Setting and getting general informations and configurations.
-    NetConsts.init();
     await AppInfo.init(const PackageInfoWrapper());
 
     // TODO Hive localDB
     // if (!kIsWeb) Hive.init((await getApplicationDocumentsDirectory()).path);
     // Hive.registerAdapters();
     // await Hive.initBoxes();
-
-    // Initializing local notification.
-    // TODO use ref and replace in initialize providers instead here.
-    await localNotification.init();
-    await localNotification.askPermissions();
-
-    // Removing the # sign, and follow the real configured route in the URL for the web.
-    if (kIsWeb) {
-      usePathUrlStrategy();
-      GoRouter.optionURLReflectsImperativeAPIs = true;
-    }
 
     /// Set default transition values for all `GoTransition`.
     GoTransition.defaultCurve = Curves.easeInOut;
@@ -70,8 +58,11 @@ class AppStartup {
     // Necessary to prevent http error for some devices.
     HttpOverrides.global = MyHttpOverrides();
 
-    // Prevent google font to access internet to download the already downloaded font.
-    GoogleFonts.config.allowRuntimeFetching = false;
+    // Removing the # sign, and follow the real configured route in the URL for the web.
+    if (kIsWeb) {
+      usePathUrlStrategy();
+      GoRouter.optionURLReflectsImperativeAPIs = true;
+    }
 
     // Release mode configurations.
     if (kReleaseMode) {
@@ -82,16 +73,16 @@ class AppStartup {
   /// Provider and/or service listener initializations. Not to confuse with ProviderContainer
   /// initialization.
   Future<void> _initializeProviders(ProviderContainer container) async {
-    // TODO
-    // await container.read(platformBrightnessProvider.notifier).init();
+    await container.read(localNotifServiceProvider).init();
+    await container.read(localNotifServiceProvider).askPermissions();
   }
 
   /// Register Flutter error handlers.
   void _registerErrorHandlers(ErrorLogger errorLogger) {
     // * Show some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {
-      FlutterError.presentError(details);
       errorLogger.log(details.exception, details.stack);
+      FlutterError.presentError(details);
     };
 
     // * Handle errors from the underlying platform/OS

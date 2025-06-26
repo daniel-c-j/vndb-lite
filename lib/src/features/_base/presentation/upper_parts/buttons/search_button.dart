@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_controller.dart';
@@ -44,7 +45,7 @@ class AppBarSearchButton extends ConsumerWidget {
         if (additionalOnPress != null) additionalOnPress!();
 
         if (App.isInSearchScreen) {
-          final searchQuery = textControllerSearch.text;
+          final searchQuery = AppbarSearchfield.controllerSearch.text;
           ref.read(tempRemoteFilterControllerProvider.notifier).copyWith(search: searchQuery);
           ref.read(appliedRemoteFilterControllerProvider.notifier).copyWith(search: searchQuery);
 
@@ -58,7 +59,8 @@ class AppBarSearchButton extends ConsumerWidget {
           }
 
           // If not showing yet, then refresh and show it.
-          textControllerCollection.text = ref.read(localFilterControllerProvider).search;
+          AppbarSearchfield.controllerCollection.text =
+              ref.read(localFilterControllerProvider).search;
           ref.read(showSearchTextFieldProvider.notifier).state = true;
         }
       },

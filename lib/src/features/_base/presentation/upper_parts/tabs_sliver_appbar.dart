@@ -56,11 +56,13 @@ class TabAppBar extends ConsumerWidget {
       pinned: App.isInCollectionScreen,
       title: Consumer(
         builder: (context, ref, child) {
-          final isInMultiselection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
-          final showTextField = ref.watch(showSearchTextFieldProvider);
+          if (App.isInSearchScreen) return const SizedBox.shrink();
 
-          if (App.isInSearchScreen || isInMultiselection) return const SizedBox.shrink();
+          final showTextField = ref.watch(showSearchTextFieldProvider);
           if (showTextField && App.isInCollectionScreen) return const SizedBox.shrink();
+
+          final isInMultiselection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
+          if (isInMultiselection) return const SizedBox.shrink();
 
           // No const yet.
           return AppbarTitle();

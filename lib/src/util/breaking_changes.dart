@@ -42,10 +42,14 @@ class BreakingChangesCounterMeasure extends ConsumerWidget {
       SchedulerBinding.instance.addPostFrameCallback((_) async {
         final allRecords = await ref.read(localCollectionRepoProvider).getAllRecords();
 
-        ref.read(localCollectionRepoProvider).addedViaAppNotBySync =
-            allRecords.map((VnRecord record) => record.id).toSet().toList();
+        await ref
+            .read(localCollectionRepoProvider)
+            .setAddedViaAppNotBySync(
+              allRecords.map((VnRecord record) => record.id).toSet().toList(),
+            );
 
-        ref.read(sharedPrefProvider).setBool(DBKeys.BREAKING_CHANGE_UPDATE, true);
+        await ref.read(sharedPrefProvider).setBool(DBKeys.BREAKING_CHANGE_UPDATE, true);
+        await ref.read(localCollectionRepoProvider).refreshCollection();
         // ignore: use_build_context_synchronously
         Navigator.of(context).pop();
       });

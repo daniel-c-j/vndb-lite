@@ -72,13 +72,13 @@ class VnSelectionService {
     final localCollection = ref.read(localCollectionRepoProvider);
     final syncRepo = ref.read(localSyncRepoProvider);
 
-    List<String> removeVnIds = localCollection.vnToBeRemovedWhenSync;
+    List<String> removeVnIds = localCollection.getVnToBeRemovedWhenSync();
 
     for (VnRecord? record in vnRecords) {
       if (record == null) continue;
 
       // Removing the current record.
-      localCollection.removeVnRecord(record.id);
+      await localCollection.removeVnRecord(record.id);
       removeVnIds.add(record.id);
       removeRefresh(record.id);
     }
@@ -89,9 +89,10 @@ class VnSelectionService {
     // If already synced for once, override the collectionToBeRemoved data to be
     // deleted in the cloud, the next time sync initiated.
     if (syncRepo.isUserSynchronized) {
-      localCollection.vnToBeRemovedWhenSync = removeVnIds;
+      await localCollection.setVnToBeRemovedWhenSync(removeVnIds);
     }
 
+    await localCollection.refreshCollection();
     whenSuccess();
     return;
   }
@@ -135,19 +136,20 @@ class VnSelectionService {
       // This usecase is useful to save vn item from a search result, since by default search results
       // does not save p1 to the local database.
       if (!localVnRepo.p1Exist(p1.id)) {
-        localVnRepo.saveVnContent(p1);
+        await localVnRepo.saveVnContent(p1);
       }
 
       // ! Must be put here not in the repo level in order to differentiate that
       // ! This is the only way to add record from directly the app.
-      final tempList = localCollection.addedViaAppNotBySync;
+      final tempList = localCollection.getAddedViaAppNotBySync();
       tempList.add(saveVnRecord.id);
-      localCollection.addedViaAppNotBySync = tempList.toSet().toList();
+      localCollection.setAddedViaAppNotBySync(tempList.toSet().toList());
 
       await localCollection.saveVnRecord(saveVnRecord);
       saveRefresh(p1.id);
     }
 
+      await localCollection.refreshCollection();
     return;
   }
 

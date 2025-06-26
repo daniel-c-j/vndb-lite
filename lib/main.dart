@@ -4,6 +4,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'src/core/_core.dart';
 
+// TODO BBCode
+
 Future<void> main() async {
   // * Ensuring widgets binding at startup.
   final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
