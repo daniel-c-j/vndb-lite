@@ -54,7 +54,7 @@ class CustomLabel extends ConsumerWidget {
               : null,
       child: Wrap(
         alignment: WrapAlignment.start,
-        crossAxisAlignment: WrapCrossAlignment.start,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: children,
       ),
     );
