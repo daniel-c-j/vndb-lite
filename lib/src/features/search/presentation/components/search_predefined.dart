@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/constants/app_sizes.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
@@ -32,56 +31,54 @@ enum PredefinedHomeSearch {
 class SearchPredefinedSection extends StatelessWidget {
   const SearchPredefinedSection({super.key});
 
-  static final double buttonHeight = responsiveUI.own(0.2);
+  static final double buttonHeight = responsiveUI.own(0.15);
+  static final double buttonWidth = responsiveUI.own(0.4);
   static final int itemCount = PredefinedHomeSearch.values.length;
   static const int crossAxisCount = 2;
   static const double spacing = 8;
 
+  static final fullHeight =
+      (buttonHeight * (itemCount / crossAxisCount)) + (spacing * (itemCount / crossAxisCount));
+
   @override
   Widget build(BuildContext context) {
-    final fullHeight =
-        (buttonHeight * (itemCount / crossAxisCount)) + (spacing * (itemCount / crossAxisCount));
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: responsiveUI.own(0.025)),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.theater_comedy_rounded,
-                  color: kColor(context).tertiary,
-                  size: responsiveUI.own(0.045),
-                ),
-                GAP_W6,
-                Text(
-                  "Explore general genres",
-                ).wSize(responsiveUI.catgTitle).wColor(kColor(context).tertiary),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: fullHeight,
-            child: GridView.builder(
-              padding: EdgeInsets.zero,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-                mainAxisExtent: buttonHeight,
-                crossAxisSpacing: spacing,
-                mainAxisSpacing: spacing,
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: responsiveUI.own(0.025)),
+          child: Row(
+            children: [
+              Icon(
+                Icons.theater_comedy_rounded,
+                color: kColor(context).tertiary,
+                size: responsiveUI.own(0.045),
               ),
-              itemCount: itemCount,
-              itemBuilder: (BuildContext context, int index) {
-                final predefinedSearch = PredefinedHomeSearch.values[index];
-                return SearchPredefinedButton(data: predefinedSearch);
-              },
-            ),
+              GAP_W6,
+              Text(
+                "Explore general genres",
+              ).wSize(responsiveUI.catgTitle).wColor(kColor(context).tertiary),
+            ],
           ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: fullHeight / 2,
+          child: GridView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            scrollDirection: Axis.horizontal,
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: buttonHeight,
+              mainAxisExtent: buttonWidth,
+              crossAxisSpacing: spacing,
+              mainAxisSpacing: spacing,
+            ),
+            itemCount: itemCount,
+            itemBuilder: (BuildContext context, int index) {
+              final predefinedSearch = PredefinedHomeSearch.values[index];
+              return SearchPredefinedButton(data: predefinedSearch);
+            },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -120,7 +117,7 @@ class SearchPredefinedButton extends ConsumerWidget {
             ref.read(tempRemoteSortControllerProvider.notifier).importSortData(searchSortConf);
             ref.read(appliedRemoteSortControllerProvider.notifier).importSortData(searchSortConf);
 
-            AppbarSearchfield.controllerSearch.text = ' ';
+            AppBarSearchfield.controllerSearch.text = ' ';
             ref.read(tempRemoteFilterControllerProvider.notifier).importFilterData(filter);
             ref.read(appliedRemoteFilterControllerProvider.notifier).importFilterData(filter);
 
@@ -129,8 +126,8 @@ class SearchPredefinedButton extends ConsumerWidget {
           },
           padding: EdgeInsets.zero,
           gradientColor: [
-            kColor(context).primary.withAlpha(120),
-            kColor(context).primary.withAlpha(60),
+            kColor(context).primary.withAlpha(150),
+            kColor(context).primary.withAlpha(90),
             Colors.transparent,
           ],
           gradientStart: Alignment.centerLeft,

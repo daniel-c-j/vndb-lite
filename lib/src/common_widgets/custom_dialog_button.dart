@@ -17,6 +17,7 @@ class CustomDialogButton extends StatelessWidget {
     this.leading,
     this.additionalWidget,
     this.forceShadow,
+    this.expand = false,
   });
 
   final String text;
@@ -28,6 +29,7 @@ class CustomDialogButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Widget? additionalWidget;
   final bool? forceShadow;
+  final bool expand;
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +41,11 @@ class CustomDialogButton extends StatelessWidget {
             vertical: responsiveUI.own(0.025),
             horizontal: responsiveUI.own(0.04),
           ),
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(16),
       buttonColor: color,
       onTap: onPressed,
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: (expand) ? MainAxisSize.max : MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

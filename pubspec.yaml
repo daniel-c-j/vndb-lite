@@ -6,7 +6,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # ======================================================================================================
 #
 
-version: 3.2.1+1
+version: 3.3.0+1
 
 #
 # ======================================================================================================
@@ -66,7 +66,7 @@ dependencies:
   riverpod_annotation: ^2.6.1
 
   # App routing.
-  go_router: ^15.1.1
+  go_router: ^16.0.0
   go_transitions: ^0.8.0
 
   # Native share link functionality.
@@ -79,23 +79,23 @@ dependencies:
   dio: ^5.5.0+1
   pretty_dio_logger: ^1.4.0
 
+  # Easy and efficient way to check internet connection.
+  internet_connection_checker_plus: ^2.5.0
+
   # Handle caches.
   cached_network_image: ^3.4.1
   flutter_cache_manager: ^3.4.1
 
-  # Easy and efficient way to check internet connection.
-  internet_connection_checker_plus: ^2.5.0
-
   # Prevent user to close the app when tapping back button.
   double_back_to_close_app: ^2.1.0
 
-  # Synthetic recycleview.
+  # Gridview vn widgets
   visibility_detector: ^0.4.0+2
+  flutter_staggered_grid_view: ^0.7.0
 
   # Icons & Decorations
   cupertino_icons: ^1.0.8
   icons_plus: ^5.0.0
-  flag: ^7.0.0
   gradient_borders: ^1.0.1
   dropdown_button2: ^2.3.9
   fl_chart: ^1.0.0
@@ -103,7 +103,7 @@ dependencies:
   animated_text_kit: ^4.2.3
 
   # Hides bottom navigation bar when scrolling downward, shows when upward.
-  scroll_to_hide: ^2.1.0
+  # scroll_to_hide: ^2.1.0
 
   # Easy to use to hide/unhide long paragraphs.
   readmore: ^3.0.0
@@ -154,7 +154,8 @@ flutter:
     - assets/images/status/
     - assets/images/contact/
     - assets/images/icon/
-    - assets/images/os_image/
+    - assets/images/os/
+    - assets/images/flags/
     - assets/images/search/
     - assets/images/splash/
     - assets/images/status/

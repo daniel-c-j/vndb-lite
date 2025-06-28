@@ -5,7 +5,7 @@ import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
+import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/base_dialog.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
@@ -133,7 +133,7 @@ class MultiSelectionBarActions extends ConsumerWidget {
                 // Get user current location in the collection tabs.
                 final tabsArrangement =
                     ref.read(settingsGeneralStateProvider).collectionStatusTabArrangement;
-                final statusBasedOnIndex = tabsArrangement[CollectionAppbarTabs.controller!.index];
+                final statusBasedOnIndex = tabsArrangement[CollectionAppBarTabs.controller!.index];
 
                 // For every vnData in the current status category, include them all.
                 final collectionContent = ref.read(collectionContentControllerProvider);
@@ -157,7 +157,7 @@ class MultiSelectionBarActions extends ConsumerWidget {
                 // Get user current location in the collection tabs.
                 final tabsArrangement =
                     ref.read(settingsGeneralStateProvider).collectionStatusTabArrangement;
-                final statusBasedOnIndex = tabsArrangement[CollectionAppbarTabs.controller!.index];
+                final statusBasedOnIndex = tabsArrangement[CollectionAppBarTabs.controller!.index];
 
                 // For every vnData in the current status category, inverse them.
                 final collectionContent = ref.read(collectionContentControllerProvider);

@@ -23,13 +23,13 @@ class VnDetailsBottomHeader extends ConsumerWidget {
     );
   }
 
+  // Rating value : Number of stars
+  static const Map<int, int> _ratingStar = {9: 5, 7: 4, 5: 3, 3: 2, 1: 1};
+
   Widget _getRatingIcons(double thisVnRating) {
     if (thisVnRating == 0) {
       return Icon(Icons.star_outline, size: responsiveUI.own(0.05), color: kColor().secondary);
     }
-
-    // Rating value : Number of stars
-    const Map<int, int> ratingStar = {9: 5, 7: 4, 5: 3, 3: 2, 1: 1};
 
     final Widget starIcon = Icon(
       Icons.star,
@@ -38,9 +38,9 @@ class VnDetailsBottomHeader extends ConsumerWidget {
       shadows: [_shadow],
     );
 
-    for (int ratingValue in ratingStar.keys) {
+    for (int ratingValue in _ratingStar.keys) {
       if (thisVnRating >= ratingValue) {
-        return Wrap(children: [for (int i = 0; i < ratingStar[ratingValue]!; i++) starIcon]);
+        return Wrap(children: [for (int i = 0; i < _ratingStar[ratingValue]!; i++) starIcon]);
       }
     }
 

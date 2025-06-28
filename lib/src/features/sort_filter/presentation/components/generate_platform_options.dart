@@ -3,7 +3,7 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/features/sort_filter/data/platform_code_data.dart';
+import 'package:vndb_lite/src/features/sort_filter/data/platform_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
@@ -23,7 +23,7 @@ class GeneratePlatformOptions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String imagePath = "assets/images/os_image/$platformCode.png";
+    final String imagePath = "assets/images/os/$platformCode.png";
     late final List selectedPlatforms;
 
     if (App.isInSearchScreen) {
@@ -52,7 +52,7 @@ class GeneratePlatformOptions extends ConsumerWidget {
             ),
             child: Image.asset(
               imagePath,
-              color: (isPlatformIconPlain(platformCode)) ? kColor(context).tertiary : null,
+              color: (PlatfData.isIconPlain(platformCode)) ? kColor(context).tertiary : null,
               height: responsiveUI.own(0.05),
               width: responsiveUI.own(0.05),
             ),

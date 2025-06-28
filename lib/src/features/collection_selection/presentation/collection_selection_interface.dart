@@ -52,7 +52,7 @@ class VnSelection extends ConsumerWidget {
           Container(
             alignment: Alignment.centerLeft,
             child: ShadowText(
-              "Save to collection",
+              "Add to collection",
               fontSize: responsiveUI.catgTitle,
               fontWeight: FontWeight.bold,
             ),
@@ -67,7 +67,7 @@ class VnSelection extends ConsumerWidget {
             child: ShadowText(
               vnTitles.join(',\n'),
               fontWeight: FontWeight.bold,
-              fontSize: responsiveUI.own(0.036),
+              fontSize: responsiveUI.own(0.0375),
             ),
           ),
 

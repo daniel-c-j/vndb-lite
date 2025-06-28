@@ -7,7 +7,6 @@ import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/v
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_item_detail_status_indicator.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_item_detail_title.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_controller.dart';
-
 import '../../../../app.dart';
 
 class VnItemGridDetails extends StatelessWidget {
@@ -16,12 +15,12 @@ class VnItemGridDetails extends StatelessWidget {
     required this.p1,
     required this.toggleVnDetailSummary,
     this.labelCode = 'title',
+    this.withLabel = true,
   });
 
   final VnDataPhase01 p1;
-
   final String labelCode;
-
+  final bool withLabel;
   final VoidCallback toggleVnDetailSummary;
 
   @override
@@ -32,7 +31,8 @@ class VnItemGridDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            VnItemDetailLabel(p1: p1, labelCode: labelCode),
+            if (withLabel) VnItemDetailLabel(p1: p1, labelCode: labelCode),
+            const Spacer(),
             VnItemDetailTitle(title: p1.title),
           ],
         ),
@@ -40,19 +40,22 @@ class VnItemGridDetails extends StatelessWidget {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Multi-selection mode.
-        Consumer(
-          builder: (context, ref, child) {
-            final almostLongPressed = ref.watch(vnItemGridAlmostLongPressedStateProvider);
-            if (almostLongPressed == p1.id) return const MultiSelectionIndicator();
+        // TODO watchout with the conditional flow in here, it's borrowing other property for diff
+        // purpose.
+        if (withLabel)
+          Consumer(
+            builder: (context, ref, child) {
+              final almostLongPressed = ref.watch(vnItemGridAlmostLongPressedStateProvider);
+              if (almostLongPressed == p1.id) return const MultiSelectionIndicator();
 
-            if (App.isInCollectionScreen) {
-              final recordSelected = ref.watch(recordSelectedControllerProvider);
-              if (recordSelected.contains(p1.id)) return const MultiSelectionIndicator();
-            }
+              if (App.isInCollectionScreen) {
+                final recordSelected = ref.watch(recordSelectedControllerProvider);
+                if (recordSelected.contains(p1.id)) return const MultiSelectionIndicator();
+              }
 
-            return const SizedBox.shrink();
-          },
-        ),
+              return const SizedBox.shrink();
+            },
+          ),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //

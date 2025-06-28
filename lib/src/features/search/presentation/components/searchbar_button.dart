@@ -39,7 +39,7 @@ class SearchBarButton extends StatelessWidget {
           context.goNamed(AppRoute.search.name);
           SchedulerBinding.instance.addPostFrameCallback((_) async {
             await delay(true, 350);
-            AppbarSearchfield.focusNode.requestFocus();
+            AppBarSearchfield.focusNode.requestFocus();
           });
         },
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

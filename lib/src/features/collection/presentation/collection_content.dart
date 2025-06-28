@@ -1,44 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:vndb_lite/src/common_widgets/generic_local_empty_content.dart';
-import 'package:vndb_lite/src/common_widgets/masonry_grid.dart';
+import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_inner_layout.dart';
+import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
+import 'package:vndb_lite/src/util/alt_provider_reader.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
 
 class CollectionContent extends ConsumerWidget {
-  const CollectionContent({super.key, required this.content});
+  const CollectionContent({super.key, required this.statusName});
 
-  final List<VnItemGrid> content;
+  final String statusName;
+
+  static final boundary = kScreenHeight();
+
+  void _forceUpdateUI() {
+    ref_.read(collectionContentNotifierProvider.notifier).end();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsGeneralStateProvider);
 
-    return Stack(
-      children: [
-        SizedBox(height: MediaQuery.sizeOf(context).height * 0.65),
-        (content.isEmpty)
-            ? Center(
-              child: Padding(
-                padding: EdgeInsets.all(responsiveUI.own(0.1)),
-                child: GenericLocalEmptyWidget(),
+    final content = ref.watch(collectionContentControllerProvider)[statusName] ?? [];
+    final notifyCollection = ref.watch(collectionContentNotifierProvider);
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (notifyCollection) _forceUpdateUI();
+    });
+
+    return ScrollableWrapper(
+      withScrollBar: true,
+      child: CustomScrollView(
+        // controller: controller,
+        // controller: (App.isInCollectionScreen) ? controller : null,
+        // shrinkWrap: false,
+        // physics: const AlwaysScrollableScrollPhysics(),
+        slivers: [
+          (content.isEmpty)
+              ? SliverToBoxAdapter(
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(responsiveUI.own(0.1)),
+                    child: const GenericLocalEmptyWidget(),
+                  ),
+                ),
+              )
+              : SliverPadding(
+                padding: EdgeInsets.only(
+                  right: responsiveUI.own(0.008),
+                  left: responsiveUI.own(0.008),
+                  top: responsiveUI.own(0.04),
+                ),
+                sliver: SliverMasonryGrid(
+                  mainAxisSpacing: responsiveUI.own(0.035),
+                  crossAxisSpacing: responsiveUI.own(0.005),
+                  gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount:
+                        (MediaQuery.of(context).orientation == Orientation.portrait)
+                            ? settings.maxItemPerRowPortrait
+                            : settings.maxItemPerRowLandscape,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (_, index) => content[index],
+                    childCount: content.length,
+                  ),
+                ),
               ),
-            )
-            : Padding(
-              padding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.015)),
-              child: MasonryGrid(
-                staggered: true,
-                mainAxisSpacing: responsiveUI.own(0.035),
-                crossAxisAlignment: CrossAxisAlignment.start,
-                column:
-                    (MediaQuery.of(context).orientation == Orientation.portrait)
-                        ? settings.maxItemPerRowPortrait
-                        : settings.maxItemPerRowLandscape,
-                children: content,
-              ),
-            ),
-      ],
+          SliverToBoxAdapter(child: SizedBox(height: MainInnerLayout.bottomPadding)),
+        ],
+      ),
     );
   }
 }

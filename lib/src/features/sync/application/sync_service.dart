@@ -8,7 +8,7 @@ import 'package:vndb_lite/src/features/collection/data/collection_status_data.da
 import 'package:vndb_lite/src/features/collection/data/local/local_collection_repo.dart';
 import 'package:vndb_lite/src/features/collection/domain/collection_status.dart';
 import 'package:vndb_lite/src/features/collection/domain/record.dart';
-import 'package:vndb_lite/src/features/notif/application/local_notification_service.dart';
+import 'package:vndb_lite/src/features/local_notification/application/local_notification_service.dart';
 import 'package:vndb_lite/src/features/sync/application/sync_notif_data.dart';
 import 'package:vndb_lite/src/features/sync/data/local/local_sync_repo.dart';
 import 'package:vndb_lite/src/features/sync/data/remote/remote_sync_repo.dart';

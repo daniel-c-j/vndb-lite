@@ -52,7 +52,7 @@ class AppBarSyncButton extends ConsumerWidget {
           } catch (e) {
             // TODO catch e
             ref_.read(bottomProgressIndicatorProvider.notifier).show = false;
-            // print(e);
+            // debugPrint(e);
           }
         }
       },

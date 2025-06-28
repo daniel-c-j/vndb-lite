@@ -40,8 +40,8 @@ class CustomLabel extends ConsumerWidget {
       padding:
           padding ??
           EdgeInsets.symmetric(
-            vertical: responsiveUI.own(0.01),
-            horizontal: responsiveUI.own(0.025),
+            vertical: responsiveUI.own(0.0125),
+            horizontal: responsiveUI.own(0.03),
           ),
       isOutlined: useBorder,
       borderWidth: (useBorder) ? 2 : 0,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/util/delay.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
@@ -13,10 +14,12 @@ class VnItemDetailStatusIndicator extends ConsumerWidget {
     super.key,
     required this.id,
     required this.toggleVnDetailSummary,
+    this.forceStatus,
   });
 
   final String id;
   final VoidCallback toggleVnDetailSummary;
+  final String? forceStatus;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,13 +28,13 @@ class VnItemDetailStatusIndicator extends ConsumerWidget {
 
     if (App.isInCollectionScreen) {
       final recordSelected = ref.watch(recordSelectedControllerProvider);
-      if (recordSelected.contains(id)) return const SizedBox.shrink();
+      if (recordSelected.isNotEmpty) return const SizedBox.shrink();
     }
 
     final vnRecord = ref.watch(vnRecordControllerProvider(id));
     return Positioned(
-      right: 0,
-      top: 0,
+      right: -1,
+      top: -1,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -40,8 +43,8 @@ class VnItemDetailStatusIndicator extends ConsumerWidget {
         },
         child: SizedBox(
           // color: Colors.red,
-          width: responsiveUI.own(0.1),
-          height: responsiveUI.own(0.1),
+          width: responsiveUI.own(0.15),
+          height: responsiveUI.own(0.15),
           child: Align(
             alignment: Alignment.topRight,
             child: Container(
@@ -53,9 +56,9 @@ class VnItemDetailStatusIndicator extends ConsumerWidget {
                 Icons.info_outline,
                 color:
                     (vnRecord != null)
-                        ? COLLECTION_STATUS_DATA[vnRecord.status]!.color
+                        ? COLLECTION_STATUS_DATA[forceStatus ?? vnRecord.status]!.color
                         : Colors.white,
-                size: responsiveUI.own(0.055),
+                size: responsiveUI.own(0.0575),
                 shadows: const [Shadow(color: Colors.black, blurRadius: 5, offset: Offset(3, 3))],
               ),
             ),

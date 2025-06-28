@@ -7,28 +7,29 @@ class GenericErrorImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: responsiveUI.own(0.02), bottom: responsiveUI.own(0.11)),
+      padding: EdgeInsets.only(bottom: responsiveUI.own(0.025)),
       margin: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.05)),
       alignment: Alignment.center,
       child: SizedBox(
         width: responsiveUI.own(0.22),
-        child: Column(
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error,
-              color: Color.fromARGB(255, 200, 50, 35),
-              shadows: [Shadow(color: Colors.black, blurRadius: 5)],
+            Icon(
+              Icons.image,
+              size: 34,
+              color: Color.fromARGB(200, 168, 168, 168),
+              shadows: [Shadow(color: Color.fromARGB(150, 0, 0, 0), blurRadius: 4)],
             ),
-            Text(
-              'Error Image',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: responsiveUI.normalSize,
-                color: Colors.red,
-                shadows: const [Shadow(color: Colors.black, blurRadius: 5)],
-              ),
-            ),
+            // Text(
+            //   'Error Image',
+            //   textAlign: TextAlign.center,
+            //   style: TextStyle(
+            //     fontSize: responsiveUI.normalSize,
+            //     color: Colors.red,
+            //     shadows: const [Shadow(color: Colors.black, blurRadius: 5)],
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -23,7 +23,9 @@ class _MultiSelectionIndicatorState extends ConsumerState<MultiSelectionIndicato
     _animationController = AnimationController(
       vsync: this,
       duration:
-          (mounted && isMultiSelection) ? Duration(milliseconds: 0) : Duration(milliseconds: 1200),
+          (mounted && isMultiSelection)
+              ? const Duration(milliseconds: 0)
+              : const Duration(milliseconds: 1200),
     )..forward();
   }
 

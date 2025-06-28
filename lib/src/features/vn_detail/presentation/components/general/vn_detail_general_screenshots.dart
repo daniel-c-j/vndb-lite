@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/util/delay.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/vn/domain/others.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
@@ -35,7 +34,6 @@ class _VnDetailGeneralScreenshotsState extends State<VnDetailGeneralScreenshots>
         if (screenshot.sexual! <= 1 && screenshot.violence! <= 1) {
           screenshotsUrl.add(screenshot.url!);
         }
-
         continue;
       }
 
@@ -121,75 +119,62 @@ class _VnDetailGeneralScreenshotsState extends State<VnDetailGeneralScreenshots>
         SizedBox(height: responsiveUI.own(0.03)),
         (screenshotsUrl.isEmpty)
             ? ShadowText('--')
-            : FutureBuilder(
-              future: delay(true, 1200),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Padding(
-                    padding: EdgeInsets.all(responsiveUI.own(0.4)),
-                    child: const Center(child: CircularProgressIndicator()),
-                  );
-                }
-
-                return Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.sizeOf(context).width,
-                  height: MediaQuery.sizeOf(context).width * 0.55,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Swiper(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: screenshotsUrl.length,
-                      axisDirection: AxisDirection.right,
-                      pagination: SwiperPagination(
-                        alignment: Alignment.bottomCenter,
-                        builder: DotSwiperPaginationBuilder(
-                          color: const Color.fromARGB(140, 160, 160, 160),
-                          activeColor: kColor(context).secondary,
-                          activeSize: 14,
-                          size: 8,
-                        ),
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return WidgetZoom(
-                          onTap: () {
-                            SchedulerBinding.instance.addPostFrameCallback((_) {
-                              ref_.read(vnDetailScreenshotStateProvider.notifier).click = true;
-                            });
-                          },
-                          onExit: () {
-                            SchedulerBinding.instance.addPostFrameCallback((_) {
-                              ref_.read(vnDetailScreenshotStateProvider.notifier).click = false;
-                            });
-                          },
-                          heroAnimationTag: 'vnScreenshots$index',
-                          zoomWidget: Consumer(
-                            builder: (context, ref, child) {
-                              final imgClicked = ref.watch(vnDetailScreenshotStateProvider);
-
-                              return CachedNetworkImage(
-                                imageUrl: screenshotsUrl[index],
-                                filterQuality: FilterQuality.high,
-                                fit: (imgClicked) ? null : BoxFit.cover,
-                                height:
-                                    (imgClicked) ? responsiveUI.own(0.9) : responsiveUI.own(0.6),
-                                placeholder:
-                                    (context, str) => SizedBox(
-                                      width: responsiveUI.own(0.4),
-                                      height: responsiveUI.own(0.2),
-                                    ),
-                                errorWidget: (context, url, error) => const GenericErrorImage(),
-                                maxHeightDiskCache: 1400,
-                                maxWidthDiskCache: 1400,
-                              );
-                            },
-                          ),
-                        );
-                      },
+            : Container(
+              alignment: Alignment.center,
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).width * 0.55,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Swiper(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: screenshotsUrl.length,
+                  axisDirection: AxisDirection.right,
+                  pagination: SwiperPagination(
+                    alignment: Alignment.bottomCenter,
+                    builder: DotSwiperPaginationBuilder(
+                      color: const Color.fromARGB(140, 160, 160, 160),
+                      activeColor: kColor(context).secondary,
+                      activeSize: 14,
+                      size: 8,
                     ),
                   ),
-                );
-              },
+                  itemBuilder: (BuildContext context, int index) {
+                    return WidgetZoom(
+                      onTap: () {
+                        SchedulerBinding.instance.addPostFrameCallback((_) {
+                          ref_.read(vnDetailScreenshotStateProvider.notifier).click = true;
+                        });
+                      },
+                      onExit: () {
+                        SchedulerBinding.instance.addPostFrameCallback((_) {
+                          ref_.read(vnDetailScreenshotStateProvider.notifier).click = false;
+                        });
+                      },
+                      heroAnimationTag: 'vnScreenshots$index',
+                      zoomWidget: Consumer(
+                        builder: (context, ref, child) {
+                          final imgClicked = ref.watch(vnDetailScreenshotStateProvider);
+
+                          return CachedNetworkImage(
+                            imageUrl: screenshotsUrl[index],
+                            filterQuality: FilterQuality.high,
+                            fit: (imgClicked) ? null : BoxFit.cover,
+                            height: (imgClicked) ? responsiveUI.own(0.9) : responsiveUI.own(0.6),
+                            placeholder:
+                                (context, str) => SizedBox(
+                                  width: responsiveUI.own(0.4),
+                                  height: responsiveUI.own(0.2),
+                                ),
+                            errorWidget: (context, url, error) => const GenericErrorImage(),
+                            maxHeightDiskCache: 1400,
+                            maxWidthDiskCache: 1400,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
       ],
     );

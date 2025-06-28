@@ -166,7 +166,7 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
             ),
             NestedScrollView(
               headerSliverBuilder: (_, bool inBoxScrolled) {
-                return [VnDetailAppbar(vnId: _vnId)];
+                return [VnDetailAppBar(vnId: _vnId)];
               },
               //
               // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -183,8 +183,6 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
                     padding: EdgeInsets.only(
                       top: responsiveUI.own(0.03),
                       bottom: responsiveUI.own(0.24),
-                      right: responsiveUI.own(0.045),
-                      left: responsiveUI.own(0.045),
                     ),
                     child: VnDetailsEntrance(p1: widget.p1),
                   ),

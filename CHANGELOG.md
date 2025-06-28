@@ -13,6 +13,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - None.
 
 
+## [3.3.0] - 2025-07-08
+
+### Changed
+
+- Home visual noise. (e.g labels)
+- Bottom navigation bar.
+- General performance.
+- Code refactor.
+
+### Added
+
+- More language selections.
+  
+### Fixed
+
+- Homescreen lag.
+- Minor theme.
+- Padding consistency.
+
+
 ## [3.2.1] - 2025-06-27
 
 ### Fixed

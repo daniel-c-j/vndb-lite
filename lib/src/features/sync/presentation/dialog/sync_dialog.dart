@@ -62,6 +62,7 @@ Future<void> showSyncDialog() async {
                           Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
                         ],
                         color: kColor(context).tertiary,
+                        expand: collection.isNotEmpty,
                         leading: Padding(
                           padding: EdgeInsets.only(right: responsiveUI.own(0.01)),
                           child: Icon(
@@ -96,7 +97,6 @@ Future<void> showSyncDialog() async {
                           }
                         },
                       ),
-
                       //
                       // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                       // No
@@ -107,6 +107,7 @@ Future<void> showSyncDialog() async {
                           textShadow: const [
                             Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
                           ],
+                          expand: true,
                           color: kColor(context).tertiary,
                           leading: Padding(
                             padding: EdgeInsets.only(right: responsiveUI.own(0.01)),

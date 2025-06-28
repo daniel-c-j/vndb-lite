@@ -6,6 +6,7 @@ import 'package:vndb_lite/src/common_widgets/generic_local_empty_content.dart';
 import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
+import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/home/application/home_preview_service.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
@@ -85,7 +86,7 @@ class HomeSectionContent extends ConsumerWidget {
 
             SchedulerBinding.instance.addPostFrameCallback((_) {
               if (sectionData == HomeSectionsCode.rating) {
-                ref.read(homeRatingPreviewsProvider.notifier).state = data;
+                ref_.read(homeRatingPreviewsProvider.notifier).state = data;
               }
             });
 
@@ -94,18 +95,13 @@ class HomeSectionContent extends ConsumerWidget {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: formattedP1Data.length,
+                padding: const EdgeInsets.symmetric(horizontal: 6),
                 itemBuilder:
-                    (_, idx) => Padding(
-                      padding: EdgeInsets.only(
-                        left: (idx == 0) ? 6.0 : 0,
-                        right: (idx == formattedP1Data.length - 1) ? 6.0 : 0,
-                      ),
-                      child: VnItemGrid(
-                        key: UniqueKey(),
-                        p1: formattedP1Data[idx],
-                        isGridView: false,
-                        labelCode: sectionData.labelCode!.name,
-                      ),
+                    (_, idx) => VnItemGrid(
+                      p1: formattedP1Data[idx],
+                      isGridView: false,
+                      withLabel: false,
+                      labelCode: sectionData.labelCode!.name,
                     ),
               ),
             );

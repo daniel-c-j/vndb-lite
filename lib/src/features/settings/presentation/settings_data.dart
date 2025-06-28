@@ -233,7 +233,6 @@ class _SettingsDataState extends ConsumerState<SettingsData> with SingleTickerPr
     final uId = ref.watch(authScreenControllerProvider);
     final userDidAuth = uId != null;
 
-    // print(uId);
 
     return SlideTransition(
       position: _offsetAnimation,

@@ -1,14 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/features/sort_filter/data/languages_data.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/features/sort_filter/data/others/languages.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
-import 'package:vndb_lite/src/util/language_code_formatting.dart';
 
 class GenerateFlagOptions extends ConsumerWidget {
   const GenerateFlagOptions({
@@ -53,14 +51,13 @@ class GenerateFlagOptions extends ConsumerWidget {
           func();
         },
         children: [
-          Flag.fromString(
-            formatLanguageCode(languageCode: languageCode),
+          Image.asset(
+            LangData.getFlagPath(languageCode),
             height: responsiveUI.own(0.038),
             width: responsiveUI.own(0.055),
             fit: BoxFit.fill,
-            borderRadius: 3,
           ),
-          ShadowText('  ${LanguageLocal.getDisplayLanguage(languageCode)!['name']}'),
+          ShadowText('  ${LangData.getFullLanguage(languageCode)}'),
         ],
       ),
     );

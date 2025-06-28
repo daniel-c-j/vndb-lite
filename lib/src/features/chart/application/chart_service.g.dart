@@ -6,7 +6,7 @@ part of 'chart_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getStatsChartHash() => r'876d56d10c8e02531e899795779cff7c57597980';
+String _$getStatsChartHash() => r'6ff7d25704f7561c570d57edc1c48c74973fa843';
 
 /// See also [getStatsChart].
 @ProviderFor(getStatsChart)

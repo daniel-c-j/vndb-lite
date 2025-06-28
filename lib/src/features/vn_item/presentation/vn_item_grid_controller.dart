@@ -12,26 +12,6 @@ class VnItemGridCoverCensorState extends _$VnItemGridCoverCensorState {
   set censor(bool value) => state = value;
 }
 
-@Riverpod(keepAlive: true)
-class VnItemGridCoverSizeState extends _$VnItemGridCoverSizeState {
-  @override
-  double build(String vnUrl) {
-    return 100; // Default value.
-  }
-
-  set size(double size) => state = size;
-}
-
-@Riverpod(keepAlive: true)
-class VnItemGridWidgetState extends _$VnItemGridWidgetState {
-  @override
-  bool build(String vnId) {
-    return false;
-  }
-
-  set show(bool value) => state = value;
-}
-
 @riverpod
 class VnItemGridAlmostLongPressedState extends _$VnItemGridAlmostLongPressedState {
   @override

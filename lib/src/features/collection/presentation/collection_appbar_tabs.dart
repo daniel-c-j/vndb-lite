@@ -10,8 +10,8 @@ import 'package:vndb_lite/src/features/settings/presentation/settings_general_st
 
 import '../../../util/context_shortcut.dart';
 
-class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget {
-  const CollectionAppbarTabs({super.key});
+class CollectionAppBarTabs extends ConsumerWidget implements PreferredSizeWidget {
+  const CollectionAppBarTabs({super.key});
 
   /// Global tab controller to maintain keep-Alive behaviour for the controller.
   static late final TabController? controller;
@@ -44,6 +44,7 @@ class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget
             Tab(
               key: ValueKey<String>(statusCode),
               height: height,
+
               child: Padding(
                 padding: EdgeInsets.only(bottom: responsiveUI.own(0.01)),
                 child: Row(
@@ -62,11 +63,11 @@ class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget
                         final vnItemGrids = ref.watch(collectionContentControllerProvider);
                         final notifyCollection = ref.watch(collectionContentNotifierProvider);
 
-                        if (notifyCollection) {
-                          SchedulerBinding.instance.addPostFrameCallback((_) {
+                        SchedulerBinding.instance.addPostFrameCallback((_) {
+                          if (notifyCollection) {
                             ref.read(collectionContentNotifierProvider.notifier).end();
-                          });
-                        }
+                          }
+                        });
 
                         return ShadowText(
                           '${toBeginningOfSentenceCase<String>(statusCode)} '
@@ -85,7 +86,7 @@ class CollectionAppbarTabs extends ConsumerWidget implements PreferredSizeWidget
   }
 }
 
-/// Init class to exploit [TickerProviderStateMixin] for collectionTabController's vsync.
+/// Init class to exploit [SingleTickerProviderStateMixin] for collectionTabController's vsync.
 class CollectionTabConf extends StatefulWidget {
   const CollectionTabConf({super.key});
 
@@ -93,14 +94,12 @@ class CollectionTabConf extends StatefulWidget {
   State<CollectionTabConf> createState() => _CollectionTabConfState();
 }
 
-class _CollectionTabConfState extends State<CollectionTabConf> with TickerProviderStateMixin {
+class _CollectionTabConfState extends State<CollectionTabConf> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    CollectionAppbarTabs.controller = TabController(
-      length: COLLECTION_STATUS_DATA.length,
-      vsync: this,
-    );
+    final controller = TabController(length: COLLECTION_STATUS_DATA.length, vsync: this);
+    CollectionAppBarTabs.controller = controller;
   }
 
   @override

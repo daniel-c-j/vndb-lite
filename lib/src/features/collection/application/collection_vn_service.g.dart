@@ -7,7 +7,7 @@ part of 'collection_vn_service.dart';
 // **************************************************************************
 
 String _$validateVnAndSaveToLocalHash() =>
-    r'9e5318eeec32518e7553e446a4de57da66008d5e';
+    r'35bf1c70e4dcd4908a8652268297bb579efed696';
 
 /// Copied from Dart SDK
 class _SystemHash {

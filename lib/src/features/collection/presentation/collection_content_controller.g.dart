@@ -27,7 +27,7 @@ final collectionContentNotifierProvider =
 
 typedef _$CollectionContentNotifier = AutoDisposeNotifier<bool>;
 String _$collectionContentControllerHash() =>
-    r'90f03f5ddf3fc31fa71dc6c413cc54ed96f5e7a8';
+    r'6b0c50578ba88d061e89d07ccd229c8e6e9cd2d7';
 
 /// See also [CollectionContentController].
 @ProviderFor(CollectionContentController)

@@ -38,11 +38,11 @@ class _BottomSheetSearchState extends ConsumerState<BottomSheetSearch>
   }
 
   void _applyFiltersToQuery() async {
-    if (AppbarSearchfield.controllerSearch.text.isEmpty) {
-      AppbarSearchfield.controllerSearch.text = ' ';
+    if (AppBarSearchfield.controllerSearch.text.isEmpty) {
+      AppBarSearchfield.controllerSearch.text = ' ';
       ref
           .read(tempRemoteFilterControllerProvider.notifier)
-          .copyWith(search: AppbarSearchfield.controllerSearch.text);
+          .copyWith(search: AppBarSearchfield.controllerSearch.text);
     }
 
     // Applying the temp filter to the real post request data.

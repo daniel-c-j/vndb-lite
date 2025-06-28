@@ -14,7 +14,7 @@ part 'dio_factory.g.dart';
 
 /// Dio with basic configurations.
 class DioFactory {
-  Dio getDio() {
+  Dio produce() {
     final Dio dio = Dio();
 
     // Certificate issue handler.
@@ -40,7 +40,7 @@ class DioFactory {
     // If not in release mode, log network requests with dio
     if (!kReleaseMode) {
       // dio.interceptors.add(
-      //   PrettyDioLogger(requestHeader: true, requestBody: true, responseHeader: true),
+      // PrettyDioLogger(requestHeader: true, requestBody: true, responseHeader: true),
       // );
     }
 
@@ -50,5 +50,5 @@ class DioFactory {
 
 @riverpod
 Dio dio(Ref ref) {
-  return DioFactory().getDio();
+  return DioFactory().produce();
 }

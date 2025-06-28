@@ -84,10 +84,8 @@ class _VndbStatChartState extends ConsumerState<VNDBStatsChart>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height * 0.75,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 60),
       child: Stack(
         children: [
           Center(

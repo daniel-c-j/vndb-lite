@@ -7,7 +7,7 @@ part of 'collection_selection_remote_service.dart';
 // **************************************************************************
 
 String _$fetchAndSaveP2DataHash() =>
-    r'7a931bd424a4784c53101a54960c8e90f87a7d3a';
+    r'119b5df20569d91cbe7fd6d7806d2b2f6820f16f';
 
 /// Copied from Dart SDK
 class _SystemHash {

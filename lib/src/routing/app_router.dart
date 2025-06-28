@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
+import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/about/presentation/about_screen.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_screen.dart';
 import 'package:vndb_lite/src/features/home/presentation/home_screen.dart';
@@ -45,7 +45,7 @@ GoRouter goRouter(Ref ref) {
     },
     routes: [
       StatefulShellRoute.indexedStack(
-        builder: (_, state, navigationShell) => MainTabLayout(navigationShell: navigationShell),
+        builder: (_, state, navigationShell) => MainOuterLayout(navigationShell: navigationShell),
         branches: [
           StatefulShellBranch(
             navigatorKey: GlobalKey<NavigatorState>(debugLabel: AppRoute.home.name),

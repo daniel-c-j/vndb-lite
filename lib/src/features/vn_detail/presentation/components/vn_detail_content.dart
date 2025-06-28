@@ -65,58 +65,70 @@ class _VnDetailsContentState extends ConsumerState<VnDetailsContent> with Ticker
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Headers
-        VnDetailsTopHeader(p1: widget.p1, p2: widget.p2, animationController: _animationController),
-        SizedBox(height: responsiveUI.own(0.05)),
-        VnDetailsBottomHeader(p1: widget.p1, p2: widget.p2),
-        SizedBox(height: responsiveUI.own(0.025)),
-        //
-        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        // Tabs
-        Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(vertical: responsiveUI.own(0.045)),
-          child: Container(
-            width: MediaQuery.sizeOf(context).width - responsiveUI.own(0.045),
-            height: responsiveUI.own(0.075),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  kColor(context).secondary.withOpacity(0.6),
-                  kColor(context).secondary.withOpacity(0.3),
-                ],
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: responsiveUI.own(0.045)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              VnDetailsTopHeader(
+                p1: widget.p1,
+                p2: widget.p2,
+                animationController: _animationController,
               ),
-            ),
-            child: Stack(
-              children: [
-                TabBar(
-                  dividerHeight: 0,
-                  controller: _tabController,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicator: BoxDecoration(
+              SizedBox(height: responsiveUI.own(0.05)),
+              VnDetailsBottomHeader(p1: widget.p1, p2: widget.p2),
+              SizedBox(height: responsiveUI.own(0.025)),
+              //
+              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+              // Tabs
+              Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(vertical: responsiveUI.own(0.045)),
+                child: Container(
+                  width: MediaQuery.sizeOf(context).width - responsiveUI.own(0.045),
+                  height: responsiveUI.own(0.075),
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: kColor(context).primary,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(180, 0, 0, 0),
-                        offset: Offset(0, 1),
-                        blurRadius: 3,
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        kColor(context).secondary.withOpacity(0.6),
+                        kColor(context).secondary.withOpacity(0.3),
+                      ],
+                    ),
+                  ),
+                  child: Stack(
+                    children: [
+                      TabBar(
+                        dividerHeight: 0,
+                        controller: _tabController,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        indicator: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: kColor(context).primary,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromARGB(180, 0, 0, 0),
+                              offset: Offset(0, 1),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                        //
+                        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                        // Tab headers
+                        tabs: [
+                          Tab(child: ShadowText('General', color: kColor(context).tertiary)),
+                          Tab(child: ShadowText('Release', color: kColor(context).tertiary)),
+                          Tab(child: ShadowText('Relations', color: kColor(context).tertiary)),
+                        ],
                       ),
                     ],
                   ),
-                  //
-                  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                  // Tab headers
-                  tabs: [
-                    Tab(child: ShadowText('General', color: kColor(context).tertiary)),
-                    Tab(child: ShadowText('Release', color: kColor(context).tertiary)),
-                    Tab(child: ShadowText('Relations', color: kColor(context).tertiary)),
-                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         SizedBox(height: responsiveUI.own(0.025)),

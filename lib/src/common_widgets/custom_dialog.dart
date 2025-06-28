@@ -10,7 +10,7 @@ class CustomDialog extends ConsumerWidget {
   final Widget content;
   final bool useContentPadding;
 
-  static final double borderRadius = 36.0;
+  static const double borderRadius = 28.0;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

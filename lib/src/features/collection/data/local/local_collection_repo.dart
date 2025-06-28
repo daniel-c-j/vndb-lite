@@ -162,8 +162,7 @@ class LocalCollectionRepo {
   //
 
   List<String> get rawAllRecords {
-    final List<String> collectionSections =
-        _sharedPref.getStringList(DBKeys.SAVED_COLLECTION_SECTIONS) ?? [];
+    final collectionSections = _sharedPref.getStringList(DBKeys.SAVED_COLLECTION_SECTIONS) ?? [];
     List<String> fullCollectionList = [];
 
     for (String sectionRange in collectionSections) {

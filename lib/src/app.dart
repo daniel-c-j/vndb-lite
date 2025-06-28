@@ -1,9 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart' show GoTransitions;
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
+import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_inner_layout.dart';
+import 'package:vndb_lite/src/features/sort_filter/data/languages_data.dart';
+import 'package:vndb_lite/src/features/sort_filter/data/platform_data.dart';
 import 'package:vndb_lite/src/features/theme/theme_data_provider.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
@@ -16,7 +22,7 @@ class App extends ConsumerWidget {
 
   static bool updateIsChecked = false;
 
-  // This is useful when facing with deep nested vndetail stack.
+  /// This is useful when facing with deep nested vndetail stack.
   static String currentRootRoute = "/";
 
   static String get currentRoute {
@@ -43,13 +49,34 @@ class App extends ConsumerWidget {
   static bool get isInOthersScreen => currentRoute.contains(AppRoute.others.name);
   static bool get isInVnDetailScreen => currentRoute.contains(AppRoute.vnDetail.name);
 
+  /// Asynchronously cache image right before splash screen is closed.
+  /// Requiring [BuildContext], so need to be in a widget.
+  Future<void> _precacheImages(BuildContext ctx) async {
+    if (_isImageCached) return;
+
+    for (String key in LangData.DEFINED_CODES.keys) {
+      final path = LangData.getFlagPath(key);
+      await precacheImage(AssetImage(path), ctx);
+    }
+
+    for (String key in PlatfData.DEFINED_CODES.keys) {
+      final path = PlatfData.getImgPath(key);
+      await precacheImage(AssetImage(path), ctx);
+    }
+
+    _isImageCached = true;
+  }
+
+  static bool _isImageCached = false;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);
     final theme = ref.watch(appThemeStateProvider);
 
     // Force removal of splash screen after everything loads.
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await _precacheImages(context);
       FlutterNativeSplash.remove();
     });
 

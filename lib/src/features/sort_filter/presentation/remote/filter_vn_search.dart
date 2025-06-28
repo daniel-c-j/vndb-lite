@@ -5,7 +5,7 @@ import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/devstatus_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/filterable_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/languages_data.dart';
-import 'package:vndb_lite/src/features/sort_filter/data/platform_code_data.dart';
+import 'package:vndb_lite/src/features/sort_filter/data/platform_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/components/filter_item.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/components/generate_dev_status.options.dart';
@@ -152,7 +152,7 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
             padding: filterContentPadding,
             child: TransitionListContent(
               contentList: [
-                for (String langCode in FILTERABLE_AVAILABLE_LANGUAGE_CODE)
+                for (String langCode in LangData.DEFINED_CODES.keys)
                   GenerateFlagOptions(
                     languageCode: langCode,
                     identifier: 'availLang',
@@ -226,7 +226,7 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
             padding: filterContentPadding,
             child: TransitionListContent(
               contentList: [
-                for (String langCode in FILTERABLE_ORIGIN_LANGUAGE_CODE)
+                for (String langCode in LangData.DEFINED_CODES_ORIGIN.keys)
                   GenerateFlagOptions(
                     languageCode: langCode,
                     identifier: 'originLang',
@@ -253,10 +253,10 @@ class _SortVnSearchState extends ConsumerState<FilterVnSearch> {
             padding: filterContentPadding,
             child: TransitionListContent(
               contentList: [
-                for (String platfCode in PLATFORM_DATA.keys)
+                for (String platfCode in PlatfData.DEFINED_CODES.keys)
                   GeneratePlatformOptions(
                     platformCode: platfCode,
-                    platformName: PLATFORM_DATA[platfCode]!,
+                    platformName: PlatfData.DEFINED_CODES[platfCode]!,
                     func: () async => await _process(FilterableData.platform.name, platfCode),
                   ),
               ],

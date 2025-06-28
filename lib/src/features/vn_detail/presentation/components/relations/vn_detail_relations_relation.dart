@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/masonry_grid.dart';
@@ -156,15 +157,20 @@ class _VnDetailRelationsRelationState extends ConsumerState<VnDetailRelationsRel
             final relations = snapshot.data;
             if (relations.isEmpty) return ShadowText('--');
 
-            return MasonryGrid(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              staggered: true,
+            return MasonryGridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount:
+                    (MediaQuery.of(context).orientation == Orientation.portrait)
+                        ? settings.maxItemPerRowPortrait
+                        : settings.maxItemPerRowLandscape,
+              ),
               mainAxisSpacing: responsiveUI.own(0.03),
-              column:
-                  (MediaQuery.of(context).orientation == Orientation.portrait)
-                      ? settings.maxItemPerRowPortrait
-                      : settings.maxItemPerRowLandscape,
-              children: relations,
+              itemCount: relations.length,
+              itemBuilder: (context, index) {
+                return relations[index];
+              },
             );
           },
         ),

@@ -6,8 +6,11 @@ import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 
+/// [DoubleBackToCloseApp]'s wrapper. Cannot be const due to the app's structure relying on
+/// globally-shared routing state.
 class DoubleBackToClose extends ConsumerWidget {
-  const DoubleBackToClose({super.key});
+  // ignore: prefer_const_constructors_in_immutables
+  DoubleBackToClose({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

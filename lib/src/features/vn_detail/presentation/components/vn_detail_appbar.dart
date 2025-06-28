@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
 
-class VnDetailAppbar extends StatelessWidget {
-  const VnDetailAppbar({super.key, required this.vnId});
+class VnDetailAppBar extends StatelessWidget {
+  const VnDetailAppBar({super.key, required this.vnId});
 
   final String vnId;
 

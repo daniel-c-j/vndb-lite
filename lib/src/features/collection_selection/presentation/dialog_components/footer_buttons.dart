@@ -44,19 +44,17 @@ class VnSelectionDialogFooter extends ConsumerWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void _notifyCollectionPreview() {
+  Future<void> _notifyCollectionPreview() async {
     ref_.invalidate(homePreviewServiceProvider);
 
     // Need to invalidate twice and a delay somehow...
-    Future.delayed(Duration(milliseconds: 2400), () {
-      ref_.invalidate(homePreviewServiceProvider);
+    ref_.invalidate(homePreviewServiceProvider);
 
-      // Prevent changing collection refreshing the items which made the items disappear and force user to
-      // go up from where the user scroll.
-      if (!App.isInCollectionScreen) {
-        ref_.read(collectionContentControllerProvider.notifier).separateVNsByStatus();
-      }
-    });
+    // Prevent changing collection refreshing the items which made the items disappear and force user to
+    // go up from where the user scroll.
+    if (!App.isInCollectionScreen) {
+      await ref_.read(collectionContentControllerProvider.notifier).separateVNsByStatus();
+    }
   }
 
   //
@@ -119,7 +117,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
                     ref.read(dialogDismissedStateProvider.notifier).dismissed = false;
 
                     // Notify collection preview
-                    _notifyCollectionPreview();
+                    await _notifyCollectionPreview();
 
                     // Closing dialogs
                     Navigator.of(context).pop(); // Pop removal confirmation
@@ -185,7 +183,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
                     ref.read(dialogDismissedStateProvider.notifier).dismissed = false;
 
                     // Notify collection preview.
-                    _notifyCollectionPreview();
+                    await _notifyCollectionPreview();
 
                     // Closing the dialog.
                     Navigator.of(context).pop();
@@ -198,8 +196,8 @@ class VnSelectionDialogFooter extends ConsumerWidget {
                   },
                   // ignore: provider_parameters
                   whenErr: (err, st) {
-                    // print(err);
-                    // print(st);
+                    // debugPrint(err);
+                    // debugPrint(st);
                     //TODO better error handl message
                     changeButton.state = ButtonState.active;
                     _showSnackbar(

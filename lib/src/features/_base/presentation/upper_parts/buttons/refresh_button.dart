@@ -7,7 +7,7 @@ import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
+import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/collection_selection_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
@@ -83,8 +83,8 @@ class AppBarRefreshButton extends ConsumerWidget {
     ref_.invalidate(vnRecordControllerProvider);
 
     if (verbose) {
-      AppbarSearchfield.controllerCollection.clear();
-      AppbarSearchfield.controllerSearch.clear();
+      AppBarSearchfield.controllerCollection.clear();
+      AppBarSearchfield.controllerSearch.clear();
 
       ref_.invalidate(appliedRemoteFilterControllerProvider);
       ref_.invalidate(appliedRemoteSortControllerProvider);

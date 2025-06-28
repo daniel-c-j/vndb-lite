@@ -1,7 +1,7 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_title.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_controller.dart';
@@ -14,8 +14,11 @@ import 'package:vndb_lite/src/features/search/presentation/components/search_app
 
 import '../../../../util/context_shortcut.dart';
 
+/// [SliverAppBar]'s wrapper.
 class TabAppBar extends ConsumerWidget {
-  const TabAppBar({super.key});
+  const TabAppBar({super.key, required this.route});
+
+  final AppRoute route;
 
   static final height = responsiveUI.own(0.16);
 
@@ -25,7 +28,7 @@ class TabAppBar extends ConsumerWidget {
 
     // Hides search text field when changing screen.
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (!App.isInCollectionScreen && context.mounted) {
+      if (route != AppRoute.collection) {
         ref.read(showSearchTextFieldProvider.notifier).state = false;
       }
     });
@@ -52,39 +55,38 @@ class TabAppBar extends ConsumerWidget {
         ),
       ),
       backgroundColor: Colors.transparent,
-      snap: !App.isInCollectionScreen,
-      pinned: App.isInCollectionScreen,
+      snap: (route != AppRoute.collection),
+      pinned: (route == AppRoute.collection),
       title: Consumer(
         builder: (context, ref, child) {
-          if (App.isInSearchScreen) return const SizedBox.shrink();
+          if (route == AppRoute.search) return const SizedBox.shrink();
 
           final showTextField = ref.watch(showSearchTextFieldProvider);
-          if (showTextField && App.isInCollectionScreen) return const SizedBox.shrink();
+          if (showTextField && (route == AppRoute.collection)) return const SizedBox.shrink();
 
           final isInMultiselection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
           if (isInMultiselection) return const SizedBox.shrink();
 
-          // No const yet.
-          return AppbarTitle();
+          return AppBarTitle(route: route);
         },
       ),
       actions: [
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
-        if (App.isInHomeScreen) const HomeBarActions(),
+        if (route == AppRoute.home) const HomeBarActions(),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
-        if (App.isInSearchScreen) const SearchBarActions(),
+        if (route == AppRoute.search) const SearchBarActions(),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
-        if (!isInMultiselection && App.isInCollectionScreen) const CollectionBarActions(),
+        if (!isInMultiselection && (route == AppRoute.collection)) const CollectionBarActions(),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
-        if (isInMultiselection && App.isInCollectionScreen) const MultiSelectionBarActions(),
+        if (isInMultiselection && (route == AppRoute.collection)) const MultiSelectionBarActions(),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
@@ -92,7 +94,7 @@ class TabAppBar extends ConsumerWidget {
       //
       // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       // Collection tab bar
-      bottom: (App.isInCollectionScreen) ? const CollectionAppbarTabs() : null,
+      bottom: (route == AppRoute.collection) ? const CollectionAppBarTabs() : null,
     );
   }
 }

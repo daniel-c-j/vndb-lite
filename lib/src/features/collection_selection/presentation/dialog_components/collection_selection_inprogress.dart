@@ -16,7 +16,7 @@ class VnSelectionInprogress extends StatelessWidget {
         Container(
           alignment: Alignment.centerLeft,
           child: ShadowText(
-            "Save to collection",
+            "Add to collection",
             fontSize: responsiveUI.catgTitle,
             fontWeight: FontWeight.bold,
           ),

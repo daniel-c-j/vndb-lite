@@ -1,15 +1,12 @@
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/features/sort_filter/data/languages_data.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_detail_summary_scroll_state.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
-import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_detail_summary_x_button.dart';
-import 'package:vndb_lite/src/util/language_code_formatting.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VnItemGridDetailsSummary extends ConsumerStatefulWidget {
@@ -52,16 +49,6 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
   void dispose() {
     _animationController.dispose();
     super.dispose();
-  }
-
-  //
-  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  //
-
-  void _setUserScrollingInSummary() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      ref.read(vnItemSummaryScrollStateProvider.notifier).isScrolling = true;
-    });
   }
 
   //
@@ -116,159 +103,151 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
       position: _offsetAnimation,
       child: FadeTransition(
         opacity: _animationController.drive(CurveTween(curve: Curves.linear)),
-        child: GestureDetector(
-          onLongPressDown: (_) => _setUserScrollingInSummary(),
-          onLongPressEnd: (_) => _setUserScrollingInSummary(),
-          onPanEnd: (_) => _setUserScrollingInSummary(),
-          child: Stack(
-            children: [
-              Container(
-                padding: EdgeInsets.all(responsiveUI.own(0.025)),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: kColor(context).primary.withOpacity(0.6),
-                      spreadRadius: 10,
-                      blurRadius: 20,
+        child: Stack(
+          children: [
+            Container(
+              padding: EdgeInsets.all(responsiveUI.own(0.025)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: kColor(context).primary.withOpacity(0.6),
+                    spreadRadius: 10,
+                    blurRadius: 20,
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //
+                  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                  // Title
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: kColor(context).secondary.withOpacity(0.6),
+                          offset: const Offset(0, -15),
+                          spreadRadius: 25,
+                          blurRadius: 35,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //
-                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                    // Title
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: kColor(context).secondary.withOpacity(0.6),
-                            offset: const Offset(0, -15),
-                            spreadRadius: 25,
-                            blurRadius: 35,
+                    child: SingleChildScrollView(
+                      child: ShadowText(widget.p1.title, fontSize: responsiveUI.own(0.0385)),
+                    ),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Consumer(
+                            builder: (context, ref, child) {
+                              final vnRecord = ref.watch(vnRecordControllerProvider(widget.p1.id));
+
+                              if (vnRecord == null) {
+                                return const SizedBox.shrink();
+                              }
+
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //
+                                  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                  // Status (if in collection)
+                                  detailSummary(
+                                    icon: Icons.library_books,
+                                    title: ' Status: ',
+                                    content: toBeginningOfSentenceCase<String>(vnRecord.status),
+                                    useHighlight: true,
+                                  ),
+                                  //
+                                  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                  // Voted
+                                  detailSummary(
+                                    icon: Icons.electric_bolt_sharp,
+                                    title: ' Voted: ',
+                                    content: '${vnRecord.vote}',
+                                    useHighlight: true,
+                                  ),
+                                ],
+                              );
+                            },
                           ),
-                        ],
-                      ),
-                      child: SingleChildScrollView(
-                        child: ShadowText(widget.p1.title, fontSize: responsiveUI.own(0.0385)),
-                      ),
-                    ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Consumer(
-                              builder: (context, ref, child) {
-                                final vnRecord = ref.watch(
-                                  vnRecordControllerProvider(widget.p1.id),
-                                );
-
-                                if (vnRecord == null) {
-                                  return const SizedBox.shrink();
-                                }
-
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    //
-                                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                                    // Status (if in collection)
-                                    detailSummary(
-                                      icon: Icons.library_books,
-                                      title: ' Status: ',
-                                      content: toBeginningOfSentenceCase<String>(vnRecord.status),
-                                      useHighlight: true,
-                                    ),
-                                    //
-                                    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                                    // Voted
-                                    detailSummary(
-                                      icon: Icons.electric_bolt_sharp,
-                                      title: ' Voted: ',
-                                      content: '${vnRecord.vote}',
-                                      useHighlight: true,
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                            //
-                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                            // Origin
-                            detailSummary(
-                              icon: Icons.public,
-                              title: ' Origin: ',
-                              content: Padding(
-                                padding: EdgeInsets.only(left: responsiveUI.own(0.005)),
-                                child: Flag.fromString(
-                                  formatLanguageCode(languageCode: widget.p1.olang ?? ""),
-                                  height: responsiveUI.own(0.038),
-                                  width: responsiveUI.own(0.055),
-                                  fit: BoxFit.fill,
-                                  borderRadius: 3,
-                                ),
+                          //
+                          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                          // Origin
+                          detailSummary(
+                            icon: Icons.public,
+                            title: ' Origin: ',
+                            content: Padding(
+                              padding: EdgeInsets.only(left: responsiveUI.own(0.005)),
+                              child: Image.asset(
+                                LangData.getFlagPath(widget.p1.olang ?? ""),
+                                height: responsiveUI.own(0.038),
+                                width: responsiveUI.own(0.055),
+                                fit: BoxFit.fill,
                               ),
                             ),
-                            //
-                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                            // Rating
-                            detailSummary(
-                              icon: Icons.star,
-                              title: ' Rating: ',
-                              content: (widget.p1.rating! / 10).toStringAsFixed(2),
-                            ),
-                            //
-                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                            // Vote
-                            detailSummary(
-                              icon: Icons.electric_bolt_sharp,
-                              title: ' Vote: ',
-                              content: '${widget.p1.votecount}',
-                            ),
-                            //
-                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                            // Length
-                            detailSummary(
-                              icon: Icons.timelapse,
-                              title: ' Length: ',
-                              content: _vnLength,
-                            ),
-                            //
-                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                            // Release date
-                            detailSummary(
-                              icon: Icons.calendar_month,
-                              title: ' Release Date: ',
-                              content: '${widget.p1.released}',
-                            ),
-                            //
-                            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                            // Description
-                            ShadowText('\nDescription: \n${widget.p1.description ?? '--'}'),
-                          ],
-                        ),
+                          ),
+                          //
+                          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                          // Rating
+                          detailSummary(
+                            icon: Icons.star,
+                            title: ' Rating: ',
+                            content: (widget.p1.rating! / 10).toStringAsFixed(2),
+                          ),
+                          //
+                          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                          // Vote
+                          detailSummary(
+                            icon: Icons.electric_bolt_sharp,
+                            title: ' Vote: ',
+                            content: '${widget.p1.votecount}',
+                          ),
+                          //
+                          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                          // Length
+                          detailSummary(
+                            icon: Icons.timelapse,
+                            title: ' Length: ',
+                            content: _vnLength,
+                          ),
+                          //
+                          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                          // Release date
+                          detailSummary(
+                            icon: Icons.calendar_month,
+                            title: ' Release Date: ',
+                            content: '${widget.p1.released}',
+                          ),
+                          //
+                          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                          // Description
+                          ShadowText('\nDescription: \n${widget.p1.description ?? '--'}'),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              //
-              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-              // X button indicator
-              VnItemDetailSummaryXButton(
-                vnId: widget.p1.id,
-                toggleVnDetailSummary: widget.toggleVnDetailSummary,
-                animationController: _animationController,
-              ),
-              //
-              // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-              //
-            ],
-          ),
+            ),
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // X button indicator
+            VnItemDetailSummaryXButton(
+              vnId: widget.p1.id,
+              toggleVnDetailSummary: widget.toggleVnDetailSummary,
+              animationController: _animationController,
+            ),
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            //
+          ],
         ),
       ),
     );

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
+import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_inner_layout.dart';
+import 'package:vndb_lite/src/features/search/presentation/search_result.dart';
+import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/debouncer.dart';
 import 'package:vndb_lite/src/util/delay.dart';
 
@@ -109,14 +113,11 @@ class _ScrollToHideState extends State<ScrollToHide> {
 
   void listen() async {
     final direction = widget.scrollController.position.userScrollDirection;
-    if (direction == ScrollDirection.reverse) {
-      hide();
-    }
+    if (direction == ScrollDirection.reverse) hide();
 
     _debouncer.call(() async {
-      await delay(true, 400);
-      show();
-      return;
+      await delay(true, 300);
+      return show();
     });
   }
 }

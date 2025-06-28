@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_controller.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
@@ -26,11 +25,12 @@ class AppBarSearchButton extends ConsumerWidget {
     return false;
   }
 
+  // TODO
   String get _toolTipMessage {
     if (App.isInCollectionScreen) {
       return 'To search for tags or developers, start searching with either "dev:" or "tag:" without the quotes. '
-          'For example: "dev: frontwing" or "tag: tomboy, childhood, pure love". \n\nNote: Currently cannot '
-          'combine both keywords such as: "dev: nitro, tag: heroine with glasses".';
+          'For example: "dev:frontwing" or "tag:tomboy, childhood, pure love". \n\nNote: Currently cannot '
+          'combine both keywords such as: "dev:nitro, tag:heroine with glasses".';
     }
 
     return 'Search';
@@ -45,7 +45,7 @@ class AppBarSearchButton extends ConsumerWidget {
         if (additionalOnPress != null) additionalOnPress!();
 
         if (App.isInSearchScreen) {
-          final searchQuery = AppbarSearchfield.controllerSearch.text;
+          final searchQuery = AppBarSearchfield.controllerSearch.text;
           ref.read(tempRemoteFilterControllerProvider.notifier).copyWith(search: searchQuery);
           ref.read(appliedRemoteFilterControllerProvider.notifier).copyWith(search: searchQuery);
 
@@ -59,7 +59,7 @@ class AppBarSearchButton extends ConsumerWidget {
           }
 
           // If not showing yet, then refresh and show it.
-          AppbarSearchfield.controllerCollection.text =
+          AppBarSearchfield.controllerCollection.text =
               ref.read(localFilterControllerProvider).search;
           ref.read(showSearchTextFieldProvider.notifier).state = true;
         }

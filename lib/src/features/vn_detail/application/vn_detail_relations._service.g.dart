@@ -7,7 +7,7 @@ part of 'vn_detail_relations._service.dart';
 // **************************************************************************
 
 String _$fetchAndSaveP3DataHash() =>
-    r'83a93f1c5d3fdf7147ebee5530614a9bd9b81590';
+    r'341f907abf72de6a564f67fd41d43ac52b5f2999';
 
 /// Copied from Dart SDK
 class _SystemHash {

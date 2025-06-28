@@ -7,7 +7,7 @@ part of 'local_sort_filter_controller.dart';
 // **************************************************************************
 
 String _$localFilterControllerHash() =>
-    r'1ed22c533df5e24ed00a6d99092be283bc53a6b8';
+    r'ded436d8cade2c198bdd82ca7988d350ccc33f5e';
 
 /// See also [LocalFilterController].
 @ProviderFor(LocalFilterController)
@@ -25,7 +25,7 @@ final localFilterControllerProvider =
 
 typedef _$LocalFilterController = AutoDisposeNotifier<FilterData>;
 String _$localSortControllerHash() =>
-    r'29411e2e2a0fb9fba17a6b05e6348f338e972bfc';
+    r'e2725946b094884d8dc17958d8b1d16919825f6a';
 
 /// See also [LocalSortController].
 @ProviderFor(LocalSortController)

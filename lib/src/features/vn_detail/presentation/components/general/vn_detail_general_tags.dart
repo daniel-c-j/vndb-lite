@@ -6,9 +6,7 @@ import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
-import 'package:vndb_lite/src/util/delay.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
@@ -39,14 +37,13 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Future<List<Widget>> get _tags async {
+  List<Widget> get _tags {
     final List<VnTag> rawTagList = widget.p2.tags ?? [];
     final List<Widget> tagWidgets = [];
 
     if (rawTagList.isEmpty) return tagWidgets;
 
     // Sort tags list based on its rating.
-    await delay(true, 1500);
     rawTagList.sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
 
     for (VnTag tag in rawTagList) {
@@ -102,7 +99,7 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
           onTap: () async {
             // Search Configurations to search the corresponding vn tag.
             const text = " ";
-            AppbarSearchfield.controllerSearch.text = text;
+            AppBarSearchfield.controllerSearch.text = text;
 
             final filter = Default.REMOTE_FILTER_CONF.copyWith(
               tag: [VnTag(id: tag.id, name: tag.name)],
@@ -192,20 +189,7 @@ class _VnDetailGeneralTagsState extends ConsumerState<VnDetailGeneralTags> {
         SizedBox(height: responsiveUI.own(0.025)),
         (widget.p2.tags == null || widget.p2.tags!.isEmpty)
             ? ShadowText('--')
-            : FutureBuilder(
-              future: _tags,
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Padding(
-                    padding: EdgeInsets.all(responsiveUI.own(0.4)),
-                    child: const Center(child: CircularProgressIndicator()),
-                  );
-                }
-
-                final data = snapshot.data;
-                return Wrap(children: data);
-              },
-            ),
+            : Wrap(children: _tags),
       ],
     );
   }

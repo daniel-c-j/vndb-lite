@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
+import 'package:vndb_lite/src/util/debouncer.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/base_dialog.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
@@ -19,10 +19,8 @@ import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_control
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_item_grid_details_.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_grid_details_summary.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
-import 'package:vndb_lite/src/util/check_media_cache.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
-import 'package:vndb_lite/src/util/debouncer.dart';
 
 class VnItemGrid extends ConsumerStatefulWidget {
   const VnItemGrid({
@@ -30,28 +28,30 @@ class VnItemGrid extends ConsumerStatefulWidget {
     required this.p1,
     this.labelCode = 'title',
     this.isGridView = false,
+    this.withLabel = true,
   });
 
   final VnDataPhase01 p1;
   final String labelCode;
   final bool isGridView;
+  final bool withLabel;
+
+  static final debouncer = Debouncer(delay: const Duration(milliseconds: 300));
+
+  static final Map<String, double> vnSizeContainers = {};
 
   @override
   ConsumerState<VnItemGrid> createState() => _VnItemGridState();
 }
 
 class _VnItemGridState extends ConsumerState<VnItemGrid> {
-  // A debouncer useful to handle of vn widget's visibility state efficiently.
-  final _fastDebouncer = Debouncer(delay: const Duration(milliseconds: 100));
-  final _slowDebouncer = Debouncer(delay: const Duration(milliseconds: 500));
-
   late final String _vnId;
   late final String? _vnCoverUrl;
   late final bool _vnHasCover;
 
-  static final nonGridViewHeight = responsiveUI.own(0.55);
-  static final minHeight = responsiveUI.own(0.27);
-  static final minWidth = responsiveUI.own(0.3);
+  final nonGridViewHeight = responsiveUI.own(0.55);
+  final minHeight = responsiveUI.own(0.27);
+  final minWidth = responsiveUI.own(0.3);
 
   double _placeHolderSize = responsiveUI.own(0.35);
   bool _showVnDetailSummary = false;
@@ -60,7 +60,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   void initState() {
     super.initState();
     _vnId = widget.p1.id;
-    _vnCoverUrl = widget.p1.image?.url;
+    _vnCoverUrl = widget.p1.image?.thumbnail;
     _vnHasCover = widget.p1.image != null && _vnCoverUrl != null;
 
     // Checks vn cover content.
@@ -107,6 +107,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
 
   void _clearCache(String url) async {
     final imageCache = PaintingBinding.instance.imageCache;
+    imageCache.clearLiveImages();
     imageCache.clear();
 
     await CachedNetworkImage.evictFromCache(url);
@@ -116,18 +117,14 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  bool get _widgetIsInvisible {
-    if (!mounted) return false;
-    return ref.read(vnItemGridWidgetStateProvider(_vnId)) == false;
-  }
-
   Widget _vnCover({required bool isCensor}) {
-    final isVisible = ref.read(vnItemGridWidgetStateProvider(_vnCoverUrl!));
-
-    if (_vnHasCover) {
-      _placeHolderSize = ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl));
-    }
-
+	late final double placeholderSize;
+	if (!widget.isGridView) {
+		placeholderSize = _placeHolderSize;
+	}else{
+		placeholderSize  = VnItemGrid.vnSizeContainers[widget.p1.id] ?? _placeHolderSize;
+	}
+ 
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: minHeight,
@@ -136,7 +133,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         minWidth: minWidth,
       ),
       child: CachedNetworkImage(
-        imageUrl: (_vnHasCover && isVisible) ? _vnCoverUrl : '',
+        imageUrl: (_vnHasCover) ? (_vnCoverUrl ?? '') : '',
         fit: BoxFit.cover,
         width: (widget.isGridView) ? double.infinity : null,
         height:
@@ -145,12 +142,11 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
                 : nonGridViewHeight,
         errorWidget: (context, url, error) => const GenericErrorImage(),
         errorListener: null,
-        placeholder: (context, str) => SizedBox(width: _placeHolderSize, height: _placeHolderSize),
+        placeholder: (context, str) => SizedBox(width: placeholderSize, height: placeholderSize),
         cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
         cacheKey: "PREVIEW-$_vnId",
-        filterQuality: (isCensor) ? FilterQuality.none : FilterQuality.low,
-        maxHeightDiskCache: (isCensor) ? 15 : 300,
-        maxWidthDiskCache: (isCensor) ? 15 : 300,
+        maxHeightDiskCache: (isCensor) ? 15 : null,
+        maxWidthDiskCache: (isCensor) ? 15 : null,
       ),
     );
   }
@@ -177,7 +173,6 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
 
   Future<void> _vnOnTap() async {
     if (_showVnDetailSummary) return;
-    if (_widgetIsInvisible && widget.isGridView) return;
 
     final recordSelected = ref.read(recordSelectedControllerProvider);
 
@@ -208,8 +203,6 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   //
 
   Future<void> _vnOnLongPress() async {
-    if (_widgetIsInvisible && widget.isGridView) return;
-
     final recordSelected = ref.read(recordSelectedControllerProvider);
 
     // If already in multiselection just do nothing.
@@ -229,40 +222,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Future<void> _controlVisibility(VisibilityInfo info) async {
-    _fastDebouncer.call(() {
-      if (!mounted) return;
-
-      // debugPrint("${widget.p1.title} ${info.visibleFraction} of my widget is visible");
-      // debugPrint('${widget.p1.title} ${info.size.height}');
-
-      // 人´∀｀) Thank You Very Much Father...
-      if (_vnHasCover) {
-        ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl!).notifier).size = info.size.height;
-      }
-
-      // When Vn item disappear from screen, clear the cache, using slow debouncer to prevent images to
-      // disappear so suddenly... it breaks my heart. (jk)
-      _slowDebouncer.call(() {
-        if (info.visibleFraction == 0 && !_widgetIsInvisible) {
-          if (!mounted) return;
-          ref.read(vnItemGridWidgetStateProvider(_vnId).notifier).show = false;
-
-          if (_vnHasCover) _clearCache(_vnCoverUrl!);
-          return;
-        }
-      });
-
-      // Make the widget appear in viewport (visibleFraction > 0)
-      ref.read(vnItemGridWidgetStateProvider(_vnId).notifier).show = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    // VnItemGrid went separated like this because we want to measure the widget's
-    // size from the visiblity detector.
-    final Widget vnItemGrid = Card(
+    final vnWidget = Card(
       elevation: 2,
       clipBehavior: Clip.hardEdge,
       color: kColor(context).secondary.withOpacity(0.5),
@@ -277,7 +239,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
         onHighlightChanged: (value) async {
-          if (_widgetIsInvisible && widget.isGridView) return;
+          // if (_widgetIsInvisible && widget.isGridView) return;
 
           // Preferably not in the homescreen
           if (!App.isInHomeScreen) {
@@ -292,8 +254,6 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
         onDoubleTap: () {
-          if (_widgetIsInvisible && widget.isGridView) return;
-
           // If  in multiselection just do nothing.
           final recordSelected = ref.read(recordSelectedControllerProvider);
           if (recordSelected.isNotEmpty) return;
@@ -310,7 +270,6 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
             Consumer(
               builder: (context, ref, child) {
                 final coverCensor = ref.watch(vnItemGridCoverCensorStateProvider(_vnId));
-
                 return _vnCover(isCensor: coverCensor);
               },
             ),
@@ -333,6 +292,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
                       : VnItemGridDetails(
                         p1: widget.p1,
                         labelCode: widget.labelCode,
+                        withLabel: widget.withLabel,
                         toggleVnDetailSummary:
                             () => setState(() => _showVnDetailSummary = !_showVnDetailSummary),
                       ),
@@ -345,34 +305,20 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
       ),
     );
 
-    // Never hide in previews.
-    if (!widget.isGridView) return vnItemGrid;
-
-    return VisibilityDetector(
-      key: ValueKey(widget.p1.id),
-      onVisibilityChanged:
-          (App.isInSearchScreen || App.isInCollectionScreen || App.isInVnDetailScreen)
-              ? _controlVisibility
-              : (_) {},
-      child: Consumer(
-        builder: (context, ref, child) {
-          final showWidget = ref.watch(vnItemGridWidgetStateProvider(_vnId));
-
-          return (showWidget)
-              ? vnItemGrid
-              // Lightweight placeholder, which maintains the size
-              : Consumer(
-                builder: (context, ref, child) {
-                  final coverSize = ref.watch(vnItemGridCoverSizeStateProvider(_vnCoverUrl!));
-
-                  return SizedBox(
-                    height: (_vnHasCover) ? coverSize : responsiveUI.own(0.2),
-                    width: responsiveUI.own(0.1),
-                  );
-                },
-              );
+    // * Exists only to fetch the size for the placeholder image to prevent
+    // * stuttering in a gridview.
+    if (VnItemGrid.vnSizeContainers[widget.p1.id] == null && widget.isGridView) {
+      return VisibilityDetector(
+        key: Key(widget.p1.id),
+        onVisibilityChanged: (VisibilityInfo info) {
+          if (_vnHasCover) {
+            VnItemGrid.vnSizeContainers[widget.p1.id] = info.size.height;
+          }
         },
-      ),
-    );
+        child: vnWidget,
+      );
+    }
+
+    return vnWidget;
   }
 }

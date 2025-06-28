@@ -1,13 +1,11 @@
-import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/features/sort_filter/data/languages_data.dart';
 import 'package:vndb_lite/src/util/delay.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/features/sort_filter/data/others/languages.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
-import 'package:vndb_lite/src/util/language_code_formatting.dart';
 
 class VnDetailReleasesLang extends StatelessWidget {
   const VnDetailReleasesLang({super.key, required this.p1, required this.p2});
@@ -33,7 +31,7 @@ class VnDetailReleasesLang extends StatelessWidget {
       languageData.add(_flagLangCode(language, txt: '(Machine Translation)'));
     }
 
-    await delay(true, 1200);
+    await delay(true, 300);
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: languageData);
   }
 
@@ -43,21 +41,17 @@ class VnDetailReleasesLang extends StatelessWidget {
 
   Widget _flagLangCode(String langCode, {String txt = ''}) {
     //
-    return Padding(
-      padding: EdgeInsets.only(bottom: responsiveUI.own(0.01)),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flag.fromString(
-            formatLanguageCode(languageCode: langCode),
-            height: responsiveUI.own(0.038),
-            width: responsiveUI.own(0.055),
-            fit: BoxFit.fill,
-            borderRadius: 3,
-          ),
-          ShadowText('  ${LanguageLocal.getDisplayLanguage(langCode)!['name']} $txt'),
-        ],
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.asset(
+          LangData.getFlagPath(langCode),
+          height: responsiveUI.own(0.038),
+          width: responsiveUI.own(0.055),
+          fit: BoxFit.fill,
+        ),
+        ShadowText('  ${LangData.getFullLanguage(langCode)} $txt'),
+      ],
     );
   }
 
@@ -91,7 +85,7 @@ class VnDetailReleasesLang extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Padding(
                 padding: EdgeInsets.all(responsiveUI.own(0.3)),
-                child: const Center(child: CircularProgressIndicator()),
+                child: const SizedBox.shrink(),
               );
             }
 

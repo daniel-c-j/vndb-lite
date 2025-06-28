@@ -8,7 +8,7 @@ import 'package:go_transitions/go_transitions.dart';
 
 // ignore:depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:vndb_lite/src/features/notif/application/local_notification_service.dart';
+import 'package:vndb_lite/src/features/local_notification/application/local_notification_service.dart';
 import 'package:vndb_lite/src/util/text_extensions.dart';
 import '../../app.dart';
 import '../../constants/_constants.dart';
@@ -32,11 +32,12 @@ class AppStartup {
       final errorLogger = container.read(errorLoggerProvider);
       _registerErrorHandlers(errorLogger);
 
+      // * Initialize the core parts.
       await _initializeApp();
-    }
 
-    // * Initialize services/providers specifically for riverpod.
-    await _initializeProviders(container);
+      // * Initialize services/providers specifically for riverpod.
+      await _initializeProviders(container);
+    }
 
     return UncontrolledProviderScope(container: container, child: const App());
   }
@@ -96,14 +97,25 @@ class AppStartup {
       return SizedBox(
         height: kScreenHeight(),
         width: kScreenWidth(),
-        child: Scaffold(
-          appBar: AppBar(backgroundColor: Colors.red, title: const Text('An error occurred')),
-          backgroundColor: Colors.white,
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(8),
-            child: Center(child: Text(details.toString()).wColor(Colors.black)),
-          ),
-        ),
+        child:
+            (kReleaseMode)
+                ? const Center(
+                  child: Text(
+                    "(＃°Д°) s-something went wrong...",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                )
+                : Scaffold(
+                  appBar: AppBar(
+                    backgroundColor: Colors.red,
+                    title: const Text('An error occurred'),
+                  ),
+                  backgroundColor: Colors.white,
+                  body: SingleChildScrollView(
+                    padding: const EdgeInsets.all(8),
+                    child: Center(child: Text(details.toString()).wColor(Colors.black)),
+                  ),
+                ),
       );
     };
   }

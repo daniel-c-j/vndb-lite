@@ -37,7 +37,7 @@ class LocalChartRepo {
     await _sharedPref.setString(DBKeys.VNDB_STATS, json.encode(statsData));
   }
 
-  Map<String, int>? get latestStats {
+  Map<String, dynamic>? get latestStats {
     if (isLatestStatsCached) return json.decode(_sharedPref.getString(DBKeys.VNDB_STATS)!);
     return null;
   }

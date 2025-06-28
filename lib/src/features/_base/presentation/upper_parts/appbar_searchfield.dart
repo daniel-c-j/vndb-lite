@@ -7,13 +7,13 @@ import 'package:vndb_lite/src/features/collection/presentation/collection_appbar
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
-import 'package:vndb_lite/src/features/_base/presentation/maintab_layout.dart';
+import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/util/debouncer.dart';
 import '../../../../util/context_shortcut.dart';
 
-class AppbarSearchfield extends ConsumerWidget {
-  const AppbarSearchfield({super.key});
+class AppBarSearchfield extends ConsumerWidget {
+  const AppBarSearchfield({super.key});
 
   static final _debouncer = Debouncer(delay: Duration(milliseconds: 700));
 
@@ -61,7 +61,6 @@ class AppbarSearchfield extends ConsumerWidget {
         padding: EdgeInsets.only(left: responsiveUI.own(0.055)),
         child: ValueListenableBuilder(
           valueListenable: controller,
-
           builder: (context, value, child) {
             return TextField(
               focusNode: focusNode,

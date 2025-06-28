@@ -23,7 +23,9 @@ class GenericBackground extends StatelessWidget {
         SizedBox(
           width: width,
           height: height,
-          child: const DecoratedBox(decoration: BoxDecoration(color: Colors.black)),
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: kColor(context).primary.withAlpha(150)),
+          ),
         ),
         if (imagePath == null && imageWidget != null) imageWidget!,
         if (imagePath != null && imageWidget == null)

@@ -99,12 +99,12 @@ class RemoteSyncRepo {
     final List vnRecordsToBeSaved = [];
 
     // Debugging purpose.
-    // print("LOCAL RECORDS (${localRecords.length}) \n$localRecords");
-    // print("CLOUD RECORDS (${cloudRecords.length}) \n$cloudRecords");
-    // print(
+    // debugPrint("LOCAL RECORDS (${localRecords.length}) \n$localRecords");
+    // debugPrint("CLOUD RECORDS (${cloudRecords.length}) \n$cloudRecords");
+    // debugPrint(
     //   "VN TO BE REMOVED (${_collection.vnToBeRemovedWhenSync.length}) \n${_collection.vnToBeRemovedWhenSync}",
     // );
-    // print(
+    // debugPrint(
     //   "VN ADDED VIA APP (${_collection.addedViaAppNotBySync.length}) \n${_collection.addedViaAppNotBySync}",
     // );
 

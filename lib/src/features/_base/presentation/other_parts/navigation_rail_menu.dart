@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/features/_base/domain/menu_sections.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/data/base_menu_sections.dart';
 
@@ -55,9 +56,10 @@ class TabsSideNavbar extends StatelessWidget {
             onDestinationSelected: onTap,
             labelType: NavigationRailLabelType.all,
             destinations: [
-              for (MapEntry<String, dynamic> menu in BASE_TAB_MENU_SECTIONS.entries)
+              for (MapEntry<String, MenuSections> menu in BASE_TAB_MENU_SECTIONS.entries)
                 NavigationRailDestination(
-                  icon: Icon(menu.value.icon, size: responsiveUI.standardIcon),
+                  icon: Icon(menu.value.nonActiveIcon, size: responsiveUI.standardIcon),
+                  selectedIcon: Icon(menu.value.activeIcon, size: responsiveUI.standardIcon),
                   label: Text(menu.value.title),
                 ),
             ],

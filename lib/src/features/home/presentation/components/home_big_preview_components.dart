@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
@@ -16,7 +15,6 @@ import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
-import 'package:vndb_lite/src/util/debouncer.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/util/text_extensions.dart';
 
@@ -26,8 +24,6 @@ final homeBigPreviewVisibilityProvider = StateProvider<bool>((ref) => true);
 
 class HomeBigPreviewImages extends ConsumerWidget {
   const HomeBigPreviewImages({super.key});
-
-  static final _fastDebouncer = Debouncer(delay: const Duration(milliseconds: 100));
 
   /// This exists to ensure that text does not change while just not fully swiped
   /// to different index.
@@ -41,81 +37,53 @@ class HomeBigPreviewImages extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final p1Data = ref.watch(homeRatingPreviewsProvider);
 
-    return VisibilityDetector(
-      key: ValueKey('BigPreviewImage'),
-      onVisibilityChanged: (info) {
-        _fastDebouncer.call(() {
-          if (info.visibleFraction == 0) {
-            ref.read(homeBigPreviewVisibilityProvider.notifier).state = false;
-            return;
-          }
-
-          ref.read(homeBigPreviewVisibilityProvider.notifier).state = true;
-        });
-      },
-      child: Consumer(
-        builder: (context, ref, child) {
-          final isVisible = ref.watch(homeBigPreviewVisibilityProvider);
-          if (!isVisible) {
-            return Align(
-              alignment: Alignment.bottomCenter,
-              child: const SizedBox.square(dimension: 25),
-            );
-          }
-
-          // ! Do not set to watch, since this only synchronizes once.
-          final currentVn = ref.read(currentHomeBigPreviewProvider);
-          return Swiper(
-            scrollDirection: Axis.vertical,
-            itemCount: p1Data.length,
-            autoplay: true,
-            autoplayDelay: 10000,
-            axisDirection: AxisDirection.right,
-            physics: const AlwaysScrollableScrollPhysics(),
-            // * This exists to persistantly sync the image with the text after
-            // * visiblity reaches zero.
-            index: (currentVn != null) ? p1Data.indexOf(currentVn) : null,
-            onIndexChanged: (int index) => _synchronizeVn(p1Data[index]),
-            pagination: SwiperPagination(
-              alignment: Alignment.centerRight,
-              margin: EdgeInsets.only(
-                bottom: responsiveUI.own(0.085),
-                right: responsiveUI.own(0.03),
-              ),
-              builder: DotSwiperPaginationBuilder(
-                color: kColor(context).primary,
-                activeColor: kColor(context).secondary,
-                space: 2.75,
-                size: 4,
-              ),
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              final vn = p1Data[index];
-
-              // * This exists to initialize the preview text first.
-              if (!_initPreview) {
-                _initPreview = true;
-                _synchronizeVn(vn);
-              }
-
-              return CachedNetworkImage(
-                imageUrl: vn.image!.url!,
-                width: MediaQuery.sizeOf(context).width,
-                height: HomeBigPreview.height,
-                fit: BoxFit.cover,
-                errorWidget: (context, url, error) => const GenericErrorImage(),
-                errorListener: null,
-                placeholder: (context, str) => const Center(child: CircularProgressIndicator()),
-                cacheManager: CustomCacheManager(),
-                cacheKey: "PREVIEW-${vn.id}",
-                filterQuality: FilterQuality.low,
-                maxHeightDiskCache: 500,
-                maxWidthDiskCache: 500,
-              );
-            },
-          );
-        },
+    // ! Do not set to watch, since this only synchronizes once.
+    final currentVn = ref.read(currentHomeBigPreviewProvider);
+    return Swiper(
+      scrollDirection: Axis.vertical,
+      itemCount: p1Data.length,
+      autoplay: true,
+      autoplayDelay: 10000,
+      axisDirection: AxisDirection.right,
+      physics: const AlwaysScrollableScrollPhysics(),
+      // * This exists to persistantly sync the image with the text after
+      // * visiblity reaches zero.
+      index: (currentVn != null) ? p1Data.indexOf(currentVn) : null,
+      onIndexChanged: (int index) => _synchronizeVn(p1Data[index]),
+      pagination: SwiperPagination(
+        alignment: Alignment.centerRight,
+        margin: EdgeInsets.only(bottom: responsiveUI.own(0.085), right: responsiveUI.own(0.03)),
+        builder: DotSwiperPaginationBuilder(
+          color: kColor(context).primary,
+          activeColor: kColor(context).secondary,
+          space: 2.75,
+          size: 4,
+        ),
       ),
+      itemBuilder: (BuildContext context, int index) {
+        final vn = p1Data[index];
+
+        // * This exists to initialize the preview text first.
+        if (!_initPreview) {
+          _initPreview = true;
+          _synchronizeVn(vn);
+        }
+
+        return CachedNetworkImage(
+          imageUrl: vn.image!.url!,
+          width: MediaQuery.sizeOf(context).width,
+          height: HomeBigPreview.height,
+          fit: BoxFit.cover,
+          errorWidget: (context, url, error) => const GenericErrorImage(),
+          errorListener: null,
+          placeholder: (context, str) => const Center(child: CircularProgressIndicator()),
+          cacheManager: CustomCacheManager(),
+          cacheKey: "HOMEBIG-PREVIEW-${vn.id}",
+          filterQuality: FilterQuality.low,
+          maxHeightDiskCache: 500,
+          maxWidthDiskCache: 500,
+        );
+      },
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/status_label.dart';
 import 'package:vndb_lite/src/features/collection/domain/record.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';

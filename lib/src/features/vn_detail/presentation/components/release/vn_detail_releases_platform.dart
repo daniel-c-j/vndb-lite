@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/features/sort_filter/data/platform_code_data.dart';
+import 'package:vndb_lite/src/features/sort_filter/data/platform_data.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
@@ -20,9 +20,8 @@ class VnDetailReleasesPlatform extends StatelessWidget {
     bool hasOthers = false;
 
     for (String platformCode in (p2.platforms ?? [])) {
-      final String platformName =
-          PLATFORM_DATA.containsKey(platformCode) ? PLATFORM_DATA[platformCode]! : 'oth';
-      final String imagePath = "assets/images/os_image/$platformCode.png";
+      final String platformName = PlatfData.DEFINED_CODES[platformCode] ?? 'oth';
+      final String imagePath = "assets/images/os/$platformCode.png";
 
       if (platformName.contains('oth')) {
         hasOthers = true;
@@ -49,7 +48,7 @@ class VnDetailReleasesPlatform extends StatelessWidget {
                 ),
                 child: Image.asset(
                   imagePath,
-                  color: (isPlatformIconPlain(platformCode)) ? kColor().tertiary : null,
+                  color: (PlatfData.isIconPlain(platformCode)) ? kColor().tertiary : null,
                   height: responsiveUI.own(0.05),
                   width: responsiveUI.own(0.05),
                 ),

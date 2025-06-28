@@ -6,6 +6,8 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_failure_connection.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
+import 'package:vndb_lite/src/features/_base/presentation/upper_parts/tabs_sliver_appbar.dart';
+import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/chart/presentation/stat_chart.dart';
 import 'package:vndb_lite/src/features/search/data/remote/remote_search_repo.dart';
@@ -15,12 +17,17 @@ import 'package:vndb_lite/src/features/search/presentation/search_screen_control
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_detail_summary_scroll_state.dart';
 
 import '../../../util/alt_provider_reader.dart';
 
+final innerSearchControllerProvider = StateProvider<ScrollController?>((ref) {
+  return;
+});
+
 class SearchScreen extends ConsumerWidget {
   const SearchScreen({super.key});
+
+  static const Key onHoldStatusKey = ValueKey("onhold");
 
   // * To maintain consistency in screen that has lots of items. Convert into stateNotifier?
   static double scrollOffset = 0;
@@ -34,10 +41,10 @@ class SearchScreen extends ConsumerWidget {
           color: Colors.red,
           size: responsiveUI.snackbarIcon,
         ),
-        SizedBox(width: responsiveUI.own(0.015)),
+        SizedBox(width: responsiveUI.own(0.018)),
         Flexible(
           child: ShadowText(
-            'Connection error. Please try again later.',
+            'Connection error, unable to fetch data.\nPlease try again later.',
             fontSize: responsiveUI.snackbarTxt,
           ),
         ),
@@ -52,6 +59,7 @@ class SearchScreen extends ConsumerWidget {
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  // ! NOT FUNCTIONAL ANYMORE THE MOMENT THE NEW VERSION OF MASONRYGRID IS INTRODUCED WITH SHRINKWRAP
   // These functions exists because of how the searchScreenController state value, is only
   // returning FutureBuilder<dynamic>, not what the FutureBuilder itself returns.
   // Thus placeholders, and something like that need to be synthetically injected to the state.
@@ -64,7 +72,9 @@ class SearchScreen extends ConsumerWidget {
 
   void _setNoResultYetSearchIndicator() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      ref_.read(searchScreenControllerProvider.notifier).add(const SizedBox.shrink());
+      ref_
+          .read(searchScreenControllerProvider.notifier)
+          .add(const SizedBox.shrink(key: onHoldStatusKey));
     });
   }
 
@@ -106,13 +116,19 @@ class SearchScreen extends ConsumerWidget {
           _setNoResultYetSearchIndicator();
 
           // Show loading widget
-          return SizedBox(
-            height:
-                (pageResult > 1)
-                    ? MediaQuery.sizeOf(context).height *
-                        0.2 // Appending existing result
-                    : MediaQuery.sizeOf(context).height * 0.65, // First-time result
-            child: const Center(child: CircularProgressIndicator()),
+          return Padding(
+            key: onHoldStatusKey,
+            padding: EdgeInsets.only(
+              bottom: (pageResult > 1) ? 0 : MediaQuery.sizeOf(context).height * 0.15,
+            ),
+            child: SizedBox(
+              height:
+                  (pageResult > 1)
+                      // Appending existing result
+                      ? MediaQuery.sizeOf(context).height * 0.2
+                      : MediaQuery.sizeOf(context).height * 0.65, // First-time result
+              child: const Center(child: CircularProgressIndicator()),
+            ),
           );
         }
 
@@ -125,7 +141,7 @@ class SearchScreen extends ConsumerWidget {
           // the exception type goes with connectionTimeout.
           if ((snapshot.error as DioException).type == DioExceptionType.connectionTimeout &&
               pageResult > 1) {
-            return const SizedBox.shrink();
+            return const SizedBox.shrink(key: onHoldStatusKey);
           }
 
           // For a none no internet connection error, the way to continue searching is blocked,
@@ -133,13 +149,17 @@ class SearchScreen extends ConsumerWidget {
           _setNoResultYetSearchIndicator();
 
           // TODO better network error UI?
-          return SizedBox(
-            height:
-                (pageResult > 1)
-                    ? MediaQuery.sizeOf(context).height *
-                        0.2 // Appending existing result
-                    : MediaQuery.sizeOf(context).height * 0.65, // First-time result
-            child: const GenericFailureConnection(),
+          return SingleChildScrollView(
+            key: onHoldStatusKey,
+            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            child: SizedBox(
+              height:
+                  (pageResult > 1)
+                      ? MediaQuery.sizeOf(context).height *
+                          0.2 // Appending existing result
+                      : MediaQuery.sizeOf(context).height * 0.75, // First-time result
+              child: const GenericFailureConnection(),
+            ),
           );
         }
 
@@ -152,6 +172,7 @@ class SearchScreen extends ConsumerWidget {
           _setNoResultYetSearchIndicator();
 
           return Center(
+            key: onHoldStatusKey,
             child: Padding(
               padding: EdgeInsets.all(responsiveUI.own(0.1)),
               child: ShadowText("No further results ;)"),
@@ -190,36 +211,37 @@ class SearchScreen extends ConsumerWidget {
     final settings = ref.watch(settingsGeneralStateProvider);
     final searchFilter = ref.watch(appliedRemoteFilterControllerProvider).search;
 
-    // Shows default widget in search screen based on configured settings, and search screen state.
-    if (searchFilter.isEmpty) {
-      if (settings.showChart) return const VNDBStatsChart();
-      return const SizedBox.shrink();
-    }
+    return NestedScrollView(
+      floatHeaderSlivers: true,
+      headerSliverBuilder: (_, __) => const [TabAppBar(route: AppRoute.search)],
+      body: Builder(
+        builder: (context) {
+          // Shows default widget in search screen based on configured settings, and search screen state.
+          if (searchFilter.isEmpty) {
+            if (settings.showChart) return const VNDBStatsChart();
+            return const SizedBox.shrink();
+          }
 
-    // Why there's a TapRegion? It's to prevent scrolling confusion between vnItem detail summary,
-    // and the vnData search results.
-    return TapRegion(
-      behavior: HitTestBehavior.opaque,
-      onTapInside: (_) => ref_.read(vnItemSummaryScrollStateProvider.notifier).isScrolling = false,
-      onTapOutside: (_) => ref_.read(vnItemSummaryScrollStateProvider.notifier).isScrolling = true,
-      child: Padding(
-        padding: EdgeInsets.only(left: responsiveUI.own(0.025), right: responsiveUI.own(0.025)),
-        child: Consumer(
-          builder: (context, ref, child) {
-            final searchNotify = ref.watch(searchResultNotifierProvider);
-            final pageResult = ref.watch(searchResultPageControllerProvider);
+          return Consumer(
+            builder: (context, ref, child) {
+              final searchNotify = ref.watch(searchResultNotifierProvider);
+              final pageResult = ref.watch(searchResultPageControllerProvider);
 
-            if (searchNotify && App.isInSearchScreen) {
-              SchedulerBinding.instance.addPostFrameCallback((_) {
-                ref_.read(searchResultNotifierProvider.notifier).end();
-                ref_.read(searchScreenControllerProvider.notifier).add(_initiateSearch(pageResult));
-              });
-            }
+              if (searchNotify && App.isInSearchScreen) {
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  ref_.read(searchResultNotifierProvider.notifier).end();
+                  ref_
+                      .read(searchScreenControllerProvider.notifier)
+                      .add(_initiateSearch(pageResult));
+                });
+              }
 
-            final state = ref.watch(searchScreenControllerProvider);
-            return Wrap(children: state);
-          },
-        ),
+              final state = ref.watch(searchScreenControllerProvider);
+              if (state.isEmpty) return const SizedBox.shrink();
+              return state[0];
+            },
+          );
+        },
       ),
     );
   }
