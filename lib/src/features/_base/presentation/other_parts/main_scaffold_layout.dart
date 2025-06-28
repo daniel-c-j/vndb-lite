@@ -22,6 +22,8 @@ class MainScaffoldBody extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
+  static final bottomPadding = responsiveUI.own(0.22);
+
   bool _showScrollBar(WidgetRef ref) {
     final remoteSearch = ref.read(appliedRemoteFilterControllerProvider).search;
     if (App.isInCollectionScreen) return true;
@@ -74,12 +76,16 @@ class MainScaffoldBody extends StatelessWidget {
                   minThumbLength: responsiveUI.own(0.1),
                   crossAxisMargin: responsiveUI.own(0.01),
                   thumbColor: (showScrollBar) ? scrollBarColor : Colors.transparent,
-                  child: SingleChildScrollView(
-                    controller: controller,
-                    padding: EdgeInsets.only(bottom: responsiveUI.own(0.2)),
-                    // * The real content
-                    child: navigationShell,
-                  ),
+                  child: navigationShell,
+                  // (App.isInSearchScreen)
+                  //     ? navigationShell
+                  //     : SingleChildScrollView(
+                  //       // Controller is needed elsewhere. (MasonryGrid)
+                  //       // controller: (App.isInSearchScreen) ? null : controller,
+                  //       // padding: EdgeInsets.only(bottom: responsiveUI.own(0.2)),
+                  //       // * The real content
+                  //       child: navigationShell,
+                  //     ),
                 );
               },
             ),

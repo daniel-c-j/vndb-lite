@@ -6,6 +6,7 @@ import 'package:vndb_lite/src/common_widgets/generic_local_empty_content.dart';
 import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
+import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/home/application/home_preview_service.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
@@ -85,7 +86,7 @@ class HomeSectionContent extends ConsumerWidget {
 
             SchedulerBinding.instance.addPostFrameCallback((_) {
               if (sectionData == HomeSectionsCode.rating) {
-                ref.read(homeRatingPreviewsProvider.notifier).state = data;
+                ref_.read(homeRatingPreviewsProvider.notifier).state = data;
               }
             });
 

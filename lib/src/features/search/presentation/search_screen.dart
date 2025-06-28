@@ -34,10 +34,10 @@ class SearchScreen extends ConsumerWidget {
           color: Colors.red,
           size: responsiveUI.snackbarIcon,
         ),
-        SizedBox(width: responsiveUI.own(0.015)),
+        SizedBox(width: responsiveUI.own(0.018)),
         Flexible(
           child: ShadowText(
-            'Connection error. Please try again later.',
+            'Connection error, unable to fetch data.\nPlease try again later.',
             fontSize: responsiveUI.snackbarTxt,
           ),
         ),
@@ -52,6 +52,7 @@ class SearchScreen extends ConsumerWidget {
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  // ! NOT FUNCTIONAL ANYMORE THE MOMENT THE NEW VERSION OF MASONRYGRID IS INTRODUCED WITH SHRINKWRAP
   // These functions exists because of how the searchScreenController state value, is only
   // returning FutureBuilder<dynamic>, not what the FutureBuilder itself returns.
   // Thus placeholders, and something like that need to be synthetically injected to the state.
@@ -203,7 +204,11 @@ class SearchScreen extends ConsumerWidget {
       onTapInside: (_) => ref_.read(vnItemSummaryScrollStateProvider.notifier).isScrolling = false,
       onTapOutside: (_) => ref_.read(vnItemSummaryScrollStateProvider.notifier).isScrolling = true,
       child: Padding(
-        padding: EdgeInsets.only(left: responsiveUI.own(0.025), right: responsiveUI.own(0.025)),
+        padding: EdgeInsets.only(
+          left: responsiveUI.own(0.025),
+          right: responsiveUI.own(0.025),
+          // bottom: responsiveUI.own(0.2),
+        ),
         child: Consumer(
           builder: (context, ref, child) {
             final searchNotify = ref.watch(searchResultNotifierProvider);

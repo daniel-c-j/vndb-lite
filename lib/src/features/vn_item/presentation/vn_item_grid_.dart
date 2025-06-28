@@ -53,7 +53,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   static final minHeight = responsiveUI.own(0.27);
   static final minWidth = responsiveUI.own(0.3);
 
-  double _placeHolderSize = responsiveUI.own(0.35);
+  static final double _placeHolderSize = responsiveUI.own(0.35);
   bool _showVnDetailSummary = false;
 
   @override
@@ -122,11 +122,11 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   }
 
   Widget _vnCover({required bool isCensor}) {
-    final isVisible = ref.read(vnItemGridWidgetStateProvider(_vnCoverUrl!));
+    // final isVisible = ref.read(vnItemGridWidgetStateProvider(_vnCoverUrl!));
 
-    if (_vnHasCover) {
-      _placeHolderSize = ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl));
-    }
+    // if (_vnHasCover) {
+    //   _placeHolderSize = ref.read(vnItemGridCoverSizeStateProvider(_vnCoverUrl));
+    // }
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -136,7 +136,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         minWidth: minWidth,
       ),
       child: CachedNetworkImage(
-        imageUrl: (_vnHasCover && isVisible) ? _vnCoverUrl : '',
+        imageUrl: (_vnHasCover) ? (_vnCoverUrl ?? '') : '',
         fit: BoxFit.cover,
         width: (widget.isGridView) ? double.infinity : null,
         height:
@@ -346,7 +346,8 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     );
 
     // Never hide in previews.
-    if (!widget.isGridView) return vnItemGrid;
+    // if (!widget.isGridView)
+    return vnItemGrid;
 
     return VisibilityDetector(
       key: ValueKey(widget.p1.id),

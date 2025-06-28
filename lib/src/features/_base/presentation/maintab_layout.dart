@@ -77,7 +77,9 @@ class MainTabLayout extends StatelessWidget {
       // * scrollExtent.
       if (notif.metrics.maxScrollExtent < TabAppBar.height) return false;
 
+      if (!ref_.read(innerScrollControllerProvider)!.hasClients) return false;
       SearchScreen.scrollOffset = ref_.read(innerScrollControllerProvider)!.position.pixels;
+
       ref_.read(searchResultControllerProvider.notifier).handleNextResult(notif);
       return false;
     }
@@ -113,6 +115,14 @@ class MainTabLayout extends StatelessWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
+  void _refreshScrollControllersClient() {
+    try {
+      for (ScrollPosition position in ref_.read(innerScrollControllerProvider)!.positions) {
+        ref_.read(innerScrollControllerProvider)?.detach(position);
+      }
+    } catch (e) {}
+  }
+
   void _maintainSearchScrollOffset(BuildContext context) {
     if (!App.isInSearchScreen || ref_.read(searchScreenControllerProvider).isEmpty) return;
     if (MediaQuery.of(context).viewInsets.bottom > 0) return; // Ignore keyboard
@@ -130,6 +140,9 @@ class MainTabLayout extends StatelessWidget {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // * BreakingChanges feature.
       BreakingChangesCounterMeasure.show(context);
+
+      // * Refresh scrollController
+      _refreshScrollControllersClient();
 
       // * Checks version at startup after everything loads.
       if (!App.updateIsChecked) _checkVersionUpdate();
