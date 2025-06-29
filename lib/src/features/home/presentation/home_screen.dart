@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/constants/_constants.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_scaffold_layout.dart';
 import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview.dart';
@@ -45,7 +44,7 @@ class HomeScreen extends ConsumerWidget {
     return SizedBox(
       height: kScreenHeight(context),
       child: ListView.builder(
-        controller: (App.isInHomeScreen) ? controller : null,
+        controller: controller,
         padding: EdgeInsets.only(bottom: MainScaffoldBody.bottomPadding),
         itemCount: frontWidgets.length + additionalWidgets.length,
         itemBuilder: (context, index) {

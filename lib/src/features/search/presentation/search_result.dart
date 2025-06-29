@@ -28,57 +28,41 @@ class SearchResult extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsGeneralStateProvider);
-    final searchResult = ref.watch(searchResultControllerProvider);
+    final outerSearchResult = ref.watch(searchScreenControllerProvider);
+    final innerSearchResult = ref.watch(searchResultControllerProvider);
     final searchNotify = ref.watch(searchResultNotifierProvider);
 
     // To forcefully update the widget
     if (searchNotify && context.mounted) _forceUpdateUI();
-
     final controller = ref.watch(innerScrollControllerProvider);
-    return Padding(
-      padding: EdgeInsets.only(top: responsiveUI.own(0.04)),
-      child: SizedBox(
-        height: kScreenHeight(context),
-        child: MasonryGridView.builder(
-          controller: controller,
-          gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount:
-                (MediaQuery.of(context).orientation == Orientation.portrait)
-                    ? settings.maxItemPerRowPortrait
-                    : settings.maxItemPerRowLandscape,
-          ),
-          mainAxisSpacing: responsiveUI.own(0.03),
-          crossAxisSpacing: responsiveUI.own(0.005),
-          padding: EdgeInsets.zero,
-          clipBehavior: Clip.none,
-          itemCount: searchResult.length,
-          shrinkWrap: false,
-          itemBuilder: (context, index) {
-            if (index + 1 == searchResult.length) {
-              return Padding(
-                padding: EdgeInsets.only(bottom: MainScaffoldBody.bottomPadding),
-                child: searchResult[index],
-              );
-            }
 
-            return searchResult[index];
-          },
-        ),
+    return SizedBox(
+      height: kScreenHeight(context),
+      child: CustomScrollView(
+        controller: controller,
+        shrinkWrap: false,
+        primary: false,
+        semanticChildCount: innerSearchResult.length,
+        slivers: [
+          SliverToBoxAdapter(child: SizedBox(height: responsiveUI.own(0.04))),
+          SliverMasonryGrid(
+            mainAxisSpacing: responsiveUI.own(0.03),
+            crossAxisSpacing: responsiveUI.own(0.005),
+            gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount:
+                  (MediaQuery.of(context).orientation == Orientation.portrait)
+                      ? settings.maxItemPerRowPortrait
+                      : settings.maxItemPerRowLandscape,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (_, index) => innerSearchResult[index],
+              childCount: innerSearchResult.length,
+            ),
+          ),
+          if (outerSearchResult.length > 1) SliverToBoxAdapter(child: outerSearchResult[1]),
+          SliverToBoxAdapter(child: SizedBox(height: MainScaffoldBody.bottomPadding)),
+        ],
       ),
     );
-
-    // return Padding(
-    //   padding: EdgeInsets.only(top: responsiveUI.own(0.04)),
-    //   child: MasonryGrid(
-    //     staggered: true,
-    //     crossAxisAlignment: CrossAxisAlignment.center,
-    //     mainAxisSpacing: responsiveUI.own(0.03),
-    //     column:
-    //         (MediaQuery.of(context).orientation == Orientation.portrait)
-    //             ? settings.maxItemPerRowPortrait
-    //             : settings.maxItemPerRowLandscape,
-    //     children: searchResult,
-    //   ),
-    // );
   }
 }

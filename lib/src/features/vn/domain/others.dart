@@ -2,23 +2,17 @@
 import 'dart:convert';
 
 class VnImage {
-  const VnImage({
-    this.url,
-    this.sexual,
-    this.violence,
-  });
+  const VnImage({this.url, this.thumbnail, this.sexual, this.violence});
 
   final String? url;
+  final String? thumbnail;
   final double? sexual;
   final double? violence;
 
-  VnImage copyWith({
-    String? url,
-    double? sexual,
-    double? violence,
-  }) {
+  VnImage copyWith({String? url, String? thumbnail, double? sexual, double? violence}) {
     return VnImage(
       url: url ?? this.url,
+      thumbnail: thumbnail ?? this.thumbnail,
       sexual: sexual ?? this.sexual,
       violence: violence ?? this.violence,
     );
@@ -27,6 +21,7 @@ class VnImage {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'url': url,
+      'thumbnail': thumbnail,
       'sexual': sexual,
       'violence': violence,
     };
@@ -35,6 +30,7 @@ class VnImage {
   factory VnImage.fromMap(Map<String, dynamic> map) {
     return VnImage(
       url: map['url'] != null ? map['url'] as String : null,
+      thumbnail: map['thumbnail'] != null ? map['thumbnail'] as String : null,
       sexual: map['sexual'] != null ? map['sexual'] as double : null,
       violence: map['violence'] != null ? map['violence'] as double : null,
     );
@@ -42,41 +38,39 @@ class VnImage {
 
   String toJson() => json.encode(toMap());
 
-  factory VnImage.fromJson(String source) => VnImage.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory VnImage.fromJson(String source) =>
+      VnImage.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'VnImage(url: $url, sexual: $sexual, violence: $violence)';
+  String toString() {
+    return 'VnImage(url: $url, thumbnail: $thumbnail, sexual: $sexual, violence: $violence)';
+  }
 
   @override
   bool operator ==(covariant VnImage other) {
     if (identical(this, other)) return true;
 
-    return other.url == url && other.sexual == sexual && other.violence == violence;
+    return other.url == url &&
+        other.thumbnail == thumbnail &&
+        other.sexual == sexual &&
+        other.violence == violence;
   }
 
   @override
-  int get hashCode => url.hashCode ^ sexual.hashCode ^ violence.hashCode;
+  int get hashCode {
+    return url.hashCode ^ thumbnail.hashCode ^ sexual.hashCode ^ violence.hashCode;
+  }
 }
 
 class VnTag {
-  const VnTag({
-    this.name,
-    this.id,
-    this.rating,
-    this.spoiler,
-  });
+  const VnTag({this.name, this.id, this.rating, this.spoiler});
 
   final String? name;
   final String? id;
   final double? rating;
   final double? spoiler;
 
-  VnTag copyWith({
-    String? name,
-    String? id,
-    double? rating,
-    double? spoiler,
-  }) {
+  VnTag copyWith({String? name, String? id, double? rating, double? spoiler}) {
     return VnTag(
       name: name ?? this.name,
       id: id ?? this.id,
@@ -86,12 +80,7 @@ class VnTag {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'name': name,
-      'id': id,
-      'rating': rating,
-      'spoiler': spoiler,
-    };
+    return <String, dynamic>{'name': name, 'id': id, 'rating': rating, 'spoiler': spoiler};
   }
 
   factory VnTag.fromMap(Map<String, dynamic> map) {
@@ -105,7 +94,8 @@ class VnTag {
 
   String toJson() => json.encode(toMap());
 
-  factory VnTag.fromJson(String source) => VnTag.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory VnTag.fromJson(String source) =>
+      VnTag.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -116,7 +106,10 @@ class VnTag {
   bool operator ==(covariant VnTag other) {
     if (identical(this, other)) return true;
 
-    return other.name == name && other.id == id && other.rating == rating && other.spoiler == spoiler;
+    return other.name == name &&
+        other.id == id &&
+        other.rating == rating &&
+        other.spoiler == spoiler;
   }
 
   @override
@@ -126,21 +119,13 @@ class VnTag {
 }
 
 class VnRelation {
-  const VnRelation({
-    this.relation_official,
-    this.relation,
-    this.id,
-  });
+  const VnRelation({this.relation_official, this.relation, this.id});
 
   final bool? relation_official;
   final String? relation;
   final String? id;
 
-  VnRelation copyWith({
-    bool? relation_official,
-    String? relation,
-    String? id,
-  }) {
+  VnRelation copyWith({bool? relation_official, String? relation, String? id}) {
     return VnRelation(
       relation_official: relation_official ?? this.relation_official,
       relation: relation ?? this.relation,
@@ -170,13 +155,16 @@ class VnRelation {
       VnRelation.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'VnRelation(relation_official: $relation_official, relation: $relation, id: $id)';
+  String toString() =>
+      'VnRelation(relation_official: $relation_official, relation: $relation, id: $id)';
 
   @override
   bool operator ==(covariant VnRelation other) {
     if (identical(this, other)) return true;
 
-    return other.relation_official == relation_official && other.relation == relation && other.id == id;
+    return other.relation_official == relation_official &&
+        other.relation == relation &&
+        other.id == id;
   }
 
   @override

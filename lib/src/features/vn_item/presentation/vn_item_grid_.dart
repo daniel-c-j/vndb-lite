@@ -60,7 +60,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   void initState() {
     super.initState();
     _vnId = widget.p1.id;
-    _vnCoverUrl = widget.p1.image?.url;
+    _vnCoverUrl = widget.p1.image?.thumbnail;
     _vnHasCover = widget.p1.image != null && _vnCoverUrl != null;
 
     // Checks vn cover content.
@@ -116,10 +116,10 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  bool get _widgetIsInvisible {
-    if (!mounted) return false;
-    return ref.read(vnItemGridWidgetStateProvider(_vnId)) == false;
-  }
+  // bool get _widgetIsInvisible {
+  //   if (!mounted) return false;
+  //   return ref.read(vnItemGridWidgetStateProvider(_vnId)) == false;
+  // }
 
   Widget _vnCover({required bool isCensor}) {
     // final isVisible = ref.read(vnItemGridWidgetStateProvider(_vnCoverUrl!));
@@ -148,9 +148,8 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         placeholder: (context, str) => SizedBox(width: _placeHolderSize, height: _placeHolderSize),
         cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
         cacheKey: "PREVIEW-$_vnId",
-        filterQuality: (isCensor) ? FilterQuality.none : FilterQuality.low,
-        maxHeightDiskCache: (isCensor) ? 15 : 300,
-        maxWidthDiskCache: (isCensor) ? 15 : 300,
+        maxHeightDiskCache: (isCensor) ? 15 : null,
+        maxWidthDiskCache: (isCensor) ? 15 : null,
       ),
     );
   }
@@ -177,7 +176,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
 
   Future<void> _vnOnTap() async {
     if (_showVnDetailSummary) return;
-    if (_widgetIsInvisible && widget.isGridView) return;
+    // if (_widgetIsInvisible && widget.isGridView) return;
 
     final recordSelected = ref.read(recordSelectedControllerProvider);
 
@@ -208,7 +207,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   //
 
   Future<void> _vnOnLongPress() async {
-    if (_widgetIsInvisible && widget.isGridView) return;
+    // if (_widgetIsInvisible && widget.isGridView) return;
 
     final recordSelected = ref.read(recordSelectedControllerProvider);
 
@@ -244,13 +243,13 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
       // When Vn item disappear from screen, clear the cache, using slow debouncer to prevent images to
       // disappear so suddenly... it breaks my heart. (jk)
       _slowDebouncer.call(() {
-        if (info.visibleFraction == 0 && !_widgetIsInvisible) {
-          if (!mounted) return;
-          ref.read(vnItemGridWidgetStateProvider(_vnId).notifier).show = false;
+        // if (info.visibleFraction == 0 && !_widgetIsInvisible) {
+        //   if (!mounted) return;
+        //   ref.read(vnItemGridWidgetStateProvider(_vnId).notifier).show = false;
 
-          if (_vnHasCover) _clearCache(_vnCoverUrl!);
-          return;
-        }
+        //   if (_vnHasCover) _clearCache(_vnCoverUrl!);
+        //   return;
+        // }
       });
 
       // Make the widget appear in viewport (visibleFraction > 0)
@@ -277,7 +276,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
         onHighlightChanged: (value) async {
-          if (_widgetIsInvisible && widget.isGridView) return;
+          // if (_widgetIsInvisible && widget.isGridView) return;
 
           // Preferably not in the homescreen
           if (!App.isInHomeScreen) {
@@ -292,7 +291,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
         onDoubleTap: () {
-          if (_widgetIsInvisible && widget.isGridView) return;
+          // if (_widgetIsInvisible && widget.isGridView) return;
 
           // If  in multiselection just do nothing.
           final recordSelected = ref.read(recordSelectedControllerProvider);
@@ -349,31 +348,31 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
     // if (!widget.isGridView)
     return vnItemGrid;
 
-    return VisibilityDetector(
-      key: ValueKey(widget.p1.id),
-      onVisibilityChanged:
-          (App.isInSearchScreen || App.isInCollectionScreen || App.isInVnDetailScreen)
-              ? _controlVisibility
-              : (_) {},
-      child: Consumer(
-        builder: (context, ref, child) {
-          final showWidget = ref.watch(vnItemGridWidgetStateProvider(_vnId));
+    // return VisibilityDetector(
+    //   key: ValueKey(widget.p1.id),
+    //   onVisibilityChanged:
+    //       (App.isInSearchScreen || App.isInCollectionScreen || App.isInVnDetailScreen)
+    //           ? _controlVisibility
+    //           : (_) {},
+    //   child: Consumer(
+    //     builder: (context, ref, child) {
+    //       final showWidget = ref.watch(vnItemGridWidgetStateProvider(_vnId));
 
-          return (showWidget)
-              ? vnItemGrid
-              // Lightweight placeholder, which maintains the size
-              : Consumer(
-                builder: (context, ref, child) {
-                  final coverSize = ref.watch(vnItemGridCoverSizeStateProvider(_vnCoverUrl!));
+    //       return (showWidget)
+    //           ? vnItemGrid
+    //           // Lightweight placeholder, which maintains the size
+    //           : Consumer(
+    //             builder: (context, ref, child) {
+    //               final coverSize = ref.watch(vnItemGridCoverSizeStateProvider(_vnCoverUrl!));
 
-                  return SizedBox(
-                    height: (_vnHasCover) ? coverSize : responsiveUI.own(0.2),
-                    width: responsiveUI.own(0.1),
-                  );
-                },
-              );
-        },
-      ),
-    );
+    //               return SizedBox(
+    //                 height: (_vnHasCover) ? coverSize : responsiveUI.own(0.2),
+    //                 width: responsiveUI.own(0.1),
+    //               );
+    //             },
+    //           );
+    //     },
+    //   ),
+    // );
   }
 }

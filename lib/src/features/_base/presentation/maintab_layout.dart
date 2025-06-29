@@ -116,11 +116,18 @@ class MainTabLayout extends StatelessWidget {
   //
 
   void _refreshScrollControllersClient() {
-    try {
-      for (ScrollPosition position in ref_.read(innerScrollControllerProvider)!.positions) {
-        ref_.read(innerScrollControllerProvider)?.detach(position);
-      }
-    } catch (e) {}
+    final positions = ref_.read(innerScrollControllerProvider)!.positions;
+    final scrollPosToBeSaved = positions.last;
+
+    // try {
+    if (positions.length == 1) return;
+
+    for (ScrollPosition position in positions) {
+      print(position);
+      if (position == scrollPosToBeSaved) continue;
+      ref_.read(innerScrollControllerProvider)?.detach(position);
+    }
+    // } catch (e) {}
   }
 
   void _maintainSearchScrollOffset(BuildContext context) {
@@ -192,6 +199,7 @@ class MainTabLayout extends StatelessWidget {
                     onNotification: _handleScrollNotification,
                     child: NestedScrollView(
                       floatHeaderSlivers: true,
+
                       // ! Do not set to constant.
                       headerSliverBuilder: (ctx, _) => [TabAppBar()],
                       body: Builder(

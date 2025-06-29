@@ -72,6 +72,7 @@ class VnDataPhase01 implements VnDataPhase {
       title: data['title'],
       image: VnImage(
         url: (data['image']?['url']) ?? '',
+        thumbnail: (data['image']?['thumbnail']) ?? '',
         sexual: (data['image']?['sexual'] ?? 0).toDouble(),
         violence: (data['image']?['violence'] ?? 0).toDouble(),
       ),

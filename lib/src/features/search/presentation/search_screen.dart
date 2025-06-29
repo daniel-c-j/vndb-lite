@@ -222,7 +222,8 @@ class SearchScreen extends ConsumerWidget {
             }
 
             final state = ref.watch(searchScreenControllerProvider);
-            return Wrap(children: state);
+            if (state.isEmpty) return const SizedBox.shrink();
+            return state[0];
           },
         ),
       ),
