@@ -26,6 +26,8 @@ enum PredefinedHomeSearch {
 
   const PredefinedHomeSearch(this.tag);
   final VnTag tag;
+
+  String get path => "assets/images/search/$name.png";
 }
 
 class SearchPredefinedSection extends StatelessWidget {
@@ -105,7 +107,7 @@ class SearchPredefinedButton extends ConsumerWidget {
           child: SizedBox.expand(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(radius),
-              child: Image.asset("assets/images/search/${data.name}.png", fit: BoxFit.cover),
+              child: Image.asset(data.path, fit: BoxFit.cover),
             ),
           ),
         ),

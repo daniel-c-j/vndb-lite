@@ -37,7 +37,6 @@ class VnItemGrid extends ConsumerStatefulWidget {
   final bool withLabel;
 
   static final debouncer = Debouncer(delay: const Duration(milliseconds: 300));
-
   static final Map<String, double> vnSizeContainers = {};
 
   @override
@@ -53,7 +52,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   final minHeight = responsiveUI.own(0.27);
   final minWidth = responsiveUI.own(0.3);
 
-  double _placeHolderSize = responsiveUI.own(0.35);
+  final _placeHolderSize = responsiveUI.own(0.35);
   bool _showVnDetailSummary = false;
 
   @override
@@ -118,13 +117,13 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
   //
 
   Widget _vnCover({required bool isCensor}) {
-	late final double placeholderSize;
-	if (!widget.isGridView) {
-		placeholderSize = _placeHolderSize;
-	}else{
-		placeholderSize  = VnItemGrid.vnSizeContainers[widget.p1.id] ?? _placeHolderSize;
-	}
- 
+    late final double placeholderSize;
+    if (!widget.isGridView) {
+      placeholderSize = _placeHolderSize;
+    } else {
+      placeholderSize = VnItemGrid.vnSizeContainers[widget.p1.id] ?? _placeHolderSize;
+    }
+
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: minHeight,
@@ -307,14 +306,17 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
 
     // * Exists only to fetch the size for the placeholder image to prevent
     // * stuttering in a gridview.
-    if (VnItemGrid.vnSizeContainers[widget.p1.id] == null && widget.isGridView) {
+    if (widget.isGridView &&
+        _placeHolderSize == (VnItemGrid.vnSizeContainers[widget.p1.id] ?? _placeHolderSize)) {
       return VisibilityDetector(
         key: Key(widget.p1.id),
         onVisibilityChanged: (VisibilityInfo info) {
+          // debugPrint(widget.p1.title);
           if (_vnHasCover) {
             VnItemGrid.vnSizeContainers[widget.p1.id] = info.size.height;
           }
         },
+
         child: vnWidget,
       );
     }

@@ -74,16 +74,6 @@ enum ThemeCode {
     brightness: Brightness.light,
   ),
 
-  toho(
-    themeName: "Touhou",
-    backgroundImgPath: "assets/images/bg/bgTouhou.png",
-    seedColor: Color.fromARGB(255, 175, 175, 175),
-    primary: Color.fromARGB(255, 175, 175, 175),
-    secondary: Color.fromARGB(255, 220, 215, 215),
-    tertiary: Colors.black,
-    brightness: Brightness.dark,
-  ),
-
   seinrkn(
     themeName: "Seinarukana",
     backgroundImgPath: "assets/images/bg/bgSeinaru.png",

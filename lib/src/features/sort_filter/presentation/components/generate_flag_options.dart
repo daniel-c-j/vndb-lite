@@ -53,6 +53,13 @@ class GenerateFlagOptions extends ConsumerWidget {
         children: [
           Image.asset(
             LangData.getFlagPath(languageCode),
+            errorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                LangData.getFlagPath(LangData.notFoundFlag),
+                height: responsiveUI.own(0.038),
+                width: responsiveUI.own(0.055),
+              );
+            },
             height: responsiveUI.own(0.038),
             width: responsiveUI.own(0.055),
             fit: BoxFit.fill,

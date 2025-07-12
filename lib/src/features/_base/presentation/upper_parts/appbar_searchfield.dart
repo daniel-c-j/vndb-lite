@@ -7,7 +7,6 @@ import 'package:vndb_lite/src/features/collection/presentation/collection_appbar
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
-import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/util/debouncer.dart';
 import '../../../../util/context_shortcut.dart';
@@ -69,6 +68,7 @@ class AppBarSearchfield extends ConsumerWidget {
               //
               onTapOutside: (_) {
                 ref.read(showSearchTextFieldProvider.notifier).state = false;
+                if (App.isInSearchScreen) focusNode.unfocus();
               },
               //
               // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

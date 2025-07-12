@@ -23,7 +23,6 @@ class GeneratePlatformOptions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String imagePath = "assets/images/os/$platformCode.png";
     late final List selectedPlatforms;
 
     if (App.isInSearchScreen) {
@@ -51,7 +50,14 @@ class GeneratePlatformOptions extends ConsumerWidget {
               top: responsiveUI.own(0.005),
             ),
             child: Image.asset(
-              imagePath,
+              PlatfData.getImgPath(platformCode),
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  PlatfData.getImgPath(PlatfData.notFoundImg),
+                  height: responsiveUI.own(0.05),
+                  width: responsiveUI.own(0.05),
+                );
+              },
               color: (PlatfData.isIconPlain(platformCode)) ? kColor(context).tertiary : null,
               height: responsiveUI.own(0.05),
               width: responsiveUI.own(0.05),

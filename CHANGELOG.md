@@ -6,11 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
+## [Unreleased] 
 
 ### Changed
 
 - None.
+  
+
+## [3.4.0] - 2025-07-12
+
+### Added
+
+- More platform options.
+
+### Changed
+
+- Dropped touhou theme. 😟 (Way too broken)
+- Bottom navigation bar.
+- VN visibility measure.
+- Origin language options.
+
+### Fixed
+
+- Searchbar focus node bug.
 
 
 ## [3.3.0] - 2025-07-08
@@ -18,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Home visual noise. (e.g labels)
+- Home screen layout.
 - Bottom navigation bar.
 - General performance.
 - Code refactor.
@@ -25,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - More language selections.
+- Performance aware widgets.
   
 ### Fixed
 
@@ -33,14 +53,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Padding consistency.
 
 
-## [3.2.1] - 2025-06-27
+## [3.1.1] - 2025-06-27
 
 ### Fixed
 
 - Not aligned well labels.
 
 
-## [3.2.0] - 2025-06-26
+## [3.1.0] - 2025-06-26
 
 ### Added
 
@@ -54,7 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Increase app's performance.
 
 
-## [3.1.0] - 2025-06-14
+## [3.0.3] - 2025-06-14
 
 ### Changed
 

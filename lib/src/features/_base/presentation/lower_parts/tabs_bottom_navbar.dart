@@ -37,7 +37,7 @@ class TabsBottomNavbar extends ConsumerWidget {
           //   child:
           // ),
           SizedBox(
-            height: heightBottomNav,
+            // height: heightBottomNav,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -53,7 +53,7 @@ class TabsBottomNavbar extends ConsumerWidget {
                 ],
               ),
               child: BottomNavigationBar(
-                showSelectedLabels: false,
+                // showSelectedLabels: false,
                 showUnselectedLabels: false,
                 items: [
                   for (MapEntry<String, MenuSections> menu in BASE_TAB_MENU_SECTIONS.entries)
@@ -69,7 +69,7 @@ class TabsBottomNavbar extends ConsumerWidget {
                 type: BottomNavigationBarType.fixed,
                 backgroundColor: Colors.transparent,
                 selectedLabelStyle: styleText(
-                  fontSize: responsiveUI.normalSize,
+                  fontSize: responsiveUI.normalSize * 0.85,
                   fontWeight: FontWeight.bold,
                   color: kColor(context).tertiary,
                 ),

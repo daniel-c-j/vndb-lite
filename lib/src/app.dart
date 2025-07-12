@@ -6,8 +6,7 @@ import 'package:go_transitions/go_transitions.dart' show GoTransitions;
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
-import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_inner_layout.dart';
+import 'package:vndb_lite/src/features/search/presentation/components/search_predefined.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/languages_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/platform_data.dart';
 import 'package:vndb_lite/src/features/theme/theme_data_provider.dart';
@@ -53,6 +52,10 @@ class App extends ConsumerWidget {
   /// Requiring [BuildContext], so need to be in a widget.
   Future<void> _precacheImages(BuildContext ctx) async {
     if (_isImageCached) return;
+
+    for (PredefinedHomeSearch image in PredefinedHomeSearch.values) {
+      await precacheImage(AssetImage(image.path), ctx);
+    }
 
     for (String key in LangData.DEFINED_CODES.keys) {
       final path = LangData.getFlagPath(key);
