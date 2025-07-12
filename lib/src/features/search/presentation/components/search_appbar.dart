@@ -4,6 +4,7 @@ import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_sea
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/search_button.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/filter_button.dart';
+import 'package:vndb_lite/src/routing/app_router.dart';
 
 class SearchBarActions extends ConsumerWidget {
   const SearchBarActions({super.key});
@@ -20,7 +21,7 @@ class SearchBarActions extends ConsumerWidget {
           //
           // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           //
-          Expanded(child: AppBarSearchfield()),
+          Expanded(child: AppBarSearchfield(route: AppRoute.search)),
           //
           // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           //

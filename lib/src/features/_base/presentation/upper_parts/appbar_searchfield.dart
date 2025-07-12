@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_controller.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
@@ -12,9 +13,10 @@ import 'package:vndb_lite/src/util/debouncer.dart';
 import '../../../../util/context_shortcut.dart';
 
 class AppBarSearchfield extends ConsumerWidget {
-  const AppBarSearchfield({super.key});
+  const AppBarSearchfield({super.key, required this.route});
+  final AppRoute route;
 
-  static final _debouncer = Debouncer(delay: Duration(milliseconds: 700));
+  static final _debouncer = Debouncer(delay: const Duration(milliseconds: 700));
 
   // * Intentionally made global to be easily accessing the value throughout the entire
   // * widget tree for specific and crucial use cases.
@@ -52,7 +54,7 @@ class AppBarSearchfield extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = (App.isInSearchScreen) ? controllerSearch : controllerCollection;
+    final controller = (route == AppRoute.search) ? controllerSearch : controllerCollection;
 
     return Align(
       alignment: Alignment.center,
@@ -62,7 +64,7 @@ class AppBarSearchfield extends ConsumerWidget {
           valueListenable: controller,
           builder: (context, value, child) {
             return TextField(
-              focusNode: focusNode,
+              focusNode: (route == AppRoute.search) ? focusNode : null,
               //
               // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
               //

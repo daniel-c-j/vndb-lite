@@ -5,6 +5,7 @@ import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/re
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/search_button.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/filter_button.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_controller.dart';
+import 'package:vndb_lite/src/routing/app_router.dart';
 
 class CollectionBarActions extends ConsumerWidget {
   const CollectionBarActions({super.key});
@@ -18,7 +19,7 @@ class CollectionBarActions extends ConsumerWidget {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
-        if (showTextField) const Expanded(child: AppBarSearchfield()),
+        if (showTextField) const Expanded(child: AppBarSearchfield(route: AppRoute.collection)),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         //
