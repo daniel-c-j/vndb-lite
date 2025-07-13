@@ -7,7 +7,7 @@ class PlatfData {
     "mac": "Mac OS",
     "web": "Website",
     "tdo": "3DO",
-    "ios": "iOS",
+    "ios": "Apple iProduct",
     "and": "Android",
     "bdp": "Blu-ray Player",
     "dos": "DOS",

@@ -11,7 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - None.
-  
+
+
+## [3.5.0] - 2025-07-13
+
+### Fixed
+
+- Flags icon.
+- Platform icon.
+
+### Added
+
+- Touhou theme is back. (a little bit broken, but still okay)
+
 
 ## [3.4.1] - 2025-07-12
 
