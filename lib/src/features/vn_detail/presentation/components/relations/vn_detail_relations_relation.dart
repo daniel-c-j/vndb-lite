@@ -167,6 +167,7 @@ class _VnDetailRelationsRelationState extends ConsumerState<VnDetailRelationsRel
                         : settings.maxItemPerRowLandscape,
               ),
               mainAxisSpacing: responsiveUI.own(0.03),
+              crossAxisSpacing: responsiveUI.own(0.03),
               itemCount: relations.length,
               itemBuilder: (context, index) {
                 return relations[index];

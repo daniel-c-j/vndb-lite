@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/filter_vn_collection.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/sort_vn_collection.dart';
@@ -41,8 +40,8 @@ class _BottomSheetCollectionState extends ConsumerState<BottomSheetCollection>
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(24),
-        topRight: Radius.circular(24),
+        topRight: Radius.circular(14),
+        topLeft: Radius.circular(14),
       ),
       child: Container(
         width: MediaQuery.sizeOf(context).width,

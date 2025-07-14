@@ -41,23 +41,20 @@ class CollectionContent extends ConsumerWidget {
         // physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
           (content.isEmpty)
-              ? SliverToBoxAdapter(
+              ? const SliverToBoxAdapter(
                 child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(responsiveUI.own(0.1)),
-                    child: const GenericLocalEmptyWidget(),
-                  ),
+                  child: Padding(padding: EdgeInsets.all(36), child: GenericLocalEmptyWidget()),
                 ),
               )
               : SliverPadding(
                 padding: EdgeInsets.only(
-                  right: responsiveUI.own(0.008),
-                  left: responsiveUI.own(0.008),
+                  left: responsiveUI.own(0.025),
+                  right: responsiveUI.own(0.025),
                   top: responsiveUI.own(0.04),
                 ),
                 sliver: SliverMasonryGrid(
-                  mainAxisSpacing: responsiveUI.own(0.035),
-                  crossAxisSpacing: responsiveUI.own(0.005),
+                  mainAxisSpacing: responsiveUI.own(0.03),
+                  crossAxisSpacing: responsiveUI.own(0.03),
                   gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount:
                         (MediaQuery.of(context).orientation == Orientation.portrait)

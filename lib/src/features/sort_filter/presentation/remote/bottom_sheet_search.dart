@@ -64,8 +64,8 @@ class _BottomSheetSearchState extends ConsumerState<BottomSheetSearch>
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.only(
-        topRight: Radius.circular(15),
-        topLeft: Radius.circular(15),
+        topRight: Radius.circular(14),
+        topLeft: Radius.circular(14),
       ),
       child: Container(
         height: MediaQuery.sizeOf(context).height * 0.75,
@@ -138,15 +138,15 @@ class _BottomSheetSearchState extends ConsumerState<BottomSheetSearch>
                     .read(tempRemoteSortControllerProvider.notifier)
                     .importSortData(Default.REMOTE_SORT_CONF);
               },
-              margin: EdgeInsets.only(left: responsiveUI.own(0.035), top: responsiveUI.own(0.025)),
+              margin: EdgeInsets.only(top: responsiveUI.own(0.015), left: responsiveUI.own(0.035)),
               padding: EdgeInsets.symmetric(
-                horizontal: responsiveUI.own(0.015),
-                vertical: responsiveUI.own(0.015),
+                horizontal: responsiveUI.own(0.02),
+                vertical: responsiveUI.own(0.02),
               ),
               buttonColor: kColor(context).primary,
               child: Icon(
                 Icons.refresh_outlined,
-                size: responsiveUI.own(0.045),
+                size: responsiveUI.own(0.0525),
                 color: kColor(context).tertiary,
               ),
             ),
@@ -159,7 +159,7 @@ class _BottomSheetSearchState extends ConsumerState<BottomSheetSearch>
                 msg: 'Apply',
                 onTap: _applyFiltersToQuery,
                 margin: EdgeInsets.only(
-                  top: responsiveUI.own(0.018),
+                  top: responsiveUI.own(0.016),
                   right: responsiveUI.own(0.035),
                 ),
                 padding: EdgeInsets.symmetric(
@@ -168,7 +168,7 @@ class _BottomSheetSearchState extends ConsumerState<BottomSheetSearch>
                 ),
                 buttonColor: kColor(context).primary,
                 child: Icon(
-                  Icons.launch,
+                  Icons.launch_outlined,
                   size: responsiveUI.own(0.05),
                   color: kColor(context).tertiary,
                 ),

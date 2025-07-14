@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.vndblite.dcj"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true // For flutter_local_notifications package
@@ -21,7 +21,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.vndblite.dcj"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion

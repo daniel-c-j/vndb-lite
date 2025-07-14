@@ -139,7 +139,11 @@ class HomeBigPreviewDetailButton extends ConsumerWidget {
         if (vn == null) return;
         await _enterVnDetailScreen(vn);
       },
-      gradientColor: [kColor(context).secondary.withAlpha(180), kColor(context).primary],
+      buttonColor: Color.alphaBlend(
+        kColor(context).secondary.withAlpha(180),
+        kColor(context).primary,
+      ),
+      // gradientColor: [kColor(context).secondary.withAlpha(180), kColor(context).primary],
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 32),
       elevation: 1,

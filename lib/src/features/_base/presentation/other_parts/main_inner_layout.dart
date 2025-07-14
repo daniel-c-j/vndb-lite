@@ -73,10 +73,11 @@ class ScrollableWrapper extends ConsumerWidget {
           (withScrollBar)
               ? RawScrollbar(
                 interactive: true,
+                thickness: 6,
+                mainAxisMargin: 8,
                 // controller: controller,
                 radius: const Radius.circular(12),
-                minThumbLength: responsiveUI.own(0.1),
-                crossAxisMargin: responsiveUI.own(0.01),
+                minThumbLength: responsiveUI.own(0.125),
                 thumbColor: kColor(context).secondary.withOpacity(0.9),
                 child: child,
               )

@@ -1,10 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
+import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/application/collection_selection_service.dart';
@@ -48,7 +52,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
     ref_.invalidate(homePreviewServiceProvider);
 
     // Need to invalidate twice and a delay somehow...
-    ref_.invalidate(homePreviewServiceProvider);
+    // ref_.invalidate(homePreviewServiceProvider);
 
     // Prevent changing collection refreshing the items which made the items disappear and force user to
     // go up from where the user scroll.
@@ -115,13 +119,11 @@ class VnSelectionDialogFooter extends ConsumerWidget {
 
                     // Dialog is not dimissed (cancelled).
                     ref.read(dialogDismissedStateProvider.notifier).dismissed = false;
+                    NavigationService.currentContext
+                      ..pop()
+                      ..pop();
 
-                    // Notify collection preview
                     await _notifyCollectionPreview();
-
-                    // Closing dialogs
-                    Navigator.of(context).pop(); // Pop removal confirmation
-                    Navigator.of(context).pop(); // Pop selection dialog
 
                     _showSnackbar(
                       color: Colors.red,
@@ -181,12 +183,9 @@ class VnSelectionDialogFooter extends ConsumerWidget {
 
                     // Dialog is not dimissed (cancelled).
                     ref.read(dialogDismissedStateProvider.notifier).dismissed = false;
+                    NavigationService.currentContext.pop();
 
-                    // Notify collection preview.
                     await _notifyCollectionPreview();
-
-                    // Closing the dialog.
-                    Navigator.of(context).pop();
 
                     if (selection.isMultiselection || !selection.isVnNew) {
                       return _showSnackbar(text: 'Updated.', icon: Icons.update);

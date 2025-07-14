@@ -13,6 +13,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - None.
 
 
+## [3.5.1] - 2025-07-14
+
+### Fixed
+
+- Flags icon.
+- Vn selection dialog reappearing bug.
+
+### Changed
+
+- Vn item widget performance.
+- MasonryGrid layout.
+- Minor Scrollbar visual.
+- Bottom sheet sort and filter header.
+
+
 ## [3.5.0] - 2025-07-13
 
 ### Fixed

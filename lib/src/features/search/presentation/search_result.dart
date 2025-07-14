@@ -79,7 +79,7 @@ class SearchResult extends ConsumerWidget {
             ),
             sliver: SliverMasonryGrid(
               mainAxisSpacing: responsiveUI.own(0.03),
-              crossAxisSpacing: responsiveUI.own(0.005),
+              crossAxisSpacing: responsiveUI.own(0.03),
               gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount:
                     (MediaQuery.of(context).orientation == Orientation.portrait)
