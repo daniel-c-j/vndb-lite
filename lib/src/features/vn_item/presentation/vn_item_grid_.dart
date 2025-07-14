@@ -40,7 +40,7 @@ class VnItemGrid extends ConsumerStatefulWidget {
   static const double placeHolderSize = 135;
   static const double minWidthSize = 100;
 
-  static final debouncer = Debouncer(delay: const Duration(milliseconds: 3000));
+  static final debouncer = Debouncer(delay: const Duration(milliseconds: 500));
   static final Map<String, double> vnSizeContainers = {};
 
   @override
@@ -70,7 +70,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
 
   @override
   void dispose() {
-    if (_vnHasCover) _clearCache(_vnCoverUrl!);
+    // if (_vnHasCover) _clearCache(_vnCoverUrl!);
     super.dispose();
   }
 
@@ -87,9 +87,9 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
       imageCache.clear();
     });
 
-    if (App.isInSearchScreen) {
-      await CachedNetworkImage.evictFromCache(url);
-    }
+    // if (App.isInSearchScreen) {
+    //   await CachedNetworkImage.evictFromCache(url);
+    // }
   }
 
   //
@@ -149,7 +149,7 @@ class _VnItemGridState extends ConsumerState<VnItemGrid> {
         errorWidget: (_, url, error) => const GenericErrorImage(),
         errorListener: null,
         cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
-        cacheKey: "PREVIEW-$_vnId",
+        cacheKey: (isCensor) ? "CENSORED-PREVIEW-$_vnId" : "PREVIEW-$_vnId",
         maxHeightDiskCache: (isCensor) ? 15 : null,
         maxWidthDiskCache: (isCensor) ? 15 : null,
       ),

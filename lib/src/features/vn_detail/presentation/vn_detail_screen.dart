@@ -35,8 +35,6 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
   late final AnimationController _animationController;
   late final String _vnId;
 
-  bool _imageCached = false;
-
   @override
   void initState() {
     super.initState();
@@ -47,11 +45,6 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
       duration: const Duration(milliseconds: 600),
       vsync: this,
     )..forward();
-
-    // Checks whether vn image already cached or not.
-    didMediaCache(widget.p1.id).then((value) {
-      _imageCached = value;
-    });
   }
 
   @override
@@ -65,7 +58,7 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
   //
   // TODO remove this all in controller?
   bool get _vnHasCover {
-    return widget.p1.image != null && widget.p1.image!.url != null;
+    return widget.p1.image?.thumbnail != null && widget.p1.image?.thumbnail != null;
   }
 
   bool get _coverNeedCensor {
@@ -113,7 +106,7 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.85),
       child: CachedNetworkImage(
-        imageUrl: (_vnHasCover && !_imageCached) ? widget.p1.image!.url! : '',
+        imageUrl: (_vnHasCover) ? widget.p1.image!.thumbnail! : '',
         fit: BoxFit.cover,
         width: MediaQuery.sizeOf(context).width,
         placeholder:
@@ -124,8 +117,8 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
         cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
         // High quality to make the pixels smooth when censor mode is on.
         filterQuality: (isCensor) ? FilterQuality.high : FilterQuality.medium,
-        maxHeightDiskCache: (isCensor) ? 15 : 1400,
-        maxWidthDiskCache: (isCensor) ? 15 : 1400,
+        maxHeightDiskCache: (isCensor) ? 35 : 1400,
+        maxWidthDiskCache: (isCensor) ? 35 : 1400,
       ),
     );
   }

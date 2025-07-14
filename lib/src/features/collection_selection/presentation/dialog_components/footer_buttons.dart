@@ -187,7 +187,8 @@ class VnSelectionDialogFooter extends ConsumerWidget {
 
                     await _notifyCollectionPreview();
 
-                    if (selection.isMultiselection || !selection.isVnNew) {
+					 final recordSelected = ref.read(recordSelectedControllerProvider);
+                    if (recordSelected.length > 1 || !selection.isVnNew) {
                       return _showSnackbar(text: 'Updated.', icon: Icons.update);
                     }
 

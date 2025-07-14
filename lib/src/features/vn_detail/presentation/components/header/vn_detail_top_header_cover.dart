@@ -33,7 +33,7 @@ class VnDetailTopHeaderCover extends ConsumerStatefulWidget {
 }
 
 class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover> {
-  bool _imageCached = false;
+  // bool _imageCached = false;
   bool _censorCover = false;
 
   @override
@@ -42,9 +42,9 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
     _censorCover = _coverNeedCensor;
 
     // Checks whether vn image already cached or not.
-    didMediaCache(widget.p1.id).then((value) {
-      _imageCached = value;
-    });
+    // didMediaCache(widget.p1.id).then((value) {
+    //   _imageCached = value;
+    // });
   }
 
   //
@@ -75,7 +75,7 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
 
   Widget _imgCover({required bool isCensor}) {
     return CachedNetworkImage(
-      imageUrl: (_vnHasCover && !_imageCached) ? widget.p1.image!.url! : '',
+      imageUrl: (_vnHasCover) ? widget.p1.image!.url! : '',
       fit: BoxFit.cover,
       height: responsiveUI.own(0.6),
       filterQuality: FilterQuality.high,

@@ -22,7 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Vn item widget performance.
+- Vn item & detail performance.
+- Vn item & detail cache system.
 - MasonryGrid layout.
 - Minor Scrollbar visual.
 - Bottom sheet sort and filter header.
