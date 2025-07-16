@@ -126,6 +126,7 @@ class VnSelectionService {
       final saveVnRecord = VnRecord(
         id: p1.id,
         title: p1.title,
+        notes: latestRecord?.notes,
         status: _getStatusSelection(selection, latestRecord),
         vote: _getVoteSelection(selection, latestRecord),
         added: _getAddedTimeSelection(selection, latestRecord),
@@ -149,7 +150,7 @@ class VnSelectionService {
       saveRefresh(p1.id);
     }
 
-      await localCollection.refreshCollection();
+    await localCollection.refreshCollection();
     return;
   }
 

@@ -18,12 +18,12 @@ import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/util/text_extensions.dart';
 
-bool _initPreview = false;
-
 final homeBigPreviewVisibilityProvider = StateProvider<bool>((ref) => true);
 
 class HomeBigPreviewImages extends ConsumerWidget {
   const HomeBigPreviewImages({super.key});
+
+  static bool _initPreview = false;
 
   /// This exists to ensure that text does not change while just not fully swiped
   /// to different index.
@@ -35,7 +35,8 @@ class HomeBigPreviewImages extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final p1Data = ref.watch(homeRatingPreviewsProvider);
+    final p1Data = ref.watch(homeRatingPreviewsProvider).toList(); // Copying
+    p1Data.shuffle();
 
     // ! Do not set to watch, since this only synchronizes once.
     final currentVn = ref.read(currentHomeBigPreviewProvider);

@@ -102,6 +102,7 @@ class SyncService {
       id: cloudRecord['id'],
       title: cloudRecord['vn']['title'],
       status: cloudRecord['status'],
+      notes: cloudRecord['notes'],
       vote: getVnCloudVote(cloudRecord),
       added: getVnCloudDate('added', cloudRecord),
       started: getVnCloudDate('started', cloudRecord),

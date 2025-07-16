@@ -138,6 +138,7 @@ class _VnDetailGeneralScreenshotsState extends State<VnDetailGeneralScreenshots>
                       size: 8,
                     ),
                   ),
+                  onTap: null,
                   itemBuilder: (BuildContext context, int index) {
                     return WidgetZoom(
                       onTap: () {

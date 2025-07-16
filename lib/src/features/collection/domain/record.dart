@@ -11,6 +11,7 @@ class VnRecord {
     this.started,
     this.finished,
     this.lastmod,
+    this.notes,
   });
 
   final String id;
@@ -21,6 +22,7 @@ class VnRecord {
   final String? started;
   final String? finished;
   final String? lastmod;
+  final String? notes;
 
   VnRecord copyWith({
     String? id,
@@ -31,6 +33,7 @@ class VnRecord {
     String? started,
     String? finished,
     String? lastmod,
+    String? notes,
   }) {
     return VnRecord(
       id: id ?? this.id,
@@ -41,6 +44,7 @@ class VnRecord {
       started: started ?? this.started,
       finished: finished ?? this.finished,
       lastmod: lastmod ?? this.lastmod,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -54,6 +58,7 @@ class VnRecord {
       'started': started,
       'finished': finished,
       'lastmod': lastmod,
+      'notes': notes,
     };
   }
 
@@ -67,6 +72,7 @@ class VnRecord {
       started: map['started'] != null ? map['started'] as String : null,
       finished: map['finished'] != null ? map['finished'] as String : null,
       lastmod: map['lastmod'] != null ? map['lastmod'] as String : null,
+      notes: map['notes'] != null ? map['notes'] as String : null,
     );
   }
 
@@ -77,16 +83,17 @@ class VnRecord {
 
   @override
   String toString() {
-    return 'VnRecord(id: $id, title: $title, status: $status, vote: $vote, added: $added, started: $started, finished: $finished, lastmod: $lastmod)';
+    return 'VnRecord(id: $id, title: $title, status: $status, vote: $vote, added: $added, started: $started, finished: $finished, lastmod: $lastmod, notes: $notes)';
   }
 
   @override
   bool operator ==(covariant VnRecord other) {
     if (identical(this, other)) return true;
-
-    return other.id == id;
+    return other.id == id && other.lastmod == lastmod;
   }
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode {
+    return id.hashCode ^ lastmod.hashCode;
+  }
 }

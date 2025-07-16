@@ -35,5 +35,5 @@ class NetConsts {
       "relations.description";
 
   static const String USER_VNS_FIELDS =
-      "id, vote, vn.title, added, started, finished, labels.label, lastmod";
+      "id, vote, vn.title, added, started, finished, labels.label, lastmod, notes";
 }

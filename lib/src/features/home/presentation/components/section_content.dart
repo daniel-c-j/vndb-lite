@@ -85,6 +85,7 @@ class HomeSectionContent extends ConsumerWidget {
             if (formattedP1Data.isEmpty) return const GenericLocalEmptyWidget();
 
             SchedulerBinding.instance.addPostFrameCallback((_) {
+              // * For home big preview
               if (sectionData == HomeSectionsCode.rating) {
                 ref_.read(homeRatingPreviewsProvider.notifier).state = data;
               }

@@ -13,6 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - None.
 
 
+## [3.5.2] - 2025-07-16
+
+### Fixed
+
+- Collection selection dialog snackbar message.
+- Synchronization note bug.
+  
+### Changed
+
+- Home big preview index shuffle.
+
+
 ## [3.5.1] - 2025-07-14
 
 ### Fixed

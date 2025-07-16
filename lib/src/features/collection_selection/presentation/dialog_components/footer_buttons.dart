@@ -177,6 +177,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
                   // ignore: provider_parameters
                   whenSuccess: () async {
                     changeButton.state = ButtonState.active;
+                    final isNew = selection.isVnNew; // Storing the state temporarily.
 
                     // Turning off multiselection mode
                     ref.invalidate(recordSelectedControllerProvider);
@@ -187,8 +188,8 @@ class VnSelectionDialogFooter extends ConsumerWidget {
 
                     await _notifyCollectionPreview();
 
-					 final recordSelected = ref.read(recordSelectedControllerProvider);
-                    if (recordSelected.length > 1 || !selection.isVnNew) {
+                    final recordSelected = ref.read(recordSelectedControllerProvider);
+                    if (recordSelected.length > 1 || !isNew) {
                       return _showSnackbar(text: 'Updated.', icon: Icons.update);
                     }
 

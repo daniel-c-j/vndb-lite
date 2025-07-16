@@ -51,10 +51,6 @@ String getVnCloudDate(String whatDate, Map<String, dynamic> cloudRecord) {
   return cloudRecord[whatDate].toString().substring(0, 10);
 }
 
-bool localVnHasVote(VnRecord localRecord) {
-  return localRecord.vote != 0;
-}
-
 String getLocalVnDate(String whatDate, Map<String, dynamic> localRecord) {
   // 1970-01-01 is just a placeholder.
   if (localRecord[whatDate].contains("null") || localRecord[whatDate] == null) return '1970-01-01';

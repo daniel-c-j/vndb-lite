@@ -223,8 +223,9 @@ class RemoteSyncRepo {
         ),
         data: {
           'labels': [statusId],
-          // If vote data does exist.
-          if (localVnHasVote(localRecord)) 'vote': localRecord.vote * 10,
+          // * If vote data does exist.
+          if (localRecord.vote != 0) 'vote': localRecord.vote * 10,
+          'notes': localRecord.notes ?? "",
           'started': getLocalVnDate('started', localRecord.toMap()),
           'finished': getLocalVnDate('finished', localRecord.toMap()),
         },
