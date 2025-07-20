@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +9,6 @@ import 'package:vndb_lite/src/features/settings/presentation/settings_general_st
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
-import 'package:vndb_lite/src/util/check_media_cache.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/common_widgets/widget_zoom/widget_zoom.dart';

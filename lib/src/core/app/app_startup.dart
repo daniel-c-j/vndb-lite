@@ -12,7 +12,6 @@ import 'package:vndb_lite/src/features/local_notification/application/local_noti
 import 'package:vndb_lite/src/util/text_extensions.dart';
 import '../../app.dart';
 import '../../constants/_constants.dart';
-import '../../util/context_shortcut.dart';
 import '../_core.dart';
 import '../exceptions/_exceptions.dart';
 
@@ -95,16 +94,11 @@ class AppStartup {
     // * Show some error UI when any widget in the app fails to build
     ErrorWidget.builder = (FlutterErrorDetails details) {
       return SizedBox(
-        height: kScreenHeight(),
-        width: kScreenWidth(),
+        height: double.maxFinite,
+        width: double.maxFinite,
         child:
             (kReleaseMode)
-                ? const Center(
-                  child: Text(
-                    "(＃°Д°) s-something went wrong...",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                )
+                ? const Center(child: Text("(＃°Д°) s-something went wrong..."))
                 : Scaffold(
                   appBar: AppBar(
                     backgroundColor: Colors.red,

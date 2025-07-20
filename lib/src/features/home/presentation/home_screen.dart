@@ -12,8 +12,6 @@ import 'package:vndb_lite/src/features/home/presentation/components/section_head
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
 
-import '../../_base/presentation/other_parts/main_inner_layout.dart';
-
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -29,30 +27,28 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsGeneralStateProvider);
-    final additionalWidgets = [
-      for (HomeSectionsCode sectionCode in Default.HOME_SECTION_ARRANGEMENT)
-        Column(
-          key: ValueKey(sectionCode),
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            HomeSectionHeader(sectionData: sectionCode),
-            HomeSectionContent(sectionData: sectionCode, maxItem: settings.maxPreviewItem),
-            GAP_H12,
-          ],
-        ),
+    final additionalWidgets = <Widget>[
+      for (HomeSectionsCode sectionCode in Default.HOME_SECTION_ARRANGEMENT) ...[
+        HomeSectionHeader(sectionData: sectionCode),
+        HomeSectionContent(sectionData: sectionCode, maxItem: settings.maxPreviewItem),
+        GAP_H12,
+      ],
     ];
 
     return NestedScrollView(
-      floatHeaderSlivers: true,
-      headerSliverBuilder: (_, __) => const [TabAppBar(route: AppRoute.home)],
-      body: ScrollableWrapper(withScrollBar: false,child:ListView.builder(
-        // controller: controller,
-        padding: EdgeInsets.only(bottom: MainInnerLayout.bottomPadding),
-        itemCount: frontWidgets.length + additionalWidgets.length,
-        itemBuilder: (context, index) {
-          return [...frontWidgets, ...additionalWidgets][index];
-        },
-      ),),
+      headerSliverBuilder: (_, _) => const [TabAppBar(route: AppRoute.home)],
+      body: ScrollableWrapper(
+        withScrollBar: false,
+        child: ListView.builder(
+          shrinkWrap: false,
+          clipBehavior: Clip.none,
+          padding: EdgeInsets.only(bottom: MainInnerLayout.bottomPadding),
+          itemCount: frontWidgets.length + additionalWidgets.length,
+          itemBuilder: (context, index) {
+            return [...frontWidgets, ...additionalWidgets][index];
+          },
+        ),
+      ),
     );
   }
 }

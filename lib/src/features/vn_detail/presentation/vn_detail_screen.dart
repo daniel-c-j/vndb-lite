@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +14,6 @@ import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/components/vn_detail_appbar.dart';
 import 'package:vndb_lite/src/features/vn_detail/presentation/vn_detail_entrance.dart';
-import 'package:vndb_lite/src/util/check_media_cache.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 
