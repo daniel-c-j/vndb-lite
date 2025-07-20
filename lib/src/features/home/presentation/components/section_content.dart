@@ -7,6 +7,7 @@ import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/home/application/home_preview_service.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
@@ -62,6 +63,8 @@ class HomeSectionContent extends ConsumerWidget {
     );
   }
 
+  static final cacheExtent = kScreenWidth() * 0.75;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final previewData = ref.watch(
@@ -94,6 +97,8 @@ class HomeSectionContent extends ConsumerWidget {
             return SizedBox(
               height: height ?? _sectionContentHeight,
               child: ListView.builder(
+                clipBehavior: Clip.none,
+                cacheExtent: cacheExtent,
                 scrollDirection: Axis.horizontal,
                 itemCount: formattedP1Data.length,
                 padding: const EdgeInsets.symmetric(horizontal: 6),

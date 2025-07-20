@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
-import 'package:vndb_lite/src/common_widgets/masonry_grid.dart';
 import 'package:vndb_lite/src/util/delay.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';

@@ -48,6 +48,8 @@ class App extends ConsumerWidget {
   static bool get isInOthersScreen => currentRoute.contains(AppRoute.others.name);
   static bool get isInVnDetailScreen => currentRoute.contains(AppRoute.vnDetail.name);
 
+  static bool _isImageCached = false;
+
   /// Asynchronously cache image right before splash screen is closed.
   /// Requiring [BuildContext], so need to be in a widget.
   Future<void> _precacheImages(BuildContext ctx) async {
@@ -69,8 +71,6 @@ class App extends ConsumerWidget {
 
     _isImageCached = true;
   }
-
-  static bool _isImageCached = false;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

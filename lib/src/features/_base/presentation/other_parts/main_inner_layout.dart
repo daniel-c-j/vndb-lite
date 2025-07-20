@@ -14,32 +14,32 @@ import '../../../../util/context_shortcut.dart';
 
 class MainInnerLayout extends StatelessWidget {
   const MainInnerLayout({super.key, required this.navigationShell});
-
   final StatefulNavigationShell navigationShell;
 
   static final bottomPadding = responsiveUI.own(0.22);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kColor(context).primary.withOpacity(0.1),
-      body: Stack(children: [DoubleBackToClose(), navigationShell]),
-      floatingActionButton: Consumer(
-        builder: (context, ref, child) {
-          if (!App.isInCollectionScreen) return const SizedBox.shrink();
+    return Stack(children: [DoubleBackToClose(), navigationShell]);
+    // return Scaffold(
+    //   backgroundColor: kColor(context).primary.withOpacity(0.1),
+    //   body: Stack(children: [DoubleBackToClose(), navigationShell]),
+    //   floatingActionButton: Consumer(
+    //     builder: (context, ref, child) {
+    //       if (!App.isInCollectionScreen) return const SizedBox.shrink();
 
-          final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
-          if (isInMultiSelection) return const MultiSelectFab();
+    //       final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
+    //       if (isInMultiSelection) return const MultiSelectFab();
 
-          return const SizedBox.shrink();
-        },
-      ),
-    );
+    //       return const SizedBox.shrink();
+    //     },
+    //   ),
+    // );
   }
 }
 
 /// A class to be used with the main scrollview widgets in a screen.
-class ScrollableWrapper extends ConsumerWidget {
+class ScrollableWrapper extends StatelessWidget {
   const ScrollableWrapper({super.key, required this.child, this.withScrollBar = true});
   final Widget child;
   final bool withScrollBar;
@@ -56,7 +56,7 @@ class ScrollableWrapper extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     // final controller = ref.watch(innerSearchControllerProvider);
     // if (controller == null) return const SizedBox.shrink();
 

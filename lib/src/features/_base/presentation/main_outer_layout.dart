@@ -7,6 +7,7 @@ import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_screen.dart';
+import 'package:vndb_lite/src/features/collection_selection/presentation/fab/multi_select_fab.dart';
 import 'package:vndb_lite/src/features/version_check/domain/version_check.dart';
 import 'package:vndb_lite/src/features/version_check/presentation/version_check_controller.dart';
 import 'package:vndb_lite/src/features/version_check/presentation/version_update_dialog.dart';
@@ -81,7 +82,7 @@ class MainOuterLayout extends StatelessWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void _resetAlmostLongPressIndicator() {
+  void _resetAlmostLongPressedIndicator() {
     ref_.read(vnItemGridAlmostLongPressedStateProvider.notifier).vnId = "";
   }
 
@@ -97,7 +98,7 @@ class MainOuterLayout extends StatelessWidget {
       _checkVersionUpdate();
 
       // * To prevent conflict changing between screens.
-      _resetAlmostLongPressIndicator();
+      _resetAlmostLongPressedIndicator();
     });
 
     return SafeArea(
@@ -129,16 +130,28 @@ class MainOuterLayout extends StatelessWidget {
           //
           Scaffold(
             extendBody: true,
-            backgroundColor: Colors.black.withOpacity(0.3),
-            body: Row(
-              children: [
-                if (isLandscape)
-                  TabsSideNavbar(
-                    onTap: _goToNextBranch,
-                    selectedIndex: navigationShell.currentIndex,
-                  ),
-                Expanded(child: MainInnerLayout(navigationShell: navigationShell)),
-              ],
+            backgroundColor: const Color.fromARGB(75, 0, 0, 0),
+            body:
+                (isLandscape)
+                    ? Row(
+                      children: [
+                        TabsSideNavbar(
+                          onTap: _goToNextBranch,
+                          selectedIndex: navigationShell.currentIndex,
+                        ),
+                        Expanded(child: MainInnerLayout(navigationShell: navigationShell)),
+                      ],
+                    )
+                    : MainInnerLayout(navigationShell: navigationShell),
+            floatingActionButton: Consumer(
+              builder: (context, ref, child) {
+                if (!App.isInCollectionScreen) return const SizedBox.shrink();
+
+                final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
+                if (isInMultiSelection) return const MultiSelectFab();
+
+                return const SizedBox.shrink();
+              },
             ),
             //
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
