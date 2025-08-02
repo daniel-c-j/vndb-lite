@@ -6,7 +6,7 @@ import 'package:vndb_lite/src/features/sync/domain/user_identity.dart';
 
 part 'auth_screen_controller.g.dart';
 
-@riverpod
+@Riverpod(dependencies: [localSyncRepo, remoteSyncRepo])
 class AuthScreenController extends _$AuthScreenController {
   @override
   UserIdentity? build() {

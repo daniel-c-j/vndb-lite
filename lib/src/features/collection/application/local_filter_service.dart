@@ -1,9 +1,10 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'local_filter_service.g.dart';
 
 class LocalFilterService {
+  const LocalFilterService();
+
   bool languagesFiltered(List<String>? languagesFilter, Map<String, dynamic> vnRecord) {
     // If there is no specified filter, pass it by (include).
     if (languagesFilter == null || languagesFilter.isEmpty) return true;
@@ -11,9 +12,9 @@ class LocalFilterService {
     return languagesFilter.any((item) => vnRecord['languages'].contains(item));
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool platformFiltered(List<String>? platformFilter, Map<String, dynamic> vnRecord) {
     // If there is no specified filter, pass it by (include).
@@ -22,9 +23,9 @@ class LocalFilterService {
     return platformFilter.any((item) => vnRecord['platforms'].contains(item));
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool originlangFiltered(List<String>? olangFilter, Map<String, dynamic> vnRecord) {
     // If there is no specified filter, pass it by (include).
@@ -33,9 +34,9 @@ class LocalFilterService {
     return olangFilter.any((item) => vnRecord['olang'] == item);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool devStatFiltered(List<int>? devStatusFilter, Map<String, dynamic> vnRecord) {
     // If there is no specified filter, pass it by (include).
@@ -44,9 +45,9 @@ class LocalFilterService {
     return devStatusFilter.any((item) => vnRecord['devstatus'] == item);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool minageFiltered(int? minageFilter, Map<String, dynamic> vnRecord) {
     // If there is no specified filter, pass it by (include).
@@ -64,9 +65,9 @@ class LocalFilterService {
     return maximumAge < 18; // All-ages
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   bool searchFiltered(Map<String, dynamic> searchFilter) {
     final String? searchQuery = searchFilter['searchQuery'];
@@ -83,11 +84,13 @@ class LocalFilterService {
     }
 
     // Might search for tags or developers.
-    return keywords.every((keyword) => dataToBeSearched.toLowerCase().contains(keyword.toLowerCase()));
+    return keywords.every(
+      (keyword) => dataToBeSearched.toLowerCase().contains(keyword.toLowerCase()),
+    );
   }
 }
 
 @riverpod
 LocalFilterService localFilterService(Ref ref) {
-  return LocalFilterService();
+  return const LocalFilterService();
 }

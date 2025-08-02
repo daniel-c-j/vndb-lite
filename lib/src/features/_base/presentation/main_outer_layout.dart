@@ -5,6 +5,7 @@ import 'package:vndb_lite/src/common_widgets/generic_background.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
+import 'package:vndb_lite/src/features/_base/presentation/other_parts/double_back_to_close.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_screen.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/fab/multi_select_fab.dart';
@@ -15,7 +16,6 @@ import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_control
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/breaking_changes.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_inner_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/navigation_rail_menu.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_data_state.dart';
@@ -29,6 +29,8 @@ class MainOuterLayout extends StatelessWidget {
   const MainOuterLayout({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
+
+  static final bottomPadding = responsiveUI.own(0.22);
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -102,80 +104,81 @@ class MainOuterLayout extends StatelessWidget {
     });
 
     return SafeArea(
-      child: Stack(
-        children: [
-          //
-          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-          //
-          Consumer(
-            builder: (context, ref, child) {
-              final theme = ref.watch(appThemeStateProvider);
-              return GenericBackground(imagePath: theme.backgroundImgPath);
-            },
-          ),
-          //
-          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-          // ! Initialization must be happened inside of the widget tree.
-          if (!CollectionScreen.tabInitialized)
-            Builder(
-              builder: (_) {
-                SchedulerBinding.instance.addPostFrameCallback(
-                  (_) => CollectionScreen.tabInitialized = true,
-                );
-                return const CollectionTabConf();
-              },
-            ),
-          //
-          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-          //
-          Scaffold(
-            extendBody: true,
-            backgroundColor: const Color.fromARGB(75, 0, 0, 0),
-            body:
-                (isLandscape)
-                    ? Row(
-                      children: [
-                        TabsSideNavbar(
-                          onTap: _goToNextBranch,
-                          selectedIndex: navigationShell.currentIndex,
-                        ),
-                        Expanded(child: MainInnerLayout(navigationShell: navigationShell)),
-                      ],
-                    )
-                    : MainInnerLayout(navigationShell: navigationShell),
-            floatingActionButton: Consumer(
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        backgroundColor: const Color.fromARGB(75, 0, 0, 0),
+        body: Stack(
+          children: [
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            //
+            Consumer(
               builder: (context, ref, child) {
-                if (!App.isInCollectionScreen) return const SizedBox.shrink();
-
-                final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
-                if (isInMultiSelection) return const MultiSelectFab();
-
-                return const SizedBox.shrink();
+                final theme = ref.watch(appThemeStateProvider);
+                return GenericBackground(imagePath: theme.backgroundImgPath);
               },
             ),
             //
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            // Exclusive portrait mode only
-            bottomNavigationBar: Consumer(
-              builder: (context, ref, child) {
-                // Disappear when in multiselection mode.
-                if (App.isInCollectionScreen) {
-                  final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
-                  if (isInMultiSelection) return const SizedBox.shrink();
-                }
+            // ! Initialization must be happened inside of the widget tree.
+            if (!CollectionScreen.tabInitialized)
+              Builder(
+                builder: (_) {
+                  SchedulerBinding.instance.addPostFrameCallback(
+                    (_) => CollectionScreen.tabInitialized = true,
+                  );
+                  return const CollectionTabConf();
+                },
+              ),
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // ? Wrapper to listen on popScope and shows a snackBar.
+            DoubleBackToClose(),
+            //
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            //
+            (isLandscape)
+                ? Row(
+                  children: [
+                    TabsSideNavbar(
+                      onTap: _goToNextBranch,
+                      selectedIndex: navigationShell.currentIndex,
+                    ),
+                    Expanded(child: navigationShell),
+                  ],
+                )
+                : navigationShell,
+          ],
+        ),
+        floatingActionButton: Consumer(
+          builder: (context, ref, child) {
+            if (!App.isInCollectionScreen) return const SizedBox.shrink();
 
-                return TabsBottomNavbar(
-                  onTap: _goToNextBranch,
-                  onlyProgressIndicator: isLandscape,
-                  selectedIndex: navigationShell.currentIndex,
-                );
-              },
-            ),
-          ),
-          //
-          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-          //
-        ],
+            final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
+            if (isInMultiSelection) return const MultiSelectFab();
+
+            return const SizedBox.shrink();
+          },
+        ),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // Exclusive portrait mode only
+        bottomNavigationBar: Consumer(
+          builder: (context, ref, child) {
+            // Disappear when in multiselection mode.
+            if (App.isInCollectionScreen) {
+              final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
+              if (isInMultiSelection) return const SizedBox.shrink();
+            }
+
+            return TabsBottomNavbar(
+              onTap: _goToNextBranch,
+              onlyProgressIndicator: isLandscape,
+              selectedIndex: navigationShell.currentIndex,
+            );
+          },
+        ),
       ),
     );
   }

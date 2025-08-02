@@ -8,17 +8,14 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
-import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview.dart';
-import 'package:vndb_lite/src/features/home/presentation/components/section_content.dart';
+import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview/home_big_preview.dart';
+import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview/home_big_preview_state.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
-import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/util/text_extensions.dart';
-
-final homeBigPreviewVisibilityProvider = StateProvider<bool>((ref) => true);
 
 class HomeBigPreviewImages extends ConsumerWidget {
   const HomeBigPreviewImages({super.key});
@@ -27,19 +24,19 @@ class HomeBigPreviewImages extends ConsumerWidget {
 
   /// This exists to ensure that text does not change while just not fully swiped
   /// to different index.
-  void _synchronizeVn(VnDataPhase01 vn) {
+  void _synchronizeVn(WidgetRef ref, VnDataPhase01 vn) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      ref_.read(currentHomeBigPreviewProvider.notifier).state = vn;
+      ref.read(currentHomeBigPreviewItemProvider.notifier).item = vn;
     });
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final p1Data = ref.watch(homeRatingPreviewsProvider).toList(); // Copying
+    final p1Data = ref.watch(homeBigPreviewItemsProvider).toList(); // Copying
     p1Data.shuffle();
 
     // ! Do not set to watch, since this only synchronizes once.
-    final currentVn = ref.read(currentHomeBigPreviewProvider);
+    final currentVn = ref.read(currentHomeBigPreviewItemProvider);
     return Swiper(
       scrollDirection: Axis.vertical,
       itemCount: p1Data.length,
@@ -50,7 +47,7 @@ class HomeBigPreviewImages extends ConsumerWidget {
       // * This exists to persistantly sync the image with the text after
       // * visiblity reaches zero.
       index: (currentVn != null) ? p1Data.indexOf(currentVn) : null,
-      onIndexChanged: (int index) => _synchronizeVn(p1Data[index]),
+      onIndexChanged: (int index) => _synchronizeVn(ref, p1Data[index]),
       pagination: SwiperPagination(
         alignment: Alignment.centerRight,
         margin: EdgeInsets.only(bottom: responsiveUI.own(0.085), right: responsiveUI.own(0.03)),
@@ -67,7 +64,7 @@ class HomeBigPreviewImages extends ConsumerWidget {
         // * This exists to initialize the preview text first.
         if (!_initPreview) {
           _initPreview = true;
-          _synchronizeVn(vn);
+          _synchronizeVn(ref, vn);
         }
 
         return CachedNetworkImage(
@@ -94,7 +91,7 @@ class HomeBigPreviewText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vn = ref.watch(currentHomeBigPreviewProvider);
+    final vn = ref.watch(currentHomeBigPreviewItemProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -136,7 +133,7 @@ class HomeBigPreviewDetailButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return CustomButton(
       onTap: () async {
-        final vn = ref.read(currentHomeBigPreviewProvider);
+        final vn = ref.read(currentHomeBigPreviewItemProvider);
         if (vn == null) return;
         await _enterVnDetailScreen(vn);
       },

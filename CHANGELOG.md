@@ -10,7 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- None.
+- License year + name.
+- Minor code refactor.
+- Riverpod migration v2 to v3.
+- Better performance.
 
 
 ## [3.5.2] - 2025-07-16

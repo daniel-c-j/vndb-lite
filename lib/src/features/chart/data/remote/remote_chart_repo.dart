@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/core/network/api_service.dart';
 
@@ -12,7 +11,7 @@ class RemoteChartRepo {
 
   final ApiService _apiService;
 
-  static final statsEndpoint = NetConsts.BASE_URL + "/kana/stats";
+  static const statsEndpoint = "${NetConsts.BASE_URL}/kana/stats";
 
   Future<Response> fetchStats({CancelToken? cancelToken}) async {
     return await _apiService.get(url: statsEndpoint);

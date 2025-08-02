@@ -1,15 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
-import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview_components.dart';
-import 'package:vndb_lite/src/features/home/presentation/components/section_content.dart';
-import 'package:vndb_lite/src/features/vn/domain/p1.dart';
+import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview/home_big_preview_components.dart';
+import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview/home_big_preview_state.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-
-final currentHomeBigPreviewProvider = StateProvider<VnDataPhase01?>((ref) {
-  return;
-});
 
 class HomeBigPreview extends ConsumerWidget {
   const HomeBigPreview({super.key});
@@ -19,7 +14,7 @@ class HomeBigPreview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final p1Data = ref.watch(homeRatingPreviewsProvider);
+    final p1Data = ref.watch(homeBigPreviewItemsProvider);
     if (p1Data.isEmpty) return const SizedBox.shrink();
 
     return DecoratedBox(

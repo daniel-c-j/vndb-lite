@@ -1,7 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/constants/network_constants.dart';
@@ -20,7 +18,7 @@ class RemoteSyncRepo {
   final ApiService _apiService;
   final LocalCollectionRepo _collection;
 
-  static final authEndpoint = NetConsts.BASE_URL + "/kana/authinfo";
+  static const authEndpoint = "${NetConsts.BASE_URL}/kana/authinfo";
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -59,7 +57,7 @@ class RemoteSyncRepo {
   Future<List> getLatestDataFromCloud(String userId) async {
     // Get the collections from the cloud.
     final Response requestToServer = await _apiService.post(
-      url: NetConsts.BASE_URL + "/kana/ulist",
+      url: "${NetConsts.BASE_URL}/kana/ulist",
       data: {
         "user": userId,
         "sort": SortableCode.added.name,
@@ -194,7 +192,7 @@ class RemoteSyncRepo {
   Future<void> delete(String vnId, {required String authToken}) async {
     return await Future.delayed(const Duration(milliseconds: 1200), () async {
       await _apiService.delete(
-        url: NetConsts.BASE_URL + "/kana/ulist/$vnId",
+        url: "${NetConsts.BASE_URL}/kana/ulist/$vnId",
         options: Options(
           contentType: 'application/json',
           headers: {'Authorization': 'token $authToken'},
@@ -216,7 +214,7 @@ class RemoteSyncRepo {
       // Despite how the method name is "patch", it still works logically as if posting
       // a new data related to the user, that is, posting new vnrecord related to the user.
       await _apiService.patch(
-        url: NetConsts.BASE_URL + "/kana/ulist/${localRecord.id}",
+        url: "${NetConsts.BASE_URL}/kana/ulist/${localRecord.id}",
         options: Options(
           contentType: 'application/json',
           headers: {'Authorization': 'token $authToken'},

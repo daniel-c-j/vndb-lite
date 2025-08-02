@@ -6,367 +6,311 @@ part of 'home_preview_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homePreviewServiceHash() =>
-    r'2ef4eb34c6a6e92506e9657d908518ef4ae2321e';
-
-/// See also [homePreviewService].
 @ProviderFor(homePreviewService)
-final homePreviewServiceProvider =
-    AutoDisposeProvider<HomePreviewService>.internal(
-      homePreviewService,
-      name: r'homePreviewServiceProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$homePreviewServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+const homePreviewServiceProvider = HomePreviewServiceProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef HomePreviewServiceRef = AutoDisposeProviderRef<HomePreviewService>;
-String _$getPreviewDataHash() => r'3c4a4f5ce7900b58e8f67fd4218c9226dc399f88';
+final class HomePreviewServiceProvider
+    extends
+        $FunctionalProvider<
+          HomePreviewService,
+          HomePreviewService,
+          HomePreviewService
+        >
+    with $Provider<HomePreviewService> {
+  const HomePreviewServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'homePreviewServiceProvider',
+        isAutoDispose: true,
+        dependencies: const <ProviderOrFamily>[
+          localHomeRepoProvider,
+          remoteHomeRepoProvider,
+          localVnRepoProvider,
+        ],
+        $allTransitiveDependencies: const <ProviderOrFamily>{
+          HomePreviewServiceProvider.$allTransitiveDependencies0,
+          HomePreviewServiceProvider.$allTransitiveDependencies1,
+          HomePreviewServiceProvider.$allTransitiveDependencies2,
+          HomePreviewServiceProvider.$allTransitiveDependencies3,
+          HomePreviewServiceProvider.$allTransitiveDependencies4,
+          HomePreviewServiceProvider.$allTransitiveDependencies5,
+        },
+      );
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
+  static const $allTransitiveDependencies0 = localHomeRepoProvider;
+  static const $allTransitiveDependencies1 =
+      LocalHomeRepoProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 = remoteHomeRepoProvider;
+  static const $allTransitiveDependencies3 =
+      RemoteHomeRepoProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies4 =
+      RemoteHomeRepoProvider.$allTransitiveDependencies1;
+  static const $allTransitiveDependencies5 =
+      RemoteHomeRepoProvider.$allTransitiveDependencies3;
 
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
+  @override
+  String debugGetCreateSourceHash() => _$homePreviewServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<HomePreviewService> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  HomePreviewService create(Ref ref) {
+    return homePreviewService(ref);
   }
 
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(HomePreviewService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<HomePreviewService>(value),
+    );
   }
 }
 
-/// See also [getPreviewData].
+String _$homePreviewServiceHash() =>
+    r'5730a9af91f824e8dcd2562f7ab0a47ad4dd47f4';
+
 @ProviderFor(getPreviewData)
-const getPreviewDataProvider = GetPreviewDataFamily();
+const getPreviewDataProvider = GetPreviewDataFamily._();
 
-/// See also [getPreviewData].
-class GetPreviewDataFamily extends Family<AsyncValue<dynamic>> {
-  /// See also [getPreviewData].
-  const GetPreviewDataFamily();
+final class GetPreviewDataProvider
+    extends $FunctionalProvider<AsyncValue<dynamic>, dynamic, FutureOr<dynamic>>
+    with $FutureModifier<dynamic>, $FutureProvider<dynamic> {
+  const GetPreviewDataProvider._({
+    required GetPreviewDataFamily super.from,
+    required ({
+      HomeSectionsCode sectionData,
+      String cacheKey,
+      int maxItem,
+      CancelToken? cancelToken,
+    })
+    super.argument,
+  }) : super(
+         retry: null,
+         name: r'getPreviewDataProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [getPreviewData].
+  static const $allTransitiveDependencies0 = homePreviewServiceProvider;
+  static const $allTransitiveDependencies1 =
+      HomePreviewServiceProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      HomePreviewServiceProvider.$allTransitiveDependencies1;
+  static const $allTransitiveDependencies3 =
+      HomePreviewServiceProvider.$allTransitiveDependencies2;
+  static const $allTransitiveDependencies4 =
+      HomePreviewServiceProvider.$allTransitiveDependencies3;
+  static const $allTransitiveDependencies5 =
+      HomePreviewServiceProvider.$allTransitiveDependencies4;
+  static const $allTransitiveDependencies6 =
+      HomePreviewServiceProvider.$allTransitiveDependencies5;
+
+  @override
+  String debugGetCreateSourceHash() => _$getPreviewDataHash();
+
+  @override
+  String toString() {
+    return r'getPreviewDataProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<dynamic> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<dynamic> create(Ref ref) {
+    final argument =
+        this.argument
+            as ({
+              HomeSectionsCode sectionData,
+              String cacheKey,
+              int maxItem,
+              CancelToken? cancelToken,
+            });
+    return getPreviewData(
+      ref,
+      sectionData: argument.sectionData,
+      cacheKey: argument.cacheKey,
+      maxItem: argument.maxItem,
+      cancelToken: argument.cancelToken,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetPreviewDataProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$getPreviewDataHash() => r'577d54aa734392466eeb7c63d3fdfa7a3c5cbbd4';
+
+final class GetPreviewDataFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<dynamic>,
+          ({
+            HomeSectionsCode sectionData,
+            String cacheKey,
+            int maxItem,
+            CancelToken? cancelToken,
+          })
+        > {
+  const GetPreviewDataFamily._()
+    : super(
+        retry: null,
+        name: r'getPreviewDataProvider',
+        dependencies: const <ProviderOrFamily>[homePreviewServiceProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>{
+          GetPreviewDataProvider.$allTransitiveDependencies0,
+          GetPreviewDataProvider.$allTransitiveDependencies1,
+          GetPreviewDataProvider.$allTransitiveDependencies2,
+          GetPreviewDataProvider.$allTransitiveDependencies3,
+          GetPreviewDataProvider.$allTransitiveDependencies4,
+          GetPreviewDataProvider.$allTransitiveDependencies5,
+          GetPreviewDataProvider.$allTransitiveDependencies6,
+        },
+        isAutoDispose: true,
+      );
+
   GetPreviewDataProvider call({
     required HomeSectionsCode sectionData,
     required String cacheKey,
     required int maxItem,
     CancelToken? cancelToken,
-  }) {
-    return GetPreviewDataProvider(
+  }) => GetPreviewDataProvider._(
+    argument: (
       sectionData: sectionData,
       cacheKey: cacheKey,
       maxItem: maxItem,
       cancelToken: cancelToken,
-    );
-  }
+    ),
+    from: this,
+  );
 
   @override
-  GetPreviewDataProvider getProviderOverride(
-    covariant GetPreviewDataProvider provider,
-  ) {
-    return call(
-      sectionData: provider.sectionData,
-      cacheKey: provider.cacheKey,
-      maxItem: provider.maxItem,
-      cancelToken: provider.cancelToken,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getPreviewDataProvider';
+  String toString() => r'getPreviewDataProvider';
 }
 
-/// See also [getPreviewData].
-class GetPreviewDataProvider extends AutoDisposeFutureProvider<dynamic> {
-  /// See also [getPreviewData].
-  GetPreviewDataProvider({
-    required HomeSectionsCode sectionData,
-    required String cacheKey,
-    required int maxItem,
-    CancelToken? cancelToken,
-  }) : this._internal(
-         (ref) => getPreviewData(
-           ref as GetPreviewDataRef,
-           sectionData: sectionData,
-           cacheKey: cacheKey,
-           maxItem: maxItem,
-           cancelToken: cancelToken,
-         ),
-         from: getPreviewDataProvider,
-         name: r'getPreviewDataProvider',
-         debugGetCreateSourceHash:
-             const bool.fromEnvironment('dart.vm.product')
-                 ? null
-                 : _$getPreviewDataHash,
-         dependencies: GetPreviewDataFamily._dependencies,
-         allTransitiveDependencies:
-             GetPreviewDataFamily._allTransitiveDependencies,
-         sectionData: sectionData,
-         cacheKey: cacheKey,
-         maxItem: maxItem,
-         cancelToken: cancelToken,
+@ProviderFor(formatPreviewData)
+const formatPreviewDataProvider = FormatPreviewDataFamily._();
+
+final class FormatPreviewDataProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<VnDataPhase01>>,
+          List<VnDataPhase01>,
+          FutureOr<List<VnDataPhase01>>
+        >
+    with
+        $FutureModifier<List<VnDataPhase01>>,
+        $FutureProvider<List<VnDataPhase01>> {
+  const FormatPreviewDataProvider._({
+    required FormatPreviewDataFamily super.from,
+    required (dynamic, {String cacheKey}) super.argument,
+  }) : super(
+         retry: null,
+         name: r'formatPreviewDataProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
        );
 
-  GetPreviewDataProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.sectionData,
-    required this.cacheKey,
-    required this.maxItem,
-    required this.cancelToken,
-  }) : super.internal();
-
-  final HomeSectionsCode sectionData;
-  final String cacheKey;
-  final int maxItem;
-  final CancelToken? cancelToken;
+  static const $allTransitiveDependencies0 = homePreviewServiceProvider;
+  static const $allTransitiveDependencies1 =
+      HomePreviewServiceProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      HomePreviewServiceProvider.$allTransitiveDependencies1;
+  static const $allTransitiveDependencies3 =
+      HomePreviewServiceProvider.$allTransitiveDependencies2;
+  static const $allTransitiveDependencies4 =
+      HomePreviewServiceProvider.$allTransitiveDependencies3;
+  static const $allTransitiveDependencies5 =
+      HomePreviewServiceProvider.$allTransitiveDependencies4;
+  static const $allTransitiveDependencies6 =
+      HomePreviewServiceProvider.$allTransitiveDependencies5;
 
   @override
-  Override overrideWith(
-    FutureOr<dynamic> Function(GetPreviewDataRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: GetPreviewDataProvider._internal(
-        (ref) => create(ref as GetPreviewDataRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        sectionData: sectionData,
-        cacheKey: cacheKey,
-        maxItem: maxItem,
-        cancelToken: cancelToken,
-      ),
-    );
+  String debugGetCreateSourceHash() => _$formatPreviewDataHash();
+
+  @override
+  String toString() {
+    return r'formatPreviewDataProvider'
+        ''
+        '$argument';
   }
 
+  @$internal
   @override
-  AutoDisposeFutureProviderElement<dynamic> createElement() {
-    return _GetPreviewDataProviderElement(this);
+  $FutureProviderElement<List<VnDataPhase01>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<VnDataPhase01>> create(Ref ref) {
+    final argument = this.argument as (dynamic, {String cacheKey});
+    return formatPreviewData(ref, argument.$1, cacheKey: argument.cacheKey);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetPreviewDataProvider &&
-        other.sectionData == sectionData &&
-        other.cacheKey == cacheKey &&
-        other.maxItem == maxItem &&
-        other.cancelToken == cancelToken;
+    return other is FormatPreviewDataProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, sectionData.hashCode);
-    hash = _SystemHash.combine(hash, cacheKey.hashCode);
-    hash = _SystemHash.combine(hash, maxItem.hashCode);
-    hash = _SystemHash.combine(hash, cancelToken.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin GetPreviewDataRef on AutoDisposeFutureProviderRef<dynamic> {
-  /// The parameter `sectionData` of this provider.
-  HomeSectionsCode get sectionData;
+String _$formatPreviewDataHash() => r'5c2e6f6c1161cf6b12ca087d457ca0154f0f7867';
 
-  /// The parameter `cacheKey` of this provider.
-  String get cacheKey;
-
-  /// The parameter `maxItem` of this provider.
-  int get maxItem;
-
-  /// The parameter `cancelToken` of this provider.
-  CancelToken? get cancelToken;
-}
-
-class _GetPreviewDataProviderElement
-    extends AutoDisposeFutureProviderElement<dynamic>
-    with GetPreviewDataRef {
-  _GetPreviewDataProviderElement(super.provider);
-
-  @override
-  HomeSectionsCode get sectionData =>
-      (origin as GetPreviewDataProvider).sectionData;
-  @override
-  String get cacheKey => (origin as GetPreviewDataProvider).cacheKey;
-  @override
-  int get maxItem => (origin as GetPreviewDataProvider).maxItem;
-  @override
-  CancelToken? get cancelToken =>
-      (origin as GetPreviewDataProvider).cancelToken;
-}
-
-String _$formatPreviewDataHash() => r'c4626ace9c8d16cf853ffbfe1a6e32bc8b88234e';
-
-/// See also [formatPreviewData].
-@ProviderFor(formatPreviewData)
-const formatPreviewDataProvider = FormatPreviewDataFamily();
-
-/// See also [formatPreviewData].
-class FormatPreviewDataFamily extends Family<AsyncValue<List<VnDataPhase01>>> {
-  /// See also [formatPreviewData].
-  const FormatPreviewDataFamily();
-
-  /// See also [formatPreviewData].
-  FormatPreviewDataProvider call(dynamic rawData, {required String cacheKey}) {
-    return FormatPreviewDataProvider(rawData, cacheKey: cacheKey);
-  }
-
-  @override
-  FormatPreviewDataProvider getProviderOverride(
-    covariant FormatPreviewDataProvider provider,
-  ) {
-    return call(provider.rawData, cacheKey: provider.cacheKey);
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'formatPreviewDataProvider';
-}
-
-/// See also [formatPreviewData].
-class FormatPreviewDataProvider
-    extends AutoDisposeFutureProvider<List<VnDataPhase01>> {
-  /// See also [formatPreviewData].
-  FormatPreviewDataProvider(dynamic rawData, {required String cacheKey})
-    : this._internal(
-        (ref) => formatPreviewData(
-          ref as FormatPreviewDataRef,
-          rawData,
-          cacheKey: cacheKey,
-        ),
-        from: formatPreviewDataProvider,
+final class FormatPreviewDataFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<List<VnDataPhase01>>,
+          (dynamic, {String cacheKey})
+        > {
+  const FormatPreviewDataFamily._()
+    : super(
+        retry: null,
         name: r'formatPreviewDataProvider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product')
-                ? null
-                : _$formatPreviewDataHash,
-        dependencies: FormatPreviewDataFamily._dependencies,
-        allTransitiveDependencies:
-            FormatPreviewDataFamily._allTransitiveDependencies,
-        rawData: rawData,
-        cacheKey: cacheKey,
+        dependencies: const <ProviderOrFamily>[homePreviewServiceProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>{
+          FormatPreviewDataProvider.$allTransitiveDependencies0,
+          FormatPreviewDataProvider.$allTransitiveDependencies1,
+          FormatPreviewDataProvider.$allTransitiveDependencies2,
+          FormatPreviewDataProvider.$allTransitiveDependencies3,
+          FormatPreviewDataProvider.$allTransitiveDependencies4,
+          FormatPreviewDataProvider.$allTransitiveDependencies5,
+          FormatPreviewDataProvider.$allTransitiveDependencies6,
+        },
+        isAutoDispose: true,
       );
 
-  FormatPreviewDataProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.rawData,
-    required this.cacheKey,
-  }) : super.internal();
-
-  final dynamic rawData;
-  final String cacheKey;
+  FormatPreviewDataProvider call(dynamic rawData, {required String cacheKey}) =>
+      FormatPreviewDataProvider._(
+        argument: (rawData, cacheKey: cacheKey),
+        from: this,
+      );
 
   @override
-  Override overrideWith(
-    FutureOr<List<VnDataPhase01>> Function(FormatPreviewDataRef provider)
-    create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: FormatPreviewDataProvider._internal(
-        (ref) => create(ref as FormatPreviewDataRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        rawData: rawData,
-        cacheKey: cacheKey,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<List<VnDataPhase01>> createElement() {
-    return _FormatPreviewDataProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is FormatPreviewDataProvider &&
-        other.rawData == rawData &&
-        other.cacheKey == cacheKey;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, rawData.hashCode);
-    hash = _SystemHash.combine(hash, cacheKey.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin FormatPreviewDataRef
-    on AutoDisposeFutureProviderRef<List<VnDataPhase01>> {
-  /// The parameter `rawData` of this provider.
-  dynamic get rawData;
-
-  /// The parameter `cacheKey` of this provider.
-  String get cacheKey;
-}
-
-class _FormatPreviewDataProviderElement
-    extends AutoDisposeFutureProviderElement<List<VnDataPhase01>>
-    with FormatPreviewDataRef {
-  _FormatPreviewDataProviderElement(super.provider);
-
-  @override
-  dynamic get rawData => (origin as FormatPreviewDataProvider).rawData;
-  @override
-  String get cacheKey => (origin as FormatPreviewDataProvider).cacheKey;
+  String toString() => r'formatPreviewDataProvider';
 }
 
 // ignore_for_file: type=lint

@@ -6,440 +6,368 @@ part of 'collection_selection_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$vnSelectionServiceHash() =>
-    r'3893142bc62e10864be15fa95ee1dd10e89414ad';
-
-/// See also [vnSelectionService].
 @ProviderFor(vnSelectionService)
-final vnSelectionServiceProvider =
-    AutoDisposeProvider<VnSelectionService>.internal(
-      vnSelectionService,
-      name: r'vnSelectionServiceProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$vnSelectionServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+const vnSelectionServiceProvider = VnSelectionServiceProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef VnSelectionServiceRef = AutoDisposeProviderRef<VnSelectionService>;
-String _$confirmSelectionHash() => r'7f8bcf81337ecd7c912a97ebef20d7af823b541d';
+final class VnSelectionServiceProvider
+    extends
+        $FunctionalProvider<
+          VnSelectionService,
+          VnSelectionService,
+          VnSelectionService
+        >
+    with $Provider<VnSelectionService> {
+  const VnSelectionServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'vnSelectionServiceProvider',
+        isAutoDispose: true,
+        dependencies: const <ProviderOrFamily>[
+          localVnRepoProvider,
+          localSyncRepoProvider,
+          fetchAndSaveP2DataProvider,
+          localCollectionRepoProvider,
+        ],
+        $allTransitiveDependencies: const <ProviderOrFamily>{
+          VnSelectionServiceProvider.$allTransitiveDependencies0,
+          VnSelectionServiceProvider.$allTransitiveDependencies1,
+          VnSelectionServiceProvider.$allTransitiveDependencies2,
+          VnSelectionServiceProvider.$allTransitiveDependencies3,
+          VnSelectionServiceProvider.$allTransitiveDependencies4,
+          VnSelectionServiceProvider.$allTransitiveDependencies5,
+          VnSelectionServiceProvider.$allTransitiveDependencies6,
+          VnSelectionServiceProvider.$allTransitiveDependencies7,
+          VnSelectionServiceProvider.$allTransitiveDependencies8,
+        },
+      );
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
+  static const $allTransitiveDependencies0 = localVnRepoProvider;
+  static const $allTransitiveDependencies1 =
+      LocalVnRepoProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 = localSyncRepoProvider;
+  static const $allTransitiveDependencies3 = fetchAndSaveP2DataProvider;
+  static const $allTransitiveDependencies4 =
+      FetchAndSaveP2DataProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies5 =
+      FetchAndSaveP2DataProvider.$allTransitiveDependencies1;
+  static const $allTransitiveDependencies6 =
+      FetchAndSaveP2DataProvider.$allTransitiveDependencies2;
+  static const $allTransitiveDependencies7 = localCollectionRepoProvider;
+  static const $allTransitiveDependencies8 =
+      LocalCollectionRepoProvider.$allTransitiveDependencies1;
 
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
+  @override
+  String debugGetCreateSourceHash() => _$vnSelectionServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<VnSelectionService> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  VnSelectionService create(Ref ref) {
+    return vnSelectionService(ref);
   }
 
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(VnSelectionService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<VnSelectionService>(value),
+    );
   }
 }
 
-/// See also [confirmSelection].
+String _$vnSelectionServiceHash() =>
+    r'95995de4660445a7b52adeafba51310bc296e103';
+
 @ProviderFor(confirmSelection)
-const confirmSelectionProvider = ConfirmSelectionFamily();
+const confirmSelectionProvider = ConfirmSelectionFamily._();
 
-/// See also [confirmSelection].
-class ConfirmSelectionFamily extends Family<AsyncValue<void>> {
-  /// See also [confirmSelection].
-  const ConfirmSelectionFamily();
+final class ConfirmSelectionProvider
+    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+    with $FutureModifier<void>, $FutureProvider<void> {
+  const ConfirmSelectionProvider._({
+    required ConfirmSelectionFamily super.from,
+    required ({
+      List<VnDataPhase01> p1List,
+      Map<String, VnRecord?> vnRecords,
+      VnSelection selection,
+      VoidCallback whenSuccess,
+      Function(Object, StackTrace) whenErr,
+      void Function(String) saveRefresh,
+    })
+    super.argument,
+  }) : super(
+         retry: null,
+         name: r'confirmSelectionProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [confirmSelection].
+  static const $allTransitiveDependencies0 = vnSelectionServiceProvider;
+  static const $allTransitiveDependencies1 =
+      VnSelectionServiceProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      VnSelectionServiceProvider.$allTransitiveDependencies1;
+  static const $allTransitiveDependencies3 =
+      VnSelectionServiceProvider.$allTransitiveDependencies2;
+  static const $allTransitiveDependencies4 =
+      VnSelectionServiceProvider.$allTransitiveDependencies3;
+  static const $allTransitiveDependencies5 =
+      VnSelectionServiceProvider.$allTransitiveDependencies4;
+  static const $allTransitiveDependencies6 =
+      VnSelectionServiceProvider.$allTransitiveDependencies5;
+  static const $allTransitiveDependencies7 =
+      VnSelectionServiceProvider.$allTransitiveDependencies6;
+  static const $allTransitiveDependencies8 =
+      VnSelectionServiceProvider.$allTransitiveDependencies7;
+  static const $allTransitiveDependencies9 =
+      VnSelectionServiceProvider.$allTransitiveDependencies8;
+
+  @override
+  String debugGetCreateSourceHash() => _$confirmSelectionHash();
+
+  @override
+  String toString() {
+    return r'confirmSelectionProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<void> create(Ref ref) {
+    final argument =
+        this.argument
+            as ({
+              List<VnDataPhase01> p1List,
+              Map<String, VnRecord?> vnRecords,
+              VnSelection selection,
+              VoidCallback whenSuccess,
+              Function(Object, StackTrace) whenErr,
+              void Function(String) saveRefresh,
+            });
+    return confirmSelection(
+      ref,
+      p1List: argument.p1List,
+      vnRecords: argument.vnRecords,
+      selection: argument.selection,
+      whenSuccess: argument.whenSuccess,
+      whenErr: argument.whenErr,
+      saveRefresh: argument.saveRefresh,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ConfirmSelectionProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$confirmSelectionHash() => r'7f8bcf81337ecd7c912a97ebef20d7af823b541d';
+
+final class ConfirmSelectionFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<void>,
+          ({
+            List<VnDataPhase01> p1List,
+            Map<String, VnRecord?> vnRecords,
+            VnSelection selection,
+            VoidCallback whenSuccess,
+            Function(Object, StackTrace) whenErr,
+            void Function(String) saveRefresh,
+          })
+        > {
+  const ConfirmSelectionFamily._()
+    : super(
+        retry: null,
+        name: r'confirmSelectionProvider',
+        dependencies: const <ProviderOrFamily>[vnSelectionServiceProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>{
+          ConfirmSelectionProvider.$allTransitiveDependencies0,
+          ConfirmSelectionProvider.$allTransitiveDependencies1,
+          ConfirmSelectionProvider.$allTransitiveDependencies2,
+          ConfirmSelectionProvider.$allTransitiveDependencies3,
+          ConfirmSelectionProvider.$allTransitiveDependencies4,
+          ConfirmSelectionProvider.$allTransitiveDependencies5,
+          ConfirmSelectionProvider.$allTransitiveDependencies6,
+          ConfirmSelectionProvider.$allTransitiveDependencies7,
+          ConfirmSelectionProvider.$allTransitiveDependencies8,
+          ConfirmSelectionProvider.$allTransitiveDependencies9,
+        },
+        isAutoDispose: true,
+      );
+
   ConfirmSelectionProvider call({
     required List<VnDataPhase01> p1List,
     required Map<String, VnRecord?> vnRecords,
     required VnSelection selection,
-    required void Function() whenSuccess,
-    required dynamic Function(Object, StackTrace) whenErr,
+    required VoidCallback whenSuccess,
+    required Function(Object, StackTrace) whenErr,
     required void Function(String) saveRefresh,
-  }) {
-    return ConfirmSelectionProvider(
+  }) => ConfirmSelectionProvider._(
+    argument: (
       p1List: p1List,
       vnRecords: vnRecords,
       selection: selection,
       whenSuccess: whenSuccess,
       whenErr: whenErr,
       saveRefresh: saveRefresh,
-    );
-  }
+    ),
+    from: this,
+  );
 
   @override
-  ConfirmSelectionProvider getProviderOverride(
-    covariant ConfirmSelectionProvider provider,
-  ) {
-    return call(
-      p1List: provider.p1List,
-      vnRecords: provider.vnRecords,
-      selection: provider.selection,
-      whenSuccess: provider.whenSuccess,
-      whenErr: provider.whenErr,
-      saveRefresh: provider.saveRefresh,
-    );
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    vnSelectionServiceProvider,
-  ];
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        vnSelectionServiceProvider,
-        ...?vnSelectionServiceProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'confirmSelectionProvider';
+  String toString() => r'confirmSelectionProvider';
 }
 
-/// See also [confirmSelection].
-class ConfirmSelectionProvider extends AutoDisposeFutureProvider<void> {
-  /// See also [confirmSelection].
-  ConfirmSelectionProvider({
-    required List<VnDataPhase01> p1List,
-    required Map<String, VnRecord?> vnRecords,
-    required VnSelection selection,
-    required void Function() whenSuccess,
-    required dynamic Function(Object, StackTrace) whenErr,
-    required void Function(String) saveRefresh,
-  }) : this._internal(
-         (ref) => confirmSelection(
-           ref as ConfirmSelectionRef,
-           p1List: p1List,
-           vnRecords: vnRecords,
-           selection: selection,
-           whenSuccess: whenSuccess,
-           whenErr: whenErr,
-           saveRefresh: saveRefresh,
-         ),
-         from: confirmSelectionProvider,
-         name: r'confirmSelectionProvider',
-         debugGetCreateSourceHash:
-             const bool.fromEnvironment('dart.vm.product')
-                 ? null
-                 : _$confirmSelectionHash,
-         dependencies: ConfirmSelectionFamily._dependencies,
-         allTransitiveDependencies:
-             ConfirmSelectionFamily._allTransitiveDependencies,
-         p1List: p1List,
-         vnRecords: vnRecords,
-         selection: selection,
-         whenSuccess: whenSuccess,
-         whenErr: whenErr,
-         saveRefresh: saveRefresh,
+@ProviderFor(removeSelection)
+const removeSelectionProvider = RemoveSelectionFamily._();
+
+final class RemoveSelectionProvider
+    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+    with $FutureModifier<void>, $FutureProvider<void> {
+  const RemoveSelectionProvider._({
+    required RemoveSelectionFamily super.from,
+    required (
+      List<VnRecord?>, {
+      VoidCallback whenSuccess,
+      void Function(String) removeRefresh,
+    })
+    super.argument,
+  }) : super(
+         retry: null,
+         name: r'removeSelectionProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
        );
 
-  ConfirmSelectionProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.p1List,
-    required this.vnRecords,
-    required this.selection,
-    required this.whenSuccess,
-    required this.whenErr,
-    required this.saveRefresh,
-  }) : super.internal();
-
-  final List<VnDataPhase01> p1List;
-  final Map<String, VnRecord?> vnRecords;
-  final VnSelection selection;
-  final void Function() whenSuccess;
-  final dynamic Function(Object, StackTrace) whenErr;
-  final void Function(String) saveRefresh;
+  static const $allTransitiveDependencies0 = vnSelectionServiceProvider;
+  static const $allTransitiveDependencies1 =
+      VnSelectionServiceProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      VnSelectionServiceProvider.$allTransitiveDependencies1;
+  static const $allTransitiveDependencies3 =
+      VnSelectionServiceProvider.$allTransitiveDependencies2;
+  static const $allTransitiveDependencies4 =
+      VnSelectionServiceProvider.$allTransitiveDependencies3;
+  static const $allTransitiveDependencies5 =
+      VnSelectionServiceProvider.$allTransitiveDependencies4;
+  static const $allTransitiveDependencies6 =
+      VnSelectionServiceProvider.$allTransitiveDependencies5;
+  static const $allTransitiveDependencies7 =
+      VnSelectionServiceProvider.$allTransitiveDependencies6;
+  static const $allTransitiveDependencies8 =
+      VnSelectionServiceProvider.$allTransitiveDependencies7;
+  static const $allTransitiveDependencies9 =
+      VnSelectionServiceProvider.$allTransitiveDependencies8;
 
   @override
-  Override overrideWith(
-    FutureOr<void> Function(ConfirmSelectionRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: ConfirmSelectionProvider._internal(
-        (ref) => create(ref as ConfirmSelectionRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        p1List: p1List,
-        vnRecords: vnRecords,
-        selection: selection,
-        whenSuccess: whenSuccess,
-        whenErr: whenErr,
-        saveRefresh: saveRefresh,
-      ),
-    );
+  String debugGetCreateSourceHash() => _$removeSelectionHash();
+
+  @override
+  String toString() {
+    return r'removeSelectionProvider'
+        ''
+        '$argument';
   }
 
+  @$internal
   @override
-  AutoDisposeFutureProviderElement<void> createElement() {
-    return _ConfirmSelectionProviderElement(this);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<void> create(Ref ref) {
+    final argument =
+        this.argument
+            as (
+              List<VnRecord?>, {
+              VoidCallback whenSuccess,
+              void Function(String) removeRefresh,
+            });
+    return removeSelection(
+      ref,
+      argument.$1,
+      whenSuccess: argument.whenSuccess,
+      removeRefresh: argument.removeRefresh,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is ConfirmSelectionProvider &&
-        other.p1List == p1List &&
-        other.vnRecords == vnRecords &&
-        other.selection == selection &&
-        other.whenSuccess == whenSuccess &&
-        other.whenErr == whenErr &&
-        other.saveRefresh == saveRefresh;
+    return other is RemoveSelectionProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, p1List.hashCode);
-    hash = _SystemHash.combine(hash, vnRecords.hashCode);
-    hash = _SystemHash.combine(hash, selection.hashCode);
-    hash = _SystemHash.combine(hash, whenSuccess.hashCode);
-    hash = _SystemHash.combine(hash, whenErr.hashCode);
-    hash = _SystemHash.combine(hash, saveRefresh.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin ConfirmSelectionRef on AutoDisposeFutureProviderRef<void> {
-  /// The parameter `p1List` of this provider.
-  List<VnDataPhase01> get p1List;
-
-  /// The parameter `vnRecords` of this provider.
-  Map<String, VnRecord?> get vnRecords;
-
-  /// The parameter `selection` of this provider.
-  VnSelection get selection;
-
-  /// The parameter `whenSuccess` of this provider.
-  void Function() get whenSuccess;
-
-  /// The parameter `whenErr` of this provider.
-  dynamic Function(Object, StackTrace) get whenErr;
-
-  /// The parameter `saveRefresh` of this provider.
-  void Function(String) get saveRefresh;
-}
-
-class _ConfirmSelectionProviderElement
-    extends AutoDisposeFutureProviderElement<void>
-    with ConfirmSelectionRef {
-  _ConfirmSelectionProviderElement(super.provider);
-
-  @override
-  List<VnDataPhase01> get p1List => (origin as ConfirmSelectionProvider).p1List;
-  @override
-  Map<String, VnRecord?> get vnRecords =>
-      (origin as ConfirmSelectionProvider).vnRecords;
-  @override
-  VnSelection get selection => (origin as ConfirmSelectionProvider).selection;
-  @override
-  void Function() get whenSuccess =>
-      (origin as ConfirmSelectionProvider).whenSuccess;
-  @override
-  dynamic Function(Object, StackTrace) get whenErr =>
-      (origin as ConfirmSelectionProvider).whenErr;
-  @override
-  void Function(String) get saveRefresh =>
-      (origin as ConfirmSelectionProvider).saveRefresh;
 }
 
 String _$removeSelectionHash() => r'47fb3fef49d033507061f7e220d9b17ebb20b0dd';
 
-/// See also [removeSelection].
-@ProviderFor(removeSelection)
-const removeSelectionProvider = RemoveSelectionFamily();
+final class RemoveSelectionFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<void>,
+          (
+            List<VnRecord?>, {
+            VoidCallback whenSuccess,
+            void Function(String) removeRefresh,
+          })
+        > {
+  const RemoveSelectionFamily._()
+    : super(
+        retry: null,
+        name: r'removeSelectionProvider',
+        dependencies: const <ProviderOrFamily>[vnSelectionServiceProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>{
+          RemoveSelectionProvider.$allTransitiveDependencies0,
+          RemoveSelectionProvider.$allTransitiveDependencies1,
+          RemoveSelectionProvider.$allTransitiveDependencies2,
+          RemoveSelectionProvider.$allTransitiveDependencies3,
+          RemoveSelectionProvider.$allTransitiveDependencies4,
+          RemoveSelectionProvider.$allTransitiveDependencies5,
+          RemoveSelectionProvider.$allTransitiveDependencies6,
+          RemoveSelectionProvider.$allTransitiveDependencies7,
+          RemoveSelectionProvider.$allTransitiveDependencies8,
+          RemoveSelectionProvider.$allTransitiveDependencies9,
+        },
+        isAutoDispose: true,
+      );
 
-/// See also [removeSelection].
-class RemoveSelectionFamily extends Family<AsyncValue<void>> {
-  /// See also [removeSelection].
-  const RemoveSelectionFamily();
-
-  /// See also [removeSelection].
   RemoveSelectionProvider call(
     List<VnRecord?> vnRecords, {
-    required void Function() whenSuccess,
+    required VoidCallback whenSuccess,
     required void Function(String) removeRefresh,
-  }) {
-    return RemoveSelectionProvider(
+  }) => RemoveSelectionProvider._(
+    argument: (
       vnRecords,
       whenSuccess: whenSuccess,
       removeRefresh: removeRefresh,
-    );
-  }
+    ),
+    from: this,
+  );
 
   @override
-  RemoveSelectionProvider getProviderOverride(
-    covariant RemoveSelectionProvider provider,
-  ) {
-    return call(
-      provider.vnRecords,
-      whenSuccess: provider.whenSuccess,
-      removeRefresh: provider.removeRefresh,
-    );
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    vnSelectionServiceProvider,
-  ];
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        vnSelectionServiceProvider,
-        ...?vnSelectionServiceProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'removeSelectionProvider';
-}
-
-/// See also [removeSelection].
-class RemoveSelectionProvider extends AutoDisposeFutureProvider<void> {
-  /// See also [removeSelection].
-  RemoveSelectionProvider(
-    List<VnRecord?> vnRecords, {
-    required void Function() whenSuccess,
-    required void Function(String) removeRefresh,
-  }) : this._internal(
-         (ref) => removeSelection(
-           ref as RemoveSelectionRef,
-           vnRecords,
-           whenSuccess: whenSuccess,
-           removeRefresh: removeRefresh,
-         ),
-         from: removeSelectionProvider,
-         name: r'removeSelectionProvider',
-         debugGetCreateSourceHash:
-             const bool.fromEnvironment('dart.vm.product')
-                 ? null
-                 : _$removeSelectionHash,
-         dependencies: RemoveSelectionFamily._dependencies,
-         allTransitiveDependencies:
-             RemoveSelectionFamily._allTransitiveDependencies,
-         vnRecords: vnRecords,
-         whenSuccess: whenSuccess,
-         removeRefresh: removeRefresh,
-       );
-
-  RemoveSelectionProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.vnRecords,
-    required this.whenSuccess,
-    required this.removeRefresh,
-  }) : super.internal();
-
-  final List<VnRecord?> vnRecords;
-  final void Function() whenSuccess;
-  final void Function(String) removeRefresh;
-
-  @override
-  Override overrideWith(
-    FutureOr<void> Function(RemoveSelectionRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: RemoveSelectionProvider._internal(
-        (ref) => create(ref as RemoveSelectionRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        vnRecords: vnRecords,
-        whenSuccess: whenSuccess,
-        removeRefresh: removeRefresh,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<void> createElement() {
-    return _RemoveSelectionProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is RemoveSelectionProvider &&
-        other.vnRecords == vnRecords &&
-        other.whenSuccess == whenSuccess &&
-        other.removeRefresh == removeRefresh;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, vnRecords.hashCode);
-    hash = _SystemHash.combine(hash, whenSuccess.hashCode);
-    hash = _SystemHash.combine(hash, removeRefresh.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin RemoveSelectionRef on AutoDisposeFutureProviderRef<void> {
-  /// The parameter `vnRecords` of this provider.
-  List<VnRecord?> get vnRecords;
-
-  /// The parameter `whenSuccess` of this provider.
-  void Function() get whenSuccess;
-
-  /// The parameter `removeRefresh` of this provider.
-  void Function(String) get removeRefresh;
-}
-
-class _RemoveSelectionProviderElement
-    extends AutoDisposeFutureProviderElement<void>
-    with RemoveSelectionRef {
-  _RemoveSelectionProviderElement(super.provider);
-
-  @override
-  List<VnRecord?> get vnRecords =>
-      (origin as RemoveSelectionProvider).vnRecords;
-  @override
-  void Function() get whenSuccess =>
-      (origin as RemoveSelectionProvider).whenSuccess;
-  @override
-  void Function(String) get removeRefresh =>
-      (origin as RemoveSelectionProvider).removeRefresh;
+  String toString() => r'removeSelectionProvider';
 }
 
 // ignore_for_file: type=lint

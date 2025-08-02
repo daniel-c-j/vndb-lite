@@ -49,6 +49,4 @@ class DioFactory {
 }
 
 @riverpod
-Dio dio(Ref ref) {
-  return DioFactory.produce();
-}
+Dio dio(Ref ref) => DioFactory.produce();

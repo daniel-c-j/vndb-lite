@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:vndb_lite/src/common_widgets/generic_local_empty_content.dart';
+import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_inner_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
@@ -67,7 +68,7 @@ class CollectionContent extends ConsumerWidget {
                   ),
                 ),
               ),
-          SliverToBoxAdapter(child: SizedBox(height: MainInnerLayout.bottomPadding)),
+          SliverToBoxAdapter(child: SizedBox(height: MainOuterLayout.bottomPadding)),
         ],
       ),
     );

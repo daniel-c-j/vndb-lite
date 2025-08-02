@@ -6,25 +6,62 @@ part of 'connectivity_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$connectivityNotifierHash() =>
-    r'a996eea90461cb6de20285a562d2f472171e9a1e';
+/// Watching this will cause the widget to rebuild based on the internet connectivity status.
+@ProviderFor(ConnectivityNotifier)
+const connectivityNotifierProvider = ConnectivityNotifierProvider._();
 
 /// Watching this will cause the widget to rebuild based on the internet connectivity status.
-///
-/// Copied from [ConnectivityNotifier].
-@ProviderFor(ConnectivityNotifier)
-final connectivityNotifierProvider =
-    NotifierProvider<ConnectivityNotifier, bool>.internal(
-      ConnectivityNotifier.new,
-      name: r'connectivityNotifierProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$connectivityNotifierHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final class ConnectivityNotifierProvider
+    extends $NotifierProvider<ConnectivityNotifier, bool> {
+  /// Watching this will cause the widget to rebuild based on the internet connectivity status.
+  const ConnectivityNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'connectivityNotifierProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
-typedef _$ConnectivityNotifier = Notifier<bool>;
+  @override
+  String debugGetCreateSourceHash() => _$connectivityNotifierHash();
+
+  @$internal
+  @override
+  ConnectivityNotifier create() => ConnectivityNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$connectivityNotifierHash() =>
+    r'9d002fb7763e31191b5f8137ef0f1492a6b47e06';
+
+abstract class _$ConnectivityNotifier extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<bool, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

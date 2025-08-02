@@ -4,12 +4,10 @@ import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 
 part 'record_selected_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [localVnRepo])
 class RecordSelectedController extends _$RecordSelectedController {
   @override
-  List<String> build() {
-    return [];
-  }
+  List<String> build() => [];
 
   set record(List<String> value) => state = value;
 

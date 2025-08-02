@@ -166,7 +166,7 @@ class ApiService {
   //
 }
 
-@riverpod
+@Riverpod(dependencies: [dio])
 ApiService apiService(Ref ref) {
   final dio = ref.watch(dioProvider);
   return ApiService(dio);

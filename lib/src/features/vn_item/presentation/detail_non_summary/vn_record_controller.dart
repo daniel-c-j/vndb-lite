@@ -5,7 +5,7 @@ import 'package:vndb_lite/src/util/debouncer.dart';
 
 part 'vn_record_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [localCollectionRepo])
 class VnRecordController extends _$VnRecordController {
   final _debouncer = Debouncer(delay: const Duration(milliseconds: 400));
 

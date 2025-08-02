@@ -6,21 +6,52 @@ part of 'shared_prefs.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+@ProviderFor(sharedPref)
+const sharedPrefProvider = SharedPrefProvider._();
+
+final class SharedPrefProvider
+    extends
+        $FunctionalProvider<
+          SharedPreferences,
+          SharedPreferences,
+          SharedPreferences
+        >
+    with $Provider<SharedPreferences> {
+  const SharedPrefProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sharedPrefProvider',
+        isAutoDispose: false,
+        dependencies: const <ProviderOrFamily>[],
+        $allTransitiveDependencies: const <ProviderOrFamily>[],
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$sharedPrefHash();
+
+  @$internal
+  @override
+  $ProviderElement<SharedPreferences> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  SharedPreferences create(Ref ref) {
+    return sharedPref(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SharedPreferences value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SharedPreferences>(value),
+    );
+  }
+}
+
 String _$sharedPrefHash() => r'e11f1737b6dc4fabc2ec023c955b843f07c1e24c';
 
-/// See also [sharedPref].
-@ProviderFor(sharedPref)
-final sharedPrefProvider = Provider<SharedPreferences>.internal(
-  sharedPref,
-  name: r'sharedPrefProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$sharedPrefHash,
-  dependencies: const <ProviderOrFamily>[],
-  allTransitiveDependencies: const <ProviderOrFamily>{},
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SharedPrefRef = ProviderRef<SharedPreferences>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

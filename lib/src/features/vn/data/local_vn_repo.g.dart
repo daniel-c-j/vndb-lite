@@ -6,410 +6,295 @@ part of 'local_vn_repo.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localVnRepoHash() => r'dd8b14ad372e062d9b64dcfa653176eac54af712';
-
-/// See also [localVnRepo].
 @ProviderFor(localVnRepo)
-final localVnRepoProvider = AutoDisposeProvider<LocalVnRepo>.internal(
-  localVnRepo,
-  name: r'localVnRepoProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$localVnRepoHash,
-  dependencies: <ProviderOrFamily>[sharedPrefProvider],
-  allTransitiveDependencies: <ProviderOrFamily>{
-    sharedPrefProvider,
-    ...?sharedPrefProvider.allTransitiveDependencies,
-  },
-);
+const localVnRepoProvider = LocalVnRepoProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef LocalVnRepoRef = AutoDisposeProviderRef<LocalVnRepo>;
-String _$getP1Hash() => r'de7d94bfe96a05b23c662f98d6e0c36b6c6dfa34';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// See also [getP1].
-@ProviderFor(getP1)
-const getP1Provider = GetP1Family();
-
-/// See also [getP1].
-class GetP1Family extends Family<AsyncValue<VnDataPhase01?>> {
-  /// See also [getP1].
-  const GetP1Family();
-
-  /// See also [getP1].
-  GetP1Provider call(String vnId) {
-    return GetP1Provider(vnId);
-  }
-
-  @override
-  GetP1Provider getProviderOverride(covariant GetP1Provider provider) {
-    return call(provider.vnId);
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    localVnRepoProvider,
-  ];
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        localVnRepoProvider,
-        ...?localVnRepoProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getP1Provider';
-}
-
-/// See also [getP1].
-class GetP1Provider extends AutoDisposeFutureProvider<VnDataPhase01?> {
-  /// See also [getP1].
-  GetP1Provider(String vnId)
-    : this._internal(
-        (ref) => getP1(ref as GetP1Ref, vnId),
-        from: getP1Provider,
-        name: r'getP1Provider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product') ? null : _$getP1Hash,
-        dependencies: GetP1Family._dependencies,
-        allTransitiveDependencies: GetP1Family._allTransitiveDependencies,
-        vnId: vnId,
+final class LocalVnRepoProvider
+    extends $FunctionalProvider<LocalVnRepo, LocalVnRepo, LocalVnRepo>
+    with $Provider<LocalVnRepo> {
+  const LocalVnRepoProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'localVnRepoProvider',
+        isAutoDispose: true,
+        dependencies: const <ProviderOrFamily>[sharedPrefProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          LocalVnRepoProvider.$allTransitiveDependencies0,
+        ],
       );
 
-  GetP1Provider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.vnId,
-  }) : super.internal();
-
-  final String vnId;
+  static const $allTransitiveDependencies0 = sharedPrefProvider;
 
   @override
-  Override overrideWith(
-    FutureOr<VnDataPhase01?> Function(GetP1Ref provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: GetP1Provider._internal(
-        (ref) => create(ref as GetP1Ref),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        vnId: vnId,
-      ),
-    );
+  String debugGetCreateSourceHash() => _$localVnRepoHash();
+
+  @$internal
+  @override
+  $ProviderElement<LocalVnRepo> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  LocalVnRepo create(Ref ref) {
+    return localVnRepo(ref);
   }
 
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(LocalVnRepo value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<LocalVnRepo>(value),
+    );
+  }
+}
+
+String _$localVnRepoHash() => r'dd8b14ad372e062d9b64dcfa653176eac54af712';
+
+@ProviderFor(getP1)
+const getP1Provider = GetP1Family._();
+
+final class GetP1Provider
+    extends
+        $FunctionalProvider<
+          AsyncValue<VnDataPhase01?>,
+          VnDataPhase01?,
+          FutureOr<VnDataPhase01?>
+        >
+    with $FutureModifier<VnDataPhase01?>, $FutureProvider<VnDataPhase01?> {
+  const GetP1Provider._({
+    required GetP1Family super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'getP1Provider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  static const $allTransitiveDependencies0 = localVnRepoProvider;
+  static const $allTransitiveDependencies1 =
+      LocalVnRepoProvider.$allTransitiveDependencies0;
+
   @override
-  AutoDisposeFutureProviderElement<VnDataPhase01?> createElement() {
-    return _GetP1ProviderElement(this);
+  String debugGetCreateSourceHash() => _$getP1Hash();
+
+  @override
+  String toString() {
+    return r'getP1Provider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<VnDataPhase01?> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<VnDataPhase01?> create(Ref ref) {
+    final argument = this.argument as String;
+    return getP1(ref, argument);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetP1Provider && other.vnId == vnId;
+    return other is GetP1Provider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, vnId.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin GetP1Ref on AutoDisposeFutureProviderRef<VnDataPhase01?> {
-  /// The parameter `vnId` of this provider.
-  String get vnId;
-}
+String _$getP1Hash() => r'de7d94bfe96a05b23c662f98d6e0c36b6c6dfa34';
 
-class _GetP1ProviderElement
-    extends AutoDisposeFutureProviderElement<VnDataPhase01?>
-    with GetP1Ref {
-  _GetP1ProviderElement(super.provider);
+final class GetP1Family extends $Family
+    with $FunctionalFamilyOverride<FutureOr<VnDataPhase01?>, String> {
+  const GetP1Family._()
+    : super(
+        retry: null,
+        name: r'getP1Provider',
+        dependencies: const <ProviderOrFamily>[localVnRepoProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          GetP1Provider.$allTransitiveDependencies0,
+          GetP1Provider.$allTransitiveDependencies1,
+        ],
+        isAutoDispose: true,
+      );
+
+  GetP1Provider call(String vnId) =>
+      GetP1Provider._(argument: vnId, from: this);
 
   @override
-  String get vnId => (origin as GetP1Provider).vnId;
+  String toString() => r'getP1Provider';
+}
+
+@ProviderFor(getP2)
+const getP2Provider = GetP2Family._();
+
+final class GetP2Provider
+    extends
+        $FunctionalProvider<
+          AsyncValue<VnDataPhase02?>,
+          VnDataPhase02?,
+          FutureOr<VnDataPhase02?>
+        >
+    with $FutureModifier<VnDataPhase02?>, $FutureProvider<VnDataPhase02?> {
+  const GetP2Provider._({
+    required GetP2Family super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'getP2Provider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  static const $allTransitiveDependencies0 = localVnRepoProvider;
+  static const $allTransitiveDependencies1 =
+      LocalVnRepoProvider.$allTransitiveDependencies0;
+
+  @override
+  String debugGetCreateSourceHash() => _$getP2Hash();
+
+  @override
+  String toString() {
+    return r'getP2Provider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<VnDataPhase02?> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<VnDataPhase02?> create(Ref ref) {
+    final argument = this.argument as String;
+    return getP2(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetP2Provider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
 }
 
 String _$getP2Hash() => r'07963dfa2534e40c2c6f9f04a4d21bedc51ab743';
 
-/// See also [getP2].
-@ProviderFor(getP2)
-const getP2Provider = GetP2Family();
-
-/// See also [getP2].
-class GetP2Family extends Family<AsyncValue<VnDataPhase02?>> {
-  /// See also [getP2].
-  const GetP2Family();
-
-  /// See also [getP2].
-  GetP2Provider call(String vnId) {
-    return GetP2Provider(vnId);
-  }
-
-  @override
-  GetP2Provider getProviderOverride(covariant GetP2Provider provider) {
-    return call(provider.vnId);
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    localVnRepoProvider,
-  ];
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        localVnRepoProvider,
-        ...?localVnRepoProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getP2Provider';
-}
-
-/// See also [getP2].
-class GetP2Provider extends AutoDisposeFutureProvider<VnDataPhase02?> {
-  /// See also [getP2].
-  GetP2Provider(String vnId)
-    : this._internal(
-        (ref) => getP2(ref as GetP2Ref, vnId),
-        from: getP2Provider,
+final class GetP2Family extends $Family
+    with $FunctionalFamilyOverride<FutureOr<VnDataPhase02?>, String> {
+  const GetP2Family._()
+    : super(
+        retry: null,
         name: r'getP2Provider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product') ? null : _$getP2Hash,
-        dependencies: GetP2Family._dependencies,
-        allTransitiveDependencies: GetP2Family._allTransitiveDependencies,
-        vnId: vnId,
+        dependencies: const <ProviderOrFamily>[localVnRepoProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          GetP2Provider.$allTransitiveDependencies0,
+          GetP2Provider.$allTransitiveDependencies1,
+        ],
+        isAutoDispose: true,
       );
 
-  GetP2Provider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.vnId,
-  }) : super.internal();
-
-  final String vnId;
+  GetP2Provider call(String vnId) =>
+      GetP2Provider._(argument: vnId, from: this);
 
   @override
-  Override overrideWith(
-    FutureOr<VnDataPhase02?> Function(GetP2Ref provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: GetP2Provider._internal(
-        (ref) => create(ref as GetP2Ref),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        vnId: vnId,
-      ),
-    );
+  String toString() => r'getP2Provider';
+}
+
+@ProviderFor(getP3)
+const getP3Provider = GetP3Family._();
+
+final class GetP3Provider
+    extends
+        $FunctionalProvider<
+          AsyncValue<VnDataPhase03?>,
+          VnDataPhase03?,
+          FutureOr<VnDataPhase03?>
+        >
+    with $FutureModifier<VnDataPhase03?>, $FutureProvider<VnDataPhase03?> {
+  const GetP3Provider._({
+    required GetP3Family super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'getP3Provider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  static const $allTransitiveDependencies0 = localVnRepoProvider;
+  static const $allTransitiveDependencies1 =
+      LocalVnRepoProvider.$allTransitiveDependencies0;
+
+  @override
+  String debugGetCreateSourceHash() => _$getP3Hash();
+
+  @override
+  String toString() {
+    return r'getP3Provider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  AutoDisposeFutureProviderElement<VnDataPhase02?> createElement() {
-    return _GetP2ProviderElement(this);
+  $FutureProviderElement<VnDataPhase03?> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<VnDataPhase03?> create(Ref ref) {
+    final argument = this.argument as String;
+    return getP3(ref, argument);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetP2Provider && other.vnId == vnId;
+    return other is GetP3Provider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, vnId.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin GetP2Ref on AutoDisposeFutureProviderRef<VnDataPhase02?> {
-  /// The parameter `vnId` of this provider.
-  String get vnId;
-}
-
-class _GetP2ProviderElement
-    extends AutoDisposeFutureProviderElement<VnDataPhase02?>
-    with GetP2Ref {
-  _GetP2ProviderElement(super.provider);
-
-  @override
-  String get vnId => (origin as GetP2Provider).vnId;
 }
 
 String _$getP3Hash() => r'd7a0a434e248a14b561f07a8fb92adaaa35e4e45';
 
-/// See also [getP3].
-@ProviderFor(getP3)
-const getP3Provider = GetP3Family();
-
-/// See also [getP3].
-class GetP3Family extends Family<AsyncValue<VnDataPhase03?>> {
-  /// See also [getP3].
-  const GetP3Family();
-
-  /// See also [getP3].
-  GetP3Provider call(String vnId) {
-    return GetP3Provider(vnId);
-  }
-
-  @override
-  GetP3Provider getProviderOverride(covariant GetP3Provider provider) {
-    return call(provider.vnId);
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    localVnRepoProvider,
-  ];
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        localVnRepoProvider,
-        ...?localVnRepoProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'getP3Provider';
-}
-
-/// See also [getP3].
-class GetP3Provider extends AutoDisposeFutureProvider<VnDataPhase03?> {
-  /// See also [getP3].
-  GetP3Provider(String vnId)
-    : this._internal(
-        (ref) => getP3(ref as GetP3Ref, vnId),
-        from: getP3Provider,
+final class GetP3Family extends $Family
+    with $FunctionalFamilyOverride<FutureOr<VnDataPhase03?>, String> {
+  const GetP3Family._()
+    : super(
+        retry: null,
         name: r'getP3Provider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product') ? null : _$getP3Hash,
-        dependencies: GetP3Family._dependencies,
-        allTransitiveDependencies: GetP3Family._allTransitiveDependencies,
-        vnId: vnId,
+        dependencies: const <ProviderOrFamily>[localVnRepoProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          GetP3Provider.$allTransitiveDependencies0,
+          GetP3Provider.$allTransitiveDependencies1,
+        ],
+        isAutoDispose: true,
       );
 
-  GetP3Provider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.vnId,
-  }) : super.internal();
-
-  final String vnId;
+  GetP3Provider call(String vnId) =>
+      GetP3Provider._(argument: vnId, from: this);
 
   @override
-  Override overrideWith(
-    FutureOr<VnDataPhase03?> Function(GetP3Ref provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: GetP3Provider._internal(
-        (ref) => create(ref as GetP3Ref),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        vnId: vnId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<VnDataPhase03?> createElement() {
-    return _GetP3ProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is GetP3Provider && other.vnId == vnId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, vnId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin GetP3Ref on AutoDisposeFutureProviderRef<VnDataPhase03?> {
-  /// The parameter `vnId` of this provider.
-  String get vnId;
-}
-
-class _GetP3ProviderElement
-    extends AutoDisposeFutureProviderElement<VnDataPhase03?>
-    with GetP3Ref {
-  _GetP3ProviderElement(super.provider);
-
-  @override
-  String get vnId => (origin as GetP3Provider).vnId;
+  String toString() => r'getP3Provider';
 }
 
 // ignore_for_file: type=lint

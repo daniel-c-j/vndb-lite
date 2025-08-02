@@ -2,13 +2,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
-import 'package:vndb_lite/src/features/theme/theme_data_provider.dart';
 import 'package:vndb_lite/src/features/settings/domain/settings_theme.conf.dart';
-import 'package:vndb_lite/src/features/theme/data/theme_data.dart';
 
 part 'settings_theme_state.g.dart';
 
-@riverpod
+@Riverpod(dependencies: [sharedPref])
 class SettingsThemeState extends _$SettingsThemeState {
   @override
   SettingsThemeConf build() {

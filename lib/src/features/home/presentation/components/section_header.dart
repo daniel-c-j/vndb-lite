@@ -7,7 +7,6 @@ import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
-import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen_controller.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
@@ -23,10 +22,6 @@ class HomeSectionHeader extends ConsumerWidget {
   final HomeSectionsCode sectionData;
 
   bool get _isCollection => sectionData == HomeSectionsCode.collection;
-
-  //
-  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  //
 
   void seeMore(
     WidgetRef ref, {
@@ -99,7 +94,6 @@ class HomeSectionHeader extends ConsumerWidget {
           alignment: Alignment.topLeft,
           child: Padding(
             padding: EdgeInsets.all(responsiveUI.own(0.025)),
-
             child:
                 (userDidAuth && _isCollection)
                     ? _authedCollectionTitleOf(uId.username, context)

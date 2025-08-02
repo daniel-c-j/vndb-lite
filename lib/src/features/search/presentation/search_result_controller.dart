@@ -68,8 +68,8 @@ class SearchResultController extends _$SearchResultController {
     });
   }
 
-  // This ensures that search state is not either SizedBox containing loading widget,
-  // or error widget, AND search filter DOES have content, NOT empty.
+  /// This ensures that search state is not either SizedBox containing loading widget,
+  /// or error widget, AND search filter DOES have content, NOT empty.
   bool get _searchStateCanContinue {
     final searchQuery = ref.read(appliedRemoteFilterControllerProvider).search;
     final searchState = ref.read(searchScreenControllerProvider);

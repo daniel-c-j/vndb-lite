@@ -8,7 +8,7 @@ import 'data/theme_data.dart';
 
 part 'theme_data_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [sharedPref])
 class AppThemeState extends _$AppThemeState {
   @override
   ThemeCode build() => _appTheme;

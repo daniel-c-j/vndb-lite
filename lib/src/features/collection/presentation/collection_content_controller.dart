@@ -33,12 +33,19 @@ class CollectionContentNotifier extends _$CollectionContentNotifier {
   void end() => state = false;
 }
 
-@riverpod
+@Riverpod(
+  dependencies: [
+    collectionSortFilterService,
+    localCollectionRepo,
+    sharedPref,
+    localVnRepo,
+    validateVnAndSaveToLocal,
+    localFilterControllerProvider, // TODO fix dependencies like this.
+  ],
+)
 class CollectionContentController extends _$CollectionContentController {
   @override
-  Map<String, List<VnItemGrid>> build() {
-    return {};
-  }
+  Map<String, List<VnItemGrid>> build() => {};
 
   void add({required String statusCode, required List<VnItemGrid> data}) {
     if (state.containsKey(statusCode)) {

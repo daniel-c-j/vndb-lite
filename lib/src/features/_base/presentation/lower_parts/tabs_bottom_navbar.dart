@@ -24,9 +24,6 @@ class TabsBottomNavbar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final controller = ref.watch(innerSearchControllerProvider);
-    // if (controller == null) return const SizedBox.shrink();
-
     return Stack(
       children: [
         if (!onlyProgressIndicator)

@@ -1,42 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/double_back_to_close.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
-import 'package:vndb_lite/src/features/collection_selection/presentation/fab/multi_select_fab.dart';
-import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 
 import '../../../../util/context_shortcut.dart';
-
-class MainInnerLayout extends StatelessWidget {
-  const MainInnerLayout({super.key, required this.navigationShell});
-  final StatefulNavigationShell navigationShell;
-
-  static final bottomPadding = responsiveUI.own(0.22);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(children: [DoubleBackToClose(), navigationShell]);
-    // return Scaffold(
-    //   backgroundColor: kColor(context).primary.withOpacity(0.1),
-    //   body: Stack(children: [DoubleBackToClose(), navigationShell]),
-    //   floatingActionButton: Consumer(
-    //     builder: (context, ref, child) {
-    //       if (!App.isInCollectionScreen) return const SizedBox.shrink();
-
-    //       final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
-    //       if (isInMultiSelection) return const MultiSelectFab();
-
-    //       return const SizedBox.shrink();
-    //     },
-    //   ),
-    // );
-  }
-}
 
 /// A class to be used with the main scrollview widgets in a screen.
 class ScrollableWrapper extends StatelessWidget {
@@ -55,11 +25,10 @@ class ScrollableWrapper extends StatelessWidget {
     ).show();
   }
 
+  static final double displacementPx = responsiveUI.own(0.02);
+
   @override
   Widget build(BuildContext context) {
-    // final controller = ref.watch(innerSearchControllerProvider);
-    // if (controller == null) return const SizedBox.shrink();
-
     return RefreshIndicator(
       onRefresh: () async {
         _showRefreshingSnackbar(context);
@@ -67,7 +36,7 @@ class ScrollableWrapper extends StatelessWidget {
       },
       color: kColor(context).tertiary,
       backgroundColor: kColor(context).primary.withOpacity(0.75),
-      displacement: responsiveUI.own(0.02),
+      displacement: displacementPx,
       strokeWidth: 2,
       child:
           (withScrollBar)
@@ -75,7 +44,6 @@ class ScrollableWrapper extends StatelessWidget {
                 interactive: true,
                 thickness: 6,
                 mainAxisMargin: 8,
-                // controller: controller,
                 radius: const Radius.circular(12),
                 minThumbLength: responsiveUI.own(0.125),
                 thumbColor: kColor(context).secondary.withOpacity(0.9),

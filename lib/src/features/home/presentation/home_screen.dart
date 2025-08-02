@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/constants/_constants.dart';
+import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_inner_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/tabs_sliver_appbar.dart';
-import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview.dart';
+import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview/home_big_preview.dart';
 import 'package:vndb_lite/src/features/search/presentation/components/search_predefined.dart';
 import 'package:vndb_lite/src/features/search/presentation/components/searchbar_button.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
@@ -42,7 +43,7 @@ class HomeScreen extends ConsumerWidget {
         child: ListView.builder(
           shrinkWrap: false,
           clipBehavior: Clip.none,
-          padding: EdgeInsets.only(bottom: MainInnerLayout.bottomPadding),
+          padding: EdgeInsets.only(bottom: MainOuterLayout.bottomPadding),
           itemCount: frontWidgets.length + additionalWidgets.length,
           itemBuilder: (context, index) {
             return [...frontWidgets, ...additionalWidgets][index];

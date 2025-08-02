@@ -6,194 +6,147 @@ part of 'remote_search_repo.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$remoteSearchRepoHash() => r'a6cc9b5e90cb5e64fbf41285802645b300b905cc';
-
-/// See also [remoteSearchRepo].
 @ProviderFor(remoteSearchRepo)
-final remoteSearchRepoProvider =
-    AutoDisposeProvider<RemoteSearchRepoImpl>.internal(
-      remoteSearchRepo,
-      name: r'remoteSearchRepoProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$remoteSearchRepoHash,
-      dependencies: <ProviderOrFamily>[apiServiceProvider],
-      allTransitiveDependencies: <ProviderOrFamily>{
-        apiServiceProvider,
-        ...?apiServiceProvider.allTransitiveDependencies,
-      },
-    );
+const remoteSearchRepoProvider = RemoteSearchRepoProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef RemoteSearchRepoRef = AutoDisposeProviderRef<RemoteSearchRepoImpl>;
-String _$remoteSearchVnHash() => r'0a775e09ceed3cdbd2f2028a037017cc24f4d833';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// See also [remoteSearchVn].
-@ProviderFor(remoteSearchVn)
-const remoteSearchVnProvider = RemoteSearchVnFamily();
-
-/// See also [remoteSearchVn].
-class RemoteSearchVnFamily extends Family<AsyncValue<Response>> {
-  /// See also [remoteSearchVn].
-  const RemoteSearchVnFamily();
-
-  /// See also [remoteSearchVn].
-  RemoteSearchVnProvider call(
-    GenericPost requestData, {
-    CancelToken? cancelToken,
-  }) {
-    return RemoteSearchVnProvider(requestData, cancelToken: cancelToken);
-  }
-
-  @override
-  RemoteSearchVnProvider getProviderOverride(
-    covariant RemoteSearchVnProvider provider,
-  ) {
-    return call(provider.requestData, cancelToken: provider.cancelToken);
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteSearchRepoProvider,
-  ];
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        remoteSearchRepoProvider,
-        ...?remoteSearchRepoProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'remoteSearchVnProvider';
-}
-
-/// See also [remoteSearchVn].
-class RemoteSearchVnProvider extends AutoDisposeFutureProvider<Response> {
-  /// See also [remoteSearchVn].
-  RemoteSearchVnProvider(GenericPost requestData, {CancelToken? cancelToken})
-    : this._internal(
-        (ref) => remoteSearchVn(
-          ref as RemoteSearchVnRef,
-          requestData,
-          cancelToken: cancelToken,
-        ),
-        from: remoteSearchVnProvider,
-        name: r'remoteSearchVnProvider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product')
-                ? null
-                : _$remoteSearchVnHash,
-        dependencies: RemoteSearchVnFamily._dependencies,
-        allTransitiveDependencies:
-            RemoteSearchVnFamily._allTransitiveDependencies,
-        requestData: requestData,
-        cancelToken: cancelToken,
+final class RemoteSearchRepoProvider
+    extends
+        $FunctionalProvider<
+          RemoteSearchRepoImpl,
+          RemoteSearchRepoImpl,
+          RemoteSearchRepoImpl
+        >
+    with $Provider<RemoteSearchRepoImpl> {
+  const RemoteSearchRepoProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'remoteSearchRepoProvider',
+        isAutoDispose: true,
+        dependencies: const <ProviderOrFamily>[apiServiceProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          RemoteSearchRepoProvider.$allTransitiveDependencies0,
+          RemoteSearchRepoProvider.$allTransitiveDependencies1,
+        ],
       );
 
-  RemoteSearchVnProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.requestData,
-    required this.cancelToken,
-  }) : super.internal();
-
-  final GenericPost requestData;
-  final CancelToken? cancelToken;
+  static const $allTransitiveDependencies0 = apiServiceProvider;
+  static const $allTransitiveDependencies1 =
+      ApiServiceProvider.$allTransitiveDependencies0;
 
   @override
-  Override overrideWith(
-    FutureOr<Response> Function(RemoteSearchVnRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: RemoteSearchVnProvider._internal(
-        (ref) => create(ref as RemoteSearchVnRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        requestData: requestData,
-        cancelToken: cancelToken,
-      ),
-    );
+  String debugGetCreateSourceHash() => _$remoteSearchRepoHash();
+
+  @$internal
+  @override
+  $ProviderElement<RemoteSearchRepoImpl> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  RemoteSearchRepoImpl create(Ref ref) {
+    return remoteSearchRepo(ref);
   }
 
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(RemoteSearchRepoImpl value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<RemoteSearchRepoImpl>(value),
+    );
+  }
+}
+
+String _$remoteSearchRepoHash() => r'a6cc9b5e90cb5e64fbf41285802645b300b905cc';
+
+@ProviderFor(remoteSearchVn)
+const remoteSearchVnProvider = RemoteSearchVnFamily._();
+
+final class RemoteSearchVnProvider
+    extends
+        $FunctionalProvider<AsyncValue<Response>, Response, FutureOr<Response>>
+    with $FutureModifier<Response>, $FutureProvider<Response> {
+  const RemoteSearchVnProvider._({
+    required RemoteSearchVnFamily super.from,
+    required (GenericPost, {CancelToken? cancelToken}) super.argument,
+  }) : super(
+         retry: null,
+         name: r'remoteSearchVnProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  static const $allTransitiveDependencies0 = remoteSearchRepoProvider;
+  static const $allTransitiveDependencies1 =
+      RemoteSearchRepoProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      RemoteSearchRepoProvider.$allTransitiveDependencies1;
+
   @override
-  AutoDisposeFutureProviderElement<Response> createElement() {
-    return _RemoteSearchVnProviderElement(this);
+  String debugGetCreateSourceHash() => _$remoteSearchVnHash();
+
+  @override
+  String toString() {
+    return r'remoteSearchVnProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<Response> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Response> create(Ref ref) {
+    final argument = this.argument as (GenericPost, {CancelToken? cancelToken});
+    return remoteSearchVn(ref, argument.$1, cancelToken: argument.cancelToken);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is RemoteSearchVnProvider &&
-        other.requestData == requestData &&
-        other.cancelToken == cancelToken;
+    return other is RemoteSearchVnProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, requestData.hashCode);
-    hash = _SystemHash.combine(hash, cancelToken.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin RemoteSearchVnRef on AutoDisposeFutureProviderRef<Response> {
-  /// The parameter `requestData` of this provider.
-  GenericPost get requestData;
+String _$remoteSearchVnHash() => r'0a775e09ceed3cdbd2f2028a037017cc24f4d833';
 
-  /// The parameter `cancelToken` of this provider.
-  CancelToken? get cancelToken;
-}
+final class RemoteSearchVnFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<Response>,
+          (GenericPost, {CancelToken? cancelToken})
+        > {
+  const RemoteSearchVnFamily._()
+    : super(
+        retry: null,
+        name: r'remoteSearchVnProvider',
+        dependencies: const <ProviderOrFamily>[remoteSearchRepoProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          RemoteSearchVnProvider.$allTransitiveDependencies0,
+          RemoteSearchVnProvider.$allTransitiveDependencies1,
+          RemoteSearchVnProvider.$allTransitiveDependencies2,
+        ],
+        isAutoDispose: true,
+      );
 
-class _RemoteSearchVnProviderElement
-    extends AutoDisposeFutureProviderElement<Response>
-    with RemoteSearchVnRef {
-  _RemoteSearchVnProviderElement(super.provider);
+  RemoteSearchVnProvider call(
+    GenericPost requestData, {
+    CancelToken? cancelToken,
+  }) => RemoteSearchVnProvider._(
+    argument: (requestData, cancelToken: cancelToken),
+    from: this,
+  );
 
   @override
-  GenericPost get requestData => (origin as RemoteSearchVnProvider).requestData;
-  @override
-  CancelToken? get cancelToken =>
-      (origin as RemoteSearchVnProvider).cancelToken;
+  String toString() => r'remoteSearchVnProvider';
 }
 
 // ignore_for_file: type=lint

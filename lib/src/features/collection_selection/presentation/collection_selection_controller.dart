@@ -11,22 +11,18 @@ import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 
 part 'collection_selection_controller.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [vnSelectionService])
 class VnSelectionController extends _$VnSelectionController {
   Map<String, VnRecord?> vnRecords = {};
 
   @override
   VnSelection build() {
-    return VnSelection(
-      status: CollectionStatusCode.playing.name,
-      added: DateTime.now(),
-      vote: 0,
-    );
+    return VnSelection(status: CollectionStatusCode.playing.name, added: DateTime.now(), vote: 0);
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void copyWith({
     DateTime? started,
@@ -50,9 +46,9 @@ class VnSelectionController extends _$VnSelectionController {
     return vnRecords.isNotEmpty && vnRecords.values.first == null;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void init(List<VnDataPhase01> p1) {
     vnRecords = ref.read(vnSelectionServiceProvider).getVnRecords(p1);
@@ -76,20 +72,15 @@ class VnSelectionController extends _$VnSelectionController {
     } else {
       // Default value changed to special mixed value if in multimode. The rest will
       // be null or dependent on each item's latest record.
-      final newState = state.copyWith(
-        vote: -1,
-        status: 'Mixed',
-        started: null,
-        finished: null,
-      );
+      final newState = state.copyWith(vote: -1, status: 'Mixed', started: null, finished: null);
 
       state = newState;
     }
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   void setToMultiselection(List<VnDataPhase01> p1List) {
     final recordSelected = ref.read(recordSelectedControllerProvider);
@@ -103,9 +94,9 @@ class VnSelectionController extends _$VnSelectionController {
     ref.read(recordSelectedControllerProvider.notifier).record = recordSelected;
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 
   Future<void> remove({
     required VoidCallback whenSuccess,
@@ -119,7 +110,7 @@ class VnSelectionController extends _$VnSelectionController {
     );
   }
 
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
 }

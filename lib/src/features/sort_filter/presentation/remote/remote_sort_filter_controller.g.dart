@@ -6,77 +6,224 @@ part of 'remote_sort_filter_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+@ProviderFor(AppliedRemoteFilterController)
+const appliedRemoteFilterControllerProvider =
+    AppliedRemoteFilterControllerProvider._();
+
+final class AppliedRemoteFilterControllerProvider
+    extends $NotifierProvider<AppliedRemoteFilterController, FilterData> {
+  const AppliedRemoteFilterControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'appliedRemoteFilterControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$appliedRemoteFilterControllerHash();
+
+  @$internal
+  @override
+  AppliedRemoteFilterController create() => AppliedRemoteFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(FilterData value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<FilterData>(value),
+    );
+  }
+}
+
 String _$appliedRemoteFilterControllerHash() =>
     r'e3b2ca4175b5f3b2701c77423e87f5edcfee00f4';
 
-/// See also [AppliedRemoteFilterController].
-@ProviderFor(AppliedRemoteFilterController)
-final appliedRemoteFilterControllerProvider =
-    NotifierProvider<AppliedRemoteFilterController, FilterData>.internal(
-      AppliedRemoteFilterController.new,
-      name: r'appliedRemoteFilterControllerProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$appliedRemoteFilterControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+abstract class _$AppliedRemoteFilterController extends $Notifier<FilterData> {
+  FilterData build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<FilterData, FilterData>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<FilterData, FilterData>,
+              FilterData,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
 
-typedef _$AppliedRemoteFilterController = Notifier<FilterData>;
+@ProviderFor(AppliedRemoteSortController)
+const appliedRemoteSortControllerProvider =
+    AppliedRemoteSortControllerProvider._();
+
+final class AppliedRemoteSortControllerProvider
+    extends $NotifierProvider<AppliedRemoteSortController, SortData> {
+  const AppliedRemoteSortControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'appliedRemoteSortControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$appliedRemoteSortControllerHash();
+
+  @$internal
+  @override
+  AppliedRemoteSortController create() => AppliedRemoteSortController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SortData value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SortData>(value),
+    );
+  }
+}
+
 String _$appliedRemoteSortControllerHash() =>
     r'c5abe3cc49014a60f5b4b13255002bca87147880';
 
-/// See also [AppliedRemoteSortController].
-@ProviderFor(AppliedRemoteSortController)
-final appliedRemoteSortControllerProvider =
-    NotifierProvider<AppliedRemoteSortController, SortData>.internal(
-      AppliedRemoteSortController.new,
-      name: r'appliedRemoteSortControllerProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$appliedRemoteSortControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+abstract class _$AppliedRemoteSortController extends $Notifier<SortData> {
+  SortData build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<SortData, SortData>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SortData, SortData>,
+              SortData,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
 
-typedef _$AppliedRemoteSortController = Notifier<SortData>;
+@ProviderFor(TempRemoteFilterController)
+const tempRemoteFilterControllerProvider =
+    TempRemoteFilterControllerProvider._();
+
+final class TempRemoteFilterControllerProvider
+    extends $NotifierProvider<TempRemoteFilterController, FilterData> {
+  const TempRemoteFilterControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tempRemoteFilterControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tempRemoteFilterControllerHash();
+
+  @$internal
+  @override
+  TempRemoteFilterController create() => TempRemoteFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(FilterData value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<FilterData>(value),
+    );
+  }
+}
+
 String _$tempRemoteFilterControllerHash() =>
     r'0ac8597d324cf2b946412648704ea65bfabe37a0';
 
-/// See also [TempRemoteFilterController].
-@ProviderFor(TempRemoteFilterController)
-final tempRemoteFilterControllerProvider =
-    NotifierProvider<TempRemoteFilterController, FilterData>.internal(
-      TempRemoteFilterController.new,
-      name: r'tempRemoteFilterControllerProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$tempRemoteFilterControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+abstract class _$TempRemoteFilterController extends $Notifier<FilterData> {
+  FilterData build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<FilterData, FilterData>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<FilterData, FilterData>,
+              FilterData,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
 
-typedef _$TempRemoteFilterController = Notifier<FilterData>;
+@ProviderFor(TempRemoteSortController)
+const tempRemoteSortControllerProvider = TempRemoteSortControllerProvider._();
+
+final class TempRemoteSortControllerProvider
+    extends $NotifierProvider<TempRemoteSortController, SortData> {
+  const TempRemoteSortControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tempRemoteSortControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tempRemoteSortControllerHash();
+
+  @$internal
+  @override
+  TempRemoteSortController create() => TempRemoteSortController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SortData value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SortData>(value),
+    );
+  }
+}
+
 String _$tempRemoteSortControllerHash() =>
     r'b1fa34d060db02906699464ab4c3863a28a69b42';
 
-/// See also [TempRemoteSortController].
-@ProviderFor(TempRemoteSortController)
-final tempRemoteSortControllerProvider =
-    NotifierProvider<TempRemoteSortController, SortData>.internal(
-      TempRemoteSortController.new,
-      name: r'tempRemoteSortControllerProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$tempRemoteSortControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+abstract class _$TempRemoteSortController extends $Notifier<SortData> {
+  SortData build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<SortData, SortData>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SortData, SortData>,
+              SortData,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
 
-typedef _$TempRemoteSortController = Notifier<SortData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

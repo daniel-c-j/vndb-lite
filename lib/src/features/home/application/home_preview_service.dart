@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
@@ -109,12 +108,12 @@ class HomePreviewService {
   //
 }
 
-@riverpod
+@Riverpod(dependencies: [localHomeRepo, remoteHomeRepo, localVnRepo])
 HomePreviewService homePreviewService(Ref ref) {
   return HomePreviewService(ref);
 }
 
-@riverpod
+@Riverpod(dependencies: [homePreviewService])
 FutureOr<dynamic> getPreviewData(
   Ref ref, {
   required HomeSectionsCode sectionData,
@@ -132,7 +131,7 @@ FutureOr<dynamic> getPreviewData(
   );
 }
 
-@riverpod
+@Riverpod(dependencies: [homePreviewService])
 Future<List<VnDataPhase01>> formatPreviewData(
   Ref ref,
   dynamic rawData, {

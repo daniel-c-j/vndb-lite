@@ -9,7 +9,7 @@ import '../domain/version_check.dart';
 
 part 'version_check_controller.g.dart';
 
-@riverpod
+@Riverpod(dependencies: [versionCheckRepo, netErrorHandler])
 class VersionCheckController extends _$VersionCheckController with NotifierMounted {
   @override
   FutureOr<void> build() {

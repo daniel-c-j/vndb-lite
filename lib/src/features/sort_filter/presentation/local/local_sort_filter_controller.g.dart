@@ -6,41 +6,127 @@ part of 'local_sort_filter_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localFilterControllerHash() =>
-    r'ded436d8cade2c198bdd82ca7988d350ccc33f5e';
-
-/// See also [LocalFilterController].
 @ProviderFor(LocalFilterController)
-final localFilterControllerProvider =
-    AutoDisposeNotifierProvider<LocalFilterController, FilterData>.internal(
-      LocalFilterController.new,
-      name: r'localFilterControllerProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$localFilterControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
+const localFilterControllerProvider = LocalFilterControllerProvider._();
+
+final class LocalFilterControllerProvider
+    extends $NotifierProvider<LocalFilterController, FilterData> {
+  const LocalFilterControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'localFilterControllerProvider',
+        isAutoDispose: true,
+        dependencies: const <ProviderOrFamily>[localSortFilterRepoProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          LocalFilterControllerProvider.$allTransitiveDependencies0,
+          LocalFilterControllerProvider.$allTransitiveDependencies1,
+        ],
+      );
+
+  static const $allTransitiveDependencies0 = localSortFilterRepoProvider;
+  static const $allTransitiveDependencies1 =
+      LocalSortFilterRepoProvider.$allTransitiveDependencies0;
+
+  @override
+  String debugGetCreateSourceHash() => _$localFilterControllerHash();
+
+  @$internal
+  @override
+  LocalFilterController create() => LocalFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(FilterData value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<FilterData>(value),
     );
+  }
+}
 
-typedef _$LocalFilterController = AutoDisposeNotifier<FilterData>;
-String _$localSortControllerHash() =>
-    r'e2725946b094884d8dc17958d8b1d16919825f6a';
+String _$localFilterControllerHash() =>
+    r'194bfc052fa0a9a2290f4ed88d468eb52b130144';
 
-/// See also [LocalSortController].
+abstract class _$LocalFilterController extends $Notifier<FilterData> {
+  FilterData build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<FilterData, FilterData>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<FilterData, FilterData>,
+              FilterData,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
 @ProviderFor(LocalSortController)
-final localSortControllerProvider =
-    AutoDisposeNotifierProvider<LocalSortController, SortData>.internal(
-      LocalSortController.new,
-      name: r'localSortControllerProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$localSortControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+const localSortControllerProvider = LocalSortControllerProvider._();
 
-typedef _$LocalSortController = AutoDisposeNotifier<SortData>;
+final class LocalSortControllerProvider
+    extends $NotifierProvider<LocalSortController, SortData> {
+  const LocalSortControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'localSortControllerProvider',
+        isAutoDispose: true,
+        dependencies: const <ProviderOrFamily>[localSortFilterRepoProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          LocalSortControllerProvider.$allTransitiveDependencies0,
+          LocalSortControllerProvider.$allTransitiveDependencies1,
+        ],
+      );
+
+  static const $allTransitiveDependencies0 = localSortFilterRepoProvider;
+  static const $allTransitiveDependencies1 =
+      LocalSortFilterRepoProvider.$allTransitiveDependencies0;
+
+  @override
+  String debugGetCreateSourceHash() => _$localSortControllerHash();
+
+  @$internal
+  @override
+  LocalSortController create() => LocalSortController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SortData value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SortData>(value),
+    );
+  }
+}
+
+String _$localSortControllerHash() =>
+    r'69e9bdcb76f6adc960120b1b15e7f64c0987cfe6';
+
+abstract class _$LocalSortController extends $Notifier<SortData> {
+  SortData build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<SortData, SortData>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SortData, SortData>,
+              SortData,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

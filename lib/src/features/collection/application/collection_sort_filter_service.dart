@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/constants/defaults.dart';
 import 'package:vndb_lite/src/features/collection/application/local_filter_service.dart';
@@ -187,7 +186,7 @@ class CollectionSortFilterService {
   //
 }
 
-@riverpod
+@Riverpod(dependencies: [localFilterService])
 CollectionSortFilterService collectionSortFilterService(Ref ref) {
   return CollectionSortFilterService(ref);
 }

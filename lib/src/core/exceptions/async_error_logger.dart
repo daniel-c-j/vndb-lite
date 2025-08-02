@@ -8,14 +8,9 @@ class AsyncErrorLogger extends ProviderObserver {
   const AsyncErrorLogger();
 
   @override
-  void didUpdateProvider(
-    ProviderBase provider,
-    Object? previousValue,
-    Object? newValue,
-    ProviderContainer container,
-  ) {
-    final errorLogger = container.read(errorLoggerProvider);
-    final error = _findError(newValue);
+  void didAddProvider(ProviderObserverContext context, Object? value) {
+    final errorLogger = context.container.read(errorLoggerProvider);
+    final error = _findError(value);
 
     if (error == null) return;
     errorLogger.log(error.error, error.stackTrace);

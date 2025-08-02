@@ -8,7 +8,7 @@ import 'package:vndb_lite/src/features/settings/domain/settings_general_conf.dar
 
 part 'settings_general_state.g.dart';
 
-@riverpod
+@Riverpod(dependencies: [sharedPref])
 class SettingsGeneralState extends _$SettingsGeneralState {
   @override
   SettingsGeneralConf build() {
@@ -28,10 +28,7 @@ class SettingsGeneralState extends _$SettingsGeneralState {
     final bool? coverCensor = sharedPref.getBool(DBKeys.COVER_CENSOR_CONF);
 
     // Validate
-    if (coverCensor != null) {
-      return coverCensor;
-    }
-
+    if (coverCensor != null) return coverCensor;
     return Default.COVER_CENSOR_CONF;
   }
 

@@ -17,10 +17,7 @@ bool canListenToNetworkStatusChange = true;
 class ConnectivityNotifier extends _$ConnectivityNotifier {
   @override
   bool build() {
-    ref.onDispose(() {
-      _subscription?.cancel();
-    });
-
+    ref.onDispose(() => _subscription?.cancel());
     return false;
   }
 

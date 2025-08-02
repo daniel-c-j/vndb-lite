@@ -7,7 +7,7 @@ import 'package:vndb_lite/src/features/vn/domain/others.dart';
 
 part 'local_sort_filter_controller.g.dart';
 
-@riverpod
+@Riverpod(dependencies: [localSortFilterRepo])
 class LocalFilterController extends _$LocalFilterController {
   @override
   FilterData build() {
@@ -77,7 +77,7 @@ class LocalFilterController extends _$LocalFilterController {
   }
 }
 
-@riverpod
+@Riverpod(dependencies: [localSortFilterRepo])
 class LocalSortController extends _$LocalSortController {
   @override
   SortData build() {

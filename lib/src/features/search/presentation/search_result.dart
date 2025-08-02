@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/search/presentation/search_screen.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
@@ -24,7 +25,7 @@ class SearchResult extends ConsumerWidget {
   /// the result continues.
   static void detectLazyLoad() {
     if (App.isInSearchScreen) {
-      final controller = ref_.read(innerSearchControllerProvider)!;
+      final controller = SearchScreen.scrollController!;
       final maxScrollExtent = controller.position.maxScrollExtent;
 
       // ? Avoid confusion with appbar's sliver scroll
@@ -50,9 +51,8 @@ class SearchResult extends ConsumerWidget {
       _innerControllerInitialized = true;
 
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        final controller = PrimaryScrollController.of(context);
-        ref.read(innerSearchControllerProvider.notifier).state = controller;
-        ref.read(innerSearchControllerProvider)!.addListener(detectLazyLoad);
+        SearchScreen.scrollController = PrimaryScrollController.of(context);
+        SearchScreen.scrollController!.addListener(detectLazyLoad);
       });
     }
 
@@ -96,7 +96,7 @@ class SearchResult extends ConsumerWidget {
             for (Widget result in outerSearchResult.sublist(1, outerSearchResult.length))
               SliverToBoxAdapter(child: result),
           ],
-          SliverToBoxAdapter(child: SizedBox(height: MainInnerLayout.bottomPadding)),
+          SliverToBoxAdapter(child: SizedBox(height: MainOuterLayout.bottomPadding)),
         ],
       ),
     );

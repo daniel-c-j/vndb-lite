@@ -8,6 +8,8 @@ import 'package:vndb_lite/src/features/collection_selection/presentation/multise
 
 /// [DoubleBackToCloseApp]'s wrapper. Cannot be const due to the app's structure relying on
 /// globally-shared routing state.
+///
+/// Must be a child of a [Scaffold].
 class DoubleBackToClose extends ConsumerWidget {
   // ignore: prefer_const_constructors_in_immutables
   DoubleBackToClose({super.key});
@@ -18,7 +20,7 @@ class DoubleBackToClose extends ConsumerWidget {
     final isInMultiselection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
 
     return DoubleBackToCloseApp(
-      snackBar: GenericSnackBar.buildSnackBar(
+      snackBar: GenericSnackBar.build(
         children: [
           // Do not show any snackbar when tapping back button in multiselection.
           if (!isInMultiselection)

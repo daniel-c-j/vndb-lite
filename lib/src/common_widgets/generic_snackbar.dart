@@ -22,7 +22,7 @@ class GenericSnackBar {
     ScaffoldMessenger.of(context).clearSnackBars();
   }
 
-  static SnackBar buildSnackBar({required List<Widget> children, Duration? duration}) {
+  static SnackBar build({required List<Widget> children, Duration? duration}) {
     final BuildContext context = NavigationService.currentContext;
     final isEmpty = children.isEmpty;
 
@@ -118,8 +118,6 @@ class GenericSnackBar {
       ScaffoldMessenger.of(context).clearSnackBars();
     }
 
-    return ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(buildSnackBar(children: content, duration: duration));
+    return ScaffoldMessenger.of(context).showSnackBar(build(children: content, duration: duration));
   }
 }

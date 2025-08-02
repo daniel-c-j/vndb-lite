@@ -1,5 +1,4 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/core/local_db/shared_prefs.dart';
 import 'package:vndb_lite/src/features/collection/application/collection_vn_service.dart';
@@ -52,7 +51,7 @@ class SettingsService {
   }
 }
 
-@riverpod
+@Riverpod(dependencies: [localSyncRepo, localCollectionRepo, sharedPref, validateVnAndSaveToLocal])
 SettingsService settingsService(Ref ref) {
   return SettingsService(ref);
 }

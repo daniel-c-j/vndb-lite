@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/collection/data/local/local_collection_repo.dart';
@@ -197,7 +196,7 @@ class VnSelectionService {
   }
 }
 
-@riverpod
+@Riverpod(dependencies: [localVnRepo, localSyncRepo, fetchAndSaveP2Data, localCollectionRepo])
 VnSelectionService vnSelectionService(Ref ref) {
   return VnSelectionService(ref);
 }

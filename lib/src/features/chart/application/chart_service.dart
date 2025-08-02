@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/core/_core.dart';
 import 'package:vndb_lite/src/features/chart/data/local/local_chart_repo.dart';

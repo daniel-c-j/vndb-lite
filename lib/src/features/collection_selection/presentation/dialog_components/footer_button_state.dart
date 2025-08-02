@@ -6,9 +6,7 @@ part 'footer_button_state.g.dart';
 @riverpod
 class VnButtonState extends _$VnButtonState {
   @override
-  ButtonState build() {
-    return ButtonState.active;
-  }
+  ButtonState build() => ButtonState.active;
 
   @override
   set state(ButtonState newState) => super.state = newState;

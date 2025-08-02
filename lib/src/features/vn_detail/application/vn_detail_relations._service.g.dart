@@ -6,156 +6,92 @@ part of 'vn_detail_relations._service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchAndSaveP3DataHash() =>
-    r'341f907abf72de6a564f67fd41d43ac52b5f2999';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// See also [fetchAndSaveP3Data].
 @ProviderFor(fetchAndSaveP3Data)
-const fetchAndSaveP3DataProvider = FetchAndSaveP3DataFamily();
+const fetchAndSaveP3DataProvider = FetchAndSaveP3DataFamily._();
 
-/// See also [fetchAndSaveP3Data].
-class FetchAndSaveP3DataFamily extends Family<AsyncValue<void>> {
-  /// See also [fetchAndSaveP3Data].
-  const FetchAndSaveP3DataFamily();
+final class FetchAndSaveP3DataProvider
+    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+    with $FutureModifier<void>, $FutureProvider<void> {
+  const FetchAndSaveP3DataProvider._({
+    required FetchAndSaveP3DataFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'fetchAndSaveP3DataProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [fetchAndSaveP3Data].
-  FetchAndSaveP3DataProvider call(String vnId) {
-    return FetchAndSaveP3DataProvider(vnId);
+  static const $allTransitiveDependencies0 = remoteVnRepoProvider;
+  static const $allTransitiveDependencies1 =
+      RemoteVnRepoProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      RemoteVnRepoProvider.$allTransitiveDependencies1;
+  static const $allTransitiveDependencies3 = localVnRepoProvider;
+  static const $allTransitiveDependencies4 =
+      LocalVnRepoProvider.$allTransitiveDependencies0;
+
+  @override
+  String debugGetCreateSourceHash() => _$fetchAndSaveP3DataHash();
+
+  @override
+  String toString() {
+    return r'fetchAndSaveP3DataProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  FetchAndSaveP3DataProvider getProviderOverride(
-    covariant FetchAndSaveP3DataProvider provider,
-  ) {
-    return call(provider.vnId);
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteVnRepoProvider,
-    localVnRepoProvider,
-  ];
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        remoteVnRepoProvider,
-        ...?remoteVnRepoProvider.allTransitiveDependencies,
-        localVnRepoProvider,
-        ...?localVnRepoProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'fetchAndSaveP3DataProvider';
-}
-
-/// See also [fetchAndSaveP3Data].
-class FetchAndSaveP3DataProvider extends AutoDisposeFutureProvider<void> {
-  /// See also [fetchAndSaveP3Data].
-  FetchAndSaveP3DataProvider(String vnId)
-    : this._internal(
-        (ref) => fetchAndSaveP3Data(ref as FetchAndSaveP3DataRef, vnId),
-        from: fetchAndSaveP3DataProvider,
-        name: r'fetchAndSaveP3DataProvider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product')
-                ? null
-                : _$fetchAndSaveP3DataHash,
-        dependencies: FetchAndSaveP3DataFamily._dependencies,
-        allTransitiveDependencies:
-            FetchAndSaveP3DataFamily._allTransitiveDependencies,
-        vnId: vnId,
-      );
-
-  FetchAndSaveP3DataProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.vnId,
-  }) : super.internal();
-
-  final String vnId;
-
-  @override
-  Override overrideWith(
-    FutureOr<void> Function(FetchAndSaveP3DataRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: FetchAndSaveP3DataProvider._internal(
-        (ref) => create(ref as FetchAndSaveP3DataRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        vnId: vnId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<void> createElement() {
-    return _FetchAndSaveP3DataProviderElement(this);
+  FutureOr<void> create(Ref ref) {
+    final argument = this.argument as String;
+    return fetchAndSaveP3Data(ref, argument);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is FetchAndSaveP3DataProvider && other.vnId == vnId;
+    return other is FetchAndSaveP3DataProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, vnId.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin FetchAndSaveP3DataRef on AutoDisposeFutureProviderRef<void> {
-  /// The parameter `vnId` of this provider.
-  String get vnId;
-}
+String _$fetchAndSaveP3DataHash() =>
+    r'341f907abf72de6a564f67fd41d43ac52b5f2999';
 
-class _FetchAndSaveP3DataProviderElement
-    extends AutoDisposeFutureProviderElement<void>
-    with FetchAndSaveP3DataRef {
-  _FetchAndSaveP3DataProviderElement(super.provider);
+final class FetchAndSaveP3DataFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<void>, String> {
+  const FetchAndSaveP3DataFamily._()
+    : super(
+        retry: null,
+        name: r'fetchAndSaveP3DataProvider',
+        dependencies: const <ProviderOrFamily>[
+          remoteVnRepoProvider,
+          localVnRepoProvider,
+        ],
+        $allTransitiveDependencies: const <ProviderOrFamily>{
+          FetchAndSaveP3DataProvider.$allTransitiveDependencies0,
+          FetchAndSaveP3DataProvider.$allTransitiveDependencies1,
+          FetchAndSaveP3DataProvider.$allTransitiveDependencies2,
+          FetchAndSaveP3DataProvider.$allTransitiveDependencies3,
+          FetchAndSaveP3DataProvider.$allTransitiveDependencies4,
+        },
+        isAutoDispose: true,
+      );
+
+  FetchAndSaveP3DataProvider call(String vnId) =>
+      FetchAndSaveP3DataProvider._(argument: vnId, from: this);
 
   @override
-  String get vnId => (origin as FetchAndSaveP3DataProvider).vnId;
+  String toString() => r'fetchAndSaveP3DataProvider';
 }
 
 // ignore_for_file: type=lint

@@ -56,7 +56,7 @@ class RemoteVersionCheckRepo implements VersionCheckRepo {
   Version parseToVersion(String raw) => _parseToVersion(raw);
 }
 
-@riverpod
+@Riverpod(dependencies: [apiService])
 VersionCheckRepo versionCheckRepo(Ref ref) {
   final apiService = ref.watch(apiServiceProvider);
   return RemoteVersionCheckRepo(apiService);

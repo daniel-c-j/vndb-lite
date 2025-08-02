@@ -20,17 +20,11 @@ import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_so
 
 import '../../../util/alt_provider_reader.dart';
 
-final innerSearchControllerProvider = StateProvider<ScrollController?>((ref) {
-  return;
-});
-
 class SearchScreen extends ConsumerWidget {
   const SearchScreen({super.key});
 
+  static ScrollController? scrollController;
   static const Key onHoldStatusKey = ValueKey("onhold");
-
-  // * To maintain consistency in screen that has lots of items. Convert into stateNotifier?
-  static double scrollOffset = 0;
 
   void _showConnectionErrorSnackbar() {
     final snackbar = GenericSnackBar(

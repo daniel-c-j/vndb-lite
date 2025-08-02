@@ -6,157 +6,93 @@ part of 'collection_vn_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$validateVnAndSaveToLocalHash() =>
-    r'35bf1c70e4dcd4908a8652268297bb579efed696';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// See also [validateVnAndSaveToLocal].
 @ProviderFor(validateVnAndSaveToLocal)
-const validateVnAndSaveToLocalProvider = ValidateVnAndSaveToLocalFamily();
+const validateVnAndSaveToLocalProvider = ValidateVnAndSaveToLocalFamily._();
 
-/// See also [validateVnAndSaveToLocal].
-class ValidateVnAndSaveToLocalFamily extends Family<AsyncValue<bool>> {
-  /// See also [validateVnAndSaveToLocal].
-  const ValidateVnAndSaveToLocalFamily();
+final class ValidateVnAndSaveToLocalProvider
+    extends $FunctionalProvider<AsyncValue<bool>, bool, FutureOr<bool>>
+    with $FutureModifier<bool>, $FutureProvider<bool> {
+  const ValidateVnAndSaveToLocalProvider._({
+    required ValidateVnAndSaveToLocalFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'validateVnAndSaveToLocalProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [validateVnAndSaveToLocal].
-  ValidateVnAndSaveToLocalProvider call(String vnId) {
-    return ValidateVnAndSaveToLocalProvider(vnId);
+  static const $allTransitiveDependencies0 = remoteVnRepoProvider;
+  static const $allTransitiveDependencies1 =
+      RemoteVnRepoProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      RemoteVnRepoProvider.$allTransitiveDependencies1;
+  static const $allTransitiveDependencies3 = localVnRepoProvider;
+  static const $allTransitiveDependencies4 =
+      LocalVnRepoProvider.$allTransitiveDependencies0;
+
+  @override
+  String debugGetCreateSourceHash() => _$validateVnAndSaveToLocalHash();
+
+  @override
+  String toString() {
+    return r'validateVnAndSaveToLocalProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  ValidateVnAndSaveToLocalProvider getProviderOverride(
-    covariant ValidateVnAndSaveToLocalProvider provider,
-  ) {
-    return call(provider.vnId);
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteVnRepoProvider,
-    localVnRepoProvider,
-  ];
+  $FutureProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        remoteVnRepoProvider,
-        ...?remoteVnRepoProvider.allTransitiveDependencies,
-        localVnRepoProvider,
-        ...?localVnRepoProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'validateVnAndSaveToLocalProvider';
-}
-
-/// See also [validateVnAndSaveToLocal].
-class ValidateVnAndSaveToLocalProvider extends AutoDisposeFutureProvider<bool> {
-  /// See also [validateVnAndSaveToLocal].
-  ValidateVnAndSaveToLocalProvider(String vnId)
-    : this._internal(
-        (ref) =>
-            validateVnAndSaveToLocal(ref as ValidateVnAndSaveToLocalRef, vnId),
-        from: validateVnAndSaveToLocalProvider,
-        name: r'validateVnAndSaveToLocalProvider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product')
-                ? null
-                : _$validateVnAndSaveToLocalHash,
-        dependencies: ValidateVnAndSaveToLocalFamily._dependencies,
-        allTransitiveDependencies:
-            ValidateVnAndSaveToLocalFamily._allTransitiveDependencies,
-        vnId: vnId,
-      );
-
-  ValidateVnAndSaveToLocalProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.vnId,
-  }) : super.internal();
-
-  final String vnId;
-
-  @override
-  Override overrideWith(
-    FutureOr<bool> Function(ValidateVnAndSaveToLocalRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: ValidateVnAndSaveToLocalProvider._internal(
-        (ref) => create(ref as ValidateVnAndSaveToLocalRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        vnId: vnId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<bool> createElement() {
-    return _ValidateVnAndSaveToLocalProviderElement(this);
+  FutureOr<bool> create(Ref ref) {
+    final argument = this.argument as String;
+    return validateVnAndSaveToLocal(ref, argument);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is ValidateVnAndSaveToLocalProvider && other.vnId == vnId;
+    return other is ValidateVnAndSaveToLocalProvider &&
+        other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, vnId.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin ValidateVnAndSaveToLocalRef on AutoDisposeFutureProviderRef<bool> {
-  /// The parameter `vnId` of this provider.
-  String get vnId;
-}
+String _$validateVnAndSaveToLocalHash() =>
+    r'35bf1c70e4dcd4908a8652268297bb579efed696';
 
-class _ValidateVnAndSaveToLocalProviderElement
-    extends AutoDisposeFutureProviderElement<bool>
-    with ValidateVnAndSaveToLocalRef {
-  _ValidateVnAndSaveToLocalProviderElement(super.provider);
+final class ValidateVnAndSaveToLocalFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<bool>, String> {
+  const ValidateVnAndSaveToLocalFamily._()
+    : super(
+        retry: null,
+        name: r'validateVnAndSaveToLocalProvider',
+        dependencies: const <ProviderOrFamily>[
+          remoteVnRepoProvider,
+          localVnRepoProvider,
+        ],
+        $allTransitiveDependencies: const <ProviderOrFamily>{
+          ValidateVnAndSaveToLocalProvider.$allTransitiveDependencies0,
+          ValidateVnAndSaveToLocalProvider.$allTransitiveDependencies1,
+          ValidateVnAndSaveToLocalProvider.$allTransitiveDependencies2,
+          ValidateVnAndSaveToLocalProvider.$allTransitiveDependencies3,
+          ValidateVnAndSaveToLocalProvider.$allTransitiveDependencies4,
+        },
+        isAutoDispose: true,
+      );
+
+  ValidateVnAndSaveToLocalProvider call(String vnId) =>
+      ValidateVnAndSaveToLocalProvider._(argument: vnId, from: this);
 
   @override
-  String get vnId => (origin as ValidateVnAndSaveToLocalProvider).vnId;
+  String toString() => r'validateVnAndSaveToLocalProvider';
 }
 
 // ignore_for_file: type=lint

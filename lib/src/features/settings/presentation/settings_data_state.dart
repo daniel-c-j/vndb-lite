@@ -6,7 +6,7 @@ import 'package:vndb_lite/src/features/settings/domain/settings_data_conf.dart';
 
 part 'settings_data_state.g.dart';
 
-@riverpod
+@Riverpod(dependencies:[sharedPref])
 class SettingsDataState extends _$SettingsDataState {
   @override
   SettingsDataConf build() {

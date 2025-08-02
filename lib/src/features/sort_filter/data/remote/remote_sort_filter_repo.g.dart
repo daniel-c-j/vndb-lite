@@ -6,329 +6,233 @@ part of 'remote_sort_filter_repo.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+@ProviderFor(remoteSortFilterRepo)
+const remoteSortFilterRepoProvider = RemoteSortFilterRepoProvider._();
+
+final class RemoteSortFilterRepoProvider
+    extends
+        $FunctionalProvider<
+          RemoteSortFilterRepo,
+          RemoteSortFilterRepo,
+          RemoteSortFilterRepo
+        >
+    with $Provider<RemoteSortFilterRepo> {
+  const RemoteSortFilterRepoProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'remoteSortFilterRepoProvider',
+        isAutoDispose: true,
+        dependencies: const <ProviderOrFamily>[apiServiceProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          RemoteSortFilterRepoProvider.$allTransitiveDependencies0,
+          RemoteSortFilterRepoProvider.$allTransitiveDependencies1,
+        ],
+      );
+
+  static const $allTransitiveDependencies0 = apiServiceProvider;
+  static const $allTransitiveDependencies1 =
+      ApiServiceProvider.$allTransitiveDependencies0;
+
+  @override
+  String debugGetCreateSourceHash() => _$remoteSortFilterRepoHash();
+
+  @$internal
+  @override
+  $ProviderElement<RemoteSortFilterRepo> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  RemoteSortFilterRepo create(Ref ref) {
+    return remoteSortFilterRepo(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(RemoteSortFilterRepo value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<RemoteSortFilterRepo>(value),
+    );
+  }
+}
+
 String _$remoteSortFilterRepoHash() =>
     r'd6f634cb0cf05750f6954fb16fc46e3f0479a974';
 
-/// See also [remoteSortFilterRepo].
-@ProviderFor(remoteSortFilterRepo)
-final remoteSortFilterRepoProvider =
-    AutoDisposeProvider<RemoteSortFilterRepo>.internal(
-      remoteSortFilterRepo,
-      name: r'remoteSortFilterRepoProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$remoteSortFilterRepoHash,
-      dependencies: <ProviderOrFamily>[apiServiceProvider],
-      allTransitiveDependencies: <ProviderOrFamily>{
-        apiServiceProvider,
-        ...?apiServiceProvider.allTransitiveDependencies,
-      },
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef RemoteSortFilterRepoRef = AutoDisposeProviderRef<RemoteSortFilterRepo>;
-String _$fetchDevelopersHash() => r'3c3611993a8c20af457702485dba08a3ad59d7ef';
-
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// See also [fetchDevelopers].
 @ProviderFor(fetchDevelopers)
-const fetchDevelopersProvider = FetchDevelopersFamily();
+const fetchDevelopersProvider = FetchDevelopersFamily._();
 
-/// See also [fetchDevelopers].
-class FetchDevelopersFamily extends Family<AsyncValue<Response>> {
-  /// See also [fetchDevelopers].
-  const FetchDevelopersFamily();
+final class FetchDevelopersProvider
+    extends
+        $FunctionalProvider<AsyncValue<Response>, Response, FutureOr<Response>>
+    with $FutureModifier<Response>, $FutureProvider<Response> {
+  const FetchDevelopersProvider._({
+    required FetchDevelopersFamily super.from,
+    required (String, {CancelToken? cancelToken}) super.argument,
+  }) : super(
+         retry: null,
+         name: r'fetchDevelopersProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [fetchDevelopers].
-  FetchDevelopersProvider call(String devName, {CancelToken? cancelToken}) {
-    return FetchDevelopersProvider(devName, cancelToken: cancelToken);
+  static const $allTransitiveDependencies0 = remoteSortFilterRepoProvider;
+  static const $allTransitiveDependencies1 =
+      RemoteSortFilterRepoProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      RemoteSortFilterRepoProvider.$allTransitiveDependencies1;
+
+  @override
+  String debugGetCreateSourceHash() => _$fetchDevelopersHash();
+
+  @override
+  String toString() {
+    return r'fetchDevelopersProvider'
+        ''
+        '$argument';
   }
 
+  @$internal
   @override
-  FetchDevelopersProvider getProviderOverride(
-    covariant FetchDevelopersProvider provider,
-  ) {
-    return call(provider.devName, cancelToken: provider.cancelToken);
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteSortFilterRepoProvider,
-  ];
+  $FutureProviderElement<Response> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        remoteSortFilterRepoProvider,
-        ...?remoteSortFilterRepoProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'fetchDevelopersProvider';
-}
-
-/// See also [fetchDevelopers].
-class FetchDevelopersProvider extends AutoDisposeFutureProvider<Response> {
-  /// See also [fetchDevelopers].
-  FetchDevelopersProvider(String devName, {CancelToken? cancelToken})
-    : this._internal(
-        (ref) => fetchDevelopers(
-          ref as FetchDevelopersRef,
-          devName,
-          cancelToken: cancelToken,
-        ),
-        from: fetchDevelopersProvider,
-        name: r'fetchDevelopersProvider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product')
-                ? null
-                : _$fetchDevelopersHash,
-        dependencies: FetchDevelopersFamily._dependencies,
-        allTransitiveDependencies:
-            FetchDevelopersFamily._allTransitiveDependencies,
-        devName: devName,
-        cancelToken: cancelToken,
-      );
-
-  FetchDevelopersProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.devName,
-    required this.cancelToken,
-  }) : super.internal();
-
-  final String devName;
-  final CancelToken? cancelToken;
-
-  @override
-  Override overrideWith(
-    FutureOr<Response> Function(FetchDevelopersRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: FetchDevelopersProvider._internal(
-        (ref) => create(ref as FetchDevelopersRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        devName: devName,
-        cancelToken: cancelToken,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<Response> createElement() {
-    return _FetchDevelopersProviderElement(this);
+  FutureOr<Response> create(Ref ref) {
+    final argument = this.argument as (String, {CancelToken? cancelToken});
+    return fetchDevelopers(ref, argument.$1, cancelToken: argument.cancelToken);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is FetchDevelopersProvider &&
-        other.devName == devName &&
-        other.cancelToken == cancelToken;
+    return other is FetchDevelopersProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, devName.hashCode);
-    hash = _SystemHash.combine(hash, cancelToken.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin FetchDevelopersRef on AutoDisposeFutureProviderRef<Response> {
-  /// The parameter `devName` of this provider.
-  String get devName;
+String _$fetchDevelopersHash() => r'3c3611993a8c20af457702485dba08a3ad59d7ef';
 
-  /// The parameter `cancelToken` of this provider.
-  CancelToken? get cancelToken;
+final class FetchDevelopersFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<Response>,
+          (String, {CancelToken? cancelToken})
+        > {
+  const FetchDevelopersFamily._()
+    : super(
+        retry: null,
+        name: r'fetchDevelopersProvider',
+        dependencies: const <ProviderOrFamily>[remoteSortFilterRepoProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          FetchDevelopersProvider.$allTransitiveDependencies0,
+          FetchDevelopersProvider.$allTransitiveDependencies1,
+          FetchDevelopersProvider.$allTransitiveDependencies2,
+        ],
+        isAutoDispose: true,
+      );
+
+  FetchDevelopersProvider call(String devName, {CancelToken? cancelToken}) =>
+      FetchDevelopersProvider._(
+        argument: (devName, cancelToken: cancelToken),
+        from: this,
+      );
+
+  @override
+  String toString() => r'fetchDevelopersProvider';
 }
 
-class _FetchDevelopersProviderElement
-    extends AutoDisposeFutureProviderElement<Response>
-    with FetchDevelopersRef {
-  _FetchDevelopersProviderElement(super.provider);
+@ProviderFor(fetchTags)
+const fetchTagsProvider = FetchTagsFamily._();
+
+final class FetchTagsProvider
+    extends
+        $FunctionalProvider<AsyncValue<Response>, Response, FutureOr<Response>>
+    with $FutureModifier<Response>, $FutureProvider<Response> {
+  const FetchTagsProvider._({
+    required FetchTagsFamily super.from,
+    required (String, {CancelToken? cancelToken}) super.argument,
+  }) : super(
+         retry: null,
+         name: r'fetchTagsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  static const $allTransitiveDependencies0 = remoteSortFilterRepoProvider;
+  static const $allTransitiveDependencies1 =
+      RemoteSortFilterRepoProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      RemoteSortFilterRepoProvider.$allTransitiveDependencies1;
 
   @override
-  String get devName => (origin as FetchDevelopersProvider).devName;
+  String debugGetCreateSourceHash() => _$fetchTagsHash();
+
   @override
-  CancelToken? get cancelToken =>
-      (origin as FetchDevelopersProvider).cancelToken;
+  String toString() {
+    return r'fetchTagsProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<Response> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Response> create(Ref ref) {
+    final argument = this.argument as (String, {CancelToken? cancelToken});
+    return fetchTags(ref, argument.$1, cancelToken: argument.cancelToken);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FetchTagsProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
 }
 
 String _$fetchTagsHash() => r'7956ea55a1ba8ceddea6a7664fd95f7e4de3fb15';
 
-/// See also [fetchTags].
-@ProviderFor(fetchTags)
-const fetchTagsProvider = FetchTagsFamily();
-
-/// See also [fetchTags].
-class FetchTagsFamily extends Family<AsyncValue<Response>> {
-  /// See also [fetchTags].
-  const FetchTagsFamily();
-
-  /// See also [fetchTags].
-  FetchTagsProvider call(String tagName, {CancelToken? cancelToken}) {
-    return FetchTagsProvider(tagName, cancelToken: cancelToken);
-  }
-
-  @override
-  FetchTagsProvider getProviderOverride(covariant FetchTagsProvider provider) {
-    return call(provider.tagName, cancelToken: provider.cancelToken);
-  }
-
-  static final Iterable<ProviderOrFamily> _dependencies = <ProviderOrFamily>[
-    remoteSortFilterRepoProvider,
-  ];
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static final Iterable<ProviderOrFamily> _allTransitiveDependencies =
-      <ProviderOrFamily>{
-        remoteSortFilterRepoProvider,
-        ...?remoteSortFilterRepoProvider.allTransitiveDependencies,
-      };
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'fetchTagsProvider';
-}
-
-/// See also [fetchTags].
-class FetchTagsProvider extends AutoDisposeFutureProvider<Response> {
-  /// See also [fetchTags].
-  FetchTagsProvider(String tagName, {CancelToken? cancelToken})
-    : this._internal(
-        (ref) =>
-            fetchTags(ref as FetchTagsRef, tagName, cancelToken: cancelToken),
-        from: fetchTagsProvider,
+final class FetchTagsFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<Response>,
+          (String, {CancelToken? cancelToken})
+        > {
+  const FetchTagsFamily._()
+    : super(
+        retry: null,
         name: r'fetchTagsProvider',
-        debugGetCreateSourceHash:
-            const bool.fromEnvironment('dart.vm.product')
-                ? null
-                : _$fetchTagsHash,
-        dependencies: FetchTagsFamily._dependencies,
-        allTransitiveDependencies: FetchTagsFamily._allTransitiveDependencies,
-        tagName: tagName,
-        cancelToken: cancelToken,
+        dependencies: const <ProviderOrFamily>[remoteSortFilterRepoProvider],
+        $allTransitiveDependencies: const <ProviderOrFamily>[
+          FetchTagsProvider.$allTransitiveDependencies0,
+          FetchTagsProvider.$allTransitiveDependencies1,
+          FetchTagsProvider.$allTransitiveDependencies2,
+        ],
+        isAutoDispose: true,
       );
 
-  FetchTagsProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.tagName,
-    required this.cancelToken,
-  }) : super.internal();
-
-  final String tagName;
-  final CancelToken? cancelToken;
+  FetchTagsProvider call(String tagName, {CancelToken? cancelToken}) =>
+      FetchTagsProvider._(
+        argument: (tagName, cancelToken: cancelToken),
+        from: this,
+      );
 
   @override
-  Override overrideWith(
-    FutureOr<Response> Function(FetchTagsRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: FetchTagsProvider._internal(
-        (ref) => create(ref as FetchTagsRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        tagName: tagName,
-        cancelToken: cancelToken,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeFutureProviderElement<Response> createElement() {
-    return _FetchTagsProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is FetchTagsProvider &&
-        other.tagName == tagName &&
-        other.cancelToken == cancelToken;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, tagName.hashCode);
-    hash = _SystemHash.combine(hash, cancelToken.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin FetchTagsRef on AutoDisposeFutureProviderRef<Response> {
-  /// The parameter `tagName` of this provider.
-  String get tagName;
-
-  /// The parameter `cancelToken` of this provider.
-  CancelToken? get cancelToken;
-}
-
-class _FetchTagsProviderElement
-    extends AutoDisposeFutureProviderElement<Response>
-    with FetchTagsRef {
-  _FetchTagsProviderElement(super.provider);
-
-  @override
-  String get tagName => (origin as FetchTagsProvider).tagName;
-  @override
-  CancelToken? get cancelToken => (origin as FetchTagsProvider).cancelToken;
+  String toString() => r'fetchTagsProvider';
 }
 
 // ignore_for_file: type=lint

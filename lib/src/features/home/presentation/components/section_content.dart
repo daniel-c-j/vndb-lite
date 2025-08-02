@@ -6,6 +6,7 @@ import 'package:vndb_lite/src/common_widgets/generic_local_empty_content.dart';
 import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
+import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview/home_big_preview_state.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
@@ -13,8 +14,6 @@ import 'package:vndb_lite/src/features/home/application/home_preview_service.dar
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
-
-final homeRatingPreviewsProvider = StateProvider<List<VnDataPhase01>>((ref) => const []);
 
 /// A simple horizontal-slide widget consisting a list of vn items.
 class HomeSectionContent extends ConsumerWidget {
@@ -90,7 +89,7 @@ class HomeSectionContent extends ConsumerWidget {
             SchedulerBinding.instance.addPostFrameCallback((_) {
               // * For home big preview
               if (sectionData == HomeSectionsCode.rating) {
-                ref_.read(homeRatingPreviewsProvider.notifier).state = data;
+                ref_.read(homeBigPreviewItemsProvider.notifier).items = data;
               }
             });
 

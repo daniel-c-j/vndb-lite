@@ -62,8 +62,8 @@ dependencies:
   collection: ^1.19.0
 
   # Powerful state management solution.
-  flutter_riverpod: ^2.6.1
-  riverpod_annotation: ^2.6.1
+  flutter_riverpod: ^3.0.0-dev.17
+  riverpod_annotation: ^3.0.0-dev.17
 
   # App routing.
   go_router: ^16.0.0
@@ -127,11 +127,11 @@ dev_dependencies:
 
   # Lints
   flutter_lints: ^6.0.0
-  custom_lint: ^0.7.0
+  custom_lint: ^0.8.0
 
   # Helps code faster and lesser.
-  riverpod_generator: ^2.6.2
-  riverpod_lint: ^2.6.2
+  riverpod_generator: ^3.0.0-dev.17
+  riverpod_lint: ^3.0.0-dev.17
 
   # TODO migrate to HIVE
   # For hive noSQL db.

@@ -6,41 +6,114 @@ part of 'search_result_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+@ProviderFor(SearchResultPageController)
+const searchResultPageControllerProvider =
+    SearchResultPageControllerProvider._();
+
+final class SearchResultPageControllerProvider
+    extends $NotifierProvider<SearchResultPageController, int> {
+  const SearchResultPageControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'searchResultPageControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$searchResultPageControllerHash();
+
+  @$internal
+  @override
+  SearchResultPageController create() => SearchResultPageController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
 String _$searchResultPageControllerHash() =>
     r'a94936348f29642b38d61bb6d9ce8775ad4bcb6e';
 
-/// See also [SearchResultPageController].
-@ProviderFor(SearchResultPageController)
-final searchResultPageControllerProvider =
-    NotifierProvider<SearchResultPageController, int>.internal(
-      SearchResultPageController.new,
-      name: r'searchResultPageControllerProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$searchResultPageControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+abstract class _$SearchResultPageController extends $Notifier<int> {
+  int build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<int, int>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
 
-typedef _$SearchResultPageController = Notifier<int>;
-String _$searchResultControllerHash() =>
-    r'fc8d308fbe47415ca451e70887066490202fae22';
-
-/// See also [SearchResultController].
 @ProviderFor(SearchResultController)
-final searchResultControllerProvider =
-    NotifierProvider<SearchResultController, List<VnItemGrid>>.internal(
-      SearchResultController.new,
-      name: r'searchResultControllerProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$searchResultControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+const searchResultControllerProvider = SearchResultControllerProvider._();
 
-typedef _$SearchResultController = Notifier<List<VnItemGrid>>;
+final class SearchResultControllerProvider
+    extends $NotifierProvider<SearchResultController, List<VnItemGrid>> {
+  const SearchResultControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'searchResultControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$searchResultControllerHash();
+
+  @$internal
+  @override
+  SearchResultController create() => SearchResultController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<VnItemGrid> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<VnItemGrid>>(value),
+    );
+  }
+}
+
+String _$searchResultControllerHash() =>
+    r'8ddddc2b64d7159429542d725ae765fc81087fee';
+
+abstract class _$SearchResultController extends $Notifier<List<VnItemGrid>> {
+  List<VnItemGrid> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<List<VnItemGrid>, List<VnItemGrid>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<VnItemGrid>, List<VnItemGrid>>,
+              List<VnItemGrid>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
