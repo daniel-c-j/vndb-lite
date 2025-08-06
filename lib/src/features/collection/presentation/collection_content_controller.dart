@@ -9,7 +9,7 @@ import 'package:vndb_lite/src/features/collection/domain/adapted_vn.dart';
 import 'package:vndb_lite/src/features/collection/domain/record.dart';
 import 'package:vndb_lite/src/features/collection/application/collection_sort_filter_service.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
-import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
+import 'package:vndb_lite/src/features/sort_filter/domain/sort_.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
 import 'package:vndb_lite/src/features/vn/domain/others.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
@@ -40,7 +40,6 @@ class CollectionContentNotifier extends _$CollectionContentNotifier {
     sharedPref,
     localVnRepo,
     validateVnAndSaveToLocal,
-    localFilterControllerProvider, // TODO fix dependencies like this.
   ],
 )
 class CollectionContentController extends _$CollectionContentController {
@@ -62,7 +61,11 @@ class CollectionContentController extends _$CollectionContentController {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Future<void> separateVNsByStatus([bool searchOnly = false]) async {
+  Future<void> separateVNsByStatus(
+    FilterData localFilter,
+    SortData localSort, {
+    bool searchOnly = false,
+  }) async {
     final alreadyThereAProcess = ref.read(bottomProgressIndicatorProvider);
 
     // For the sake of simplicity, the progress indicator will be treated in here
@@ -74,8 +77,6 @@ class CollectionContentController extends _$CollectionContentController {
 
     final collectionHandler = ref.read(collectionSortFilterServiceProvider);
     final localCollectionRepo = ref.read(localCollectionRepoProvider);
-    final localFilter = ref.read(localFilterControllerProvider);
-    final localSort = ref.read(localSortControllerProvider);
 
     try {
       await localCollectionRepo.refreshCollection();

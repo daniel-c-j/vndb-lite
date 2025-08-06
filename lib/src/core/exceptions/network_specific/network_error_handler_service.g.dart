@@ -51,7 +51,7 @@ final class NetErrorHandlerProvider
   }
 }
 
-String _$netErrorHandlerHash() => r'64aa4826e1c6d23cb37d975ff3442c05ed9327dc';
+String _$netErrorHandlerHash() => r'b5f5e4bb05875529de9c5c945d1867e4b47b1a58';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

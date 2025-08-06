@@ -47,7 +47,7 @@ class CollectionSortFilterService {
       for (Map<String, dynamic> adaptedVnData in rawP1BasedOnStatus[statusName]!) {
         // If not using any filter, then simply ignore all the filter check.
         if (!isUsingFilter(filter)) {
-          _addToVnWidgetList(adaptedVnData, statusName: statusName, sort: sort);
+          await _addToVnWidgetList(adaptedVnData, statusName: statusName, sort: sort);
           continue;
         }
 
@@ -63,8 +63,9 @@ class CollectionSortFilterService {
           searchFilter,
           adaptedVnData,
         );
-        if (canContinue)
+        if (canContinue) {
           await _addToVnWidgetList(adaptedVnData, statusName: statusName, sort: sort);
+        }
       }
     }
   }

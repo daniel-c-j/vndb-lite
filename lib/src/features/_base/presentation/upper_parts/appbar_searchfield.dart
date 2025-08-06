@@ -30,7 +30,12 @@ class AppBarSearchfield extends ConsumerWidget {
 
   Future<void> _searchingInCollectionScreen(WidgetRef ref) async {
     ref.read(localFilterControllerProvider.notifier).copyWith(search: controllerCollection.text);
-    await ref.read(collectionContentControllerProvider.notifier).separateVNsByStatus(true);
+
+    final filterData = ref.read(localFilterControllerProvider);
+    final sortData = ref.read(localSortControllerProvider);
+    await ref
+        .read(collectionContentControllerProvider.notifier)
+        .separateVNsByStatus(filterData, sortData, searchOnly: true);
   }
 
   //

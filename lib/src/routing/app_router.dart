@@ -30,7 +30,10 @@ enum AppRoute {
   unknown;
 
   const AppRoute();
+
+  // By default is absolute, starting with "/".
   String get path => "/$name";
+  String get relPath => name;
 }
 
 @Riverpod(keepAlive: true)

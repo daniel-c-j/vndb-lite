@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
@@ -35,9 +36,11 @@ class AppBarSyncButton extends ConsumerWidget {
                     keepVns: true,
                     // Will updates collection periodically.
                     whenDownloadingAndSaving: () async {
+                      final filterData = ref.read(localFilterControllerProvider);
+                      final sortData = ref.read(localSortControllerProvider);
                       await ref_
                           .read(collectionContentControllerProvider.notifier)
-                          .separateVNsByStatus();
+                          .separateVNsByStatus(filterData, sortData);
                     },
                   );
 

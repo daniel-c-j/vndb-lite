@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_dialog.dart';
 import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
+import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
@@ -82,10 +82,13 @@ Future<void> showSyncDialog() async {
                                 .sync(
                                   keepVns: true,
                                   whenDownloadingAndSaving: () async {
+                                    final filterData = ref.read(localFilterControllerProvider);
+                                    final sortData = ref.read(localSortControllerProvider);
+
                                     // Updates collection periodically.
                                     await ref_
                                         .read(collectionContentControllerProvider.notifier)
-                                        .separateVNsByStatus();
+                                        .separateVNsByStatus(filterData, sortData);
                                   },
                                 );
                             ref_.invalidate(vnRecordControllerProvider);
@@ -128,10 +131,13 @@ Future<void> showSyncDialog() async {
                                   .sync(
                                     keepVns: false,
                                     whenDownloadingAndSaving: () async {
+                                      final filterData = ref.read(localFilterControllerProvider);
+                                      final sortData = ref.read(localSortControllerProvider);
+
                                       // Updates collection periodically
                                       await ref_
                                           .read(collectionContentControllerProvider.notifier)
-                                          .separateVNsByStatus();
+                                          .separateVNsByStatus(filterData, sortData);
                                     },
                                   );
                               ref_.invalidate(vnRecordControllerProvider);

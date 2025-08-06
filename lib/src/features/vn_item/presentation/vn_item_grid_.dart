@@ -97,7 +97,7 @@ class VnItemGrid extends ConsumerWidget {
         imageUrl: (_vnHasCover) ? (_vnCoverUrl ?? '') : '',
         width: (isGridView) ? double.infinity : null,
         height: (isGridView) ? null : nonGridViewHeight,
-        placeholder: (_, __) => SizedBox(width: placeholderSize, height: placeholderSize),
+        placeholder: (_, _) => SizedBox.square(dimension: placeholderSize),
         fit: BoxFit.cover,
         errorWidget: (_, url, error) => const GenericErrorImage(),
         errorListener: null,

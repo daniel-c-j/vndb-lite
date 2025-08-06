@@ -1,6 +1,7 @@
 import 'package:flutter/scheduler.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/tabs_sliver_appbar.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_appbar_tabs.dart';
+import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content.dart';
@@ -20,7 +21,11 @@ class CollectionScreen extends ConsumerWidget {
       // ? If there is not any ongoing process, then proceeds. Do not ref.watch()
 
       if (!ref.read(bottomProgressIndicatorProvider)) {
-        ref.read(collectionContentControllerProvider.notifier).separateVNsByStatus();
+        final filterData = ref.read(localFilterControllerProvider);
+        final sortData = ref.read(localSortControllerProvider);
+        ref
+            .read(collectionContentControllerProvider.notifier)
+            .separateVNsByStatus(filterData, sortData);
       }
     });
 

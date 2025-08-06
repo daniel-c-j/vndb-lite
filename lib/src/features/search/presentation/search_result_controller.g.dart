@@ -94,7 +94,7 @@ final class SearchResultControllerProvider
 }
 
 String _$searchResultControllerHash() =>
-    r'8ddddc2b64d7159429542d725ae765fc81087fee';
+    r'c1486249af51fe79d899cfd691d9b5ccbcecc8bf';
 
 abstract class _$SearchResultController extends $Notifier<List<VnItemGrid>> {
   List<VnItemGrid> build();

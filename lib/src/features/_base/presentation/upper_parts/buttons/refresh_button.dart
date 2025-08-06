@@ -58,7 +58,11 @@ class AppBarRefreshButton extends ConsumerWidget {
 
       // Refreshing the collection content.
       if (App.isInCollectionScreen || allMainScreen) {
-        await ref_.read(collectionContentControllerProvider.notifier).separateVNsByStatus();
+        final filterData = ref_.read(localFilterControllerProvider);
+        final sortData = ref_.read(localSortControllerProvider);
+        await ref_
+            .read(collectionContentControllerProvider.notifier)
+            .separateVNsByStatus(filterData, sortData);
       }
 
       await resetTempData();

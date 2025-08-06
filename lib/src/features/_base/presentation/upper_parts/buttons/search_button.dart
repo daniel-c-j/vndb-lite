@@ -54,7 +54,11 @@ class AppBarSearchButton extends ConsumerWidget {
         } else if (App.isInCollectionScreen) {
           // If already showing, then intitiate search.
           if (ref.read(showSearchTextFieldProvider)) {
-            await ref.read(collectionContentControllerProvider.notifier).separateVNsByStatus();
+            final filterData = ref.read(localFilterControllerProvider);
+            final sortData = ref.read(localSortControllerProvider);
+            await ref
+                .read(collectionContentControllerProvider.notifier)
+                .separateVNsByStatus(filterData, sortData);
             return;
           }
 

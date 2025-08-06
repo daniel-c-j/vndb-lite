@@ -17,7 +17,7 @@ final class VnItemGridCoverCensorStateProvider
   }) : super(
          retry: null,
          name: r'vnItemGridCoverCensorStateProvider',
-         isAutoDispose: false,
+         isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -57,7 +57,7 @@ final class VnItemGridCoverCensorStateProvider
 }
 
 String _$vnItemGridCoverCensorStateHash() =>
-    r'36e4354f6c78098a9044491c614b837522a083cb';
+    r'a42d4238436425e213d294a1ad6a2563bad6588d';
 
 final class VnItemGridCoverCensorStateFamily extends $Family
     with
@@ -74,7 +74,7 @@ final class VnItemGridCoverCensorStateFamily extends $Family
         name: r'vnItemGridCoverCensorStateProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: false,
+        isAutoDispose: true,
       );
 
   VnItemGridCoverCensorStateProvider call(String vnId) =>

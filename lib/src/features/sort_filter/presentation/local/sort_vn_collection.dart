@@ -33,10 +33,14 @@ class SortVnCollection extends ConsumerWidget {
               }
 
               _debouncer.call(() async {
-                await ref.read(collectionContentControllerProvider.notifier).separateVNsByStatus();
+                final filterData = ref.read(localFilterControllerProvider);
+                final sortData = ref.read(localSortControllerProvider);
+                await ref
+                    .read(collectionContentControllerProvider.notifier)
+                    .separateVNsByStatus(filterData, sortData);
               });
             },
-          )
+          ),
       ],
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vndb_lite/src/common_widgets/custom_label.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
@@ -102,7 +103,11 @@ class _SettingsGeneralState extends ConsumerState<SettingsGeneral>
         ref.read(settingsGeneralStateProvider.notifier).collectionStatusTabArrangement =
             collectionStatusArrangement;
 
-        await ref.read(collectionContentControllerProvider.notifier).separateVNsByStatus();
+        final filterData = ref.read(localFilterControllerProvider);
+        final sortData = ref.read(localSortControllerProvider);
+        await ref
+            .read(collectionContentControllerProvider.notifier)
+            .separateVNsByStatus(filterData, sortData);
         await _refreshApp();
       },
       content: Container(

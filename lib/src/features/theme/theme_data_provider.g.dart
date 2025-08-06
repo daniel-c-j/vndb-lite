@@ -17,7 +17,7 @@ final class AppThemeStateProvider
         argument: null,
         retry: null,
         name: r'appThemeStateProvider',
-        isAutoDispose: false,
+        isAutoDispose: true,
         dependencies: const <ProviderOrFamily>[sharedPrefProvider],
         $allTransitiveDependencies: const <ProviderOrFamily>[
           AppThemeStateProvider.$allTransitiveDependencies0,
@@ -42,7 +42,7 @@ final class AppThemeStateProvider
   }
 }
 
-String _$appThemeStateHash() => r'3ef0c9611c3f45eaf4b908db0831dc2c6544c99e';
+String _$appThemeStateHash() => r'9c2752019aa445ddc62d4ce986e6910a0629a18d';
 
 abstract class _$AppThemeState extends $Notifier<ThemeCode> {
   ThemeCode build();

@@ -5,10 +5,7 @@ part 'vn_item_grid_controller.g.dart';
 @Riverpod(keepAlive: true)
 class VnItemGridCoverCensorState extends _$VnItemGridCoverCensorState {
   @override
-  bool build(String vnId) {
-    return false;
-  }
-
+  bool build(String vnId) => false;
   set censor(bool value) => state = value;
 }
 

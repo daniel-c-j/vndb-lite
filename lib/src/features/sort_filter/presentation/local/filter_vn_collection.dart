@@ -40,7 +40,11 @@ class _FilterVnCollectionState extends ConsumerState<FilterVnCollection> {
 
   Future<void> _refresh() async {
     _debouncer.call(() async {
-      await ref.read(collectionContentControllerProvider.notifier).separateVNsByStatus();
+      final filterData = ref.read(localFilterControllerProvider);
+      final sortData = ref.read(localSortControllerProvider);
+      await ref
+          .read(collectionContentControllerProvider.notifier)
+          .separateVNsByStatus(filterData, sortData);
     });
   }
 

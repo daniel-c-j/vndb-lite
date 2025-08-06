@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../_exceptions.dart';
@@ -17,6 +16,8 @@ part 'network_error_handler_service.g.dart';
 /// }
 ///
 class NetworkErrorHandlerService {
+  const NetworkErrorHandlerService();
+
   AppException handle(DioException error) {
     return _getFailure(error);
   }
@@ -72,5 +73,5 @@ class NetworkErrorHandlerService {
 
 @riverpod
 NetworkErrorHandlerService netErrorHandler(Ref ref) {
-  return NetworkErrorHandlerService();
+  return const NetworkErrorHandlerService();
 }

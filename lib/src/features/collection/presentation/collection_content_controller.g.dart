@@ -138,7 +138,7 @@ final class CollectionContentControllerProvider
 }
 
 String _$collectionContentControllerHash() =>
-    r'85503b8af14a712f760c02e6aee2076d347abe33';
+    r'3e6fa75454008757c1f37e5c7770717e72dc6c9b';
 
 abstract class _$CollectionContentController
     extends $Notifier<Map<String, List<VnItemGrid>>> {

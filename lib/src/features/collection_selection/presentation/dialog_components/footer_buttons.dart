@@ -9,6 +9,7 @@ import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
+import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/application/collection_selection_service.dart';
@@ -57,7 +58,11 @@ class VnSelectionDialogFooter extends ConsumerWidget {
     // Prevent changing collection refreshing the items which made the items disappear and force user to
     // go up from where the user scroll.
     if (!App.isInCollectionScreen) {
-      await ref_.read(collectionContentControllerProvider.notifier).separateVNsByStatus();
+      final filterData = ref_.read(localFilterControllerProvider);
+      final sortData = ref_.read(localSortControllerProvider);
+      await ref_
+          .read(collectionContentControllerProvider.notifier)
+          .separateVNsByStatus(filterData, sortData);
     }
   }
 

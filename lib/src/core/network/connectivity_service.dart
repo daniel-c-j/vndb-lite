@@ -26,10 +26,11 @@ class ConnectivityNotifier extends _$ConnectivityNotifier {
 
   ConnectivityNotifier() {
     if (!canListenToNetworkStatusChange) return;
+
     // Continuously listen for internet connection changes.
     _subscription = _internetConnectionChecker.onStatusChange.listen(
+      // Updates state to true when the condition is true, vice-versa.
       (InternetStatus status) {
-        // Updates state to true when the condition is true, vice-versa.
         state = status == InternetStatus.connected;
       },
       onError: (error) {
