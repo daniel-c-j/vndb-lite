@@ -44,7 +44,7 @@ class AppBarSyncButton extends ConsumerWidget {
                     },
                   );
 
-              ref_.invalidate(vnRecordControllerProvider);
+              ref_.invalidate(vnRecordStateProvider);
               ref_.read(bottomProgressIndicatorProvider.notifier).show = false;
               return;
             }

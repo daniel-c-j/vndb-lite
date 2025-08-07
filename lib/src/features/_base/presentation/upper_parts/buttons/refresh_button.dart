@@ -5,9 +5,9 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
+import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_cover.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
-import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/collection_selection_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
@@ -74,8 +74,15 @@ class AppBarRefreshButton extends ConsumerWidget {
     });
   }
 
-  /// Resetting almost all temporary keepAlive:true providers.
+  /// Resetting almost all temporary keepAlive:true providers and other miscellaneous stuff.
   static Future<void> resetTempData({bool verbose = false}) async {
+    VnItemGridCover.coverBlur.clear();
+    VnItemGridCover.coverBlurToggle.clear();
+    VnItemGridCover.sizes.clear();
+
+    cachedRecord.clear();
+    rawP1BasedOnStatus.clear();
+
     ref_.invalidate(recordSelectedControllerProvider);
     ref_.invalidate(vnSelectionControllerProvider);
     ref_.invalidate(dialogDismissedStateProvider);
@@ -84,7 +91,7 @@ class AppBarRefreshButton extends ConsumerWidget {
     ref_.invalidate(showAuthTokenFieldStateProvider);
     ref_.invalidate(authTokenFieldServerErrorControllerProvider);
 
-    ref_.invalidate(vnRecordControllerProvider);
+    ref_.invalidate(vnRecordStateProvider);
 
     if (verbose) {
       AppBarSearchfield.controllerCollection.clear();

@@ -17,7 +17,7 @@ final class VnSelectionControllerProvider
         argument: null,
         retry: null,
         name: r'vnSelectionControllerProvider',
-        isAutoDispose: false,
+        isAutoDispose: true,
         dependencies: const <ProviderOrFamily>[vnSelectionServiceProvider],
         $allTransitiveDependencies: const <ProviderOrFamily>{
           VnSelectionControllerProvider.$allTransitiveDependencies0,
@@ -70,7 +70,7 @@ final class VnSelectionControllerProvider
 }
 
 String _$vnSelectionControllerHash() =>
-    r'46c0ab646ba61321b4163cad78e14df95178081f';
+    r'4ad454a1688a5ab38272002f0ff3ef79d5f5ca45';
 
 abstract class _$VnSelectionController extends $Notifier<VnSelection> {
   VnSelection build();

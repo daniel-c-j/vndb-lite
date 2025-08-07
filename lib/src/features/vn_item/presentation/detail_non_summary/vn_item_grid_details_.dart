@@ -6,7 +6,6 @@ import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_item_detail_label.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_item_detail_status_indicator.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_item_detail_title.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_controller.dart';
 import '../../../../app.dart';
 
 class VnItemGridDetails extends StatelessWidget {
@@ -45,9 +44,6 @@ class VnItemGridDetails extends StatelessWidget {
         if (withLabel)
           Consumer(
             builder: (context, ref, child) {
-              final almostLongPressed = ref.watch(vnItemGridAlmostLongPressedStateProvider);
-              if (almostLongPressed == p1.id) return const MultiSelectionIndicator();
-
               if (App.isInCollectionScreen) {
                 final recordSelected = ref.watch(recordSelectedControllerProvider);
                 if (recordSelected.contains(p1.id)) return const MultiSelectionIndicator();

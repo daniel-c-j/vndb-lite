@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
+import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/domain/vn_selection.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/collection_selection_controller.dart';
@@ -108,24 +109,15 @@ class _RecordDateOptionsState extends ConsumerState<RecordDateOptions> {
   // sends the same DateTime type without any way to differ between the two, so from the caller, it must
   // provide the identifier for both start and finish date.
   String _dateOptionText(DateTime? selectedDate, bool isError) {
-    final isMultiSelection = ref.read(vnSelectionControllerProvider.notifier).isMultiselection;
-
     if (selectedDate != null) {
-      if (_errorFinishDate && isError) {
-        return 'Finish date must be after the start date.';
-      }
-
-      if (_errorStartDate && isError) {
-        return 'Start date must be before the finish date.';
-      }
-
+      if (_errorFinishDate && isError) return 'Finish date must be after the start date.';
+      if (_errorStartDate && isError) return 'Start date must be before the finish date.';
       return '  ${_dtFormatter.format(selectedDate)}';
-      //
-    } else {
-      //
-      if (isMultiSelection) return ' Mixed';
-      return '';
     }
+
+    final isInMultiSelection = ref.read(recordSelectedControllerProvider).isNotEmpty;
+    if (isInMultiSelection) return ' Mixed';
+    return '';
   }
 
   //

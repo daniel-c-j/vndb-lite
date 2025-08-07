@@ -60,7 +60,7 @@ class VnItemDetailLabel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vnRecord = ref.watch(vnRecordControllerProvider(p1.id));
+    final vnRecord = ref.watch(vnRecordStateProvider(p1.id));
 
     if (labelCode != SortableCode.title.name) {
       return FutureBuilder(

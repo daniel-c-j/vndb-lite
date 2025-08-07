@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/base_dialog.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/fab/vn_detail_fab_state.dart';
@@ -15,7 +14,7 @@ class VnDetailFab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final record = ref.watch(vnRecordControllerProvider(p1.id));
+    final record = ref.watch(vnRecordStateProvider(p1.id));
 
     // The reason this does not renders the floating action button immediately is when a given scenario for
     // a detail screen stucks at downloading the phase02 data, user can crash the widget by clicking the

@@ -6,18 +6,18 @@ part of 'vn_record_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(VnRecordController)
-const vnRecordControllerProvider = VnRecordControllerFamily._();
+@ProviderFor(VnRecordState)
+const vnRecordStateProvider = VnRecordStateFamily._();
 
-final class VnRecordControllerProvider
-    extends $NotifierProvider<VnRecordController, VnRecord?> {
-  const VnRecordControllerProvider._({
-    required VnRecordControllerFamily super.from,
+final class VnRecordStateProvider
+    extends $NotifierProvider<VnRecordState, VnRecord?> {
+  const VnRecordStateProvider._({
+    required VnRecordStateFamily super.from,
     required String super.argument,
   }) : super(
          retry: null,
-         name: r'vnRecordControllerProvider',
-         isAutoDispose: false,
+         name: r'vnRecordStateProvider',
+         isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -29,18 +29,18 @@ final class VnRecordControllerProvider
       LocalCollectionRepoProvider.$allTransitiveDependencies1;
 
   @override
-  String debugGetCreateSourceHash() => _$vnRecordControllerHash();
+  String debugGetCreateSourceHash() => _$vnRecordStateHash();
 
   @override
   String toString() {
-    return r'vnRecordControllerProvider'
+    return r'vnRecordStateProvider'
         ''
         '($argument)';
   }
 
   @$internal
   @override
-  VnRecordController create() => VnRecordController();
+  VnRecordState create() => VnRecordState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(VnRecord? value) {
@@ -52,7 +52,7 @@ final class VnRecordControllerProvider
 
   @override
   bool operator ==(Object other) {
-    return other is VnRecordControllerProvider && other.argument == argument;
+    return other is VnRecordStateProvider && other.argument == argument;
   }
 
   @override
@@ -61,39 +61,38 @@ final class VnRecordControllerProvider
   }
 }
 
-String _$vnRecordControllerHash() =>
-    r'bf283ed71d8a8678f984951a227381fc047aee71';
+String _$vnRecordStateHash() => r'cdae351f8c800daed60c2249243a63d79b925e0c';
 
-final class VnRecordControllerFamily extends $Family
+final class VnRecordStateFamily extends $Family
     with
         $ClassFamilyOverride<
-          VnRecordController,
+          VnRecordState,
           VnRecord?,
           VnRecord?,
           VnRecord?,
           String
         > {
-  const VnRecordControllerFamily._()
+  const VnRecordStateFamily._()
     : super(
         retry: null,
-        name: r'vnRecordControllerProvider',
+        name: r'vnRecordStateProvider',
         dependencies: const <ProviderOrFamily>[localCollectionRepoProvider],
         $allTransitiveDependencies: const <ProviderOrFamily>[
-          VnRecordControllerProvider.$allTransitiveDependencies0,
-          VnRecordControllerProvider.$allTransitiveDependencies1,
-          VnRecordControllerProvider.$allTransitiveDependencies2,
+          VnRecordStateProvider.$allTransitiveDependencies0,
+          VnRecordStateProvider.$allTransitiveDependencies1,
+          VnRecordStateProvider.$allTransitiveDependencies2,
         ],
-        isAutoDispose: false,
+        isAutoDispose: true,
       );
 
-  VnRecordControllerProvider call(String vnId) =>
-      VnRecordControllerProvider._(argument: vnId, from: this);
+  VnRecordStateProvider call(String vnId) =>
+      VnRecordStateProvider._(argument: vnId, from: this);
 
   @override
-  String toString() => r'vnRecordControllerProvider';
+  String toString() => r'vnRecordStateProvider';
 }
 
-abstract class _$VnRecordController extends $Notifier<VnRecord?> {
+abstract class _$VnRecordState extends $Notifier<VnRecord?> {
   late final _$args = ref.$arg as String;
   String get vnId => _$args;
 

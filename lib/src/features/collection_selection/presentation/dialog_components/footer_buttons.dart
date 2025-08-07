@@ -52,9 +52,6 @@ class VnSelectionDialogFooter extends ConsumerWidget {
   Future<void> _notifyCollectionPreview() async {
     ref_.invalidate(homePreviewServiceProvider);
 
-    // Need to invalidate twice and a delay somehow...
-    // ref_.invalidate(homePreviewServiceProvider);
-
     // Prevent changing collection refreshing the items which made the items disappear and force user to
     // go up from where the user scroll.
     if (!App.isInCollectionScreen) {
@@ -72,7 +69,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selection = ref.read(vnSelectionControllerProvider.notifier);
+    final selectionFn = ref.read(vnSelectionControllerProvider.notifier);
 
     // Watch states, to update UI.
     final selectionState = ref.watch(vnSelectionControllerProvider);
@@ -105,7 +102,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Remove button
-        if (!selection.isVnNew && buttonState == ButtonState.active)
+        if (!selectionState.isNew && buttonState == ButtonState.active)
           CustomDialogButton(
             text: 'Remove',
             padding: EdgeInsets.symmetric(
@@ -117,7 +114,7 @@ class VnSelectionDialogFooter extends ConsumerWidget {
               if (buttonState == ButtonState.loading) return;
 
               await confirmVnRemovalDialog(() async {
-                await selection.remove(
+                await selectionFn.remove(
                   whenSuccess: () async {
                     // Turning off multiselection mode
                     ref.invalidate(recordSelectedControllerProvider);
@@ -138,8 +135,8 @@ class VnSelectionDialogFooter extends ConsumerWidget {
                   },
                   removeRefresh: (String id) {
                     SchedulerBinding.instance.addPostFrameCallback((_) {
-                      ref.invalidate(vnRecordControllerProvider(id));
-                      ref.read(vnRecordControllerProvider(id).notifier).importRecord(null);
+                      ref.invalidate(vnRecordStateProvider(id));
+                      ref.read(vnRecordStateProvider(id).notifier).importRecord(null);
                     });
                   },
                 );
@@ -171,18 +168,18 @@ class VnSelectionDialogFooter extends ConsumerWidget {
                 confirmSelectionProvider(
                   p1List: data,
                   selection: selectionState,
-                  vnRecords: selection.vnRecords,
+                  vnRecords: selectionFn.records,
                   // ignore: provider_parameters
                   saveRefresh: (String id) {
                     SchedulerBinding.instance.addPostFrameCallback((_) {
                       Future.delayed(const Duration(milliseconds: 800));
-                      ref.invalidate(vnRecordControllerProvider(id));
+                      ref.invalidate(vnRecordStateProvider(id));
                     });
                   },
                   // ignore: provider_parameters
                   whenSuccess: () async {
                     changeButton.state = ButtonState.active;
-                    final isNew = selection.isVnNew; // Storing the state temporarily.
+                    final isNew = selectionState.isNew; // Storing the state temporarily.
 
                     // Turning off multiselection mode
                     ref.invalidate(recordSelectedControllerProvider);

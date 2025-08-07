@@ -79,7 +79,7 @@ final class CollectionContentControllerProvider
         argument: null,
         retry: null,
         name: r'collectionContentControllerProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: const <ProviderOrFamily>[
           collectionSortFilterServiceProvider,
           localCollectionRepoProvider,
@@ -138,7 +138,7 @@ final class CollectionContentControllerProvider
 }
 
 String _$collectionContentControllerHash() =>
-    r'3e6fa75454008757c1f37e5c7770717e72dc6c9b';
+    r'2f2e435c8cbbf030f3faed3e0393d388d8d50a7a';
 
 abstract class _$CollectionContentController
     extends $Notifier<Map<String, List<VnItemGrid>>> {

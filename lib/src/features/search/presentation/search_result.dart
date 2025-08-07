@@ -67,6 +67,7 @@ class SearchResult extends ConsumerWidget {
     return ScrollableWrapper(
       withScrollBar: true,
       child: CustomScrollView(
+        shrinkWrap: false,
         // physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         // controller: (App.isInSearchScreen) ? controller : null,
         // controller: controller,

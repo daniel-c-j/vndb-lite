@@ -11,9 +11,10 @@ import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 
 part 'collection_selection_controller.g.dart';
 
-@Riverpod(keepAlive: true, dependencies: [vnSelectionService])
+// Processing selection.
+@Riverpod(dependencies: [vnSelectionService])
 class VnSelectionController extends _$VnSelectionController {
-  Map<String, VnRecord?> vnRecords = {};
+  final Map<String, VnRecord?> _vnRecords = {};
 
   @override
   VnSelection build() {
@@ -24,12 +25,15 @@ class VnSelectionController extends _$VnSelectionController {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
+  Map<String, VnRecord?> get records => _vnRecords;
+
   void copyWith({
     DateTime? started,
     DateTime? finished,
     DateTime? added,
     String? status,
     int? vote,
+    bool? isNew,
   }) {
     state = VnSelection(
       started: started ?? state.started,
@@ -37,26 +41,22 @@ class VnSelectionController extends _$VnSelectionController {
       added: added ?? state.added,
       status: status ?? state.status,
       vote: vote ?? state.vote,
+      isNew: isNew ?? state.isNew,
     );
-  }
-
-  bool get isMultiselection => vnRecords.length > 1;
-
-  bool get isVnNew {
-    return vnRecords.isNotEmpty && vnRecords.values.first == null;
   }
 
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void init(List<VnDataPhase01> p1) {
-    vnRecords = ref.read(vnSelectionServiceProvider).getVnRecords(p1);
+  /// Converts p1 to record.
+  void init(List<VnDataPhase01> p1s) {
+    _vnRecords.addAll(ref.read(vnSelectionServiceProvider).getVnRecords(p1s));
 
     // If it's individual, by default will show the latest values.
     // Do not use !isMultiselection, it will not initialized yet (since this is an init method)
-    if (vnRecords.length == 1) {
-      final vnRecord = vnRecords.values.first;
+    if (_vnRecords.length == 1) {
+      final vnRecord = _vnRecords.values.first;
 
       if (vnRecord != null) {
         final newState = state.copyWith(
@@ -67,15 +67,17 @@ class VnSelectionController extends _$VnSelectionController {
         );
 
         state = newState;
+        return;
       }
-      //
-    } else {
-      // Default value changed to special mixed value if in multimode. The rest will
-      // be null or dependent on each item's latest record.
-      final newState = state.copyWith(vote: -1, status: 'Mixed', started: null, finished: null);
 
-      state = newState;
+      // ? VnRecord does not exists, that means that its new.
+      state = state.copyWith(isNew: true);
+      return;
     }
+
+    // Default value changed to special mixed value if in multimode. The rest will
+    // be null or dependent on each item's latest record.
+    state = state.copyWith(vote: -1, status: 'Mixed', started: null, finished: null);
   }
 
   //
@@ -104,10 +106,12 @@ class VnSelectionController extends _$VnSelectionController {
   }) async {
     final selectionService = ref.read(vnSelectionServiceProvider);
     await selectionService.removeSelection(
-      vnRecords.values.toList(),
+      _vnRecords.values.toList(),
       whenSuccess: whenSuccess,
       removeRefresh: removeRefresh,
     );
+
+    _vnRecords.clear();
   }
 
   //

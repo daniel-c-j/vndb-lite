@@ -3,15 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_cover.dart';
-import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/base_dialog.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/app.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_controller.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_item_grid_details_.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_grid_details_summary.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
@@ -103,13 +100,23 @@ class VnItemGrid extends ConsumerWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
+  void _vnOnDoubleTap(WidgetRef ref) {
+    final recordSelected = ref.read(recordSelectedControllerProvider);
+    if (recordSelected.isNotEmpty) return;
+
+    final toggleBlur = VnItemGridCover.coverBlurToggle[_vnId];
+    if (toggleBlur != null) toggleBlur();
+  }
+
+  //
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  //
+
   bool _showVnDetailSummary = false;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    debugPrint("Hello");
-
-    final vnWidget = Padding(
+    return Padding(
       padding: (isGridView) ? EdgeInsets.zero : const EdgeInsets.symmetric(horizontal: 6),
       child: ClipRRect(
         clipBehavior: Clip.hardEdge,
@@ -119,7 +126,7 @@ class VnItemGrid extends ConsumerWidget {
             //
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Vn cover image
-            VnItemGridCover(isGridView: isGridView, vnId: _vnId, image: p1.image),
+            VnItemGridCover(isGridView: isGridView, vnId: _vnId, image: p1.image, title: p1.title),
             Positioned.fill(
               child: Material(
                 color: Colors.transparent,
@@ -127,7 +134,7 @@ class VnItemGrid extends ConsumerWidget {
                   splashColor: colorPlaceHolder,
                   onTap: () => _vnOnTap(ref, context),
                   onLongPress: () => _vnOnLongPress(ref),
-                  onDoubleTap: null,
+                  onDoubleTap: () => _vnOnDoubleTap(ref),
                 ),
               ),
             ),
@@ -141,7 +148,7 @@ class VnItemGrid extends ConsumerWidget {
               bottom: 0,
               child: StatefulBuilder(
                 builder: (BuildContext context, setState) {
-                  void toggleDetailSummary() {
+                  void toggle() {
                     setState(() => _showVnDetailSummary = !_showVnDetailSummary);
                   }
 
@@ -149,13 +156,13 @@ class VnItemGrid extends ConsumerWidget {
                       ? VnItemGridDetailsSummary(
                         p1: p1,
                         labelCode: labelCode,
-                        toggleVnDetailSummary: toggleDetailSummary,
+                        toggleVnDetailSummary: toggle,
                       )
                       : VnItemGridDetails(
                         p1: p1,
                         labelCode: labelCode,
                         withLabel: withLabel,
-                        toggleVnDetailSummary: toggleDetailSummary,
+                        toggleVnDetailSummary: toggle,
                       );
                 },
               ),
@@ -167,22 +174,5 @@ class VnItemGrid extends ConsumerWidget {
         ),
       ),
     );
-
-    // * Exists only to fetch the size for the placeholder image to prevent
-    // * stuttering in a gridview.
-    if (isGridView &&
-        VnItemGridCover.placeHolderSize ==
-            (VnItemGridCover.sizeContainers[p1.id] ?? VnItemGridCover.placeHolderSize)) {
-      return VisibilityDetector(
-        key: Key(p1.id),
-        onVisibilityChanged: (VisibilityInfo info) {
-          debugPrint(p1.title);
-          VnItemGridCover.sizeContainers[p1.id] = info.size.height;
-        },
-        child: vnWidget,
-      );
-    }
-
-    return vnWidget;
   }
 }

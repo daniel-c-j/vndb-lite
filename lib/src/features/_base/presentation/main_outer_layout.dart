@@ -12,7 +12,6 @@ import 'package:vndb_lite/src/features/collection_selection/presentation/fab/mul
 import 'package:vndb_lite/src/features/version_check/domain/version_check.dart';
 import 'package:vndb_lite/src/features/version_check/presentation/version_check_controller.dart';
 import 'package:vndb_lite/src/features/version_check/presentation/version_update_dialog.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_controller.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/breaking_changes.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
@@ -84,10 +83,6 @@ class MainOuterLayout extends StatelessWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void _resetAlmostLongPressedIndicator() {
-    ref_.read(vnItemGridAlmostLongPressedStateProvider.notifier).vnId = "";
-  }
-
   @override
   Widget build(BuildContext context) {
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
@@ -98,9 +93,6 @@ class MainOuterLayout extends StatelessWidget {
 
       // * Checks version at startup once everything loads.
       _checkVersionUpdate();
-
-      // * To prevent conflict changing between screens.
-      _resetAlmostLongPressedIndicator();
     });
 
     return SafeArea(

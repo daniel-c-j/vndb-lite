@@ -19,8 +19,6 @@ class VnItemDetailSummaryXButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vnRecord = ref.watch(vnRecordControllerProvider(vnId));
-
     return Align(
       alignment: Alignment.topRight,
       child: GestureDetector(
@@ -40,19 +38,35 @@ class VnItemDetailSummaryXButton extends ConsumerWidget {
         },
         child: Padding(
           padding: EdgeInsets.only(bottom: responsiveUI.own(0.06), left: responsiveUI.own(0.06)),
-          child: Container(
-            padding: EdgeInsets.all(responsiveUI.own(0.005)),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color:
-                  (vnRecord != null)
-                      ? COLLECTION_STATUS_DATA[vnRecord.status]!.color
-                      : kColor(context).primary.withOpacity(0.4),
-              boxShadow: const [
-                BoxShadow(color: Color.fromARGB(150, 0, 0, 0), offset: Offset(3, 3), blurRadius: 5),
-              ],
-            ),
-            child: Icon(Icons.close_rounded, color: Colors.white, size: responsiveUI.own(0.05)),
+          child: Consumer(
+            builder: (context, ref, child) {
+              final vnRecord = ref.watch(vnRecordStateProvider(vnId));
+
+              return DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color:
+                      (vnRecord != null)
+                          ? COLLECTION_STATUS_DATA[vnRecord.status]!.color
+                          : kColor(context).primary.withOpacity(0.4),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromARGB(150, 0, 0, 0),
+                      offset: Offset(3, 3),
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(responsiveUI.own(0.005)),
+                  child: Icon(
+                    Icons.close_rounded,
+                    color: Colors.white,
+                    size: responsiveUI.own(0.05),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),

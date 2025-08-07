@@ -59,7 +59,7 @@ class MultiSelectFab extends ConsumerWidget {
 
             // Refreshing vn item's record indicator, after multiselection changes made
             for (VnDataPhase01 p1 in p1List) {
-              ref_.invalidate(vnRecordControllerProvider(p1.id));
+              ref_.invalidate(vnRecordStateProvider(p1.id));
             }
           },
           child: Icon(Icons.check, color: kColor(context).tertiary),

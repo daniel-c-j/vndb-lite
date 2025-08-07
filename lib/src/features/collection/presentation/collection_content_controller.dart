@@ -18,6 +18,8 @@ import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
 
 part 'collection_content_controller.g.dart';
 
+//TODO delete unnecessary notifier.
+
 // Containing raw vn data.
 final Map<String, List<Map<String, dynamic>>> rawP1BasedOnStatus = {};
 
@@ -34,6 +36,7 @@ class CollectionContentNotifier extends _$CollectionContentNotifier {
 }
 
 @Riverpod(
+  keepAlive: true,
   dependencies: [
     collectionSortFilterService,
     localCollectionRepo,

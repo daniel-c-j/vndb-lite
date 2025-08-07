@@ -136,7 +136,7 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
                 // Status label
                 Consumer(
                   builder: (context, ref, child) {
-                    final record = ref.watch(vnRecordControllerProvider(widget.p1.id));
+                    final record = ref.watch(vnRecordStateProvider(widget.p1.id));
                     String status = "";
 
                     // If vn exists in collection, then show the status label.

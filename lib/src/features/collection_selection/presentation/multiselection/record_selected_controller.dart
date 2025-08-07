@@ -4,6 +4,7 @@ import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 
 part 'record_selected_controller.g.dart';
 
+// * This is all for multiselection.
 @Riverpod(keepAlive: true, dependencies: [localVnRepo])
 class RecordSelectedController extends _$RecordSelectedController {
   @override

@@ -146,7 +146,7 @@ class _VnItemGridDetailsSummaryState extends ConsumerState<VnItemGridDetailsSumm
                         children: [
                           Consumer(
                             builder: (context, ref, child) {
-                              final vnRecord = ref.watch(vnRecordControllerProvider(widget.p1.id));
+                              final vnRecord = ref.watch(vnRecordStateProvider(widget.p1.id));
 
                               if (vnRecord == null) {
                                 return const SizedBox.shrink();

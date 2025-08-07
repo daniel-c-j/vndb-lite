@@ -5,7 +5,6 @@ import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_controller.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class VnItemDetailStatusIndicator extends ConsumerWidget {
@@ -22,15 +21,11 @@ class VnItemDetailStatusIndicator extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final almostLongPressed = ref.watch(vnItemGridAlmostLongPressedStateProvider);
-    if (almostLongPressed == id) return const SizedBox.shrink();
-
     if (App.isInCollectionScreen) {
       final recordSelected = ref.watch(recordSelectedControllerProvider);
       if (recordSelected.isNotEmpty) return const SizedBox.shrink();
     }
 
-    final vnRecord = ref.watch(vnRecordControllerProvider(id));
     return Positioned(
       right: -1,
       top: -1,
@@ -51,14 +46,22 @@ class VnItemDetailStatusIndicator extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(12),
                 color: kColor(context).primary.withOpacity(0.8),
               ),
-              child: Icon(
-                Icons.info_outline,
-                color:
-                    (vnRecord != null)
-                        ? COLLECTION_STATUS_DATA[forceStatus ?? vnRecord.status]!.color
-                        : Colors.white,
-                size: responsiveUI.own(0.0575),
-                shadows: const [Shadow(color: Colors.black, blurRadius: 5, offset: Offset(3, 3))],
+              child: Consumer(
+                builder: (context, ref, child) {
+                  final vnRecord = ref.watch(vnRecordStateProvider(id));
+
+                  return Icon(
+                    Icons.info_outline,
+                    color:
+                        (vnRecord != null)
+                            ? COLLECTION_STATUS_DATA[forceStatus ?? vnRecord.status]!.color
+                            : Colors.white,
+                    size: responsiveUI.own(0.0575),
+                    shadows: const [
+                      Shadow(color: Colors.black, blurRadius: 5, offset: Offset(3, 3)),
+                    ],
+                  );
+                },
               ),
             ),
           ),

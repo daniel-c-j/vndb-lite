@@ -91,7 +91,7 @@ Future<void> showSyncDialog() async {
                                         .separateVNsByStatus(filterData, sortData);
                                   },
                                 );
-                            ref_.invalidate(vnRecordControllerProvider);
+                            ref_.invalidate(vnRecordStateProvider);
                             //
                           } catch (e) {
                             //
@@ -140,7 +140,7 @@ Future<void> showSyncDialog() async {
                                           .separateVNsByStatus(filterData, sortData);
                                     },
                                   );
-                              ref_.invalidate(vnRecordControllerProvider);
+                              ref_.invalidate(vnRecordStateProvider);
                               //
                             } catch (e) {
                               // TODO catch e

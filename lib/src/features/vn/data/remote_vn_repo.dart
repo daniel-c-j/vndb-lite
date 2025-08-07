@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/constants/network_constants.dart';
 import 'package:vndb_lite/src/core/network/api_service.dart';
