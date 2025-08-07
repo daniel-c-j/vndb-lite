@@ -62,7 +62,7 @@ class HomeSectionContent extends ConsumerWidget {
     );
   }
 
-  static final cacheExtent = kScreenWidth() * 0.25;
+  static final cacheExtent = kScreenWidth() * 0.75;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

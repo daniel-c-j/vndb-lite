@@ -61,11 +61,13 @@ class TabAppBar extends ConsumerWidget {
         builder: (context, ref, child) {
           if (route == AppRoute.search) return const SizedBox.shrink();
 
-          final showTextField = ref.watch(showSearchTextFieldProvider);
-          if (showTextField && (route == AppRoute.collection)) return const SizedBox.shrink();
+          if (route == AppRoute.collection) {
+            final showTextField = ref.watch(showSearchTextFieldProvider);
+            if (showTextField) return const SizedBox.shrink();
 
-          final isInMultiselection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
-          if (isInMultiselection) return const SizedBox.shrink();
+            final isInMultiselection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
+            if (isInMultiselection) return const SizedBox.shrink();
+          }
 
           return AppBarTitle(route: route);
         },

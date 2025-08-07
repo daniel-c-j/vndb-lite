@@ -126,7 +126,7 @@ class VnItemGrid extends ConsumerWidget {
             //
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Vn cover image
-            VnItemGridCover(isGridView: isGridView, vnId: _vnId, image: p1.image, title: p1.title),
+            VnItemGridCover(isGridView: isGridView, vnId: _vnId, image: p1.image),
             Positioned.fill(
               child: Material(
                 color: Colors.transparent,

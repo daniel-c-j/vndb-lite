@@ -84,9 +84,6 @@ class HomeSectionHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final uId = ref.watch(authScreenControllerProvider);
-    final userDidAuth = uId != null;
-
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -95,8 +92,14 @@ class HomeSectionHeader extends ConsumerWidget {
           child: Padding(
             padding: EdgeInsets.all(responsiveUI.own(0.025)),
             child:
-                (userDidAuth && _isCollection)
-                    ? _authedCollectionTitleOf(uId.username, context)
+                (_isCollection)
+                    ? Consumer(
+                      builder: (context, ref, child) {
+                        final uId = ref.watch(authScreenControllerProvider);
+                        final userDidAuth = uId != null;
+                        return _authedCollectionTitleOf(uId.username, context);
+                      },
+                    )
                     : Row(
                       children: [
                         Icon(

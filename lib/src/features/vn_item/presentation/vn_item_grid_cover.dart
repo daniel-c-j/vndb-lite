@@ -9,6 +9,9 @@ import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 
+// TODO this is good enough, but to try to know better the cause of the big memory consumption
+// TODO we must do a brute-force check the homescreen or initial state, especially the providers
+// TODO involved there.
 class VnItemGridCover extends StatefulWidget {
   const VnItemGridCover({
     super.key,
@@ -25,7 +28,7 @@ class VnItemGridCover extends StatefulWidget {
   /// Debugging purpose only.
   final String? title;
 
-  // * Careful when changing these values.
+  // ! Careful when changing these values.
   static const double placeHolderSize = 140;
   static const double minHeightSize = 120;
   static const double minWidthSize = 100;

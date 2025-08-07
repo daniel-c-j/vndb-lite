@@ -18,16 +18,16 @@ class AppBarSyncButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final uId = ref.watch(authScreenControllerProvider.notifier);
 
     return IconButton(
       tooltip: 'Sync',
       highlightColor: Colors.white.withOpacity(0.25),
       onPressed: () async {
-        if (!ref.read(bottomProgressIndicatorProvider)) {
+        if (ref.read(bottomProgressIndicatorProvider)) return;
+
           try {
             // If already synced once, don't show dialog anymore.
-            if (uId.isUserSynced()) {
+            if ( ref.read(authScreenControllerProvider.notifier).isUserSynced()) {
               ref.read(bottomProgressIndicatorProvider.notifier).show = true;
 
               await ref
@@ -57,7 +57,6 @@ class AppBarSyncButton extends ConsumerWidget {
             ref_.read(bottomProgressIndicatorProvider.notifier).show = false;
             // debugPrint(e);
           }
-        }
       },
       icon: Icon(Icons.sync, size: responsiveUI.standardIcon, color: kColor(context).tertiary),
     );
