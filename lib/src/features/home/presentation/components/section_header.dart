@@ -96,7 +96,8 @@ class HomeSectionHeader extends ConsumerWidget {
                     ? Consumer(
                       builder: (context, ref, child) {
                         final uId = ref.watch(authScreenControllerProvider);
-                        final userDidAuth = uId != null;
+
+                        if (uId == null) return const SizedBox.shrink();
                         return _authedCollectionTitleOf(uId.username, context);
                       },
                     )

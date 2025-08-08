@@ -38,7 +38,11 @@ class AppStartup {
       await _initializeProviders(container);
     }
 
-    return UncontrolledProviderScope(container: container, child: const App());
+    return UncontrolledProviderScope(
+      key: const Key(AppInfo.TITLE),
+      container: container,
+      child: const App(),
+    );
   }
 
   /// Core app initializations.

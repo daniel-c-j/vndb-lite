@@ -7,7 +7,7 @@ import 'package:vndb_lite/src/features/collection/domain/record.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
+import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_state.dart';
 import 'package:vndb_lite/src/util/format_minutes.dart';
 
 class VnItemDetailLabel extends ConsumerWidget {

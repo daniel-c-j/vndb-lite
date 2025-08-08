@@ -11,7 +11,7 @@ import 'package:vndb_lite/src/features/collection/presentation/collection_conten
 import 'package:vndb_lite/src/features/home/data/local/local_home_repo.dart';
 import 'package:vndb_lite/src/features/sync/application/sync_service.dart';
 import 'package:vndb_lite/src/features/sync/presentation/components/sync_snackbar.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
+import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_state.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 

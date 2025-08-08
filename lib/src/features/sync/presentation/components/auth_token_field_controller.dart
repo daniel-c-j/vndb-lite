@@ -13,21 +13,15 @@ class ShowAuthTokenFieldState extends _$ShowAuthTokenFieldState {
 }
 
 @riverpod
-class AuthTokenFieldController extends _$AuthTokenFieldController {
+class AuthTokenFieldState extends _$AuthTokenFieldState {
   @override
-  String build() {
-    return "";
-  }
-
+  String build() => "";
   set value(String value) => state = value;
 }
 
 @Riverpod(keepAlive: true)
-class AuthTokenFieldServerErrorController extends _$AuthTokenFieldServerErrorController {
+class AuthTokenFieldServerErrorState extends _$AuthTokenFieldServerErrorState {
   @override
-  String build() {
-    return "";
-  }
-
+  String build() => "";
   set error(String value) => state = value;
 }

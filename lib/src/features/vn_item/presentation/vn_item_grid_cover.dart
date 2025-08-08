@@ -34,11 +34,9 @@ class VnItemGridCover extends StatefulWidget {
   static const double minWidthSize = 100;
 
   // * This eliminates the need of notifierProvider family.
+  static final Map<String, double> sizes = {};
   static final Map<String, bool> coverBlur = {};
   static final Map<String, VoidCallback> coverBlurToggle = {};
-
-  static final Map<String, double> sizes = {};
-  static final Map<String, bool> imageGone = {};
 
   static final nonGridViewHeight = responsiveUI.own(0.55);
 

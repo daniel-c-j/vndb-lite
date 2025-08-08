@@ -26,17 +26,17 @@ class HomeBigPreviewImages extends ConsumerWidget {
   /// to different index.
   void _synchronizeVn(WidgetRef ref, VnDataPhase01 vn) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      ref.read(currentHomeBigPreviewItemProvider.notifier).item = vn;
+      ref.read(currentHomeBigPreviewItemStateProvider.notifier).item = vn;
     });
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final p1Data = ref.watch(homeBigPreviewItemsProvider).toList(); // Copying
+    final p1Data = ref.watch(homeBigPreviewItemsStateProvider).toList(); // Copying
     p1Data.shuffle();
 
     // ! Do not set to watch, since this only synchronizes once.
-    final currentVn = ref.read(currentHomeBigPreviewItemProvider);
+    final currentVn = ref.read(currentHomeBigPreviewItemStateProvider);
     return Swiper(
       scrollDirection: Axis.vertical,
       itemCount: p1Data.length,
@@ -91,7 +91,7 @@ class HomeBigPreviewText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vn = ref.watch(currentHomeBigPreviewItemProvider);
+    final vn = ref.watch(currentHomeBigPreviewItemStateProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -133,7 +133,7 @@ class HomeBigPreviewDetailButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return CustomButton(
       onTap: () async {
-        final vn = ref.read(currentHomeBigPreviewItemProvider);
+        final vn = ref.read(currentHomeBigPreviewItemStateProvider);
         if (vn == null) return;
         await _enterVnDetailScreen(vn);
       },

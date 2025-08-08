@@ -6,28 +6,29 @@ part of 'home_big_preview_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(CurrentHomeBigPreviewItem)
-const currentHomeBigPreviewItemProvider = CurrentHomeBigPreviewItemProvider._();
+@ProviderFor(CurrentHomeBigPreviewItemState)
+const currentHomeBigPreviewItemStateProvider =
+    CurrentHomeBigPreviewItemStateProvider._();
 
-final class CurrentHomeBigPreviewItemProvider
-    extends $NotifierProvider<CurrentHomeBigPreviewItem, VnDataPhase01?> {
-  const CurrentHomeBigPreviewItemProvider._()
+final class CurrentHomeBigPreviewItemStateProvider
+    extends $NotifierProvider<CurrentHomeBigPreviewItemState, VnDataPhase01?> {
+  const CurrentHomeBigPreviewItemStateProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'currentHomeBigPreviewItemProvider',
+        name: r'currentHomeBigPreviewItemStateProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$currentHomeBigPreviewItemHash();
+  String debugGetCreateSourceHash() => _$currentHomeBigPreviewItemStateHash();
 
   @$internal
   @override
-  CurrentHomeBigPreviewItem create() => CurrentHomeBigPreviewItem();
+  CurrentHomeBigPreviewItemState create() => CurrentHomeBigPreviewItemState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(VnDataPhase01? value) {
@@ -38,10 +39,11 @@ final class CurrentHomeBigPreviewItemProvider
   }
 }
 
-String _$currentHomeBigPreviewItemHash() =>
-    r'7cc69242300df35482a65f2992d369b791566eea';
+String _$currentHomeBigPreviewItemStateHash() =>
+    r'982e631cc4e78a03870f27ad4a3cdc44a065faae';
 
-abstract class _$CurrentHomeBigPreviewItem extends $Notifier<VnDataPhase01?> {
+abstract class _$CurrentHomeBigPreviewItemState
+    extends $Notifier<VnDataPhase01?> {
   VnDataPhase01? build();
   @$mustCallSuper
   @override
@@ -60,28 +62,28 @@ abstract class _$CurrentHomeBigPreviewItem extends $Notifier<VnDataPhase01?> {
   }
 }
 
-@ProviderFor(HomeBigPreviewItems)
-const homeBigPreviewItemsProvider = HomeBigPreviewItemsProvider._();
+@ProviderFor(HomeBigPreviewItemsState)
+const homeBigPreviewItemsStateProvider = HomeBigPreviewItemsStateProvider._();
 
-final class HomeBigPreviewItemsProvider
-    extends $NotifierProvider<HomeBigPreviewItems, List<VnDataPhase01>> {
-  const HomeBigPreviewItemsProvider._()
+final class HomeBigPreviewItemsStateProvider
+    extends $NotifierProvider<HomeBigPreviewItemsState, List<VnDataPhase01>> {
+  const HomeBigPreviewItemsStateProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'homeBigPreviewItemsProvider',
+        name: r'homeBigPreviewItemsStateProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$homeBigPreviewItemsHash();
+  String debugGetCreateSourceHash() => _$homeBigPreviewItemsStateHash();
 
   @$internal
   @override
-  HomeBigPreviewItems create() => HomeBigPreviewItems();
+  HomeBigPreviewItemsState create() => HomeBigPreviewItemsState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(List<VnDataPhase01> value) {
@@ -92,10 +94,11 @@ final class HomeBigPreviewItemsProvider
   }
 }
 
-String _$homeBigPreviewItemsHash() =>
-    r'3eb9928a217edd2f79dd8b64e474189b36cd38d7';
+String _$homeBigPreviewItemsStateHash() =>
+    r'747759ef6101385d139aaeb8ee9520bde63e3c09';
 
-abstract class _$HomeBigPreviewItems extends $Notifier<List<VnDataPhase01>> {
+abstract class _$HomeBigPreviewItemsState
+    extends $Notifier<List<VnDataPhase01>> {
   List<VnDataPhase01> build();
   @$mustCallSuper
   @override

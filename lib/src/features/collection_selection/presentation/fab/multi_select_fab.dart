@@ -7,7 +7,7 @@ import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs
 import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/base_dialog.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
+import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_state.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 class MultiSelectFab extends ConsumerWidget {

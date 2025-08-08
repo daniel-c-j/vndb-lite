@@ -18,6 +18,7 @@ class VnSelectionController extends _$VnSelectionController {
 
   @override
   VnSelection build() {
+    ref.onDispose(() => _vnRecords.clear());
     return VnSelection(status: CollectionStatusCode.playing.name, added: DateTime.now(), vote: 0);
   }
 

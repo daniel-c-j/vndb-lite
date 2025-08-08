@@ -6,28 +6,28 @@ part of 'search_filter_result_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(DevSearchController)
-const devSearchControllerProvider = DevSearchControllerProvider._();
+@ProviderFor(DevSearchState)
+const devSearchStateProvider = DevSearchStateProvider._();
 
-final class DevSearchControllerProvider
-    extends $NotifierProvider<DevSearchController, String> {
-  const DevSearchControllerProvider._()
+final class DevSearchStateProvider
+    extends $NotifierProvider<DevSearchState, String> {
+  const DevSearchStateProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'devSearchControllerProvider',
+        name: r'devSearchStateProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$devSearchControllerHash();
+  String debugGetCreateSourceHash() => _$devSearchStateHash();
 
   @$internal
   @override
-  DevSearchController create() => DevSearchController();
+  DevSearchState create() => DevSearchState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(String value) {
@@ -38,10 +38,9 @@ final class DevSearchControllerProvider
   }
 }
 
-String _$devSearchControllerHash() =>
-    r'c326b597bfec9df5b82ad3e37a6209b1b13b1314';
+String _$devSearchStateHash() => r'37630010a8c9351b0812c6837ba473415752cac3';
 
-abstract class _$DevSearchController extends $Notifier<String> {
+abstract class _$DevSearchState extends $Notifier<String> {
   String build();
   @$mustCallSuper
   @override
@@ -60,28 +59,28 @@ abstract class _$DevSearchController extends $Notifier<String> {
   }
 }
 
-@ProviderFor(TagSearchController)
-const tagSearchControllerProvider = TagSearchControllerProvider._();
+@ProviderFor(TagSearchState)
+const tagSearchStateProvider = TagSearchStateProvider._();
 
-final class TagSearchControllerProvider
-    extends $NotifierProvider<TagSearchController, String> {
-  const TagSearchControllerProvider._()
+final class TagSearchStateProvider
+    extends $NotifierProvider<TagSearchState, String> {
+  const TagSearchStateProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'tagSearchControllerProvider',
+        name: r'tagSearchStateProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$tagSearchControllerHash();
+  String debugGetCreateSourceHash() => _$tagSearchStateHash();
 
   @$internal
   @override
-  TagSearchController create() => TagSearchController();
+  TagSearchState create() => TagSearchState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(String value) {
@@ -92,10 +91,9 @@ final class TagSearchControllerProvider
   }
 }
 
-String _$tagSearchControllerHash() =>
-    r'b99b564f5c9978c61c7491d72e155f67aa6de87f';
+String _$tagSearchStateHash() => r'c82044d4132205bcdc90353d90abb1a202538e82';
 
-abstract class _$TagSearchController extends $Notifier<String> {
+abstract class _$TagSearchState extends $Notifier<String> {
   String build();
   @$mustCallSuper
   @override

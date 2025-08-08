@@ -4,7 +4,7 @@ import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 part 'home_big_preview_state.g.dart';
 
 @Riverpod(keepAlive: true)
-class CurrentHomeBigPreviewItem extends _$CurrentHomeBigPreviewItem {
+class CurrentHomeBigPreviewItemState extends _$CurrentHomeBigPreviewItemState {
   @override
   VnDataPhase01? build() => null;
 
@@ -12,7 +12,7 @@ class CurrentHomeBigPreviewItem extends _$CurrentHomeBigPreviewItem {
 }
 
 @riverpod
-class HomeBigPreviewItems extends _$HomeBigPreviewItems {
+class HomeBigPreviewItemsState extends _$HomeBigPreviewItemsState {
   @override
   List<VnDataPhase01> build() => [];
 

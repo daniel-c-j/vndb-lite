@@ -31,7 +31,11 @@ class HomeScreen extends ConsumerWidget {
     final additionalWidgets = <Widget>[
       for (HomeSectionsCode sectionCode in Default.HOME_SECTION_ARRANGEMENT) ...[
         HomeSectionHeader(sectionData: sectionCode),
-        HomeSectionContent(sectionData: sectionCode, maxItem: settings.maxPreviewItem),
+        HomeSectionContent(
+          key: ValueKey(sectionCode),
+          sectionData: sectionCode,
+          maxItem: settings.maxPreviewItem,
+        ),
         GAP_H12,
       ],
     ];

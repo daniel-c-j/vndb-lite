@@ -14,7 +14,7 @@ class HomeBigPreview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final p1Data = ref.watch(homeBigPreviewItemsProvider);
+    final p1Data = ref.watch(homeBigPreviewItemsStateProvider);
     if (p1Data.isEmpty) return const SizedBox.shrink();
 
     return DecoratedBox(

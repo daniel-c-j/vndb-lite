@@ -4,7 +4,7 @@ import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/features/sort_filter/data/languages_data.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
+import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_state.dart';
 import 'package:flutter/material.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_detail_summary_x_button.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';

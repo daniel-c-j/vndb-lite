@@ -60,28 +60,28 @@ abstract class _$ShowAuthTokenFieldState extends $Notifier<bool> {
   }
 }
 
-@ProviderFor(AuthTokenFieldController)
-const authTokenFieldControllerProvider = AuthTokenFieldControllerProvider._();
+@ProviderFor(AuthTokenFieldState)
+const authTokenFieldStateProvider = AuthTokenFieldStateProvider._();
 
-final class AuthTokenFieldControllerProvider
-    extends $NotifierProvider<AuthTokenFieldController, String> {
-  const AuthTokenFieldControllerProvider._()
+final class AuthTokenFieldStateProvider
+    extends $NotifierProvider<AuthTokenFieldState, String> {
+  const AuthTokenFieldStateProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'authTokenFieldControllerProvider',
+        name: r'authTokenFieldStateProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$authTokenFieldControllerHash();
+  String debugGetCreateSourceHash() => _$authTokenFieldStateHash();
 
   @$internal
   @override
-  AuthTokenFieldController create() => AuthTokenFieldController();
+  AuthTokenFieldState create() => AuthTokenFieldState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(String value) {
@@ -92,10 +92,10 @@ final class AuthTokenFieldControllerProvider
   }
 }
 
-String _$authTokenFieldControllerHash() =>
-    r'b37e1cd4844595215da1c5abb7e15755f44f7801';
+String _$authTokenFieldStateHash() =>
+    r'c1fe02e23e66b8f9ad5ba3d2bcea93075e46b51d';
 
-abstract class _$AuthTokenFieldController extends $Notifier<String> {
+abstract class _$AuthTokenFieldState extends $Notifier<String> {
   String build();
   @$mustCallSuper
   @override
@@ -114,31 +114,29 @@ abstract class _$AuthTokenFieldController extends $Notifier<String> {
   }
 }
 
-@ProviderFor(AuthTokenFieldServerErrorController)
-const authTokenFieldServerErrorControllerProvider =
-    AuthTokenFieldServerErrorControllerProvider._();
+@ProviderFor(AuthTokenFieldServerErrorState)
+const authTokenFieldServerErrorStateProvider =
+    AuthTokenFieldServerErrorStateProvider._();
 
-final class AuthTokenFieldServerErrorControllerProvider
-    extends $NotifierProvider<AuthTokenFieldServerErrorController, String> {
-  const AuthTokenFieldServerErrorControllerProvider._()
+final class AuthTokenFieldServerErrorStateProvider
+    extends $NotifierProvider<AuthTokenFieldServerErrorState, String> {
+  const AuthTokenFieldServerErrorStateProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'authTokenFieldServerErrorControllerProvider',
+        name: r'authTokenFieldServerErrorStateProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() =>
-      _$authTokenFieldServerErrorControllerHash();
+  String debugGetCreateSourceHash() => _$authTokenFieldServerErrorStateHash();
 
   @$internal
   @override
-  AuthTokenFieldServerErrorController create() =>
-      AuthTokenFieldServerErrorController();
+  AuthTokenFieldServerErrorState create() => AuthTokenFieldServerErrorState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(String value) {
@@ -149,10 +147,10 @@ final class AuthTokenFieldServerErrorControllerProvider
   }
 }
 
-String _$authTokenFieldServerErrorControllerHash() =>
-    r'693de185380b77464f342f6fbaa7cf87d60deea3';
+String _$authTokenFieldServerErrorStateHash() =>
+    r'9193915af2ac1bb9abcef45e7fc71600912c7583';
 
-abstract class _$AuthTokenFieldServerErrorController extends $Notifier<String> {
+abstract class _$AuthTokenFieldServerErrorState extends $Notifier<String> {
   String build();
   @$mustCallSuper
   @override

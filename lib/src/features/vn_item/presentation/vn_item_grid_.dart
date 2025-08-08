@@ -122,6 +122,7 @@ class VnItemGrid extends ConsumerWidget {
         clipBehavior: Clip.hardEdge,
         borderRadius: BorderRadius.circular(12),
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
             //
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

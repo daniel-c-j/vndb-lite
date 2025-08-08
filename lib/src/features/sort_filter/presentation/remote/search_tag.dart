@@ -156,7 +156,7 @@ class _SearchTagState extends ConsumerState<SearchTag> {
                   controller: _textController,
                   onSubmitted: (_) {
                     if (_textController.text.isEmpty) return;
-                    ref.read(tagSearchControllerProvider.notifier).state = _textController.text;
+                    ref.read(tagSearchStateProvider.notifier).state = _textController.text;
                   },
                   cursorColor: kColor(context).tertiary,
                   style: styleText(fontSize: responsiveUI.own(0.036)),
@@ -191,7 +191,7 @@ class _SearchTagState extends ConsumerState<SearchTag> {
                 child: IconButton(
                   onPressed: () {
                     if (_textController.text.isEmpty) return;
-                    ref.read(tagSearchControllerProvider.notifier).state = _textController.text;
+                    ref.read(tagSearchStateProvider.notifier).state = _textController.text;
                   },
                   icon: Icon(
                     Icons.search,
@@ -209,7 +209,7 @@ class _SearchTagState extends ConsumerState<SearchTag> {
         // Search results widget
         Consumer(
           builder: (context, ref, child) {
-            final searchDev = ref.watch(tagSearchControllerProvider);
+            final searchDev = ref.watch(tagSearchStateProvider);
 
             if (searchDev.isEmpty) {
               return const SizedBox.shrink();

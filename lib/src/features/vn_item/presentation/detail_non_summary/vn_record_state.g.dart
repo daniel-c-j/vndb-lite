@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'vn_record_controller.dart';
+part of 'vn_record_state.dart';
 
 // **************************************************************************
 // RiverpodGenerator

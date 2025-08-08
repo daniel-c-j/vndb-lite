@@ -11,7 +11,7 @@ import 'package:vndb_lite/src/features/sort_filter/data/sortable_data.dart';
 import '../core/_core.dart';
 import '../util/context_shortcut.dart';
 
-class StatusLabel extends ConsumerWidget {
+class StatusLabel extends StatelessWidget {
   const StatusLabel({super.key, required this.labelCode, this.labelText});
 
   final String labelCode;
@@ -84,7 +84,7 @@ class StatusLabel extends ConsumerWidget {
   //
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     if (labelCode.isEmpty) return const SizedBox.shrink();
 
     return Container(

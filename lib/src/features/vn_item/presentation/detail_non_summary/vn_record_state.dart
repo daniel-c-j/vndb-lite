@@ -2,7 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/features/collection/data/local/local_collection_repo.dart';
 import 'package:vndb_lite/src/features/collection/domain/record.dart';
 
-part 'vn_record_controller.g.dart';
+part 'vn_record_state.g.dart';
 
 final Map<String, VnRecord?> cachedRecord = {};
 

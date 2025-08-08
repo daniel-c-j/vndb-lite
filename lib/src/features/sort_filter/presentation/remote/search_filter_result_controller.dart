@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'search_filter_result_controller.g.dart';
 
 @riverpod
-class DevSearchController extends _$DevSearchController {
+class DevSearchState extends _$DevSearchState {
   @override
   String build() {
     return "";
@@ -14,7 +14,7 @@ class DevSearchController extends _$DevSearchController {
 }
 
 @riverpod
-class TagSearchController extends _$TagSearchController {
+class TagSearchState extends _$TagSearchState {
   @override
   String build() {
     return "";

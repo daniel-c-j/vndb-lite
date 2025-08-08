@@ -22,7 +22,7 @@ import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort
 import 'package:vndb_lite/src/features/sort_filter/presentation/remote/remote_sort_filter_controller.dart';
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_confirm_button_state.dart';
 import 'package:vndb_lite/src/features/sync/presentation/components/auth_token_field_controller.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
+import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_state.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 
 import '../../../../../core/_core.dart';
@@ -89,7 +89,7 @@ class AppBarRefreshButton extends ConsumerWidget {
 
     ref_.invalidate(authButtonStateProvider);
     ref_.invalidate(showAuthTokenFieldStateProvider);
-    ref_.invalidate(authTokenFieldServerErrorControllerProvider);
+    ref_.invalidate(authTokenFieldServerErrorStateProvider);
 
     ref_.invalidate(vnRecordStateProvider);
 

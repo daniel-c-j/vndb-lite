@@ -53,7 +53,7 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
 
   String? get _errorText {
     final token = _authFieldController.value.text;
-    final serverErr = ref.read(authTokenFieldServerErrorControllerProvider);
+    final serverErr = ref.read(authTokenFieldServerErrorStateProvider);
 
     if (token.isEmpty) return null; // Ignore if empty.
 
@@ -68,14 +68,14 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
 
   void _validate(String? token) {
     if (!mounted) return;
-    final serverErr = ref.read(authTokenFieldServerErrorControllerProvider).isNotEmpty;
+    final serverErr = ref.read(authTokenFieldServerErrorStateProvider).isNotEmpty;
 
     final errorIsNotEmpty = (_errorText ?? '').isNotEmpty;
     final tokenIsEmpty = (token ?? '').isEmpty;
 
     // Resetting the server error text, if user is changing the token.
     if (serverErr) {
-      ref.read(authTokenFieldServerErrorControllerProvider.notifier).error = "";
+      ref.read(authTokenFieldServerErrorStateProvider.notifier).error = "";
     }
 
     // If there is an error or token is empty.
@@ -85,7 +85,7 @@ class _AuthenticationFieldState extends ConsumerState<AuthenticationField> {
     }
 
     ref.read(authButtonStateProvider.notifier).state = ButtonState.active;
-    ref.read(authTokenFieldControllerProvider.notifier).value = token ?? "";
+    ref.read(authTokenFieldStateProvider.notifier).value = token ?? "";
   }
 
   //

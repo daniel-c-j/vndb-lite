@@ -68,8 +68,8 @@ class _AuthButtonState extends ConsumerState<AuthConfirmButton>
         return;
       }
 
-      ref.invalidate(authTokenFieldServerErrorControllerProvider);
-      ref.read(authTokenFieldServerErrorControllerProvider.notifier).error =
+      ref.invalidate(authTokenFieldServerErrorStateProvider);
+      ref.read(authTokenFieldServerErrorStateProvider.notifier).error =
           'Invalid authorization given. Please ensure the authentication token '
           'grant both read and write permissions.';
 
@@ -80,8 +80,8 @@ class _AuthButtonState extends ConsumerState<AuthConfirmButton>
       //
       if (err is DioException) {
         if (err.type == DioExceptionType.badResponse) {
-          ref.invalidate(authTokenFieldServerErrorControllerProvider);
-          ref.read(authTokenFieldServerErrorControllerProvider.notifier).error =
+          ref.invalidate(authTokenFieldServerErrorStateProvider);
+          ref.read(authTokenFieldServerErrorStateProvider.notifier).error =
               'Invalid authentication token';
 
           ref.read(authButtonStateProvider.notifier).state = ButtonState.inactive;
@@ -100,7 +100,7 @@ class _AuthButtonState extends ConsumerState<AuthConfirmButton>
     final userSuccessfullyAuthed = ref.watch(authScreenControllerProvider) != null;
     final buttonState = ref.watch(authButtonStateProvider);
     final showAuthField = ref.watch(showAuthTokenFieldStateProvider);
-    final tokenFieldValue = ref.watch(authTokenFieldControllerProvider);
+    final tokenFieldValue = ref.watch(authTokenFieldStateProvider);
 
     final button = Opacity(
       opacity: (buttonState == ButtonState.inactive) ? 0.4 : 1,

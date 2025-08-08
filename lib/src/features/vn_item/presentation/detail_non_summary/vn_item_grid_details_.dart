@@ -35,6 +35,9 @@ class VnItemGridDetails extends StatelessWidget {
             VnItemDetailTitle(title: p1.title),
           ],
         ),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // The (i) button
         VnItemDetailStatusIndicator(id: p1.id, toggleVnDetailSummary: toggleVnDetailSummary),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

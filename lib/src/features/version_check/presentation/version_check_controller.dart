@@ -3,24 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/exceptions/_exceptions.dart';
-import '../../../util/notifier_mounted.dart';
 import '../data/remote_version_repo.dart';
 import '../domain/version_check.dart';
 
 part 'version_check_controller.g.dart';
 
 @Riverpod(dependencies: [versionCheckRepo, netErrorHandler])
-class VersionCheckController extends _$VersionCheckController with NotifierMounted {
+class VersionCheckController extends _$VersionCheckController {
   @override
   FutureOr<void> build() {
-    ref.onDispose(setUnmounted);
+    // Nothing
   }
 
   Future<void> checkData({
     required void Function(VersionCheck val) onSuccess,
     required void Function(Object e, StackTrace? st) onError,
   }) async {
-    if (!mounted) return;
+    if (!ref.mounted) return;
     state = const AsyncLoading();
 
     final versionRepo = ref.read(versionCheckRepoProvider);

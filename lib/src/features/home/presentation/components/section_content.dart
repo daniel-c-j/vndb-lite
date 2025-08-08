@@ -89,7 +89,7 @@ class HomeSectionContent extends ConsumerWidget {
             SchedulerBinding.instance.addPostFrameCallback((_) {
               // * For home big preview
               if (sectionData == HomeSectionsCode.rating) {
-                ref_.read(homeBigPreviewItemsProvider.notifier).items = data;
+                ref_.read(homeBigPreviewItemsStateProvider.notifier).items = data;
               }
             });
 

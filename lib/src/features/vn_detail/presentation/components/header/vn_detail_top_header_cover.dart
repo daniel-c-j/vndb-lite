@@ -8,7 +8,7 @@ import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn/domain/p2.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
+import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_state.dart';
 import 'package:vndb_lite/src/util/custom_cache_manager.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/common_widgets/widget_zoom/widget_zoom.dart';

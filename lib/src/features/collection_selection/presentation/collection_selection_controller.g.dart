@@ -70,7 +70,7 @@ final class VnSelectionControllerProvider
 }
 
 String _$vnSelectionControllerHash() =>
-    r'4ad454a1688a5ab38272002f0ff3ef79d5f5ca45';
+    r'ed8482085865fec0f26645754356c32c5480ef5c';
 
 abstract class _$VnSelectionController extends $Notifier<VnSelection> {
   VnSelection build();

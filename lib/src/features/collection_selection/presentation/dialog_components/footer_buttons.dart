@@ -20,7 +20,7 @@ import 'package:vndb_lite/src/features/collection_selection/presentation/dialog_
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/remove_dialog.dart';
 import 'package:vndb_lite/src/features/home/application/home_preview_service.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
-import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_controller.dart';
+import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_state.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/common_widgets/custom_button.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';

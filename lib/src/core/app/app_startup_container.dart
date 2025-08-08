@@ -35,6 +35,9 @@ extension AppStartupContainer on AppStartup {
     // final service = SomeFakeService();
 
     return ProviderContainer(
+      retry: (retryCount, error) {
+        return null;
+      },
       overrides: [
         // * Cores
         sharedPrefProvider.overrideWithValue(sharedPref),

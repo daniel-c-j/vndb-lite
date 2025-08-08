@@ -14,6 +14,7 @@ import 'package:vndb_lite/src/util/text_extensions.dart';
 class SearchBarButton extends StatelessWidget {
   const SearchBarButton({super.key});
 
+  static const widgetKey = "SearchBarButton";
   static const List<String> searchPlaceholder = [
     "Fate series",
     "STEINS;GATE",
@@ -33,6 +34,7 @@ class SearchBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: Key(widgetKey),
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: CustomButton(
         onTap: () async {
