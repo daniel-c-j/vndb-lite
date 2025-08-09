@@ -84,6 +84,13 @@ class HomeSectionHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final regularTitle = Row(
+      children: [
+        Icon(sectionData.icon, color: kColor(context).tertiary, size: responsiveUI.own(0.045)),
+        GAP_W6,
+        Text(sectionData.title).wSize(responsiveUI.catgTitle).wColor(kColor(context).tertiary),
+      ],
+    );
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -97,23 +104,11 @@ class HomeSectionHeader extends ConsumerWidget {
                       builder: (context, ref, child) {
                         final uId = ref.watch(authScreenControllerProvider);
 
-                        if (uId == null) return const SizedBox.shrink();
+                        if (uId == null) return regularTitle;
                         return _authedCollectionTitleOf(uId.username, context);
                       },
                     )
-                    : Row(
-                      children: [
-                        Icon(
-                          sectionData.icon,
-                          color: kColor(context).tertiary,
-                          size: responsiveUI.own(0.045),
-                        ),
-                        GAP_W6,
-                        Text(
-                          sectionData.title,
-                        ).wSize(responsiveUI.catgTitle).wColor(kColor(context).tertiary),
-                      ],
-                    ),
+                    : regularTitle,
           ),
         ),
         Positioned(
