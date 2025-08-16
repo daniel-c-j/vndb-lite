@@ -5,6 +5,7 @@ import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/common_widgets/generic_snackbar.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/appbar_searchfield.dart';
+import 'package:vndb_lite/src/features/random/data/random_vn_repo.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_cover.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';

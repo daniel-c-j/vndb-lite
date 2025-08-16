@@ -2,10 +2,25 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+
 import 'package:vndb_lite/src/features/sort_filter/domain/developers.dart';
 import 'package:vndb_lite/src/features/vn/domain/others.dart';
 
-class FilterData {
+sealed class ApiFilter {
+  const ApiFilter();
+  List toList();
+}
+
+class CustomFilterData extends ApiFilter {
+  const CustomFilterData({required this.query});
+
+  final List query;
+
+  @override
+  List toList() => query;
+}
+
+class FilterData extends ApiFilter {
   const FilterData({
     this.search = "",
     this.andOr = "and",
@@ -28,6 +43,7 @@ class FilterData {
   final List<Developer> dev;
   final int? minage; // This is special for collection/local filter only.
 
+  @override
   List<dynamic> toList() {
     return [
       andOr,

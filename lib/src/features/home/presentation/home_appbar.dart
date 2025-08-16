@@ -4,26 +4,31 @@ import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/re
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/sync_button.dart';
 import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';
 
-class HomeBarActions extends ConsumerWidget {
+class HomeBarActions extends StatelessWidget {
   const HomeBarActions({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isUserAuthed = ref.watch(authScreenControllerProvider) != null;
-
+  Widget build(BuildContext context) {
     return Row(
       children: [
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
-        if (isUserAuthed) const AppBarSyncButton(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
+        Consumer(
+          builder: (context, ref, child) {
+            final isUserAuthed = ref.watch(authScreenControllerProvider) != null;
+
+            if (isUserAuthed) return const AppBarSyncButton();
+            return const SizedBox.shrink();
+          },
+        ),
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
         const AppBarRefreshButton(),
-//
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//
+        //
+        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        //
       ],
     );
   }
