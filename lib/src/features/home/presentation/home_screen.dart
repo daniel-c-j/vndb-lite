@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vndb_lite/src/common_widgets/bbcode.dart';
 import 'package:vndb_lite/src/constants/_constants.dart';
 import 'package:vndb_lite/src/features/_base/presentation/main_outer_layout.dart';
 import 'package:vndb_lite/src/features/_base/presentation/other_parts/main_inner_layout.dart';
