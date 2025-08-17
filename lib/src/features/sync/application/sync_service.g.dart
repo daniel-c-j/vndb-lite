@@ -7,36 +7,61 @@ part of 'sync_service.dart';
 // **************************************************************************
 
 @ProviderFor(syncService)
-const syncServiceProvider = SyncServiceFamily._();
+const syncServiceProvider = SyncServiceProvider._();
 
 final class SyncServiceProvider
     extends $FunctionalProvider<SyncService, SyncService, SyncService>
     with $Provider<SyncService> {
-  const SyncServiceProvider._({
-    required SyncServiceFamily super.from,
-    required void Function(
-      String, {
-      required IconData icon,
-      required Color iconColor,
-    })
-    super.argument,
-  }) : super(
-         retry: null,
-         name: r'syncServiceProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
+  const SyncServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'syncServiceProvider',
+        isAutoDispose: false,
+        dependencies: const <ProviderOrFamily>[
+          remoteSyncRepoProvider,
+          localVnRepoProvider,
+          localSyncRepoProvider,
+          localNotifServiceProvider,
+          localCollectionRepoProvider,
+          validateVnAndSaveToLocalProvider,
+        ],
+        $allTransitiveDependencies: const <ProviderOrFamily>{
+          SyncServiceProvider.$allTransitiveDependencies0,
+          SyncServiceProvider.$allTransitiveDependencies1,
+          SyncServiceProvider.$allTransitiveDependencies2,
+          SyncServiceProvider.$allTransitiveDependencies3,
+          SyncServiceProvider.$allTransitiveDependencies4,
+          SyncServiceProvider.$allTransitiveDependencies5,
+          SyncServiceProvider.$allTransitiveDependencies6,
+          SyncServiceProvider.$allTransitiveDependencies7,
+          SyncServiceProvider.$allTransitiveDependencies8,
+          SyncServiceProvider.$allTransitiveDependencies9,
+          SyncServiceProvider.$allTransitiveDependencies10,
+        },
+      );
+
+  static const $allTransitiveDependencies0 = remoteSyncRepoProvider;
+  static const $allTransitiveDependencies1 =
+      RemoteSyncRepoProvider.$allTransitiveDependencies0;
+  static const $allTransitiveDependencies2 =
+      RemoteSyncRepoProvider.$allTransitiveDependencies1;
+  static const $allTransitiveDependencies3 =
+      RemoteSyncRepoProvider.$allTransitiveDependencies2;
+  static const $allTransitiveDependencies4 =
+      RemoteSyncRepoProvider.$allTransitiveDependencies3;
+  static const $allTransitiveDependencies5 =
+      RemoteSyncRepoProvider.$allTransitiveDependencies4;
+  static const $allTransitiveDependencies6 = localVnRepoProvider;
+  static const $allTransitiveDependencies7 = localSyncRepoProvider;
+  static const $allTransitiveDependencies8 = localNotifServiceProvider;
+  static const $allTransitiveDependencies9 = validateVnAndSaveToLocalProvider;
+  static const $allTransitiveDependencies10 =
+      ValidateVnAndSaveToLocalProvider.$allTransitiveDependencies0;
 
   @override
   String debugGetCreateSourceHash() => _$syncServiceHash();
-
-  @override
-  String toString() {
-    return r'syncServiceProvider'
-        ''
-        '($argument)';
-  }
 
   @$internal
   @override
@@ -45,14 +70,7 @@ final class SyncServiceProvider
 
   @override
   SyncService create(Ref ref) {
-    final argument =
-        this.argument
-            as void Function(
-              String, {
-              required IconData icon,
-              required Color iconColor,
-            });
-    return syncService(ref, snackbar: argument);
+    return syncService(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -62,51 +80,9 @@ final class SyncServiceProvider
       providerOverride: $SyncValueProvider<SyncService>(value),
     );
   }
-
-  @override
-  bool operator ==(Object other) {
-    return other is SyncServiceProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
 }
 
-String _$syncServiceHash() => r'99fb48aa249169a7302c0af8d5e607b5b0e4db39';
-
-final class SyncServiceFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          SyncService,
-          void Function(
-            String, {
-            required IconData icon,
-            required Color iconColor,
-          })
-        > {
-  const SyncServiceFamily._()
-    : super(
-        retry: null,
-        name: r'syncServiceProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  SyncServiceProvider call({
-    required void Function(
-      String, {
-      required IconData icon,
-      required Color iconColor,
-    })
-    snackbar,
-  }) => SyncServiceProvider._(argument: snackbar, from: this);
-
-  @override
-  String toString() => r'syncServiceProvider';
-}
+String _$syncServiceHash() => r'f9e140ad82eef33a2021f036f017a9c7375e797b';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -41,10 +41,7 @@ GoRouter goRouter(Ref ref) {
     initialLocation: '/',
     debugLogDiagnostics: !kReleaseMode,
     navigatorKey: NavigationService.navigatorKey,
-    redirect: (context, state) {
-      // Placeholder
-      return;
-    },
+    redirect: null,
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (_, state, navigationShell) => MainOuterLayout(navigationShell: navigationShell),

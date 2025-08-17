@@ -46,7 +46,7 @@ final class VersionCheckControllerProvider
 }
 
 String _$versionCheckControllerHash() =>
-    r'45fe85d0080a3844bca88b843c6a8724fb1f3daa';
+    r'b2e45ca300b972570897a55fefe0c3166356c785';
 
 abstract class _$VersionCheckController extends $AsyncNotifier<void> {
   FutureOr<void> build();

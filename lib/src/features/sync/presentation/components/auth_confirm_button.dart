@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';

@@ -65,12 +65,8 @@ class App extends ConsumerWidget {
     }
 
     for (String key in PlatfData.DEFINED_CODES.keys) {
-        final path = PlatfData.getImgPath(key);
-      try {
-        await precacheImage(AssetImage(path), ctx);
-      } catch (e) {
-        continue;
-      }
+      final path = PlatfData.getImgPath(key);
+      await precacheImage(AssetImage(path), ctx);
     }
 
     _isImageCached = true;

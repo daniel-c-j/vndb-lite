@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/features/_base/presentation/upper_parts/buttons/refresh_button.dart';
 import 'package:vndb_lite/src/features/collection/application/collection_vn_service.dart';
 import 'package:vndb_lite/src/features/collection/data/collection_status_data.dart';
 import 'package:vndb_lite/src/features/collection/data/local/local_collection_repo.dart';
-import 'package:vndb_lite/src/features/collection/domain/collection_status.dart';
 import 'package:vndb_lite/src/features/collection/domain/record.dart';
 import 'package:vndb_lite/src/features/local_notification/application/local_notification_service.dart';
 import 'package:vndb_lite/src/features/sync/application/sync_notif_data.dart';
@@ -14,7 +12,7 @@ import 'package:vndb_lite/src/features/sync/data/local/local_sync_repo.dart';
 import 'package:vndb_lite/src/features/sync/data/remote/remote_sync_repo.dart';
 import 'package:vndb_lite/src/features/sync/data/remote/remote_sync_repo_helper.dart';
 import 'package:vndb_lite/src/features/sync/domain/user_identity.dart';
-import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';
+import 'package:vndb_lite/src/features/sync/presentation/components/sync_snackbar.dart';
 import 'package:vndb_lite/src/features/vn/data/local_vn_repo.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
@@ -23,22 +21,26 @@ import '../../../core/_core.dart';
 part 'sync_service.g.dart';
 
 class SyncService {
-  SyncService(this.ref, {required this.snackbar});
+  SyncService(this.ref);
 
   final Ref ref;
-  final void Function(String text, {required IconData icon, required Color iconColor}) snackbar;
+  static final snackbar = snackBarSyncStatus;
 
   // A placeholder.
   Timer _refreshCollection = Timer(const Duration(days: 365), () {});
 
-  Future<void> sync({required bool keepVns, required VoidCallback whenDownloadingAndSaving}) async {
+  Future<void> sync({
+    required bool keepVns,
+    required Function isTokenValid,
+    required UserIdentity? userIdentity,
+    required VoidCallback whenDownloadingAndSaving,
+  }) async {
+    // Checking whether user already authenticated or not.
+    if (userIdentity == null) return returnError(status: 2);
+
     // Does not do any process whatsoever if there is no internet connection.
     final hasConnection = ref.read(connectivityNotifierProvider);
     if (!hasConnection) return returnError(status: 0);
-
-    // Checking whether user already authenticated or not.
-    final userIdentity = ref.read(authScreenControllerProvider);
-    if (userIdentity == null) return returnError(status: 2);
 
     // User friendly message.
     ref
@@ -46,7 +48,7 @@ class SyncService {
         .show(title: SyncStatus.ongoing.title, detail: getSyncNotifDetail(SyncStatus.ongoing));
     snackbar('Synchronizing account...', icon: Icons.sync, iconColor: kColor().tertiary);
 
-    if (!await _isTokenValid(userIdentity)) return returnError(status: 1);
+    if (!await isTokenValid()) return returnError(status: 1);
 
     final remoteSyncRepo = ref.read(remoteSyncRepoProvider);
     // Sync process begin
@@ -214,27 +216,6 @@ class SyncService {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Future<bool> _isTokenValid(UserIdentity userIdentity) async {
-    try {
-      final response = await ref
-          .read(authScreenControllerProvider.notifier)
-          .authenticate(userIdentity.authToken);
-
-      if (response.data['permissions'].contains('listread') &&
-          response.data['permissions'].contains('listwrite')) {
-        return true;
-      }
-    } catch (e) {
-      //
-    }
-
-    return false;
-  }
-
-  //
-  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  //
-
   void _successfullySynchronized(VoidCallback whenSuccess) {
     ref.read(localSyncRepoProvider).isUserSynchronized = true;
 
@@ -254,10 +235,17 @@ class SyncService {
   //
 }
 
-@riverpod
-SyncService syncService(
-  Ref ref, {
-  required void Function(String, {required IconData icon, required Color iconColor}) snackbar,
-}) {
-  return SyncService(ref, snackbar: snackbar);
+@Riverpod(
+  keepAlive: true,
+  dependencies: [
+    remoteSyncRepo,
+    localVnRepo,
+    localSyncRepo,
+    localNotifService,
+    localCollectionRepo,
+    validateVnAndSaveToLocal,
+  ],
+)
+SyncService syncService(Ref ref) {
+  return SyncService(ref);
 }

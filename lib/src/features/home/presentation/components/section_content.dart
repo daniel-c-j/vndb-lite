@@ -98,6 +98,8 @@ class HomeSectionContent extends ConsumerWidget {
                 itemCount: formattedP1Data.length,
                 padding: const EdgeInsets.symmetric(horizontal: 6),
                 itemBuilder:
+                    // Testing purpose
+                    // (_, idx) => const SizedBox(),
                     (_, idx) => VnItemGrid(
                       p1: formattedP1Data[idx],
                       isGridView: false,

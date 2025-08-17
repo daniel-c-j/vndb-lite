@@ -24,15 +24,31 @@ class AppBarSyncButton extends ConsumerWidget {
       onPressed: () async {
         if (ref.read(bottomProgressIndicatorProvider)) return;
 
+        Future<bool> isTokenValid() async {
+          final userIdentity = ref.read(authScreenControllerProvider);
+          final response = await ref
+              .read(authScreenControllerProvider.notifier)
+              .authenticate(userIdentity!.authToken);
+
+          if (response.data['permissions'].contains('listread') &&
+              response.data['permissions'].contains('listwrite')) {
+            return true;
+          }
+
+          return false;
+        }
+
         try {
           // If already synced once, don't show dialog anymore.
           if (ref.read(authScreenControllerProvider.notifier).isUserSynced()) {
             ref.read(bottomProgressIndicatorProvider.notifier).show = true;
 
             await ref
-                .read(syncServiceProvider(snackbar: snackBarSyncStatus))
+                .read(syncServiceProvider)
                 .sync(
                   keepVns: true,
+                  isTokenValid: isTokenValid,
+                  userIdentity: ref.read(authScreenControllerProvider),
                   // Will updates collection periodically.
                   whenDownloadingAndSaving: () async {
                     final filterData = ref.read(localFilterControllerProvider);

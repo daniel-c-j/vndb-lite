@@ -47,8 +47,12 @@ class HomeScreen extends ConsumerWidget {
         ],
     ];
 
+    // return CustomScrollView(slivers: [SliverAppBar(), SliverToBoxAdapter(child: Container())]);
+
     return NestedScrollView(
+      // headerSliverBuilder: (_, _) => const [SliverAppBar()],
       headerSliverBuilder: (_, _) => const [TabAppBar(route: AppRoute.home)],
+      // body: Container(),
       body: ScrollableWrapper(
         withScrollBar: false,
         child: ListView.builder(

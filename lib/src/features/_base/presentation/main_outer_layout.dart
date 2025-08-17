@@ -85,6 +85,8 @@ class MainOuterLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return navigationShell;
+
     final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -101,6 +103,7 @@ class MainOuterLayout extends StatelessWidget {
         extendBodyBehindAppBar: true,
         backgroundColor: const Color.fromARGB(75, 0, 0, 0),
         body: Stack(
+          clipBehavior: Clip.none,
           children: [
             //
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -143,16 +146,18 @@ class MainOuterLayout extends StatelessWidget {
                 : navigationShell,
           ],
         ),
-        floatingActionButton: Consumer(
-          builder: (context, ref, child) {
-            if (!App.isInCollectionScreen) return const SizedBox.shrink();
+        floatingActionButton:
+            (!App.isInCollectionScreen)
+                ? null
+                : Consumer(
+                  builder: (context, ref, child) {
+                    final isInMultiSelection =
+                        ref.watch(recordSelectedControllerProvider).isNotEmpty;
+                    if (isInMultiSelection) return const MultiSelectFab();
 
-            final isInMultiSelection = ref.watch(recordSelectedControllerProvider).isNotEmpty;
-            if (isInMultiSelection) return const MultiSelectFab();
-
-            return const SizedBox.shrink();
-          },
-        ),
+                    return const SizedBox.shrink();
+                  },
+                ),
         //
         // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         // Exclusive portrait mode only

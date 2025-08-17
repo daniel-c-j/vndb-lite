@@ -89,7 +89,7 @@ class TabsBottomNavbar extends ConsumerWidget {
             }
 
             return SizedBox(
-              width: MediaQuery.sizeOf(context).width,
+              width: kScreenWidth(context),
               height: responsiveUI.own(0.01),
               child: LinearProgressIndicator(
                 backgroundColor: kColor(context).secondary,

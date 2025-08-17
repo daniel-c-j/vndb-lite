@@ -5,15 +5,15 @@ import 'package:vndb_lite/src/common_widgets/custom_dialog_button.dart';
 import 'package:vndb_lite/src/common_widgets/generic_shadowy_text.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/sort_filter/presentation/local/local_sort_filter_controller.dart';
+import 'package:vndb_lite/src/features/sync/presentation/auth_screen_controller.dart';
+import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/_base/presentation/lower_parts/bottom_progress_indicator_state.dart';
 import 'package:vndb_lite/src/features/collection/presentation/collection_content_controller.dart';
 import 'package:vndb_lite/src/features/home/data/local/local_home_repo.dart';
 import 'package:vndb_lite/src/features/sync/application/sync_service.dart';
-import 'package:vndb_lite/src/features/sync/presentation/components/sync_snackbar.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_record_state.dart';
 import 'package:vndb_lite/src/util/alt_provider_reader.dart';
-import 'package:vndb_lite/src/util/context_shortcut.dart';
 
 Future<void> showSyncDialog() async {
   return await showDialog(
@@ -23,7 +23,7 @@ Future<void> showSyncDialog() async {
       return PopScope(
         canPop: false,
         child: Consumer(
-          builder: (context, ref, child) {
+          builder: (_, ref, child) {
             // A fast method to get local collections.
             final collection = ref.watch(localHomeRepoProvider).getInstantLocalPreview();
 
@@ -49,123 +49,149 @@ Future<void> showSyncDialog() async {
                     align: TextAlign.center,
                   ),
                   SizedBox(height: responsiveUI.own(0.02)),
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      //
-                      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                      // Yes
-                      CustomDialogButton(
-                        text: (collection.isEmpty) ? "Yes" : "Keep, merge, and sync my VNs",
-                        textColor: kColor(context).primary,
-                        textShadow: const [
-                          Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
-                        ],
-                        color: kColor(context).tertiary,
-                        expand: collection.isNotEmpty,
-                        leading: Padding(
-                          padding: EdgeInsets.only(right: responsiveUI.own(0.01)),
-                          child: Icon(
-                            Icons.library_add_check,
-                            color: Colors.green,
-                            size: responsiveUI.own(0.05),
-                          ),
-                        ),
-                        onPressed: () async {
-                          // Emergency ref to be used even after dialog disposal.
-                          Navigator.of(context).pop();
-                          ref_.read(bottomProgressIndicatorProvider.notifier).show = true;
+                  Consumer(
+                    builder: (_, ref, child) {
+                      Future<bool> isTokenValid() async {
+                        final userIdentity = ref.read(authScreenControllerProvider);
+                        final response = await ref
+                            .read(authScreenControllerProvider.notifier)
+                            .authenticate(userIdentity!.authToken);
 
-                          try {
-                            await ref_
-                                .read(syncServiceProvider(snackbar: snackBarSyncStatus))
-                                .sync(
-                                  keepVns: true,
-                                  whenDownloadingAndSaving: () async {
-                                    final filterData = ref.read(localFilterControllerProvider);
-                                    final sortData = ref.read(localSortControllerProvider);
+                        if (response.data['permissions'].contains('listread') &&
+                            response.data['permissions'].contains('listwrite')) {
+                          return true;
+                        }
 
-                                    // Updates collection periodically.
-                                    await ref_
-                                        .read(collectionContentControllerProvider.notifier)
-                                        .separateVNsByStatus(filterData, sortData);
-                                  },
-                                );
-                            ref_.invalidate(vnRecordStateProvider);
-                            //
-                          } catch (e) {
-                            //
-                          } finally {
-                            ref_.read(bottomProgressIndicatorProvider.notifier).show = false;
-                          }
-                        },
-                      ),
-                      //
-                      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                      // No
-                      if (collection.isNotEmpty)
-                        CustomDialogButton(
-                          text: "Delete them and sync my VNs",
-                          textColor: kColor(context).primary,
-                          textShadow: const [
-                            Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
-                          ],
-                          expand: true,
-                          color: kColor(context).tertiary,
-                          leading: Padding(
-                            padding: EdgeInsets.only(right: responsiveUI.own(0.01)),
-                            child: Icon(
-                              Icons.delete_forever,
-                              color: Colors.red,
-                              size: responsiveUI.own(0.05),
+                        return false;
+                      }
+
+                      return Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          //
+                          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                          // Yes
+                          CustomDialogButton(
+                            text: (collection.isEmpty) ? "Yes" : "Keep, merge, and sync my VNs",
+                            textColor: kColor().primary,
+                            textShadow: const [
+                              Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
+                            ],
+                            color: kColor().tertiary,
+                            expand: collection.isNotEmpty,
+                            leading: Padding(
+                              padding: EdgeInsets.only(right: responsiveUI.own(0.01)),
+                              child: Icon(
+                                Icons.library_add_check,
+                                color: Colors.green,
+                                size: responsiveUI.own(0.05),
+                              ),
                             ),
+                            onPressed: () async {
+                              // Emergency ref to be used even after dialog disposal.
+                              Navigator.of(NavigationService.currentContext).pop();
+                              ref_.read(bottomProgressIndicatorProvider.notifier).show = true;
+
+                              try {
+                                await ref_
+                                    .read(syncServiceProvider)
+                                    .sync(
+                                      keepVns: true,
+                                      isTokenValid: isTokenValid,
+                                      userIdentity: ref.read(authScreenControllerProvider),
+                                      whenDownloadingAndSaving: () async {
+                                        final filterData = ref.read(localFilterControllerProvider);
+                                        final sortData = ref.read(localSortControllerProvider);
+
+                                        // Updates collection periodically.
+                                        await ref_
+                                            .read(collectionContentControllerProvider.notifier)
+                                            .separateVNsByStatus(filterData, sortData);
+                                      },
+                                    );
+                                ref_.invalidate(vnRecordStateProvider);
+                                //
+                              } catch (e) {
+                                //
+                                debugPrint(e.toString());
+                              } finally {
+                                ref_.read(bottomProgressIndicatorProvider.notifier).show = false;
+                              }
+                            },
                           ),
-                          onPressed: () async {
-                            // Emergency ref to be used even after dialog disposal.
-                            Navigator.of(context).pop();
-                            ref_.read(bottomProgressIndicatorProvider.notifier).show = true;
+                          //
+                          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                          // No
+                          if (collection.isNotEmpty)
+                            CustomDialogButton(
+                              text: "Delete them and sync my VNs",
+                              textColor: kColor().primary,
+                              textShadow: const [
+                                Shadow(color: Color.fromARGB(120, 0, 0, 0), blurRadius: 1),
+                              ],
+                              expand: true,
+                              color: kColor().tertiary,
+                              leading: Padding(
+                                padding: EdgeInsets.only(right: responsiveUI.own(0.01)),
+                                child: Icon(
+                                  Icons.delete_forever,
+                                  color: Colors.red,
+                                  size: responsiveUI.own(0.05),
+                                ),
+                              ),
+                              onPressed: () async {
+                                // Emergency ref to be used even after dialog disposal.
+                                Navigator.of(NavigationService.currentContext).pop();
+                                ref_.read(bottomProgressIndicatorProvider.notifier).show = true;
 
-                            try {
-                              await ref_
-                                  .read(syncServiceProvider(snackbar: snackBarSyncStatus))
-                                  .sync(
-                                    keepVns: false,
-                                    whenDownloadingAndSaving: () async {
-                                      final filterData = ref.read(localFilterControllerProvider);
-                                      final sortData = ref.read(localSortControllerProvider);
+                                try {
+                                  await ref_
+                                      .read(syncServiceProvider)
+                                      .sync(
+                                        keepVns: false,
+                                        userIdentity: ref.read(authScreenControllerProvider),
+                                        isTokenValid: isTokenValid,
+                                        whenDownloadingAndSaving: () async {
+                                          final filterData = ref.read(
+                                            localFilterControllerProvider,
+                                          );
+                                          final sortData = ref.read(localSortControllerProvider);
 
-                                      // Updates collection periodically
-                                      await ref_
-                                          .read(collectionContentControllerProvider.notifier)
-                                          .separateVNsByStatus(filterData, sortData);
-                                    },
-                                  );
-                              ref_.invalidate(vnRecordStateProvider);
-                              //
-                            } catch (e) {
-                              // TODO catch e
-                            } finally {
+                                          // Updates collection periodically
+                                          await ref_
+                                              .read(collectionContentControllerProvider.notifier)
+                                              .separateVNsByStatus(filterData, sortData);
+                                        },
+                                      );
+                                  ref_.invalidate(vnRecordStateProvider);
+                                  //
+                                } catch (e) {
+                                  // TODO catch e
+                                  debugPrint(e.toString());
+                                } finally {
+                                  ref_.read(bottomProgressIndicatorProvider.notifier).show = false;
+                                }
+                              },
+                            ),
+
+                          //
+                          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                          // Nah, later
+                          CustomDialogButton(
+                            text: (collection.isEmpty) ? "Not now" : "Nah, I'll do it later",
+                            color: Colors.transparent,
+                            onPressed: () {
                               ref_.read(bottomProgressIndicatorProvider.notifier).show = false;
-                            }
-                          },
-                        ),
+                              Navigator.of(NavigationService.currentContext).pop();
+                            },
+                          ),
 
-                      //
-                      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                      // Nah, later
-                      CustomDialogButton(
-                        text: (collection.isEmpty) ? "Not now" : "Nah, I'll do it later",
-                        color: Colors.transparent,
-                        onPressed: () {
-                          ref_.read(bottomProgressIndicatorProvider.notifier).show = false;
-                          Navigator.of(context).pop();
-                        },
-                      ),
-
-                      //
-                      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                      //
-                    ],
+                          //
+                          // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                          //
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),

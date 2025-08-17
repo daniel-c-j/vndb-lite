@@ -23,7 +23,7 @@ class VersionCheckController extends _$VersionCheckController with NotifierMount
     if (!mounted) return;
     state = const AsyncLoading();
 
-    final versionRepo = ref.read(versionCheckRepoProvider);
+    final versionRepo = ref.watch(versionCheckRepoProvider);
     late final VersionCheck versionCheck;
 
     // For some good reason, AsyncGuard doesn't catch the error.
