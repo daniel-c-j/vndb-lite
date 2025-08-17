@@ -45,22 +45,14 @@ class SearchPredefinedSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: responsiveUI.own(0.025)),
-          child: Row(
-            children: [
-              Icon(
-                Icons.theater_comedy_rounded,
-                color: kColor(context).tertiary,
-                size: responsiveUI.own(0.045),
-              ),
-              GAP_W6,
+          child:
               Text(
-                "Explore general genres",
-              ).wSize(responsiveUI.catgTitle).wColor(kColor(context).tertiary),
-            ],
-          ),
+                "Explore General Genres",
+              ).wSize(responsiveUI.catgTitle).wColor(kColor(context).tertiary).semibold,
         ),
         SizedBox(
           height: fullHeight / 2,

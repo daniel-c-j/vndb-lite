@@ -49,6 +49,14 @@ extension TextExtension on Text {
             : style?.copyWith(fontWeight: FontWeight.bold),
   );
 
+  Text get semibold => copyWith(
+    data!,
+    style:
+        (style == null)
+            ? const TextStyle(fontWeight: FontWeight.w600)
+            : style?.copyWith(fontWeight: FontWeight.w600),
+  );
+
   Text get italic => copyWith(
     data!,
     style:

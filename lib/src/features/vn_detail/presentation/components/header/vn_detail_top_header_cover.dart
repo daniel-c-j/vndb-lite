@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
 import 'package:vndb_lite/src/common_widgets/status_label.dart';
+import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
@@ -80,7 +81,8 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
           (context, str) => SizedBox(width: responsiveUI.own(0.4), height: responsiveUI.own(0.45)),
       errorWidget: (context, url, error) => const GenericErrorImage(),
       cacheKey: widget.p1.id,
-      cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
+      cacheManager:
+          (!App.currentRootRoute.contains(AppRoute.search.name)) ? CustomCacheManager() : null,
       maxHeightDiskCache: (isCensor) ? 15 : 1600,
       maxWidthDiskCache: (isCensor) ? 15 : 1600,
     );

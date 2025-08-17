@@ -86,7 +86,6 @@ class _VnItemGridCoverState extends State<VnItemGridCover> {
   Widget build(BuildContext context) {
     final isCensor = VnItemGridCover.coverBlur[widget.vnId] ?? _isSystematicallyCensored;
     VnItemGridCover.coverBlurToggle[widget.vnId] = _toggleBlur;
-
     final cover = ConstrainedBox(
       constraints: const BoxConstraints(
         minHeight: VnItemGridCover.minHeightSize,
@@ -104,7 +103,12 @@ class _VnItemGridCoverState extends State<VnItemGridCover> {
         errorWidget: (_, url, error) => const GenericErrorImage(),
         errorListener: null,
         cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
-        cacheKey: (isCensor) ? "CENSORED-PREVIEW-${widget.vnId}" : "PREVIEW-${widget.vnId}",
+        cacheKey:
+            (!App.isInSearchScreen)
+                ? (isCensor)
+                    ? "CENSORED-PREVIEW-${widget.vnId}"
+                    : "PREVIEW-${widget.vnId}"
+                : null,
         maxHeightDiskCache: (isCensor) ? 15 : null,
         maxWidthDiskCache: (isCensor) ? 15 : null,
       ),

@@ -85,16 +85,11 @@ class VnSelectionController extends _$VnSelectionController {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void setToMultiselection(List<VnDataPhase01> p1List) {
-    final recordSelected = ref.read(recordSelectedControllerProvider);
-
+  void setToMultiselection(List<String> recordSelected, List<VnDataPhase01> p1List) {
     for (VnDataPhase01 p1 in p1List) {
       if (recordSelected.contains(p1.id)) continue;
       recordSelected.add(p1.id);
     }
-
-    ref.invalidate(recordSelectedControllerProvider);
-    ref.read(recordSelectedControllerProvider.notifier).record = recordSelected;
   }
 
   //

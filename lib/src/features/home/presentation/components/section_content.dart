@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/common_widgets/generic_failure_connection.dart';
 import 'package:vndb_lite/src/common_widgets/generic_local_empty_content.dart';
 import 'package:vndb_lite/src/constants/local_db_constants.dart';
 import 'package:vndb_lite/src/core/app/navigation.dart';
 import 'package:vndb_lite/src/features/home/data/preview_sections_data.dart';
-import 'package:vndb_lite/src/features/home/presentation/components/home_big_preview/home_big_preview_state.dart';
-import 'package:vndb_lite/src/util/alt_provider_reader.dart';
+import 'package:vndb_lite/src/features/settings/presentation/settings_general_state.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/home/application/home_preview_service.dart';
@@ -17,15 +15,9 @@ import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
 
 /// A simple horizontal-slide widget consisting a list of vn items.
 class HomeSectionContent extends ConsumerWidget {
-  const HomeSectionContent({
-    super.key,
-    required this.sectionData,
-    required this.maxItem,
-    this.height,
-  });
+  const HomeSectionContent({super.key, required this.sectionData, this.height});
 
   final HomeSectionsCode sectionData;
-  final int maxItem;
   final double? height;
 
   // Height will be smaller when landscape.
@@ -54,7 +46,12 @@ class HomeSectionContent extends ConsumerWidget {
 
   Widget get _error {
     // Exclusive for collection/local content.
-    if (_isCollection) return GenericLocalEmptyWidget();
+    if (_isCollection) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: const GenericLocalEmptyWidget(align: TextAlign.left),
+      );
+    }
 
     return SizedBox(
       width: MediaQuery.sizeOf(NavigationService.currentContext).width * 0.9,
@@ -66,6 +63,7 @@ class HomeSectionContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final maxItem = ref.watch(settingsGeneralStateProvider).maxPreviewItem;
     final previewData = ref.watch(
       getPreviewDataProvider(
         cacheKey: _previewCacheKey,
@@ -84,14 +82,12 @@ class HomeSectionContent extends ConsumerWidget {
         return formattedPreviewDt.when(
           data: (List<VnDataPhase01> data) {
             final formattedP1Data = data;
-            if (formattedP1Data.isEmpty) return const GenericLocalEmptyWidget();
-
-            SchedulerBinding.instance.addPostFrameCallback((_) {
-              // * For home big preview
-              if (sectionData == HomeSectionsCode.rating) {
-                ref_.read(homeBigPreviewItemsStateProvider.notifier).items = data;
-              }
-            });
+            if (formattedP1Data.isEmpty) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: const GenericLocalEmptyWidget(align: TextAlign.left),
+              );
+            }
 
             return SizedBox(
               height: height ?? _sectionContentHeight,

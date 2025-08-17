@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:vndb_lite/src/util/notifier_mounted.dart';
 
 import '../../../core/exceptions/_exceptions.dart';
 import '../data/remote_version_repo.dart';
@@ -9,17 +10,17 @@ import '../domain/version_check.dart';
 part 'version_check_controller.g.dart';
 
 @Riverpod(dependencies: [versionCheckRepo, netErrorHandler])
-class VersionCheckController extends _$VersionCheckController {
+class VersionCheckController extends _$VersionCheckController with NotifierMounted {
   @override
   FutureOr<void> build() {
-    // Nothing
+    ref.onDispose(setUnmounted);
   }
 
   Future<void> checkData({
     required void Function(VersionCheck val) onSuccess,
     required void Function(Object e, StackTrace? st) onError,
   }) async {
-    if (!ref.mounted) return;
+    if (!mounted) return;
     state = const AsyncLoading();
 
     final versionRepo = ref.read(versionCheckRepoProvider);
@@ -28,6 +29,7 @@ class VersionCheckController extends _$VersionCheckController {
     // For some good reason, AsyncGuard doesn't catch the error.
     try {
       versionCheck = await versionRepo.getVersionCheck();
+      if (!mounted) return;
 
       // Typically calls for a showDialog widget.
       return onSuccess(versionCheck);

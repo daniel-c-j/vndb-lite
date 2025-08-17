@@ -15,8 +15,8 @@ class GenericBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = kScreenWidth();
-    final height = kScreenHeight();
+    final width = kScreenWidth(context);
+    final height = kScreenHeight(context);
 
     return Stack(
       children: [
@@ -31,7 +31,7 @@ class GenericBackground extends StatelessWidget {
         if (imagePath != null && imageWidget == null)
           Image.asset(
             imagePath!,
-            opacity: const AlwaysStoppedAnimation(0.8),
+            opacity: const AlwaysStoppedAnimation(0.6),
             height: height,
             width: width,
             fit: BoxFit.cover,

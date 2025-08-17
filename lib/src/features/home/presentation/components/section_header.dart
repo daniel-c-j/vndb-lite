@@ -63,9 +63,7 @@ class HomeSectionHeader extends ConsumerWidget {
       children: [
         Row(
           children: [
-            Icon(sectionData.icon, color: kColor(ctx).tertiary, size: responsiveUI.own(0.045)),
-            GAP_W6,
-            Text(username).wSize(responsiveUI.own(0.046)).wColor(kColor(ctx).secondary).bold,
+            Text(username).wSize(responsiveUI.own(0.046)).wColor(kColor(ctx).secondary).semibold,
             Text("'s").wSize(responsiveUI.own(0.046)).wColor(kColor(ctx).tertiary),
           ],
         ),
@@ -84,13 +82,11 @@ class HomeSectionHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final regularTitle = Row(
-      children: [
-        Icon(sectionData.icon, color: kColor(context).tertiary, size: responsiveUI.own(0.045)),
-        GAP_W6,
-        Text(sectionData.title).wSize(responsiveUI.catgTitle).wColor(kColor(context).tertiary),
-      ],
-    );
+    final regularTitle =
+        Text(
+          sectionData.title,
+        ).wSize(responsiveUI.catgTitle).wColor(kColor(context).tertiary).semibold;
+
     return Stack(
       clipBehavior: Clip.none,
       children: [

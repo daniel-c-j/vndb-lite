@@ -33,10 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Consumer(
             builder: (context, ref, child) {
               final theme = ref.watch(appThemeStateProvider);
-              return GenericBackground(
-                imagePath: theme.backgroundImgPath,
-                useGradientOverlay: true,
-              );
+              return GenericBackground(imagePath: theme.backgroundImgPath);
             },
           ),
           //
@@ -87,7 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       setState(() => _showDataList = !_showDataList);
                     },
                     child: ListTile(
-                      tileColor: kColor(context).primary.withAlpha(50),
+                      tileColor: kColor(context).primary.withAlpha(90),
                       leading: Icon(
                         Icons.library_books,
                         color: kColor(context).secondary,
@@ -115,7 +112,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       setState(() => _showThemeList = !_showThemeList);
                     },
                     child: ListTile(
-                      tileColor: kColor(context).primary.withAlpha(50),
+                      tileColor: kColor(context).primary.withAlpha(90),
                       leading: Icon(
                         Icons.settings_input_composite,
                         color: kColor(context).secondary,
@@ -143,7 +140,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       setState(() => _showVnPreviewList = !_showVnPreviewList);
                     },
                     child: ListTile(
-                      tileColor: kColor(context).primary.withAlpha(50),
+                      tileColor: kColor(context).primary.withAlpha(90),
                       leading: Icon(
                         Icons.amp_stories,
                         color: kColor(context).secondary,

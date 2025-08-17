@@ -81,7 +81,6 @@ final class CollectionContentControllerProvider
         name: r'collectionContentControllerProvider',
         isAutoDispose: false,
         dependencies: const <ProviderOrFamily>[
-          collectionSortFilterServiceProvider,
           localCollectionRepoProvider,
           sharedPrefProvider,
           localVnRepoProvider,
@@ -96,27 +95,21 @@ final class CollectionContentControllerProvider
           CollectionContentControllerProvider.$allTransitiveDependencies5,
           CollectionContentControllerProvider.$allTransitiveDependencies6,
           CollectionContentControllerProvider.$allTransitiveDependencies7,
-          CollectionContentControllerProvider.$allTransitiveDependencies8,
-          CollectionContentControllerProvider.$allTransitiveDependencies9,
         },
       );
 
-  static const $allTransitiveDependencies0 =
-      collectionSortFilterServiceProvider;
+  static const $allTransitiveDependencies0 = localCollectionRepoProvider;
   static const $allTransitiveDependencies1 =
-      CollectionSortFilterServiceProvider.$allTransitiveDependencies0;
-  static const $allTransitiveDependencies2 = localCollectionRepoProvider;
-  static const $allTransitiveDependencies3 =
       LocalCollectionRepoProvider.$allTransitiveDependencies0;
-  static const $allTransitiveDependencies4 =
+  static const $allTransitiveDependencies2 =
       LocalCollectionRepoProvider.$allTransitiveDependencies1;
-  static const $allTransitiveDependencies5 = localVnRepoProvider;
-  static const $allTransitiveDependencies6 = validateVnAndSaveToLocalProvider;
-  static const $allTransitiveDependencies7 =
+  static const $allTransitiveDependencies3 = localVnRepoProvider;
+  static const $allTransitiveDependencies4 = validateVnAndSaveToLocalProvider;
+  static const $allTransitiveDependencies5 =
       ValidateVnAndSaveToLocalProvider.$allTransitiveDependencies0;
-  static const $allTransitiveDependencies8 =
+  static const $allTransitiveDependencies6 =
       ValidateVnAndSaveToLocalProvider.$allTransitiveDependencies1;
-  static const $allTransitiveDependencies9 =
+  static const $allTransitiveDependencies7 =
       ValidateVnAndSaveToLocalProvider.$allTransitiveDependencies2;
 
   @override
@@ -138,7 +131,7 @@ final class CollectionContentControllerProvider
 }
 
 String _$collectionContentControllerHash() =>
-    r'2f2e435c8cbbf030f3faed3e0393d388d8d50a7a';
+    r'cf029b62c2d22d851b71b5837020c4a45ab2df62';
 
 abstract class _$CollectionContentController
     extends $Notifier<Map<String, List<VnItemGrid>>> {

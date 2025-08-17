@@ -48,7 +48,7 @@ class OthersScreen extends ConsumerWidget {
                         color: kColor(context).tertiary.withAlpha(180),
                       )
                       : null,
-              tileColor: kColor(context).primary.withAlpha(50),
+              tileColor: kColor(context).primary.withAlpha(175),
               dense: true,
               contentPadding: EdgeInsets.symmetric(
                 horizontal: responsiveUI.own(0.045),

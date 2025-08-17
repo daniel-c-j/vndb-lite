@@ -66,7 +66,7 @@ class _AuthenticationScreenState extends ConsumerState<AuthenticationScreen>
           //
           // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           //
-          GenericBackground(imagePath: theme.backgroundImgPath, useGradientOverlay: true),
+          GenericBackground(imagePath: theme.backgroundImgPath),
           //
           // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           //

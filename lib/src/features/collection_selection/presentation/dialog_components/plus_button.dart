@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vndb_lite/src/app.dart';
+import 'package:vndb_lite/src/features/collection_selection/presentation/multiselection/record_selected_controller.dart';
+import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/collection_selection_controller.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/dialogs/dialog_dismissed_state.dart';
@@ -22,11 +24,16 @@ class VnSelectionDialogPlusButton extends ConsumerWidget {
         borderRadius: BorderRadius.circular(36),
         onTap: () {
           // Triggering Multi-selection mode
-          selection.setToMultiselection(data);
+          final recordSelected = ref.read(recordSelectedControllerProvider);
+          selection.setToMultiselection(recordSelected, data);
+
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            ref_.invalidate(recordSelectedControllerProvider);
+            ref_.read(recordSelectedControllerProvider.notifier).record = recordSelected;
+          });
 
           // Dialog is not dimissed (cancelled).
           ref.read(dialogDismissedStateProvider.notifier).dismissed = false;
-
           Navigator.of(context).pop();
         },
         child: Opacity(

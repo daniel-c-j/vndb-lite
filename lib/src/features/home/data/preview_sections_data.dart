@@ -10,7 +10,7 @@ import '../../sort_filter/domain/filter_.dart';
 enum HomeSectionsCode {
   collection(
     id: 1,
-    title: "My collection",
+    title: "My Collection",
     labelCode: SortableCode.collection,
     maxPreviewItem: Default.MAX_PREVIEW_ITEMS_CONF,
     icon: Icons.library_books,
@@ -18,7 +18,7 @@ enum HomeSectionsCode {
 
   rating(
     id: 2,
-    title: "Top by rating",
+    title: "Top Rated",
     labelCode: SortableCode.rating,
     filter: Default.REMOTE_FILTER_CONF,
     maxPreviewItem: Default.MAX_PREVIEW_ITEMS_CONF,
@@ -27,7 +27,7 @@ enum HomeSectionsCode {
 
   votecount(
     id: 3,
-    title: "Top by votes",
+    title: "Top Voted",
     labelCode: SortableCode.votecount,
     filter: Default.REMOTE_FILTER_CONF,
     maxPreviewItem: Default.MAX_PREVIEW_ITEMS_CONF,
@@ -35,7 +35,7 @@ enum HomeSectionsCode {
   ),
   popularOngoing(
     id: 4,
-    title: "Popular ongoing",
+    title: "Popular Ongoing",
     labelCode: SortableCode.votecount,
     filter: FilterData(devstatus: [1]),
     maxPreviewItem: Default.MAX_PREVIEW_ITEMS_CONF,

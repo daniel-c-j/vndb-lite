@@ -56,6 +56,8 @@ class VnItemGrid extends ConsumerWidget {
   //
 
   Future<void> _vnOnTap(WidgetRef ref, BuildContext context) async {
+    if (!App.isInCollectionScreen) return await _enterVnDetailScreen(context);
+
     // Checks whether multiselection mode is off or not.
     final recordSelected = ref.read(recordSelectedControllerProvider);
     if (recordSelected.isEmpty) return await _enterVnDetailScreen(context);
@@ -83,14 +85,9 @@ class VnItemGrid extends ConsumerWidget {
 
   Future<void> _vnOnLongPress(WidgetRef ref) async {
     if (!isGridView) return;
-
-    // If already in multiselection just do nothing.
-    final recordSelected = ref.read(recordSelectedControllerProvider);
-    if (recordSelected.isNotEmpty) return;
-
     await showVnSelectionDialog(p1: [p1], isGridView: true);
 
-    // Turning off multiselection mode
+    // ? Turning off multiselection mode
     if (ref.read(dialogDismissedStateProvider)) {
       ref.invalidate(recordSelectedControllerProvider);
     }
@@ -101,9 +98,6 @@ class VnItemGrid extends ConsumerWidget {
   //
 
   void _vnOnDoubleTap(WidgetRef ref) {
-    final recordSelected = ref.read(recordSelectedControllerProvider);
-    if (recordSelected.isNotEmpty) return;
-
     final toggleBlur = VnItemGridCover.coverBlurToggle[_vnId];
     if (toggleBlur != null) toggleBlur();
   }

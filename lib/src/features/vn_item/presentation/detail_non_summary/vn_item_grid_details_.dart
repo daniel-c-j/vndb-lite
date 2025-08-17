@@ -49,7 +49,7 @@ class VnItemGridDetails extends StatelessWidget {
             builder: (context, ref, child) {
               if (App.isInCollectionScreen) {
                 final recordSelected = ref.watch(recordSelectedControllerProvider);
-                if (recordSelected.contains(p1.id)) return const MultiSelectionIndicator();
+                if (recordSelected.contains(p1.id)) return MultiSelectionIndicator(p1.id);
               }
 
               return const SizedBox.shrink();

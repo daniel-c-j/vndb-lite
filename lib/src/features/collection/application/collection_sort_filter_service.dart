@@ -8,8 +8,7 @@ import 'package:vndb_lite/src/features/sort_filter/domain/filter_.dart';
 import 'package:vndb_lite/src/features/sort_filter/domain/sort_.dart';
 import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_.dart';
-
-part 'collection_sort_filter_service.g.dart';
+import 'package:vndb_lite/src/util/alt_provider_reader.dart';
 
 // TODO remote search 'none' should not be as 'searchrank', but instead, jsut
 // TODO not including the 'sort' at all. WATCHOUT with the search field too,
@@ -17,12 +16,8 @@ part 'collection_sort_filter_service.g.dart';
 
 /// A service class to do some heavy processing such as sorting and filtering vn data.
 class CollectionSortFilterService {
-  CollectionSortFilterService(this.ref);
-
-  final Ref ref;
-
   /// This method sorts all of the adapted vn data based on the given sort configuration.
-  Future<void> sortData(SortData conf) async {
+  static Future<void> sortData(SortData conf) async {
     final sortBy = conf.sort;
 
     if (conf.reverse!) {
@@ -38,8 +33,8 @@ class CollectionSortFilterService {
   }
 
   /// This method filters all of the adapted vn data based on the given filter configuration.
-  Future<void> filterData(FilterData filter, SortData sort) async {
-    final filterService = ref.read(localFilterServiceProvider);
+  static Future<void> filterData(FilterData filter, SortData sort) async {
+    final filterService = ref_.read(localFilterServiceProvider);
     final List<String> searchKeywords = _getSearchKeywords(filter.search);
 
     for (String statusName in COLLECTION_STATUS_DATA.keys) {
@@ -74,13 +69,13 @@ class CollectionSortFilterService {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  bool isUsingFilter(FilterData conf) {
+  static bool isUsingFilter(FilterData conf) {
     // Checks whether the current filter is not the same as the default one or
     // the same.
     return conf.copyWith(search: conf.search.trim()) != Default.LOCAL_FILTER_CONF;
   }
 
-  List<String> _getSearchKeywords(String? searchQuery) {
+  static List<String> _getSearchKeywords(String? searchQuery) {
     if (searchQuery!.length > 4 && searchQuery.substring(0, 4) == 'dev:') {
       return searchQuery.substring(4, searchQuery.length).split(',');
     }
@@ -96,19 +91,19 @@ class CollectionSortFilterService {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  bool _isSearchingForAll(String? searchQuery) {
+  static bool _isSearchingForAll(String? searchQuery) {
     return searchQuery == " " || searchQuery == null || searchQuery.isEmpty;
   }
 
-  bool _isSearchingForDevs(String searchQuery) {
+  static bool _isSearchingForDevs(String searchQuery) {
     return searchQuery.length > 4 && searchQuery.substring(0, 4) == 'dev:';
   }
 
-  bool _isSearchingForTags(String searchQuery) {
+  static bool _isSearchingForTags(String searchQuery) {
     return searchQuery.length > 4 && searchQuery.substring(0, 4) == 'tag:';
   }
 
-  String _getDataForSearchQuery(String? searchQuery, Map<String, dynamic> vnData) {
+  static String _getDataForSearchQuery(String? searchQuery, Map<String, dynamic> vnData) {
     if (_isSearchingForAll(searchQuery)) return " ";
     if (_isSearchingForDevs(searchQuery!)) return "${vnData['devs']}";
     if (_isSearchingForTags(searchQuery)) return "${vnData['tags']}";
@@ -119,7 +114,7 @@ class CollectionSortFilterService {
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
-  Future<bool> _canVnPassFilters(
+  static Future<bool> _canVnPassFilters(
     FilterData filter,
     LocalFilterService service,
     Map<String, dynamic> searchFilter,
@@ -160,12 +155,12 @@ class CollectionSortFilterService {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  Future<void> _addToVnWidgetList(
+  static Future<void> _addToVnWidgetList(
     Map<String, dynamic> adaptedVnData, {
     required String statusName,
     required SortData sort,
   }) async {
-    ref
+    ref_
         .read(collectionContentControllerProvider.notifier)
         .add(
           statusCode: statusName,
@@ -185,9 +180,4 @@ class CollectionSortFilterService {
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
-}
-
-@Riverpod(dependencies: [localFilterService])
-CollectionSortFilterService collectionSortFilterService(Ref ref) {
-  return CollectionSortFilterService(ref);
 }

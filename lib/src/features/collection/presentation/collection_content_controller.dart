@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:vndb_lite/src/core/_core.dart';
@@ -37,13 +38,7 @@ class CollectionContentNotifier extends _$CollectionContentNotifier {
 
 @Riverpod(
   keepAlive: true,
-  dependencies: [
-    collectionSortFilterService,
-    localCollectionRepo,
-    sharedPref,
-    localVnRepo,
-    validateVnAndSaveToLocal,
-  ],
+  dependencies: [localCollectionRepo, sharedPref, localVnRepo, validateVnAndSaveToLocal],
 )
 class CollectionContentController extends _$CollectionContentController {
   @override
@@ -78,7 +73,6 @@ class CollectionContentController extends _$CollectionContentController {
       });
     }
 
-    final collectionHandler = ref.read(collectionSortFilterServiceProvider);
     final localCollectionRepo = ref.read(localCollectionRepoProvider);
 
     try {
@@ -90,15 +84,16 @@ class CollectionContentController extends _$CollectionContentController {
 
       if (!searchOnly) {
         await _adaptingRawData(localFilter);
-        await collectionHandler.sortData(localSort);
+        await CollectionSortFilterService.sortData(localSort);
         await localCollectionRepo.refreshCollection();
       }
 
-      await collectionHandler.filterData(localFilter, localSort);
+      await CollectionSortFilterService.filterData(localFilter, localSort);
       ref.read(collectionContentNotifierProvider.notifier).ring();
       //
     } catch (e) {
       // TODO snackbar telling something's wrong.
+      debugPrint(e.toString());
     } finally {
       // Expecting that the caller of this function has another process and will handle the progress indicator
       // further, so it doesn't have to be turned off.

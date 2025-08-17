@@ -55,7 +55,7 @@ class _AuthButtonState extends ConsumerState<AuthConfirmButton>
       // Notify change when success.
       if (response.data['permissions'].contains('listread') &&
           response.data['permissions'].contains('listwrite')) {
-        ref.invalidate(authScreenControllerProvider);
+        // ref.invalidate(authScreenControllerProvider);
         ref
             .read(authScreenControllerProvider.notifier)
             .userIdentityFromResponse(response.data, token);
