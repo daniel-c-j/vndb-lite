@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
@@ -45,6 +46,12 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
     // });
   }
 
+  @override
+  void dispose() {
+    DefaultCacheManager().emptyCache();
+    super.dispose();
+  }
+
   //
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
@@ -72,6 +79,7 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
   //
 
   Widget _imgCover({required bool isCensor}) {
+    final isNotSearch = !App.currentRootRoute.contains(AppRoute.search.name);
     return CachedNetworkImage(
       imageUrl: (_vnHasCover) ? widget.p1.image!.url! : '',
       fit: BoxFit.cover,
@@ -80,9 +88,12 @@ class _VnDetailTopHeaderCoverState extends ConsumerState<VnDetailTopHeaderCover>
       placeholder:
           (context, str) => SizedBox(width: responsiveUI.own(0.4), height: responsiveUI.own(0.45)),
       errorWidget: (context, url, error) => const GenericErrorImage(),
-      cacheKey: widget.p1.id,
-      cacheManager:
-          (!App.currentRootRoute.contains(AppRoute.search.name)) ? CustomCacheManager() : null,
+      cacheKey:
+          (isCensor)
+              // * Using the same cache key as that of VnItemGrid's censor key.
+              ? "CENSORED-PREVIEW-${widget.p1.id}"
+              : widget.p1.id,
+      cacheManager: (isNotSearch) ? CustomCacheManager() : null,
       maxHeightDiskCache: (isCensor) ? 15 : 1600,
       maxWidthDiskCache: (isCensor) ? 15 : 1600,
     );

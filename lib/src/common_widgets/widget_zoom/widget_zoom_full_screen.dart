@@ -27,10 +27,12 @@ class WidgetZoomFullscreen extends StatefulWidget {
   State<WidgetZoomFullscreen> createState() => _ImageZoomFullscreenState();
 }
 
-class _ImageZoomFullscreenState extends State<WidgetZoomFullscreen> with SingleTickerProviderStateMixin {
+class _ImageZoomFullscreenState extends State<WidgetZoomFullscreen>
+    with SingleTickerProviderStateMixin {
   final TransformationController _transformationController = TransformationController();
   late AnimationController _animationController;
-  late double closingTreshold = MediaQuery.of(context).size.height /
+  late double closingTreshold =
+      MediaQuery.of(context).size.height /
       5; // the higher you set the last value the earlier the full screen gets closed
 
   Animation<Matrix4>? _animation;
@@ -68,9 +70,7 @@ class _ImageZoomFullscreenState extends State<WidgetZoomFullscreen> with SingleT
           child: AnimatedOpacity(
             duration: _opacityDuration,
             opacity: _opacity,
-            child: Container(
-              color: Colors.black,
-            ),
+            child: Container(color: Colors.black),
           ),
         ),
         AnimatedPositioned(
@@ -92,10 +92,7 @@ class _ImageZoomFullscreenState extends State<WidgetZoomFullscreen> with SingleT
                 // need to have both methods, otherwise the zoom will be triggered before the second tap releases the screen
                 onDoubleTapDown: (details) => _doubleTapDownDetails = details,
                 onDoubleTap: _zoomInOut,
-                child: Hero(
-                  tag: widget.heroAnimationTag,
-                  child: widget.zoomWidget,
-                ),
+                child: Hero(tag: widget.heroAnimationTag, child: widget.zoomWidget),
               ),
             ),
           ),
@@ -110,15 +107,8 @@ class _ImageZoomFullscreenState extends State<WidgetZoomFullscreen> with SingleT
                 duration: _opacityDuration,
                 opacity: _opacity,
                 child: const Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  child: Icon(
-                    CupertinoIcons.xmark,
-                    color: Colors.white,
-                    size: 30,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Icon(Icons.cancel_outlined, color: Colors.white, size: 30),
                 ),
               ),
             ),
@@ -135,9 +125,10 @@ class _ImageZoomFullscreenState extends State<WidgetZoomFullscreen> with SingleT
     final double x = -tapPosition.dx * (zoomScale - 1);
     final double y = -tapPosition.dy * (zoomScale - 1);
 
-    final Matrix4 zoomedMatrix = Matrix4.identity()
-      ..translate(x, y)
-      ..scale(zoomScale);
+    final Matrix4 zoomedMatrix =
+        Matrix4.identity()
+          ..translate(x, y)
+          ..scale(zoomScale);
 
     final Matrix4 widgetMatrix =
         _transformationController.value.isIdentity() ? zoomedMatrix : Matrix4.identity();
@@ -145,9 +136,7 @@ class _ImageZoomFullscreenState extends State<WidgetZoomFullscreen> with SingleT
     _animation = Matrix4Tween(
       begin: _transformationController.value,
       end: widgetMatrix,
-    ).animate(
-      CurveTween(curve: Curves.easeOut).animate(_animationController),
-    );
+    ).animate(CurveTween(curve: Curves.easeOut).animate(_animationController));
 
     _animationController.forward(from: 0);
     _currentScale = _transformationController.value.isIdentity() ? zoomScale : widget.minScale;

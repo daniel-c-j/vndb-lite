@@ -104,6 +104,7 @@ class HomeSectionContent extends ConsumerWidget {
                       p1: formattedP1Data[idx],
                       isGridView: false,
                       withLabel: false,
+                      // ! Do not delete since it is used in VnItemGridCover
                       labelCode: sectionData.labelCode!.name,
                     ),
               ),

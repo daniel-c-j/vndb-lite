@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/common_widgets/generic_background.dart';
 import 'package:vndb_lite/src/common_widgets/generic_image_error.dart';
+import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/responsive.dart';
 import 'package:vndb_lite/src/features/collection_selection/application/collection_selection_remote_service.dart';
 import 'package:vndb_lite/src/features/collection_selection/presentation/fab/vn_detail_fab.dart';
@@ -101,6 +102,7 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
   //
 
   Widget _imgCover({required bool isCensor}) {
+    final isNotSearch = !App.currentRootRoute.contains(AppRoute.search.name);
     return Container(
       constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.85),
       child: CachedNetworkImage(
@@ -112,7 +114,7 @@ class _VnDetailScreenState extends ConsumerState<VnDetailScreen>
                 SizedBox(width: responsiveUI.own(0.25), height: responsiveUI.own(0.4)),
         errorWidget: (context, url, error) => const GenericErrorImage(),
         cacheKey: "BG-${widget.p1.id}",
-        cacheManager: (!App.isInSearchScreen) ? CustomCacheManager() : null,
+        cacheManager: (isNotSearch) ? CustomCacheManager() : null,
         // High quality to make the pixels smooth when censor mode is on.
         filterQuality: (isCensor) ? FilterQuality.high : FilterQuality.medium,
         maxHeightDiskCache: (isCensor) ? 35 : 1400,

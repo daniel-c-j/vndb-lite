@@ -8,13 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Random VN preview.
+
 ### Changed
 
 - License year + name.
 - Minor code refactor.
 - Riverpod migration v2 to v3.
 - Better performance.
+- Home big preview.
+- Animated search bar text.
+- Home screen redesign.
 
+### Fixed
+
+- Collection section header bug.
+- Toggle blur bug.
+- Zoom X icon.
 
 ## [3.5.2] - 2025-07-16
 

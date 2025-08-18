@@ -77,8 +77,6 @@ class AppBarRefreshButton extends ConsumerWidget {
 
   /// Resetting almost all temporary keepAlive:true providers and other miscellaneous stuff.
   static Future<void> resetTempData({bool verbose = false}) async {
-    VnItemGridCover.coverBlur.clear();
-    VnItemGridCover.coverBlurToggle.clear();
     VnItemGridCover.sizes.clear();
 
     cachedRecord.clear();

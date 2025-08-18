@@ -11,6 +11,7 @@ import 'package:vndb_lite/src/features/vn/domain/p1.dart';
 import 'package:vndb_lite/src/app.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_non_summary/vn_item_grid_details_.dart';
 import 'package:vndb_lite/src/features/vn_item/presentation/detail_summary/vn_item_grid_details_summary.dart';
+import 'package:vndb_lite/src/features/vn_item/presentation/vn_item_grid_cover_censor_notifier.dart';
 import 'package:vndb_lite/src/routing/app_router.dart';
 import 'package:vndb_lite/src/util/context_shortcut.dart';
 
@@ -97,9 +98,9 @@ class VnItemGrid extends ConsumerWidget {
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   //
 
-  void _vnOnDoubleTap(WidgetRef ref) {
-    final toggleBlur = VnItemGridCover.coverBlurToggle[_vnId];
-    if (toggleBlur != null) toggleBlur();
+  void _vnOnDoubleTap(WidgetRef ref) async {
+    final blurId = _vnId + labelCode + App.currentRoute;
+    ref.read(vnItemGridCoverCensorNotifierProvider(blurId).notifier).toggle();
   }
 
   //
@@ -121,7 +122,18 @@ class VnItemGrid extends ConsumerWidget {
             //
             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // Vn cover image
-            VnItemGridCover(isGridView: isGridView, vnId: _vnId, image: p1.image),
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: VnItemGridCover.minHeightSize,
+                minWidth: VnItemGridCover.minWidthSize,
+              ),
+              child: VnItemGridCover(
+                isGridView: isGridView,
+                vnId: _vnId,
+                image: p1.image,
+                labelCode: labelCode,
+              ),
+            ),
             Positioned.fill(
               child: Material(
                 color: Colors.transparent,

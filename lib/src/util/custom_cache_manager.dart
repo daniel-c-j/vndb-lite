@@ -5,29 +5,30 @@ import 'package:flutter_cache_manager/src/storage/file_system/file_system.dart' 
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-class IOFileSystem implements c.FileSystem {
-  final Future<Directory> _fileDir;
-  final String _cacheKey;
+// TODO
 
-  IOFileSystem(this._cacheKey) : _fileDir = createDirectory(_cacheKey);
+class IOFileSystem implements c.FileSystem {
+  const IOFileSystem(this._cacheKey);
+
+  final String _cacheKey;
 
   static Future<Directory> createDirectory(String key) async {
     // ! Use documents directory instead of temp directory.
-    var baseDir = await getApplicationDocumentsDirectory();
-    var path = p.join(baseDir.path, key);
+    final baseDir = await getApplicationDocumentsDirectory();
+    final path = p.join(baseDir.path, key);
 
-    var fs = const LocalFileSystem();
-    var directory = fs.directory((path));
+    const fs = LocalFileSystem();
+    final directory = fs.directory((path));
+
     await directory.create(recursive: true);
     return directory;
   }
 
   @override
   Future<File> createFile(String name) async {
-    final directory = await _fileDir;
-    if (!(await directory.exists())) {
-      await createDirectory(_cacheKey);
-    }
+    final directory = await createDirectory(_cacheKey);
+    if (!(await directory.exists())) await createDirectory(_cacheKey);
+
     return directory.childFile(name);
   }
 }
@@ -35,5 +36,5 @@ class IOFileSystem implements c.FileSystem {
 class CustomCacheManager extends CacheManager with ImageCacheManager {
   static const String key = "vndb_lite_cache";
 
-  CustomCacheManager() : super(Config(key, fileSystem: IOFileSystem(key)));
+  CustomCacheManager() : super(Config(key, fileSystem: const IOFileSystem(key)));
 }

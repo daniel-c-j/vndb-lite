@@ -108,6 +108,7 @@ dependencies:
 
   # A better version of tabBar view.
   contentsize_tabbarview: ^0.0.2
+  path_provider: ^2.1.5
 
 #
 # ======================================================================================================
