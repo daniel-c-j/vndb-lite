@@ -77,8 +77,14 @@ class AppStartup {
   /// Provider and/or service listener initializations. Not to confuse with ProviderContainer
   /// initialization.
   Future<void> _initializeProviders(ProviderContainer container) async {
-    await container.read(localNotifServiceProvider).init();
-    await container.read(localNotifServiceProvider).askPermissions();
+    try {
+      await container.read(localNotifServiceProvider).init();
+      await container.read(localNotifServiceProvider).askPermissions();
+    } catch (error) {
+      // Local notifications are optional and may be unavailable on a Linux
+      // desktop without a compatible notification daemon. Keep startup usable.
+      debugPrint('Local notifications unavailable: $error');
+    }
   }
 
   /// Register Flutter error handlers.

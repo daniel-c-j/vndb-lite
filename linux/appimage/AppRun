@@ -1,0 +1,4 @@
+#!/bin/sh
+APPDIR_PATH="$(dirname "$(readlink -f "$0")")"
+export LD_LIBRARY_PATH="$APPDIR_PATH/usr/lib/vnpockets/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec "$APPDIR_PATH/usr/lib/vnpockets/vnpockets" "$@"

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=VNPockets
+Comment=Visual novel database library
+Exec=AppRun
+Icon=vnpockets
+Terminal=false
+Type=Application
+Categories=Game;
+StartupWMClass=com.vnpockets.app

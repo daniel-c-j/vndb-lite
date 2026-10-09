@@ -80,12 +80,29 @@ class _SettingsDataState extends ConsumerState<SettingsData>
 
   Future<void> _exportCollectionBackup() async {
     try {
+      final backupText = const JsonEncoder.withIndent(
+        '  ',
+      ).convert(ref.read(localCollectionRepoProvider).exportBackup());
+      if (Platform.isLinux) {
+        final selectedPath = await FilePicker.platform.saveFile(
+          dialogTitle: 'Export collection backup',
+          fileName: 'vnpockets-collection-backup.json',
+          type: FileType.custom,
+          allowedExtensions: ['json'],
+        );
+        if (selectedPath == null) return;
+        final path =
+            selectedPath.toLowerCase().endsWith('.json')
+                ? selectedPath
+                : '$selectedPath.json';
+        await File(path).writeAsString(backupText);
+        feedbackSnackBar(text: 'Collection backup saved.');
+        return;
+      }
+
       final directory = await getTemporaryDirectory();
       final file = File('${directory.path}/vnpockets-collection-backup.json');
-      final backup = ref.read(localCollectionRepoProvider).exportBackup();
-      await file.writeAsString(
-        const JsonEncoder.withIndent('  ').convert(backup),
-      );
+      await file.writeAsString(backupText);
       await SharePlus.instance.share(
         ShareParams(
           files: [XFile(file.path)],
@@ -185,9 +202,27 @@ class _SettingsDataState extends ConsumerState<SettingsData>
       archive.addFile(
         ArchiveFile('backup.json', manifestBytes.length, manifestBytes),
       );
+      final backupBytes = ZipEncoder().encodeBytes(archive);
+      if (Platform.isLinux) {
+        final selectedPath = await FilePicker.platform.saveFile(
+          dialogTitle: 'Export full VNPockets backup',
+          fileName: 'vnpockets-full-backup.zip',
+          type: FileType.custom,
+          allowedExtensions: ['zip'],
+        );
+        if (selectedPath == null) return;
+        final path =
+            selectedPath.toLowerCase().endsWith('.zip')
+                ? selectedPath
+                : '$selectedPath.zip';
+        await File(path).writeAsBytes(backupBytes);
+        feedbackSnackBar(text: 'Full backup saved.');
+        return;
+      }
+
       final output = await getTemporaryDirectory();
       final file = File('${output.path}/vnpockets-full-backup.zip');
-      await file.writeAsBytes(ZipEncoder().encodeBytes(archive));
+      await file.writeAsBytes(backupBytes);
       await SharePlus.instance.share(
         ShareParams(files: [XFile(file.path)], text: 'VNPockets full backup'),
       );
